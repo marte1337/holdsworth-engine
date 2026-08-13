@@ -480,6 +480,8 @@
 		C2A2FAE162D0000120027AB66 /* wavenet/a2_fast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2A2FAE012D0000110027AB66 /* wavenet/a2_fast.cpp */; };
 		C2A2FAE172D0000120027AB66 /* wavenet/a2_fast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2A2FAE012D0000110027AB66 /* wavenet/a2_fast.cpp */; };
 		C2A2FAE182D0000120027AB66 /* wavenet/a2_fast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2A2FAE012D0000110027AB66 /* wavenet/a2_fast.cpp */; };
+		D1A700012F00000100000008 /* FractionalDelayLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000100000002 /* FractionalDelayLine.cpp */; };
+		D1A700012F00000100000009 /* FractionalDelayLineTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1046,6 +1048,10 @@
 		B8EA6B932203868500D23A86 /* IPlugVST3_Common.h */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.h; name = IPlugVST3_Common.h; path = ../../iPlug2/IPlug/VST3/IPlugVST3_Common.h; sourceTree = "<group>"; tabWidth = 2; };
 		C2A2FAE012D0000110027AB66 /* wavenet/a2_fast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wavenet/a2_fast.cpp; sourceTree = "<group>"; };
 		C2A2FAE022D0000110027AB66 /* wavenet/a2_fast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wavenet/a2_fast.h; sourceTree = "<group>"; };
+		D1A700012F00000100000001 /* FractionalDelayLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FractionalDelayLine.h; sourceTree = "<group>"; };
+		D1A700012F00000100000002 /* FractionalDelayLine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FractionalDelayLine.cpp; sourceTree = "<group>"; };
+		D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FractionalDelayLineTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00000100000004 /* HoldsworthEngineTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HoldsworthEngineTests; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1108,12 +1114,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D1A700012F0000010000000B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		089C166AFE841209C02AAC07 /* IPlugExample */ = {
 			isa = PBXGroup;
 			children = (
+				D1A700012F00000100000005 /* HoldsworthEngine */,
 				4F2FB1392A0047420027AB66 /* dsp */,
 				4F2FB1452A0047420027AB66 /* NAM */,
 				AA355E2C295B688F0061AA3D /* Colors.h */,
@@ -1172,6 +1186,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				D1A700012F00000100000004 /* HoldsworthEngineTests */,
 				4FD16A0913B63081001D0217 /* NeuralAmpModeler.app */,
 				4F9828E0140A9EB700F3FCC1 /* NeuralAmpModeler.vst3 */,
 				4F78DB5F13B6462B0032E0F3 /* NeuralAmpModeler.component */,
@@ -1992,6 +2007,33 @@
 			path = WDL;
 			sourceTree = "<group>";
 		};
+		D1A700012F00000100000005 /* HoldsworthEngine */ = {
+			isa = PBXGroup;
+			children = (
+				D1A700012F00000100000006 /* dsp */,
+				D1A700012F00000100000007 /* tests */,
+			);
+			name = HoldsworthEngine;
+			path = ../../HoldsworthEngine;
+			sourceTree = SOURCE_ROOT;
+		};
+		D1A700012F00000100000006 /* dsp */ = {
+			isa = PBXGroup;
+			children = (
+				D1A700012F00000100000001 /* FractionalDelayLine.h */,
+				D1A700012F00000100000002 /* FractionalDelayLine.cpp */,
+			);
+			path = dsp;
+			sourceTree = "<group>";
+		};
+		D1A700012F00000100000007 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2248,6 +2290,22 @@
 			productReference = 4FFBB93B20863B0E00DDD0E7 /* NeuralAmpModeler.vst3 */;
 			productType = "com.apple.product-type.bundle";
 		};
+		D1A700012F0000010000000C /* HoldsworthEngineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1A700012F00000100000010 /* Build configuration list for PBXNativeTarget "HoldsworthEngineTests" */;
+			buildPhases = (
+				D1A700012F0000010000000A /* Sources */,
+				D1A700012F0000010000000B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HoldsworthEngineTests;
+			productName = HoldsworthEngineTests;
+			productReference = D1A700012F00000100000004 /* HoldsworthEngineTests */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2325,6 +2383,7 @@
 				4F78BE0122E73D0800AD537E /* NeuralAmpModelerAU */,
 				4F3EE1BA231438D000004786 /* AUv3App */,
 				B87FD1E62351C6F900CF7307 /* Update plists */,
+				D1A700012F0000010000000C /* HoldsworthEngineTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3002,6 +3061,15 @@
 				4FFBB93420863B0E00DDD0E7 /* coreiids.cpp in Sources */,
 				4F5F344720C0226200487201 /* IPlugPaths.mm in Sources */,
 				4FFBB93520863B0E00DDD0E7 /* vstnoteexpressiontypes.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1A700012F0000010000000A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1A700012F00000100000008 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000100000009 /* FractionalDelayLineTests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4482,6 +4550,77 @@
 			};
 			name = Tracer;
 		};
+		D1A700012F0000010000000D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGNING_ALLOWED = NO;
+				DEPLOYMENT_LOCATION = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					_DEBUG,
+				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../..";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CPLUSPLUSFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D1A700012F0000010000000E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGNING_ALLOWED = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_LOCATION = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../..";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CPLUSPLUSFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		D1A700012F0000010000000F /* Tracer */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGNING_ALLOWED = NO;
+				DEPLOYMENT_LOCATION = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					_DEBUG,
+					TRACER_BUILD,
+				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../..";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CPLUSPLUSFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Tracer;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4601,6 +4740,16 @@
 				B87FD1E72351C6F900CF7307 /* Debug */,
 				B87FD1E82351C6F900CF7307 /* Release */,
 				B87FD1E92351C6F900CF7307 /* Tracer */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1A700012F00000100000010 /* Build configuration list for PBXNativeTarget "HoldsworthEngineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1A700012F0000010000000D /* Debug */,
+				D1A700012F0000010000000E /* Release */,
+				D1A700012F0000010000000F /* Tracer */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
