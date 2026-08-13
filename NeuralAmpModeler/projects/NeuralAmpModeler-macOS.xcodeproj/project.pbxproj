@@ -485,6 +485,9 @@
 		D1A700012F00000200000006 /* DelayBand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000200000002 /* DelayBand.cpp */; };
 		D1A700012F00000200000007 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000200000004 /* TestMain.cpp */; };
 		D1A700012F00000200000008 /* DelayBandTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000200000005 /* DelayBandTests.cpp */; };
+		D1A700012F00000300000006 /* HoldsworthDelayEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */; };
+		D1A700012F00000300000007 /* HoldsworthDelayPresets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000004 /* HoldsworthDelayPresets.cpp */; };
+		D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1060,6 +1063,11 @@
 		D1A700012F00000200000003 /* TestHarness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestHarness.h; sourceTree = "<group>"; };
 		D1A700012F00000200000004 /* TestMain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestMain.cpp; sourceTree = "<group>"; };
 		D1A700012F00000200000005 /* DelayBandTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayBandTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00000300000001 /* HoldsworthDelayEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HoldsworthDelayEngine.h; sourceTree = "<group>"; };
+		D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayEngine.cpp; sourceTree = "<group>"; };
+		D1A700012F00000300000003 /* HoldsworthDelayPresets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HoldsworthDelayPresets.h; sourceTree = "<group>"; };
+		D1A700012F00000300000004 /* HoldsworthDelayPresets.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayPresets.cpp; sourceTree = "<group>"; };
+		D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayEngineTests.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2032,6 +2040,10 @@
 				D1A700012F00000100000002 /* FractionalDelayLine.cpp */,
 				D1A700012F00000200000001 /* DelayBand.h */,
 				D1A700012F00000200000002 /* DelayBand.cpp */,
+				D1A700012F00000300000001 /* HoldsworthDelayEngine.h */,
+				D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */,
+				D1A700012F00000300000003 /* HoldsworthDelayPresets.h */,
+				D1A700012F00000300000004 /* HoldsworthDelayPresets.cpp */,
 			);
 			path = dsp;
 			sourceTree = "<group>";
@@ -2043,6 +2055,7 @@
 				D1A700012F00000200000004 /* TestMain.cpp */,
 				D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */,
 				D1A700012F00000200000005 /* DelayBandTests.cpp */,
+				D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -3083,9 +3096,12 @@
 			files = (
 				D1A700012F00000100000008 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000200000006 /* DelayBand.cpp in Sources */,
+				D1A700012F00000300000006 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00000300000007 /* HoldsworthDelayPresets.cpp in Sources */,
 				D1A700012F00000200000007 /* TestMain.cpp in Sources */,
 				D1A700012F00000100000009 /* FractionalDelayLineTests.cpp in Sources */,
 				D1A700012F00000200000008 /* DelayBandTests.cpp in Sources */,
+				D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
