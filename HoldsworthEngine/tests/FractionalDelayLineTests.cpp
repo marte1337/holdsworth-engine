@@ -1,61 +1,24 @@
 #include "../dsp/FractionalDelayLine.h"
+#include "TestHarness.h"
 
 #include <array>
-#include <atomic>
-#include <cmath>
-#include <cstdlib>
 #include <iostream>
-#include <new>
 #include <span>
-#include <string_view>
 #include <type_traits>
-#include <vector>
 
 static_assert(!std::is_copy_constructible_v<holdsworth::dsp::FractionalDelayLine>);
 static_assert(!std::is_copy_assignable_v<holdsworth::dsp::FractionalDelayLine>);
 static_assert(!std::is_move_constructible_v<holdsworth::dsp::FractionalDelayLine>);
 static_assert(!std::is_move_assignable_v<holdsworth::dsp::FractionalDelayLine>);
 
+namespace holdsworth::test
+{
 namespace
 {
 
-std::atomic<bool> gTrackAllocations = false;
-std::atomic<std::size_t> gAllocationCount = 0;
-
-void recordAllocation() noexcept
-{
-  if (gTrackAllocations.load(std::memory_order_relaxed))
-    gAllocationCount.fetch_add(1, std::memory_order_relaxed);
-}
-
-bool nearlyEqual(const double actual, const double expected, const double tolerance = 1.0e-12)
-{
-  return std::abs(actual - expected) <= tolerance;
-}
-
-template <typename ActualRange, typename ExpectedRange>
-bool expectSamples(const std::string_view testName, const ActualRange& actual, const ExpectedRange& expected)
-{
-  if (actual.size() != expected.size())
-  {
-    std::cerr << testName << ": size mismatch (actual " << actual.size() << ", expected " << expected.size() << ")\n";
-    return false;
-  }
-
-  for (std::size_t i = 0; i < actual.size(); ++i)
-  {
-    if (!nearlyEqual(actual[i], expected[i]))
-    {
-      std::cerr << testName << ": sample " << i << " was " << actual[i] << ", expected " << expected[i] << '\n';
-      return false;
-    }
-  }
-  return true;
-}
-
 bool testZeroDelayReturnsCurrentSample()
 {
-  holdsworth::dsp::FractionalDelayLine delay(10.0);
+  dsp::FractionalDelayLine delay(10.0);
   delay.setDelayTimeMs(0.0);
   delay.prepare(1000.0, 4);
 
@@ -68,7 +31,7 @@ bool testZeroDelayReturnsCurrentSample()
 
 bool testOneSampleDelayReturnsPreviousSample()
 {
-  holdsworth::dsp::FractionalDelayLine delay(10.0);
+  dsp::FractionalDelayLine delay(10.0);
   delay.prepare(1000.0, 3);
   delay.setDelayTimeMs(1.0); // One millisecond at 1 kHz is exactly one sample.
 
@@ -82,7 +45,7 @@ bool testOneSampleDelayReturnsPreviousSample()
 
 bool testFractionalDelayInterpolatesHistory()
 {
-  holdsworth::dsp::FractionalDelayLine delay(10.0);
+  dsp::FractionalDelayLine delay(10.0);
   delay.prepare(1000.0, 4);
   delay.setDelayTimeMs(1.25); // 75% x[n-1] + 25% x[n-2].
 
@@ -94,9 +57,34 @@ bool testFractionalDelayInterpolatesHistory()
   return expectSamples("fractional delay", output, expected);
 }
 
+bool testSplitHistoryApiMatchesBlockProcessing()
+{
+  constexpr std::array<double, 4> input{1.0, 2.0, 3.0, 4.0};
+
+  dsp::FractionalDelayLine blockDelay(10.0);
+  blockDelay.prepare(1000.0, input.size());
+  blockDelay.setDelayTimeMs(1.5);
+  std::array<double, input.size()> blockOutput{};
+  blockDelay.processBlock(input, blockOutput);
+
+  dsp::FractionalDelayLine splitDelay(10.0);
+  splitDelay.prepare(1000.0, input.size());
+  splitDelay.setDelayTimeMs(1.5);
+  std::array<double, input.size()> splitOutput{};
+  for (std::size_t i = 0; i < input.size(); ++i)
+  {
+    splitOutput[i] = splitDelay.readDelayedSample();
+    splitDelay.pushSample(input[i]);
+  }
+
+  const std::array<double, 4> expected{0.0, 0.5, 1.5, 2.5};
+  return expectSamples("split history expected", splitOutput, expected)
+         && expectSamples("split history block equivalence", splitOutput, blockOutput);
+}
+
 bool testResetClearsHistory()
 {
-  holdsworth::dsp::FractionalDelayLine delay(10.0);
+  dsp::FractionalDelayLine delay(10.0);
   delay.prepare(1000.0, 3);
   delay.setDelayTimeMs(2.0);
 
@@ -113,7 +101,7 @@ bool testResetClearsHistory()
 
 bool testExactInPlaceProcessing()
 {
-  holdsworth::dsp::FractionalDelayLine delay(10.0);
+  dsp::FractionalDelayLine delay(10.0);
   delay.prepare(1000.0, 3);
   delay.setDelayTimeMs(1.5);
 
@@ -132,13 +120,13 @@ bool testBlockPartitioningDoesNotChangeOutput()
   for (std::size_t i = 0; i < input.size(); ++i)
     input[i] = static_cast<double>((i * 7) % 11) - 5.0;
 
-  holdsworth::dsp::FractionalDelayLine wholeBlockDelay(20.0);
+  dsp::FractionalDelayLine wholeBlockDelay(20.0);
   wholeBlockDelay.prepare(1000.0, numSamples);
   wholeBlockDelay.setDelayTimeMs(2.25);
   std::array<double, numSamples> wholeBlockOutput{};
   wholeBlockDelay.processBlock(input, wholeBlockOutput);
 
-  holdsworth::dsp::FractionalDelayLine partitionedDelay(20.0);
+  dsp::FractionalDelayLine partitionedDelay(20.0);
   partitionedDelay.prepare(1000.0, numSamples);
   partitionedDelay.setDelayTimeMs(2.25);
   std::array<double, numSamples> partitionedOutput{};
@@ -156,22 +144,16 @@ bool testBlockPartitioningDoesNotChangeOutput()
 
 bool testDelayTimeIsClampedToPreparedRange()
 {
-  holdsworth::dsp::FractionalDelayLine delay(3.0);
+  dsp::FractionalDelayLine delay(3.0);
   delay.prepare(1000.0, 4);
 
   delay.setDelayTimeMs(-10.0);
-  if (!nearlyEqual(delay.delayTimeMs(), 0.0))
-  {
-    std::cerr << "delay clamp: negative delay was not clamped to zero\n";
+  if (!expectNear("negative delay clamp", delay.delayTimeMs(), 0.0))
     return false;
-  }
 
   delay.setDelayTimeMs(100.0);
-  if (!nearlyEqual(delay.delayTimeMs(), 3.0))
-  {
-    std::cerr << "delay clamp: excessive delay was not clamped to the maximum\n";
+  if (!expectNear("maximum delay clamp", delay.delayTimeMs(), 3.0))
     return false;
-  }
 
   const std::array<double, 4> input{1.0, 0.0, 0.0, 0.0};
   const std::array<double, 4> expected{0.0, 0.0, 0.0, 1.0};
@@ -182,98 +164,43 @@ bool testDelayTimeIsClampedToPreparedRange()
 
 bool testProcessBlockDoesNotAllocate()
 {
-  holdsworth::dsp::FractionalDelayLine delay(1000.0);
+  dsp::FractionalDelayLine delay(1000.0);
   delay.prepare(48000.0, 256);
   delay.setDelayTimeMs(137.25);
 
   std::array<double, 256> input{};
   std::array<double, 256> output{};
 
-  gAllocationCount.store(0, std::memory_order_relaxed);
-  gTrackAllocations.store(true, std::memory_order_relaxed);
+  beginAllocationTracking();
   delay.processBlock(input, output);
-  gTrackAllocations.store(false, std::memory_order_relaxed);
+  const std::size_t allocations = endAllocationTracking();
 
-  const std::size_t allocations = gAllocationCount.load(std::memory_order_relaxed);
   if (allocations != 0)
   {
-    std::cerr << "real-time allocation: processBlock made " << allocations << " allocation(s)\n";
+    std::cerr << "real-time allocation: FractionalDelayLine::processBlock made " << allocations
+              << " allocation(s)\n";
     return false;
   }
   return true;
 }
 
-struct TestCase
-{
-  std::string_view name;
-  bool (*run)();
+constexpr std::array kTests{
+  TestCase{"FractionalDelayLine: 0 ms returns the current sample", testZeroDelayReturnsCurrentSample},
+  TestCase{"FractionalDelayLine: 1 sample returns the previous sample", testOneSampleDelayReturnsPreviousSample},
+  TestCase{"FractionalDelayLine: fractional delay interpolates history", testFractionalDelayInterpolatesHistory},
+  TestCase{"FractionalDelayLine: split history API matches block processing", testSplitHistoryApiMatchesBlockProcessing},
+  TestCase{"FractionalDelayLine: reset clears history", testResetClearsHistory},
+  TestCase{"FractionalDelayLine: exact in-place processing", testExactInPlaceProcessing},
+  TestCase{"FractionalDelayLine: block partitioning is invariant", testBlockPartitioningDoesNotChangeOutput},
+  TestCase{"FractionalDelayLine: delay time is clamped", testDelayTimeIsClampedToPreparedRange},
+  TestCase{"FractionalDelayLine: processing performs no allocations", testProcessBlockDoesNotAllocate},
 };
 
 } // namespace
 
-void* operator new(const std::size_t size)
+TestSuite fractionalDelayLineTests() noexcept
 {
-  recordAllocation();
-  if (void* memory = std::malloc(size == 0 ? 1 : size))
-    return memory;
-  throw std::bad_alloc();
+  return kTests;
 }
 
-void* operator new[](const std::size_t size)
-{
-  recordAllocation();
-  if (void* memory = std::malloc(size == 0 ? 1 : size))
-    return memory;
-  throw std::bad_alloc();
-}
-
-void operator delete(void* memory) noexcept
-{
-  std::free(memory);
-}
-
-void operator delete[](void* memory) noexcept
-{
-  std::free(memory);
-}
-
-void operator delete(void* memory, std::size_t) noexcept
-{
-  std::free(memory);
-}
-
-void operator delete[](void* memory, std::size_t) noexcept
-{
-  std::free(memory);
-}
-
-int main()
-{
-  constexpr std::array tests{
-    TestCase{"0 ms returns the current sample", testZeroDelayReturnsCurrentSample},
-    TestCase{"1 sample returns the previous sample", testOneSampleDelayReturnsPreviousSample},
-    TestCase{"fractional delay interpolates history", testFractionalDelayInterpolatesHistory},
-    TestCase{"reset clears history", testResetClearsHistory},
-    TestCase{"exact in-place processing", testExactInPlaceProcessing},
-    TestCase{"block partitioning is invariant", testBlockPartitioningDoesNotChangeOutput},
-    TestCase{"delay time is clamped", testDelayTimeIsClampedToPreparedRange},
-    TestCase{"processing performs no allocations", testProcessBlockDoesNotAllocate},
-  };
-
-  int failures = 0;
-  for (const auto& test : tests)
-  {
-    const bool passed = test.run();
-    std::cout << (passed ? "PASS: " : "FAIL: ") << test.name << '\n';
-    failures += passed ? 0 : 1;
-  }
-
-  if (failures == 0)
-  {
-    std::cout << "All " << tests.size() << " HoldsworthEngine tests passed.\n";
-    return EXIT_SUCCESS;
-  }
-
-  std::cerr << failures << " HoldsworthEngine test(s) failed.\n";
-  return EXIT_FAILURE;
-}
+} // namespace holdsworth::test

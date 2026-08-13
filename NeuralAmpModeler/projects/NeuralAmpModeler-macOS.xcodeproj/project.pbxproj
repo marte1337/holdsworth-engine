@@ -482,6 +482,9 @@
 		C2A2FAE182D0000120027AB66 /* wavenet/a2_fast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2A2FAE012D0000110027AB66 /* wavenet/a2_fast.cpp */; };
 		D1A700012F00000100000008 /* FractionalDelayLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000100000002 /* FractionalDelayLine.cpp */; };
 		D1A700012F00000100000009 /* FractionalDelayLineTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */; };
+		D1A700012F00000200000006 /* DelayBand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000200000002 /* DelayBand.cpp */; };
+		D1A700012F00000200000007 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000200000004 /* TestMain.cpp */; };
+		D1A700012F00000200000008 /* DelayBandTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000200000005 /* DelayBandTests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1052,6 +1055,11 @@
 		D1A700012F00000100000002 /* FractionalDelayLine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FractionalDelayLine.cpp; sourceTree = "<group>"; };
 		D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FractionalDelayLineTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00000100000004 /* HoldsworthEngineTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HoldsworthEngineTests; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1A700012F00000200000001 /* DelayBand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DelayBand.h; sourceTree = "<group>"; };
+		D1A700012F00000200000002 /* DelayBand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayBand.cpp; sourceTree = "<group>"; };
+		D1A700012F00000200000003 /* TestHarness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestHarness.h; sourceTree = "<group>"; };
+		D1A700012F00000200000004 /* TestMain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestMain.cpp; sourceTree = "<group>"; };
+		D1A700012F00000200000005 /* DelayBandTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayBandTests.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2022,6 +2030,8 @@
 			children = (
 				D1A700012F00000100000001 /* FractionalDelayLine.h */,
 				D1A700012F00000100000002 /* FractionalDelayLine.cpp */,
+				D1A700012F00000200000001 /* DelayBand.h */,
+				D1A700012F00000200000002 /* DelayBand.cpp */,
 			);
 			path = dsp;
 			sourceTree = "<group>";
@@ -2029,7 +2039,10 @@
 		D1A700012F00000100000007 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				D1A700012F00000200000003 /* TestHarness.h */,
+				D1A700012F00000200000004 /* TestMain.cpp */,
 				D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */,
+				D1A700012F00000200000005 /* DelayBandTests.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -3069,7 +3082,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1A700012F00000100000008 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000200000006 /* DelayBand.cpp in Sources */,
+				D1A700012F00000200000007 /* TestMain.cpp in Sources */,
 				D1A700012F00000100000009 /* FractionalDelayLineTests.cpp in Sources */,
+				D1A700012F00000200000008 /* DelayBandTests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

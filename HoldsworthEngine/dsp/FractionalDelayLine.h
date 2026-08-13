@@ -50,6 +50,16 @@ public:
   //   fractional values: linear interpolation between adjacent samples
   void processBlock(std::span<const Sample> input, std::span<Sample> output) noexcept;
 
+  // Reads from existing history without advancing the delay line. This split
+  // history API is intended for external feedback loops and requires a
+  // prepared delay of at least one sample. Call pushSample() exactly once
+  // after each read to advance the line.
+  [[nodiscard]] Sample readDelayedSample() const noexcept;
+
+  // Writes one sample and advances the delay line. This operation is valid at
+  // every configured delay, including zero.
+  void pushSample(Sample sample) noexcept;
+
 private:
   [[nodiscard]] std::size_t indexBehindWriteHead(std::size_t sampleOffset) const noexcept;
   void updateDelayInSamples() noexcept;

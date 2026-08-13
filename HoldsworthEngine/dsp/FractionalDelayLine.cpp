@@ -89,6 +89,36 @@ void FractionalDelayLine::processBlock(const std::span<const Sample> input,
   }
 }
 
+FractionalDelayLine::Sample FractionalDelayLine::readDelayedSample() const noexcept
+{
+  const bool validRead = mPrepared && mDelayInSamples >= 1.0;
+  assert(validRead && "readDelayedSample() requires a prepared delay of at least one sample");
+  if (!validRead)
+    return 0.0;
+
+  const auto wholeSampleDelay = static_cast<std::size_t>(mDelayInSamples);
+  const double fractionalDelay = mDelayInSamples - static_cast<double>(wholeSampleDelay);
+  const Sample newerSample = mBuffer[indexBehindWriteHead(wholeSampleDelay)];
+
+  if (fractionalDelay == 0.0)
+    return newerSample;
+
+  const Sample olderSample = mBuffer[indexBehindWriteHead(wholeSampleDelay + 1)];
+  return newerSample + (olderSample - newerSample) * fractionalDelay;
+}
+
+void FractionalDelayLine::pushSample(const Sample sample) noexcept
+{
+  assert(mPrepared && "prepare() must precede pushSample()");
+  if (!mPrepared)
+    return;
+
+  mBuffer[mWriteIndex] = sample;
+  ++mWriteIndex;
+  if (mWriteIndex == mBuffer.size())
+    mWriteIndex = 0;
+}
+
 std::size_t FractionalDelayLine::indexBehindWriteHead(const std::size_t sampleOffset) const noexcept
 {
   const std::size_t wrappedOffset = sampleOffset % mBuffer.size();
