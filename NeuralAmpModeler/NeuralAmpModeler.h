@@ -8,16 +8,29 @@
 #include "../NeuralAmpModelerCore/NAM/dsp.h"
 #include "../NeuralAmpModelerCore/NAM/slimmable.h"
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  #include "../HoldsworthEngine/dsp/HoldsworthDelayEngine.h"
+#endif
+
 #include "Colors.h"
 #include "ToneStack.h"
 
 #include "IPlug_include_in_plug_hdr.h"
 #include "ISender.h"
 
+#include <atomic>
+#include <cstdint>
+#include <vector>
+
 
 const int kNumPresets = 1;
 // The plugin is mono inside
 constexpr size_t kNumChannelsInternal = 1;
+
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+static_assert(std::atomic<std::uint32_t>::is_always_lock_free,
+              "Development delay controls require lock-free 32-bit atomics");
+#endif
 
 class NAMSender : public iplug::IPeakAvgSender<>
 {
@@ -65,6 +78,10 @@ enum ECtrlTags
   kCtrlTagSlimmableIcon,
   kCtrlTagSlimOverlayBackdrop,
   kCtrlTagSlimKnob,
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  kCtrlTagHoldsworthDelayEnabled,
+  kCtrlTagHoldsworthDelayWetLevel,
+#endif
   kNumCtrlTags
 };
 
@@ -74,6 +91,10 @@ enum EMsgTags
   kMsgTagClearModel = 0,
   kMsgTagClearIR,
   kMsgTagHighlightColor,
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  kMsgTagHoldsworthDelayEnabled,
+  kMsgTagHoldsworthDelayWetLevel,
+#endif
   // The following tags are from DSP -> UI
   kMsgTagLoadFailed,
   kMsgTagLoadedModel,
@@ -313,6 +334,21 @@ private:
   // Post-IR filters
   recursive_linear_filter::HighPass mHighPass;
   //  recursive_linear_filter::LowPass mLowPass;
+
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  // Temporary macOS-only development integration. The delay remains an
+  // independent wet-only processor; these buffers and controls belong to the
+  // plugin wrapper and can be removed when GuitarEngine replaces this bridge.
+  holdsworth::dsp::HoldsworthDelayEngine mHoldsworthDelayEngine{700.0};
+  std::vector<iplug::sample> mHoldsworthDelaySilentInput;
+  std::vector<iplug::sample> mHoldsworthDelayWetLeft;
+  std::vector<iplug::sample> mHoldsworthDelayWetRight;
+  std::atomic<std::uint32_t> mHoldsworthDelayEnabled{0};
+  // Fixed-point normalized value: 100'000 / 1'000'000 = 10%.
+  std::atomic<std::uint32_t> mHoldsworthDelayMixLevel{100'000};
+  double mHoldsworthDelayPreparedSampleRate = 0.0;
+  int mHoldsworthDelayPreparedMaximumBlockSize = 0;
+#endif
 
   // Path to model's config.json or model.nam
   WDL_String mNAMPath;

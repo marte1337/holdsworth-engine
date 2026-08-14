@@ -63,5 +63,6 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] TestSuite fractionalDelayLineTests() noexcept;
 [[nodiscard]] TestSuite delayBandTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayEngineTests() noexcept;
+[[nodiscard]] TestSuite holdsworthDelayLiveIntegrationTests() noexcept;
 
 } // namespace holdsworth::test

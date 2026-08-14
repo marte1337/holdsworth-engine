@@ -1,7 +1,10 @@
 #include <algorithm> // std::clamp, std::min
 #include <cmath> // pow
+#include <cstdint>
+#include <cstring>
 #include <filesystem>
 #include <iostream>
+#include <span>
 #include <utility>
 
 #include "Colors.h"
@@ -17,10 +20,36 @@
 
 #include "NeuralAmpModelerControls.h"
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  #include "../HoldsworthEngine/dsp/HoldsworthDelayPresets.h"
+  #include "../HoldsworthEngine/integration/MonoDryStereoWetMixer.h"
+#endif
+
 using namespace iplug;
 using namespace igraphics;
 
 const double kDCBlockerFrequency = 5.0;
+
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+namespace
+{
+
+constexpr std::uint32_t kHoldsworthDelayControlScale = 1'000'000;
+
+[[nodiscard]] std::uint32_t encodeNormalizedControlValue(const double value) noexcept
+{
+  const double normalized = std::isfinite(value) ? std::clamp(value, 0.0, 1.0) : 0.0;
+  return static_cast<std::uint32_t>(std::lround(normalized * kHoldsworthDelayControlScale));
+}
+
+[[nodiscard]] double decodeNormalizedControlValue(const std::uint32_t value) noexcept
+{
+  const std::uint32_t clamped = std::min(value, kHoldsworthDelayControlScale);
+  return static_cast<double>(clamped) / static_cast<double>(kHoldsworthDelayControlScale);
+}
+
+} // namespace
+#endif
 
 // Styles
 const IVColorSpec colorSpec{
@@ -385,12 +414,86 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
   sample** hpfPointers = mHighPass.Process(irPointers, numChannelsInternal, numFrames);
   // sample** lpfPointers = mLowPass.Process(hpfPointers, numChannelsInternal, numFrames);
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  const bool holdsworthDelayBuffersReady =
+    mHoldsworthDelayEngine.isPrepared() && numFrames <= mHoldsworthDelaySilentInput.size()
+    && numFrames <= mHoldsworthDelayWetLeft.size() && numFrames <= mHoldsworthDelayWetRight.size();
+  const bool holdsworthDelayEnabled =
+    holdsworthDelayBuffersReady
+    && mHoldsworthDelayEnabled.load(std::memory_order_relaxed) != 0;
+  const double holdsworthDelayMixLevel =
+    decodeNormalizedControlValue(mHoldsworthDelayMixLevel.load(std::memory_order_relaxed));
+
+  if (holdsworthDelayBuffersReady)
+  {
+    using HoldsworthMixer = holdsworth::integration::MonoDryStereoWetMixer;
+    HoldsworthMixer::advanceDelay(
+      mHoldsworthDelayEngine,
+      holdsworthDelayEnabled,
+      std::span<const sample>{hpfPointers[0], numFrames},
+      std::span<const sample>{mHoldsworthDelaySilentInput.data(), numFrames},
+      std::span<sample>{mHoldsworthDelayWetLeft.data(), numFrames},
+      std::span<sample>{mHoldsworthDelayWetRight.data(), numFrames});
+  }
+#endif
+
   // restore previous floating point state
   std::feupdateenv(&fe_state);
 
   // Let's get outta here
   // This is where we exit mono for whatever the output requires.
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  if (holdsworthDelayEnabled && (numChannelsExternalOut == 1 || numChannelsExternalOut == 2))
+  {
+    using HoldsworthMixer = holdsworth::integration::MonoDryStereoWetMixer;
+    const std::span<const sample> dryMono{hpfPointers[0], numFrames};
+    const std::span<const sample> wetLeft{mHoldsworthDelayWetLeft.data(), numFrames};
+    const std::span<const sample> wetRight{mHoldsworthDelayWetRight.data(), numFrames};
+
+    if (numChannelsExternalOut == 1)
+    {
+      HoldsworthMixer::mixMono(
+        dryMono,
+        wetLeft,
+        wetRight,
+        holdsworthDelayMixLevel,
+        std::span<sample>{outputs[0], numFrames});
+    }
+    else
+    {
+      assert(numChannelsExternalOut == 2);
+      HoldsworthMixer::mixStereo(
+        dryMono,
+        wetLeft,
+        wetRight,
+        holdsworthDelayMixLevel,
+        std::span<sample>{outputs[0], numFrames},
+        std::span<sample>{outputs[1], numFrames});
+    }
+
+    // Preserve the stock output stage: the Output knob scales dry and wet
+    // together, and only the standalone keeps its existing interface clamp.
+    for (std::size_t channel = 0; channel < numChannelsExternalOut; ++channel)
+    {
+      for (std::size_t frame = 0; frame < numFrames; ++frame)
+      {
+#ifdef APP_API
+        outputs[channel][frame] = std::clamp(mOutputGain * outputs[channel][frame], -1.0, 1.0);
+#else
+        outputs[channel][frame] *= mOutputGain;
+#endif
+      }
+    }
+  }
+  else
+  {
+    // Preserve the exact upstream dry routing while bypassed. The delay was
+    // advanced with silence above, so no bypassed guitar input was captured.
+    _ProcessOutput(hpfPointers, outputs, numFrames, numChannelsInternal, numChannelsExternalOut);
+  }
+#else
   _ProcessOutput(hpfPointers, outputs, numFrames, numChannelsInternal, numChannelsExternalOut);
+#endif
   // _ProcessOutput(lpfPointers, outputs, numFrames, numChannelsInternal, numChannelsExternalOut);
   // * Output of input leveling (inputs -> mInputPointers),
   // * Output of output leveling (mOutputPointers -> outputs)
@@ -401,6 +504,34 @@ void NeuralAmpModeler::OnReset()
 {
   const auto sampleRate = GetSampleRate();
   const int maxBlockSize = GetBlockSize();
+
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  const bool holdsworthDelayNeedsPrepare =
+    !mHoldsworthDelayEngine.isPrepared() || sampleRate != mHoldsworthDelayPreparedSampleRate
+    || maxBlockSize != mHoldsworthDelayPreparedMaximumBlockSize;
+  if (holdsworthDelayNeedsPrepare)
+  {
+    // Allocate replacement wrapper buffers before touching the live buffers.
+    // HoldsworthDelayEngine::prepare() performs the delay-history allocation.
+    std::vector<sample> silentInput(static_cast<std::size_t>(maxBlockSize), 0.0);
+    std::vector<sample> wetLeft(static_cast<std::size_t>(maxBlockSize), 0.0);
+    std::vector<sample> wetRight(static_cast<std::size_t>(maxBlockSize), 0.0);
+
+    mHoldsworthDelayEngine.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
+    mHoldsworthDelaySilentInput.swap(silentInput);
+    mHoldsworthDelayWetLeft.swap(wetLeft);
+    mHoldsworthDelayWetRight.swap(wetRight);
+    mHoldsworthDelayPreparedSampleRate = sampleRate;
+    mHoldsworthDelayPreparedMaximumBlockSize = maxBlockSize;
+  }
+
+  // Re-establish the development preset on reset, but never derive or replace
+  // its DSP-level global wet gain from the temporary integration control.
+  mHoldsworthDelayEngine.applyConfiguration(
+    holdsworth::dsp::presets::lead121UnmodulatedProvisional().dspConfiguration);
+  mHoldsworthDelayEngine.reset();
+  std::fill(mHoldsworthDelaySilentInput.begin(), mHoldsworthDelaySilentInput.end(), 0.0);
+#endif
 
   // Tail is because the HPF DC blocker has a decay.
   // 10 cycles should be enough to pass the VST3 tests checking tail behavior.
@@ -484,6 +615,15 @@ void NeuralAmpModeler::OnUIOpen()
 {
   Plugin::OnUIOpen();
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  SendControlValueFromDelegate(
+    kCtrlTagHoldsworthDelayEnabled,
+    mHoldsworthDelayEnabled.load(std::memory_order_relaxed) == 0 ? 0.0 : 1.0);
+  SendControlValueFromDelegate(
+    kCtrlTagHoldsworthDelayWetLevel,
+    decodeNormalizedControlValue(mHoldsworthDelayMixLevel.load(std::memory_order_relaxed)));
+#endif
+
   if (mNAMPath.GetLength())
   {
     SendControlMsgFromDelegate(kCtrlTagModelFileBrowser, kMsgTagLoadedModel, mNAMPath.GetLength(), mNAMPath.Get());
@@ -550,6 +690,31 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
   {
     case kMsgTagClearModel: mShouldRemoveModel = true; return true;
     case kMsgTagClearIR: mShouldRemoveIR = true; return true;
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+    case kMsgTagHoldsworthDelayEnabled:
+    {
+      if (ctrlTag != kCtrlTagHoldsworthDelayEnabled
+          || dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
+        return false;
+
+      double normalizedValue = 0.0;
+      std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
+      const bool enabled = std::isfinite(normalizedValue) && normalizedValue >= 0.5;
+      mHoldsworthDelayEnabled.store(enabled ? 1U : 0U, std::memory_order_relaxed);
+      return true;
+    }
+    case kMsgTagHoldsworthDelayWetLevel:
+    {
+      if (ctrlTag != kCtrlTagHoldsworthDelayWetLevel
+          || dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
+        return false;
+
+      double normalizedValue = 0.0;
+      std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
+      mHoldsworthDelayMixLevel.store(encodeNormalizedControlValue(normalizedValue), std::memory_order_relaxed);
+      return true;
+    }
+#endif
     case kMsgTagHighlightColor:
     {
       mHighLightColor.Set((const char*)pData);

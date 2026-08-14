@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm> // std::clamp
 #include <cmath> // std::round
 #include <cstdio> // FILE, fclose
 #include <sstream> // std::stringstream
@@ -852,6 +853,72 @@ public:
         "are about the same loudness.\nCalibrated=Match the input's digital-analog calibration.");
     }
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+    // Temporary, non-parameter development controls. Values travel through
+    // iPlug's UI-to-DSP message path and are deliberately not serialized or
+    // exposed as host automation parameters yet.
+    {
+      const auto delayControlArea = GetRECT().GetPadded(-pad).GetFromBottom(120.0f).GetFromTop(42.0f);
+      const auto enabledArea = delayControlArea.GetFromLeft(0.36f * delayControlArea.W()).GetVPadded(-2.0f);
+      const auto wetArea = delayControlArea.GetFromRight(0.60f * delayControlArea.W()).GetVPadded(-2.0f);
+      const IVStyle delayStyle = style.WithDrawFrame(false);
+
+      auto sendEnabled = [](IControl* pCaller) {
+        const double normalizedValue = pCaller->GetValue();
+        auto* pDelegate = pCaller->GetDelegate();
+
+        // Keep the editor/controller-side copy current as well as forwarding
+        // the value to the processor. In distributed VST3 these are separate
+        // NeuralAmpModeler instances, and OnUIOpen() reads the local copy when
+        // rebuilding the temporary controls.
+        pDelegate->OnMessage(
+          kMsgTagHoldsworthDelayEnabled,
+          pCaller->GetTag(),
+          static_cast<int>(sizeof(normalizedValue)),
+          &normalizedValue);
+        pDelegate->SendArbitraryMsgFromUI(
+          kMsgTagHoldsworthDelayEnabled,
+          pCaller->GetTag(),
+          static_cast<int>(sizeof(normalizedValue)),
+          &normalizedValue);
+      };
+      auto sendWetLevel = [](IControl* pCaller) {
+        const double normalizedValue = pCaller->GetValue();
+        auto* pDelegate = pCaller->GetDelegate();
+        pDelegate->OnMessage(
+          kMsgTagHoldsworthDelayWetLevel,
+          pCaller->GetTag(),
+          static_cast<int>(sizeof(normalizedValue)),
+          &normalizedValue);
+        pDelegate->SendArbitraryMsgFromUI(
+          kMsgTagHoldsworthDelayWetLevel,
+          pCaller->GetTag(),
+          static_cast<int>(sizeof(normalizedValue)),
+          &normalizedValue);
+      };
+
+      auto* enabledControl = AddNamedChildControl(
+        new IVToggleControl(enabledArea,
+                            sendEnabled,
+                            "Holdsworth Delay (Dev)",
+                            delayStyle,
+                            "OFF",
+                            "ON",
+                            false),
+        mControlNames.holdsworthDelayEnabled,
+        kCtrlTagHoldsworthDelayEnabled);
+      enabledControl->SetTooltip(
+        "Development-only Lead 121 delay bypass. Disabled blocks advance existing tails with silence.");
+
+      auto* wetControl = AddNamedChildControl(
+        new NAMDevelopmentWetSliderControl(wetArea, sendWetLevel, "Delay Wet", delayStyle),
+        mControlNames.holdsworthDelayWetLevel,
+        kCtrlTagHoldsworthDelayWetLevel);
+      wetControl->SetTooltip(
+        "Integration wet multiplier applied after the preset's own DSP wet level. Start around 10%.");
+    }
+#endif
+
     const float halfWidth = PLUG_WIDTH / 2.0f - pad;
     const auto bottomArea = GetRECT().GetPadded(-pad).GetFromBottom(78.0f);
     const float lineHeight = 15.0f;
@@ -897,8 +964,50 @@ private:
     const std::string inputCalibrationLevel = "InputCalibrationLevel";
     const std::string modelInfo = "ModelInfo";
     const std::string outputMode = "OutputMode";
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+    const std::string holdsworthDelayEnabled = "HoldsworthDelayEnabled";
+    const std::string holdsworthDelayWetLevel = "HoldsworthDelayWetLevel";
+#endif
     const std::string title = "Title";
   } mControlNames;
+
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  class NAMDevelopmentWetSliderControl : public IVSliderControl
+  {
+  public:
+    NAMDevelopmentWetSliderControl(const IRECT& bounds,
+                                   IActionFunction actionFunction,
+                                   const char* label,
+                                   const IVStyle& style)
+    : IVSliderControl(bounds,
+                      actionFunction,
+                      label,
+                      style,
+                      false,
+                      EDirection::Horizontal)
+    {
+    }
+
+    void OnInit() override
+    {
+      IVSliderControl::OnInit();
+      UpdateValueDisplay();
+    }
+
+    void SetDirty(bool push, int valIdx = kNoValIdx) override
+    {
+      IVSliderControl::SetDirty(push, valIdx);
+      UpdateValueDisplay();
+    }
+
+  private:
+    void UpdateValueDisplay()
+    {
+      const double normalizedValue = std::clamp(GetValue(), 0.0, 1.0);
+      mValueStr.SetFormatted(8, "%.0f%%", std::round(100.0 * normalizedValue));
+    }
+  };
+#endif
 
   class InputLevelControl : public IEditableTextControl
   {
