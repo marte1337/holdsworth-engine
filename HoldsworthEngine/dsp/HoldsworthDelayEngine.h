@@ -31,6 +31,9 @@ struct DelayBandConfiguration final
   double outputLevel = 1.0;
   double pan = 0.0;
   bool enabled = false;
+  ModulationRateHz modulationRate{};
+  ModulationDepthMs modulationDepth{};
+  ModulationPhaseCycles modulationPhase{};
 };
 
 struct HoldsworthDelayConfiguration final
@@ -77,9 +80,10 @@ public:
   void setBandConfiguration(std::size_t bandIndex,
                             const DelayBandConfiguration& configuration) noexcept;
 
-  // Returns sanitized requested parameter values. In particular,
-  // delayTimeMs is independent of sample rate and is not the one-sample-clamped
-  // effective delay reported by DelayBand::delayTimeMs().
+  // Returns sanitized requested parameter values. In particular, delay time,
+  // modulation rate, and modulation depth are not their sample-rate- or
+  // delay-boundary-dependent effective values. modulationPhase is the
+  // configured reset phase rather than the phase advancing during processing.
   [[nodiscard]] HoldsworthDelayConfiguration configuration() const noexcept;
 
   // Linear gain in [0, 1], applied after summing all eight wet band outputs.

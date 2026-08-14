@@ -83,6 +83,9 @@ void HoldsworthDelayEngine::setBandConfiguration(
   band.setFeedbackCoefficient(configuration.feedback.value);
   band.setOutputLevel(configuration.outputLevel);
   band.setPan(configuration.pan);
+  band.setModulationRate(configuration.modulationRate);
+  band.setModulationDepth(configuration.modulationDepth);
+  band.setModulationPhase(configuration.modulationPhase);
   band.setEnabled(configuration.enabled);
 }
 
@@ -98,6 +101,9 @@ HoldsworthDelayConfiguration HoldsworthDelayEngine::configuration() const noexce
     bandConfiguration.outputLevel = band.outputLevel();
     bandConfiguration.pan = band.pan();
     bandConfiguration.enabled = band.isEnabled();
+    bandConfiguration.modulationRate = band.requestedModulationRate();
+    bandConfiguration.modulationDepth = band.requestedModulationDepth();
+    bandConfiguration.modulationPhase = band.modulationResetPhase();
   }
   result.globalWetOutputLevel = mGlobalWetOutputLevel;
   return result;
