@@ -859,8 +859,14 @@ public:
     // exposed as host automation parameters yet.
     {
       const auto delayControlArea = GetRECT().GetPadded(-pad).GetFromBottom(120.0f).GetFromTop(42.0f);
-      const auto enabledArea = delayControlArea.GetFromLeft(0.36f * delayControlArea.W()).GetVPadded(-2.0f);
-      const auto wetArea = delayControlArea.GetFromRight(0.60f * delayControlArea.W()).GetVPadded(-2.0f);
+      const float enabledWidth = 0.29f * delayControlArea.W();
+      const float wetWidth = 0.25f * delayControlArea.W();
+      const auto enabledArea = delayControlArea.GetFromLeft(enabledWidth).GetHPadded(-3.0f).GetVPadded(-2.0f);
+      const auto presetArea = delayControlArea.GetReducedFromLeft(enabledWidth)
+                                .GetReducedFromRight(wetWidth)
+                                .GetHPadded(-3.0f)
+                                .GetVPadded(-2.0f);
+      const auto wetArea = delayControlArea.GetFromRight(wetWidth).GetHPadded(-3.0f).GetVPadded(-2.0f);
       const IVStyle delayStyle = style.WithDrawFrame(false);
 
       auto sendEnabled = [](IControl* pCaller) {
@@ -896,6 +902,20 @@ public:
           static_cast<int>(sizeof(normalizedValue)),
           &normalizedValue);
       };
+      auto sendPreset = [](IControl* pCaller) {
+        const double normalizedValue = pCaller->GetValue();
+        auto* pDelegate = pCaller->GetDelegate();
+        pDelegate->OnMessage(
+          kMsgTagHoldsworthDelayPreset,
+          pCaller->GetTag(),
+          static_cast<int>(sizeof(normalizedValue)),
+          &normalizedValue);
+        pDelegate->SendArbitraryMsgFromUI(
+          kMsgTagHoldsworthDelayPreset,
+          pCaller->GetTag(),
+          static_cast<int>(sizeof(normalizedValue)),
+          &normalizedValue);
+      };
 
       auto* enabledControl = AddNamedChildControl(
         new IVToggleControl(enabledArea,
@@ -908,7 +928,19 @@ public:
         mControlNames.holdsworthDelayEnabled,
         kCtrlTagHoldsworthDelayEnabled);
       enabledControl->SetTooltip(
-        "Development-only Lead 121 delay bypass. Disabled blocks advance existing tails with silence.");
+        "Development-only delay bypass. Disabled blocks advance existing tails with silence.");
+
+      auto* presetControl = AddNamedChildControl(
+        new IVTabSwitchControl(presetArea,
+                               sendPreset,
+                               {"Lead 121", "Chorus 011"},
+                               "Holdsworth Delay Preset",
+                               delayStyle),
+        mControlNames.holdsworthDelayPreset,
+        kCtrlTagHoldsworthDelayPreset);
+      presetControl->SetTooltip(
+        "Development-only preset selector. Switching preserves delay memory; for a clean A/B, disable the delay, "
+        "wait for its tail, select a preset, then re-enable it.");
 
       auto* wetControl = AddNamedChildControl(
         new NAMDevelopmentWetSliderControl(wetArea, sendWetLevel, "Delay Wet", delayStyle),
@@ -967,6 +999,7 @@ private:
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
     const std::string holdsworthDelayEnabled = "HoldsworthDelayEnabled";
     const std::string holdsworthDelayWetLevel = "HoldsworthDelayWetLevel";
+    const std::string holdsworthDelayPreset = "HoldsworthDelayPreset";
 #endif
     const std::string title = "Title";
   } mControlNames;

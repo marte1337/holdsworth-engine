@@ -1114,6 +1114,7 @@
 		D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayEngineTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00000500000001 /* MonoDryStereoWetMixer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonoDryStereoWetMixer.h; sourceTree = "<group>"; };
 		D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayLiveIntegrationTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00000700000001 /* DevelopmentDelayPresetSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DevelopmentDelayPresetSelector.h; sourceTree = "<group>"; };
 		D1A700012F00000600000001 /* DelayModulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DelayModulator.h; sourceTree = "<group>"; };
 		D1A700012F00000600000002 /* DelayModulator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayModulator.cpp; sourceTree = "<group>"; };
 		D1A700012F00000600000003 /* DelayModulatorTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayModulatorTests.cpp; sourceTree = "<group>"; };
@@ -2106,6 +2107,7 @@
 		D1A700012F00000500000003 /* integration */ = {
 			isa = PBXGroup;
 			children = (
+				D1A700012F00000700000001 /* DevelopmentDelayPresetSelector.h */,
 				D1A700012F00000500000001 /* MonoDryStereoWetMixer.h */,
 			);
 			path = integration;

@@ -21,7 +21,7 @@
 #include "NeuralAmpModelerControls.h"
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
-  #include "../HoldsworthEngine/dsp/HoldsworthDelayPresets.h"
+  #include "../HoldsworthEngine/integration/DevelopmentDelayPresetSelector.h"
   #include "../HoldsworthEngine/integration/MonoDryStereoWetMixer.h"
 #endif
 
@@ -418,6 +418,25 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
   const bool holdsworthDelayBuffersReady =
     mHoldsworthDelayEngine.isPrepared() && numFrames <= mHoldsworthDelaySilentInput.size()
     && numFrames <= mHoldsworthDelayWetLeft.size() && numFrames <= mHoldsworthDelayWetRight.size();
+
+  if (holdsworthDelayBuffersReady)
+  {
+    using holdsworth::integration::DevelopmentDelayPreset;
+    const DevelopmentDelayPreset requestedPreset =
+      holdsworth::integration::developmentDelayPresetFromIndex(
+        mHoldsworthDelayRequestedPreset.load(std::memory_order_relaxed));
+    const std::uint32_t requestedPresetIndex = static_cast<std::uint32_t>(requestedPreset);
+
+    if (requestedPresetIndex != mHoldsworthDelayAppliedPreset)
+    {
+      // Configuration setters are allocation-free and externally synchronized
+      // here at the audio-block boundary. Do not reset: existing memory should
+      // form a temporary hybrid tail when a preset is changed while ringing.
+      holdsworth::integration::applyDevelopmentDelayPreset(mHoldsworthDelayEngine, requestedPreset);
+      mHoldsworthDelayAppliedPreset = requestedPresetIndex;
+    }
+  }
+
   const bool holdsworthDelayEnabled =
     holdsworthDelayBuffersReady
     && mHoldsworthDelayEnabled.load(std::memory_order_relaxed) != 0;
@@ -525,10 +544,13 @@ void NeuralAmpModeler::OnReset()
     mHoldsworthDelayPreparedMaximumBlockSize = maxBlockSize;
   }
 
-  // Re-establish the development preset on reset, but never derive or replace
-  // its DSP-level global wet gain from the temporary integration control.
-  mHoldsworthDelayEngine.applyConfiguration(
-    holdsworth::dsp::presets::lead121UnmodulatedProvisional().dspConfiguration);
+  // Re-establish the requested development preset on a normal audio reset, but
+  // never derive or replace its DSP-level global wet gain from the temporary
+  // integration control. Lead 121 remains the new-instance default.
+  const auto holdsworthDelayPreset = holdsworth::integration::developmentDelayPresetFromIndex(
+    mHoldsworthDelayRequestedPreset.load(std::memory_order_relaxed));
+  holdsworth::integration::applyDevelopmentDelayPreset(mHoldsworthDelayEngine, holdsworthDelayPreset);
+  mHoldsworthDelayAppliedPreset = static_cast<std::uint32_t>(holdsworthDelayPreset);
   mHoldsworthDelayEngine.reset();
   std::fill(mHoldsworthDelaySilentInput.begin(), mHoldsworthDelaySilentInput.end(), 0.0);
 #endif
@@ -622,6 +644,13 @@ void NeuralAmpModeler::OnUIOpen()
   SendControlValueFromDelegate(
     kCtrlTagHoldsworthDelayWetLevel,
     decodeNormalizedControlValue(mHoldsworthDelayMixLevel.load(std::memory_order_relaxed)));
+  SendControlValueFromDelegate(
+    kCtrlTagHoldsworthDelayPreset,
+    holdsworth::integration::developmentDelayPresetFromIndex(
+      mHoldsworthDelayRequestedPreset.load(std::memory_order_relaxed))
+        == holdsworth::integration::DevelopmentDelayPreset::chorus011
+      ? 1.0
+      : 0.0);
 #endif
 
   if (mNAMPath.GetLength())
@@ -712,6 +741,22 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
       double normalizedValue = 0.0;
       std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
       mHoldsworthDelayMixLevel.store(encodeNormalizedControlValue(normalizedValue), std::memory_order_relaxed);
+      return true;
+    }
+    case kMsgTagHoldsworthDelayPreset:
+    {
+      if (ctrlTag != kCtrlTagHoldsworthDelayPreset
+          || dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
+        return false;
+
+      double normalizedValue = 0.0;
+      std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
+      const auto requestedPreset =
+        std::isfinite(normalizedValue) && normalizedValue >= 0.5
+          ? holdsworth::integration::DevelopmentDelayPreset::chorus011
+          : holdsworth::integration::DevelopmentDelayPreset::lead121;
+      mHoldsworthDelayRequestedPreset.store(
+        static_cast<std::uint32_t>(requestedPreset), std::memory_order_relaxed);
       return true;
     }
 #endif

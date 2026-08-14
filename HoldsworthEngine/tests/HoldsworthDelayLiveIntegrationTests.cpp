@@ -1,9 +1,12 @@
 #include "../dsp/HoldsworthDelayPresets.h"
+#include "../integration/DevelopmentDelayPresetSelector.h"
 #include "../integration/MonoDryStereoWetMixer.h"
 #include "TestHarness.h"
 
+#include <algorithm>
 #include <array>
 #include <iostream>
+#include <string_view>
 
 namespace holdsworth::test
 {
@@ -11,6 +14,40 @@ namespace
 {
 
 using Mixer = integration::MonoDryStereoWetMixer;
+using DevelopmentPreset = integration::DevelopmentDelayPreset;
+
+bool expectConfigurationExact(const std::string_view testName,
+                              const dsp::HoldsworthDelayConfiguration& actual,
+                              const dsp::HoldsworthDelayConfiguration& expected)
+{
+  if (actual.globalWetOutputLevel != expected.globalWetOutputLevel)
+  {
+    std::cerr << testName << ": global wet level differs\n";
+    return false;
+  }
+
+  for (std::size_t bandIndex = 0; bandIndex < dsp::kHoldsworthDelayBandCount; ++bandIndex)
+  {
+    const auto& actualBand = actual.bands[bandIndex];
+    const auto& expectedBand = expected.bands[bandIndex];
+    const bool matches =
+      actualBand.delayTimeMs == expectedBand.delayTimeMs
+      && actualBand.feedback.value == expectedBand.feedback.value
+      && actualBand.outputLevel == expectedBand.outputLevel
+      && actualBand.pan == expectedBand.pan
+      && actualBand.enabled == expectedBand.enabled
+      && actualBand.modulationRate.value == expectedBand.modulationRate.value
+      && actualBand.modulationDepth.value == expectedBand.modulationDepth.value
+      && actualBand.modulationPhase.value == expectedBand.modulationPhase.value;
+    if (!matches)
+    {
+      std::cerr << testName << ": band " << (bandIndex + 1) << " differs\n";
+      return false;
+    }
+  }
+
+  return true;
+}
 
 dsp::HoldsworthDelayConfiguration makeTailTestConfiguration() noexcept
 {
@@ -82,6 +119,102 @@ bool testWetMixMultiplierIsSeparateFromEngineGlobalWetLevel()
          && expectNear("integration mixer does not alter dry", outputLeft[0], 1.0)
          && expectNear(
            "integration mixer does not mutate engine configuration", engine.configuration().globalWetOutputLevel, 0.5);
+}
+
+bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
+{
+  dsp::HoldsworthDelayEngine engine(700.0);
+  engine.prepare(48000.0, 64);
+
+  const auto& selectedLead = integration::developmentDelayPresetDefinition(DevelopmentPreset::lead121);
+  const auto& selectedChorus = integration::developmentDelayPresetDefinition(DevelopmentPreset::chorus011);
+  if (&selectedLead != &dsp::presets::lead121UnmodulatedProvisional()
+      || &selectedChorus != &dsp::presets::chorus011ProvisionalV1())
+  {
+    std::cerr << "development preset selector did not return the existing preset definitions\n";
+    return false;
+  }
+
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
+  if (!expectConfigurationExact(
+        "Lead selection", engine.configuration(), selectedLead.dspConfiguration))
+    return false;
+
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  return expectConfigurationExact(
+           "Chorus selection", engine.configuration(), selectedChorus.dspConfiguration)
+         && integration::developmentDelayPresetFromIndex(99U) == DevelopmentPreset::lead121;
+}
+
+bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
+{
+  constexpr std::size_t seedSize = 20;
+  constexpr std::size_t tailSize = 20;
+  dsp::HoldsworthDelayEngine engine(700.0);
+  engine.prepare(1000.0, 64);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
+
+  std::array<double, seedSize> seedInput{};
+  seedInput.fill(1.0);
+  const std::array<double, seedSize> seedSilence{};
+  std::array<double, seedSize> seedWetLeft{};
+  std::array<double, seedSize> seedWetRight{};
+  Mixer::advanceDelay(engine, true, seedInput, seedSilence, seedWetLeft, seedWetRight);
+
+  beginAllocationTracking();
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  const std::size_t switchAllocations = endAllocationTracking();
+  if (switchAllocations != 0)
+  {
+    std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
+    return false;
+  }
+
+  // No new input follows the switch. Chorus band 1's shorter moving tap must
+  // still encounter the ones stored while Lead was selected. A reset inside
+  // preset application would make both output blocks completely silent.
+  const std::array<double, tailSize> silence{};
+  std::array<double, tailSize> wetLeft{};
+  std::array<double, tailSize> wetRight{};
+  Mixer::advanceDelay(engine, true, silence, silence, wetLeft, wetRight);
+  const bool preservedHistory =
+    std::any_of(wetLeft.begin(), wetLeft.end(), [](const double sample) { return sample != 0.0; })
+    || std::any_of(wetRight.begin(), wetRight.end(), [](const double sample) { return sample != 0.0; });
+
+  if (!preservedHistory)
+    std::cerr << "development preset switch implicitly cleared existing delay history\n";
+  return preservedHistory;
+}
+
+bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
+{
+  constexpr double integrationWetMultiplier = 0.17;
+  const std::array<double, 2> dry{1.0, -1.0};
+  const std::array<double, 2> wetLeft{2.0, 4.0};
+  const std::array<double, 2> wetRight{-2.0, 6.0};
+  std::array<double, 2> leadOutputLeft{};
+  std::array<double, 2> leadOutputRight{};
+  std::array<double, 2> chorusOutputLeft{};
+  std::array<double, 2> chorusOutputRight{};
+
+  dsp::HoldsworthDelayEngine engine(700.0);
+  engine.prepare(48000.0, dry.size());
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
+  Mixer::mixStereo(
+    dry, wetLeft, wetRight, integrationWetMultiplier, leadOutputLeft, leadOutputRight);
+
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  Mixer::mixStereo(
+    dry, wetLeft, wetRight, integrationWetMultiplier, chorusOutputLeft, chorusOutputRight);
+
+  return expectSamples("preset switch preserves integration wet mix left", chorusOutputLeft, leadOutputLeft, 0.0)
+         && expectSamples("preset switch preserves integration wet mix right", chorusOutputRight, leadOutputRight, 0.0)
+         && expectNear("Chorus preset retains its own DSP wet level",
+                       engine.configuration().globalWetOutputLevel,
+                       dsp::presets::chorus011ProvisionalV1().dspConfiguration.globalWetOutputLevel,
+                       0.0);
 }
 
 bool testBypassAdvancesTailWithoutCapturingDisabledInput()
@@ -174,6 +307,12 @@ constexpr std::array kTests{
   TestCase{"Live integration: mono output uses explicit 0.5 wet fold-down", testMonoMixUsesHalfStereoWetFoldDown},
   TestCase{"Live integration: wet mix is separate from engine global wet",
            testWetMixMultiplierIsSeparateFromEngineGlobalWetLevel},
+  TestCase{"Live integration: development preset selection applies existing configurations exactly",
+           testDevelopmentPresetSelectionAppliesExactExistingConfigurations},
+  TestCase{"Live integration: preset switching allocates nothing and preserves history",
+           testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory},
+  TestCase{"Live integration: preset switching leaves temporary wet mix independent",
+           testDevelopmentPresetSwitchLeavesWetMultiplierIndependent},
   TestCase{"Live integration: bypass advances tails without capturing input",
            testBypassAdvancesTailWithoutCapturingDisabledInput},
   TestCase{"Live integration: processing helpers perform no allocations", testLiveIntegrationHelpersDoNotAllocate},

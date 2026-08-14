@@ -81,6 +81,7 @@ enum ECtrlTags
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   kCtrlTagHoldsworthDelayEnabled,
   kCtrlTagHoldsworthDelayWetLevel,
+  kCtrlTagHoldsworthDelayPreset,
 #endif
   kNumCtrlTags
 };
@@ -94,6 +95,7 @@ enum EMsgTags
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   kMsgTagHoldsworthDelayEnabled,
   kMsgTagHoldsworthDelayWetLevel,
+  kMsgTagHoldsworthDelayPreset,
 #endif
   // The following tags are from DSP -> UI
   kMsgTagLoadFailed,
@@ -346,6 +348,11 @@ private:
   std::atomic<std::uint32_t> mHoldsworthDelayEnabled{0};
   // Fixed-point normalized value: 100'000 / 1'000'000 = 10%.
   std::atomic<std::uint32_t> mHoldsworthDelayMixLevel{100'000};
+  // Temporary preset index. Zero is the proven Lead 121 default.
+  std::atomic<std::uint32_t> mHoldsworthDelayRequestedPreset{0};
+  // Audio-thread-owned index of the configuration currently applied to the
+  // engine. Preset switches update configuration without clearing history.
+  std::uint32_t mHoldsworthDelayAppliedPreset = 0;
   double mHoldsworthDelayPreparedSampleRate = 0.0;
   int mHoldsworthDelayPreparedMaximumBlockSize = 0;
 #endif
