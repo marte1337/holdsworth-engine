@@ -521,6 +521,17 @@
 		D1A700012F00000400000803 /* HoldsworthDelayEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */; };
 		D1A700012F00000400000804 /* HoldsworthDelayPresets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000004 /* HoldsworthDelayPresets.cpp */; };
 		D1A700012F00000500000004 /* HoldsworthDelayLiveIntegrationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */; };
+		D1A700012F00000600000007 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
+		D1A700012F00000600000008 /* DelayModulatorTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000003 /* DelayModulatorTests.cpp */; };
+		D1A700012F00000600000009 /* DelayBandModulationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000004 /* DelayBandModulationTests.cpp */; };
+		D1A700012F00000600000101 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
+		D1A700012F00000600000201 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
+		D1A700012F00000600000301 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
+		D1A700012F00000600000401 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
+		D1A700012F00000600000501 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
+		D1A700012F00000600000601 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
+		D1A700012F00000600000701 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
+		D1A700012F00000600000801 /* DelayModulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000600000002 /* DelayModulator.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1103,6 +1114,11 @@
 		D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayEngineTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00000500000001 /* MonoDryStereoWetMixer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonoDryStereoWetMixer.h; sourceTree = "<group>"; };
 		D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayLiveIntegrationTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00000600000001 /* DelayModulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DelayModulator.h; sourceTree = "<group>"; };
+		D1A700012F00000600000002 /* DelayModulator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayModulator.cpp; sourceTree = "<group>"; };
+		D1A700012F00000600000003 /* DelayModulatorTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayModulatorTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00000600000004 /* DelayBandModulationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayBandModulationTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00000600000005 /* YamahaModulationSourceValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YamahaModulationSourceValues.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2062,6 +2078,7 @@
 			isa = PBXGroup;
 			children = (
 				D1A700012F00000100000006 /* dsp */,
+				D1A700012F00000600000006 /* presets */,
 				D1A700012F00000500000003 /* integration */,
 				D1A700012F00000100000007 /* tests */,
 			);
@@ -2074,6 +2091,8 @@
 			children = (
 				D1A700012F00000100000001 /* FractionalDelayLine.h */,
 				D1A700012F00000100000002 /* FractionalDelayLine.cpp */,
+				D1A700012F00000600000001 /* DelayModulator.h */,
+				D1A700012F00000600000002 /* DelayModulator.cpp */,
 				D1A700012F00000200000001 /* DelayBand.h */,
 				D1A700012F00000200000002 /* DelayBand.cpp */,
 				D1A700012F00000300000001 /* HoldsworthDelayEngine.h */,
@@ -2092,13 +2111,23 @@
 			path = integration;
 			sourceTree = "<group>";
 		};
+		D1A700012F00000600000006 /* presets */ = {
+			isa = PBXGroup;
+			children = (
+				D1A700012F00000600000005 /* YamahaModulationSourceValues.h */,
+			);
+			path = presets;
+			sourceTree = "<group>";
+		};
 		D1A700012F00000100000007 /* tests */ = {
 			isa = PBXGroup;
 			children = (
 				D1A700012F00000200000003 /* TestHarness.h */,
 				D1A700012F00000200000004 /* TestMain.cpp */,
 				D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */,
+				D1A700012F00000600000003 /* DelayModulatorTests.cpp */,
 				D1A700012F00000200000005 /* DelayBandTests.cpp */,
+				D1A700012F00000600000004 /* DelayBandModulationTests.cpp */,
 				D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */,
 				D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */,
 			);
@@ -2763,6 +2792,7 @@
 				4FB1F58C20E4B006004157C8 /* IGraphicsMac.mm in Sources */,
 				4F3862F22014BBEC0009F402 /* NeuralAmpModeler.cpp in Sources */,
 				D1A700012F00000400000101 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000101 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000400000102 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000103 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000400000104 /* HoldsworthDelayPresets.cpp in Sources */,
@@ -2815,6 +2845,7 @@
 				4F3EE1DD231438D000004786 /* IGraphicsMac.mm in Sources */,
 				4F3EE1DE231438D000004786 /* NeuralAmpModeler.cpp in Sources */,
 				D1A700012F00000400000201 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000201 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000400000202 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000203 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000400000204 /* HoldsworthDelayPresets.cpp in Sources */,
@@ -2843,6 +2874,7 @@
 				4F0D965C23099F6900BFDED0 /* IPlugProcessor.cpp in Sources */,
 				4F78BE1522E7406D00AD537E /* NeuralAmpModeler.cpp in Sources */,
 				D1A700012F00000400000301 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000301 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000400000302 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000303 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000400000304 /* HoldsworthDelayPresets.cpp in Sources */,
@@ -2893,6 +2925,7 @@
 				4F2FB1C62A0047430027AB66 /* get_dsp.cpp in Sources */,
 				4F3862F12014BBEC0009F402 /* NeuralAmpModeler.cpp in Sources */,
 				D1A700012F00000400000401 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000401 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000400000402 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000403 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000400000404 /* HoldsworthDelayPresets.cpp in Sources */,
@@ -2986,6 +3019,7 @@
 				4F7C4963255DDFC600DF7588 /* ITextEntryControl.cpp in Sources */,
 				4F3862F32014BBEC0009F402 /* NeuralAmpModeler.cpp in Sources */,
 				D1A700012F00000400000501 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000501 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000400000502 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000503 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000400000504 /* HoldsworthDelayPresets.cpp in Sources */,
@@ -3031,6 +3065,7 @@
 				4F78BE2D22E7412300AD537E /* IGraphicsNanoVG_src.m in Sources */,
 				4FC3EFCB2086C27800BD11FA /* NeuralAmpModeler.cpp in Sources */,
 				D1A700012F00000400000601 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000601 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000400000602 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000603 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000400000604 /* HoldsworthDelayPresets.cpp in Sources */,
@@ -3083,6 +3118,7 @@
 				4FB1F58920E4B004004157C8 /* IGraphicsMac.mm in Sources */,
 				4F3862EF2014BBEC0009F402 /* NeuralAmpModeler.cpp in Sources */,
 				D1A700012F00000400000701 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000701 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000400000702 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000703 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000400000704 /* HoldsworthDelayPresets.cpp in Sources */,
@@ -3110,6 +3146,7 @@
 				4FFBB90620863B0E00DDD0E7 /* IPlugTimer.cpp in Sources */,
 				4FFBB90720863B0E00DDD0E7 /* NeuralAmpModeler.cpp in Sources */,
 				D1A700012F00000400000801 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000801 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000400000802 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000803 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000400000804 /* HoldsworthDelayPresets.cpp in Sources */,
@@ -3172,12 +3209,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1A700012F00000100000008 /* FractionalDelayLine.cpp in Sources */,
+				D1A700012F00000600000007 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000200000006 /* DelayBand.cpp in Sources */,
 				D1A700012F00000300000006 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00000300000007 /* HoldsworthDelayPresets.cpp in Sources */,
 				D1A700012F00000200000007 /* TestMain.cpp in Sources */,
 				D1A700012F00000100000009 /* FractionalDelayLineTests.cpp in Sources */,
+				D1A700012F00000600000008 /* DelayModulatorTests.cpp in Sources */,
 				D1A700012F00000200000008 /* DelayBandTests.cpp in Sources */,
+				D1A700012F00000600000009 /* DelayBandModulationTests.cpp in Sources */,
 				D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */,
 				D1A700012F00000500000004 /* HoldsworthDelayLiveIntegrationTests.cpp in Sources */,
 			);

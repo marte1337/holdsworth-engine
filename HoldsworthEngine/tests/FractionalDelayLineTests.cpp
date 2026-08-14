@@ -3,6 +3,7 @@
 
 #include <array>
 #include <iostream>
+#include <limits>
 #include <span>
 #include <type_traits>
 
@@ -80,6 +81,87 @@ bool testSplitHistoryApiMatchesBlockProcessing()
   const std::array<double, 4> expected{0.0, 0.5, 1.5, 2.5};
   return expectSamples("split history expected", splitOutput, expected)
          && expectSamples("split history block equivalence", splitOutput, blockOutput);
+}
+
+bool testExplicitIntegerReadMatchesConfiguredRead()
+{
+  dsp::FractionalDelayLine delay(10.0);
+  delay.prepare(1000.0, 4);
+  delay.setDelayTimeMs(2.0);
+
+  for (const double sample : std::array{1.0, 4.0, 9.0, 16.0})
+    delay.pushSample(sample);
+
+  return expectNear("explicit integer read", delay.readDelayedSampleAtDelayTimeMs(2.0), 9.0)
+         && expectNear("explicit integer configured equivalence",
+                       delay.readDelayedSampleAtDelayTimeMs(2.0),
+                       delay.readDelayedSample());
+}
+
+bool testExplicitFractionalReadMatchesConfiguredRead()
+{
+  dsp::FractionalDelayLine delay(10.0);
+  delay.prepare(1000.0, 4);
+  delay.setDelayTimeMs(1.5);
+
+  for (const double sample : std::array{1.0, 3.0, 7.0, 15.0})
+    delay.pushSample(sample);
+
+  return expectNear("explicit fractional read", delay.readDelayedSampleAtDelayTimeMs(1.5), 11.0)
+         && expectNear("explicit fractional configured equivalence",
+                       delay.readDelayedSampleAtDelayTimeMs(1.5),
+                       delay.readDelayedSample());
+}
+
+bool testExplicitReadIsStatelessAndClampedToFeedbackRange()
+{
+  dsp::FractionalDelayLine delay(3.5);
+  delay.prepare(1000.0, 5);
+  delay.setDelayTimeMs(2.25);
+
+  for (const double sample : std::array{10.0, 20.0, 30.0, 40.0, 50.0})
+    delay.pushSample(sample);
+
+  const double configuredDelayTimeMs = delay.delayTimeMs();
+  const double firstFractionalRead = delay.readDelayedSampleAtDelayTimeMs(1.5);
+
+  const bool readsAreCorrect =
+    expectNear("explicit read minimum clamp", delay.readDelayedSampleAtDelayTimeMs(0.0), 50.0)
+    && expectNear("explicit read negative clamp", delay.readDelayedSampleAtDelayTimeMs(-100.0), 50.0)
+    && expectNear("explicit read non-finite clamp",
+                  delay.readDelayedSampleAtDelayTimeMs(std::numeric_limits<double>::quiet_NaN()),
+                  50.0)
+    && expectNear("explicit read maximum position", delay.readDelayedSampleAtDelayTimeMs(3.5), 25.0)
+    && expectNear("explicit read maximum clamp", delay.readDelayedSampleAtDelayTimeMs(100.0), 25.0)
+    && expectNear("explicit read does not advance history",
+                  delay.readDelayedSampleAtDelayTimeMs(1.5),
+                  firstFractionalRead);
+
+  return readsAreCorrect
+         && expectNear("explicit read preserves configured delay",
+                       delay.delayTimeMs(),
+                       configuredDelayTimeMs);
+}
+
+bool testExplicitReadDoesNotAllocate()
+{
+  dsp::FractionalDelayLine delay(1000.0);
+  delay.prepare(48000.0, 256);
+  delay.setDelayTimeMs(137.25);
+  delay.pushSample(1.0);
+
+  beginAllocationTracking();
+  const double output = delay.readDelayedSampleAtDelayTimeMs(137.5);
+  const std::size_t allocations = endAllocationTracking();
+
+  if (allocations != 0)
+  {
+    std::cerr << "real-time allocation: explicit FractionalDelayLine read made " << allocations
+              << " allocation(s)\n";
+    return false;
+  }
+
+  return expectNear("explicit read allocation test output", output, 0.0);
 }
 
 bool testResetClearsHistory()
@@ -189,6 +271,13 @@ constexpr std::array kTests{
   TestCase{"FractionalDelayLine: 1 sample returns the previous sample", testOneSampleDelayReturnsPreviousSample},
   TestCase{"FractionalDelayLine: fractional delay interpolates history", testFractionalDelayInterpolatesHistory},
   TestCase{"FractionalDelayLine: split history API matches block processing", testSplitHistoryApiMatchesBlockProcessing},
+  TestCase{"FractionalDelayLine: explicit integer read matches configured read",
+           testExplicitIntegerReadMatchesConfiguredRead},
+  TestCase{"FractionalDelayLine: explicit fractional read matches configured read",
+           testExplicitFractionalReadMatchesConfiguredRead},
+  TestCase{"FractionalDelayLine: explicit read is stateless and safely clamped",
+           testExplicitReadIsStatelessAndClampedToFeedbackRange},
+  TestCase{"FractionalDelayLine: explicit read performs no allocations", testExplicitReadDoesNotAllocate},
   TestCase{"FractionalDelayLine: reset clears history", testResetClearsHistory},
   TestCase{"FractionalDelayLine: exact in-place processing", testExactInPlaceProcessing},
   TestCase{"FractionalDelayLine: block partitioning is invariant", testBlockPartitioningDoesNotChangeOutput},

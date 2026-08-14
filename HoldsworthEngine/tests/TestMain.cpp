@@ -78,7 +78,9 @@ int main()
   using namespace holdsworth::test;
 
   const std::array suites{fractionalDelayLineTests(),
+                          delayModulatorTests(),
                           delayBandTests(),
+                          delayBandModulationTests(),
                           holdsworthDelayEngineTests(),
                           holdsworthDelayLiveIntegrationTests()};
   std::size_t totalTests = 0;

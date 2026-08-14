@@ -56,12 +56,25 @@ public:
   // after each read to advance the line.
   [[nodiscard]] Sample readDelayedSample() const noexcept;
 
+  // Reads from existing history at an explicit delay without changing the
+  // delay configured by setDelayTimeMs(). This split-history read is clamped
+  // to [one sample, maximumDelayTimeMs], so it never enters the zero-delay
+  // feed-forward region used by processBlock(). Non-finite values are treated
+  // as the one-sample minimum.
+  //
+  // The line must be prepared with capacity for at least one sample. Call
+  // pushSample() exactly once after each read to advance the line.
+  [[nodiscard]] Sample readDelayedSampleAtDelayTimeMs(double delayTimeMs) const noexcept;
+
   // Writes one sample and advances the delay line. This operation is valid at
   // every configured delay, including zero.
   void pushSample(Sample sample) noexcept;
 
 private:
   [[nodiscard]] std::size_t indexBehindWriteHead(std::size_t sampleOffset) const noexcept;
+  [[nodiscard]] Sample readHistoryAtDelayInSamples(double delayInSamples) const noexcept;
+  [[nodiscard]] Sample interpolateHistory(std::size_t wholeSampleDelay,
+                                          double fractionalDelay) const noexcept;
   void updateDelayInSamples() noexcept;
 
   const double mMaximumDelayTimeMs;

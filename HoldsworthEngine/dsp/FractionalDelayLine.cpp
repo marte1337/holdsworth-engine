@@ -72,16 +72,7 @@ void FractionalDelayLine::processBlock(const std::span<const Sample> input,
     const Sample currentInput = input[frame];
     mBuffer[mWriteIndex] = currentInput;
 
-    const Sample newerSample = mBuffer[indexBehindWriteHead(wholeSampleDelay)];
-    if (fractionalDelay == 0.0)
-    {
-      output[frame] = newerSample;
-    }
-    else
-    {
-      const Sample olderSample = mBuffer[indexBehindWriteHead(wholeSampleDelay + 1)];
-      output[frame] = newerSample + (olderSample - newerSample) * fractionalDelay;
-    }
+    output[frame] = interpolateHistory(wholeSampleDelay, fractionalDelay);
 
     ++mWriteIndex;
     if (mWriteIndex == mBuffer.size())
@@ -96,8 +87,43 @@ FractionalDelayLine::Sample FractionalDelayLine::readDelayedSample() const noexc
   if (!validRead)
     return 0.0;
 
-  const auto wholeSampleDelay = static_cast<std::size_t>(mDelayInSamples);
-  const double fractionalDelay = mDelayInSamples - static_cast<double>(wholeSampleDelay);
+  return readHistoryAtDelayInSamples(mDelayInSamples);
+}
+
+FractionalDelayLine::Sample
+FractionalDelayLine::readDelayedSampleAtDelayTimeMs(const double delayTimeMs) const noexcept
+{
+  const double maximumDelayInSamples =
+    mPrepared ? mMaximumDelayTimeMs * mSampleRate * 0.001 : 0.0;
+  const bool validRead = mPrepared && maximumDelayInSamples >= 1.0;
+  assert(validRead &&
+         "readDelayedSampleAtDelayTimeMs() requires prepared capacity for at least one sample");
+  if (!validRead)
+    return 0.0;
+
+  // This read is used by an external feedback loop, so the zero/sub-one-sample
+  // feed-forward region is deliberately unavailable. Clamp in sample units to
+  // make the lower bound exact despite millisecond conversion roundoff.
+  const double requestedDelayInSamples =
+    std::isfinite(delayTimeMs) ? delayTimeMs * mSampleRate * 0.001 : 1.0;
+  const double effectiveDelayInSamples =
+    std::clamp(requestedDelayInSamples, 1.0, maximumDelayInSamples);
+
+  return readHistoryAtDelayInSamples(effectiveDelayInSamples);
+}
+
+FractionalDelayLine::Sample
+FractionalDelayLine::readHistoryAtDelayInSamples(const double delayInSamples) const noexcept
+{
+  const auto wholeSampleDelay = static_cast<std::size_t>(delayInSamples);
+  const double fractionalDelay = delayInSamples - static_cast<double>(wholeSampleDelay);
+  return interpolateHistory(wholeSampleDelay, fractionalDelay);
+}
+
+FractionalDelayLine::Sample
+FractionalDelayLine::interpolateHistory(const std::size_t wholeSampleDelay,
+                                        const double fractionalDelay) const noexcept
+{
   const Sample newerSample = mBuffer[indexBehindWriteHead(wholeSampleDelay)];
 
   if (fractionalDelay == 0.0)

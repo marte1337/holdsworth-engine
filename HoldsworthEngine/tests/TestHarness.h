@@ -61,7 +61,9 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] std::size_t endAllocationTracking() noexcept;
 
 [[nodiscard]] TestSuite fractionalDelayLineTests() noexcept;
+[[nodiscard]] TestSuite delayModulatorTests() noexcept;
 [[nodiscard]] TestSuite delayBandTests() noexcept;
+[[nodiscard]] TestSuite delayBandModulationTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayEngineTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayLiveIntegrationTests() noexcept;
 

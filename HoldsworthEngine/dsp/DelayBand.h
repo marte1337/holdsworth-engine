@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DelayModulator.h"
 #include "FractionalDelayLine.h"
 
 #include <cstddef>
@@ -32,7 +33,8 @@ public:
   // parameter values.
   void prepare(double sampleRate, std::size_t maximumBlockSize);
 
-  // Clears delay and feedback history without changing parameters.
+  // Clears delay and feedback history and restores the configured modulation
+  // phase without changing parameters.
   void reset() noexcept;
 
   // The applied delay is clamped to [one sample, maximumDelayTimeMs] after
@@ -52,6 +54,14 @@ public:
   // right. Non-finite values are treated as center.
   void setPan(Sample pan) noexcept;
 
+  // Physical modulation parameters. These values are deliberately independent
+  // of any future Yamaha SPEED/DEPTH control mapping. Rate and depth are
+  // block-rate parameters; phase is normalized cycles in [0, 1) and becomes
+  // the phase restored by reset().
+  void setModulationRate(ModulationRateHz rate) noexcept;
+  void setModulationDepth(ModulationDepthMs depth) noexcept;
+  void setModulationPhase(ModulationPhaseCycles phase) noexcept;
+
   // A disabled band emits silence, rejects new external input, and continues
   // advancing its existing feedback state. It does not clear or freeze history.
   void setEnabled(bool enabled) noexcept { mEnabled = enabled; }
@@ -65,6 +75,38 @@ public:
   [[nodiscard]] Sample feedbackCoefficient() const noexcept { return mFeedbackCoefficient; }
   [[nodiscard]] Sample outputLevel() const noexcept { return mOutputLevel; }
   [[nodiscard]] Sample pan() const noexcept { return mPan; }
+  [[nodiscard]] ModulationRateHz requestedModulationRate() const noexcept
+  {
+    return mDelayModulator.requestedRate();
+  }
+  [[nodiscard]] ModulationRateHz effectiveModulationRate() const noexcept
+  {
+    return mDelayModulator.effectiveRate();
+  }
+  [[nodiscard]] ModulationDepthMs requestedModulationDepth() const noexcept
+  {
+    return mRequestedModulationDepth;
+  }
+  [[nodiscard]] ModulationDepthMs effectiveModulationDepth() const noexcept
+  {
+    return mEffectiveModulationDepth;
+  }
+  [[nodiscard]] ModulationPhaseCycles modulationPhase() const noexcept
+  {
+    return mDelayModulator.currentPhase();
+  }
+  [[nodiscard]] ModulationPhaseCycles modulationResetPhase() const noexcept
+  {
+    return mDelayModulator.resetPhase();
+  }
+
+  // Diagnostic value: the delay used by the most recently processed sample.
+  // Before processing after prepare/reset/a parameter change, it is the
+  // effective unmodulated base delay.
+  [[nodiscard]] Sample currentModulatedDelayTimeMs() const noexcept
+  {
+    return mCurrentModulatedDelayTimeMs;
+  }
   [[nodiscard]] bool isEnabled() const noexcept { return mEnabled; }
   [[nodiscard]] bool isPrepared() const noexcept { return mPrepared; }
 
@@ -79,11 +121,16 @@ public:
 
 private:
   void applyEffectiveDelayTime() noexcept;
+  void applyEffectiveModulationDepth() noexcept;
   void updatePanGains() noexcept;
 
   FractionalDelayLine mDelayLine;
+  DelayModulator mDelayModulator;
   Sample mRequestedDelayTimeMs = 0.0;
   Sample mMinimumDelayTimeMs = 0.0;
+  ModulationDepthMs mRequestedModulationDepth{};
+  ModulationDepthMs mEffectiveModulationDepth{};
+  Sample mCurrentModulatedDelayTimeMs = 0.0;
   Sample mFeedbackCoefficient = 0.0;
   Sample mOutputLevel = 1.0;
   Sample mPan = 0.0;
