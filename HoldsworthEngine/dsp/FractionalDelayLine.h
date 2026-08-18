@@ -66,6 +66,17 @@ public:
   // pushSample() exactly once after each read to advance the line.
   [[nodiscard]] Sample readDelayedSampleAtDelayTimeMs(double delayTimeMs) const noexcept;
 
+  // Reads from the same pre-write history state while also making the pending
+  // current sample available to 0/sub-one-sample positions. This is intended
+  // for an audible tap that must be evaluated before the sample is pushed:
+  //   0 samples: currentSample
+  //   1 sample:  previous pushed sample
+  //   fractional values: linear interpolation between those positions
+  // The explicit delay is clamped to [0, maximumDelayTimeMs]. Non-finite
+  // values are treated as zero. Neither configured delay nor history changes.
+  [[nodiscard]] Sample readDelayedSampleAtDelayTimeMs(double delayTimeMs,
+                                                      Sample currentSample) const noexcept;
+
   // Writes one sample and advances the delay line. This operation is valid at
   // every configured delay, including zero.
   void pushSample(Sample sample) noexcept;

@@ -3,6 +3,7 @@
 #include "HoldsworthDelayEngine.h"
 #include "../presets/YamahaFilterSourceValues.h"
 #include "../presets/YamahaModulationSourceValues.h"
+#include "../presets/YamahaTapSourceValues.h"
 
 #include <array>
 #include <optional>
@@ -83,6 +84,7 @@ struct DocumentedYamahaBandValues final
   std::optional<YamahaLevelControlValue> levelControlValue;
   std::optional<::holdsworth::presets::YamahaLowCutControlValue> lowCutControlValue;
   std::optional<::holdsworth::presets::YamahaHighCutControlValue> highCutControlValue;
+  std::optional<::holdsworth::presets::YamahaTapPercentValue> tapPercentValue;
 };
 
 struct DocumentedYamahaGlobalValues final

@@ -38,7 +38,8 @@ bool expectConfigurationExact(const std::string_view testName,
       && actualBand.enabled == expectedBand.enabled
       && actualBand.modulationRate.value == expectedBand.modulationRate.value
       && actualBand.modulationDepth.value == expectedBand.modulationDepth.value
-      && actualBand.modulationPhase.value == expectedBand.modulationPhase.value;
+      && actualBand.modulationPhase.value == expectedBand.modulationPhase.value
+      && actualBand.tapFraction.value == expectedBand.tapFraction.value;
     if (!matches)
     {
       std::cerr << testName << ": band " << (bandIndex + 1) << " differs\n";

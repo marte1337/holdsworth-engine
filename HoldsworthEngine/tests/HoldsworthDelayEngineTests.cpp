@@ -2,6 +2,7 @@
 #include "../dsp/HoldsworthDelayPresets.h"
 #include "../presets/YamahaFilterSourceValues.h"
 #include "../presets/YamahaModulationSourceValues.h"
+#include "../presets/YamahaTapSourceValues.h"
 #include "TestHarness.h"
 
 #include <algorithm>
@@ -46,6 +47,12 @@ static_assert(!std::is_convertible_v<holdsworth::presets::YamahaDocumentedFilter
                                      holdsworth::dsp::LowCutFrequencyHz>);
 static_assert(!std::is_convertible_v<holdsworth::presets::YamahaDocumentedFilterFrequencyHz,
                                      holdsworth::dsp::HighCutFrequencyHz>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaTapPercentValue,
+                                     holdsworth::dsp::TapFraction>);
+static_assert(!std::is_convertible_v<holdsworth::dsp::TapFraction,
+                                     holdsworth::presets::YamahaTapPercentValue>);
+static_assert(!std::is_convertible_v<double, holdsworth::dsp::TapFraction>);
+static_assert(!std::is_convertible_v<double, holdsworth::presets::YamahaTapPercentValue>);
 
 namespace holdsworth::test
 {
@@ -123,6 +130,8 @@ dsp::HoldsworthDelayConfiguration makeModulatedExerciseConfiguration() noexcept
     }
     configuration.bands[i].loopFilter.highCut =
       dsp::HighCutFrequencyHz{260.0 + 13.0 * static_cast<double>(i)};
+    configuration.bands[i].tapFraction =
+      dsp::TapFraction{0.15 + 0.1 * static_cast<double>(i)};
   }
 
   return configuration;
@@ -157,6 +166,8 @@ bool expectConfiguration(const std::string_view testName,
                                  expectedBand.loopFilter.lowCut)
         || !equalRequestedCutoff(actualBand.loopFilter.highCut,
                                  expectedBand.loopFilter.highCut)
+        || !nearlyEqual(actualBand.tapFraction.value,
+                        expectedBand.tapFraction.value)
         || actualBand.enabled != expectedBand.enabled)
     {
       std::cerr << testName << ": configuration mismatch at band " << (i + 1) << '\n';
@@ -213,7 +224,7 @@ bool testConfigurationReturnsRequestedLoopFilterValues()
                              requested);
 }
 
-bool testConfigurationReturnsRequestedModulationValues()
+bool testConfigurationReturnsRequestedModulationAndTapValues()
 {
   dsp::HoldsworthDelayEngine engine(20.0);
   auto requested = makeModulatedExerciseConfiguration();
@@ -249,6 +260,7 @@ bool testConfigurationReturnsRequestedModulationValues()
   replacement.modulationRate = dsp::ModulationRateHz{3.25};
   replacement.modulationDepth = dsp::ModulationDepthMs{7.5};
   replacement.modulationPhase = dsp::ModulationPhaseCycles{0.9375};
+  replacement.tapFraction = dsp::TapFraction{0.254};
   engine.setBandConfiguration(4, replacement);
   requested.bands[4] = replacement;
 
@@ -263,6 +275,7 @@ bool testSingleModulatedBandMatchesDelayBand()
 
   dsp::HoldsworthDelayConfiguration configuration;
   configureBand(configuration.bands[2], 1.5, 0.5, 0.6, 0.2, true, 37.5, 0.4, 0.137);
+  configuration.bands[2].tapFraction = dsp::TapFraction{0.4};
 
   dsp::HoldsworthDelayEngine engine(20.0);
   engine.prepare(1000.0, numSamples);
@@ -280,6 +293,7 @@ bool testSingleModulatedBandMatchesDelayBand()
   referenceBand.setModulationRate(dsp::ModulationRateHz{37.5});
   referenceBand.setModulationDepth(dsp::ModulationDepthMs{0.4});
   referenceBand.setModulationPhase(dsp::ModulationPhaseCycles{0.137});
+  referenceBand.setTapFraction(dsp::TapFraction{0.4});
   referenceBand.setEnabled(true);
   std::array<double, numSamples> referenceLeft{};
   std::array<double, numSamples> referenceRight{};
@@ -303,6 +317,7 @@ bool testSingleFilteredBandMatchesDelayBand()
   dsp::HoldsworthDelayConfiguration configuration;
   configureBand(configuration.bands[5], 2.5, 0.45, 0.7, -0.25);
   configuration.bands[5].loopFilter = loopFilter;
+  configuration.bands[5].tapFraction = dsp::TapFraction{0.6};
 
   dsp::HoldsworthDelayEngine engine(20.0);
   engine.prepare(1000.0, numSamples);
@@ -318,6 +333,7 @@ bool testSingleFilteredBandMatchesDelayBand()
   referenceBand.setOutputLevel(0.7);
   referenceBand.setPan(-0.25);
   referenceBand.setLoopFilterConfiguration(loopFilter);
+  referenceBand.setTapFraction(dsp::TapFraction{0.6});
   referenceBand.setEnabled(true);
   std::array<double, numSamples> referenceLeft{};
   std::array<double, numSamples> referenceRight{};
@@ -610,6 +626,8 @@ bool testProcessingDoesNotAllocate()
       dsp::LowCutFrequencyHz{40.0 + 10.0 * static_cast<double>(i)};
     configuration.bands[i].loopFilter.highCut =
       dsp::HighCutFrequencyHz{8000.0 - 250.0 * static_cast<double>(i)};
+    configuration.bands[i].tapFraction =
+      dsp::TapFraction{0.2 + 0.09 * static_cast<double>(i)};
   }
 
   std::array<double, blockSize> input{};
@@ -692,6 +710,8 @@ bool testLead121PresetDefinition()
         || !documented.highCutControlValue.has_value()
         || documented.highCutControlValue->state
              != presets::YamahaFilterControlState::off
+        || !documented.tapPercentValue.has_value()
+        || !nearlyEqual(documented.tapPercentValue->value, 100.0)
         || documented.speedControlValue.has_value()
         || documented.depthControlValue.has_value()
         || documented.delayTimeMs.has_value()
@@ -707,6 +727,7 @@ bool testLead121PresetDefinition()
         || !nearlyEqual(band.modulationPhase.value, 0.0)
         || band.loopFilter.lowCut.has_value()
         || band.loopFilter.highCut.has_value()
+        || !nearlyEqual(band.tapFraction.value, 1.0)
         || !band.enabled)
     {
       std::cerr << "Lead 121 preset mismatch at band " << (i + 1) << '\n';
@@ -864,6 +885,8 @@ bool testChorus011PresetDefinition()
         || !source.highCutControlValue.has_value()
         || source.highCutControlValue->state
              != presets::YamahaFilterControlState::off
+        || !source.tapPercentValue.has_value()
+        || !nearlyEqual(source.tapPercentValue->value, 100.0)
         || !source.delayTimeMs.has_value()
         || !source.panControlValue.has_value()
         || !source.levelControlValue.has_value()
@@ -883,6 +906,7 @@ bool testChorus011PresetDefinition()
         || !nearlyEqual(band.outputLevel, expectedDspLevel[i])
         || band.loopFilter.lowCut.has_value()
         || band.loopFilter.highCut.has_value()
+        || !nearlyEqual(band.tapFraction.value, 1.0)
         || !band.enabled)
     {
       std::cerr << "Chorus 011 source/DSP mismatch at band " << (i + 1) << '\n';
@@ -977,8 +1001,8 @@ bool testChorus011OutputIsBitExactWithLegacyMovingTopology()
 constexpr std::array kTests{
   TestCase{"HoldsworthDelayEngine: configuration preserves requested loop-filter values",
            testConfigurationReturnsRequestedLoopFilterValues},
-  TestCase{"HoldsworthDelayEngine: configuration preserves requested modulation values",
-           testConfigurationReturnsRequestedModulationValues},
+  TestCase{"HoldsworthDelayEngine: configuration preserves requested modulation and TAP values",
+           testConfigurationReturnsRequestedModulationAndTapValues},
   TestCase{"HoldsworthDelayEngine: one modulated band matches DelayBand",
            testSingleModulatedBandMatchesDelayBand},
   TestCase{"HoldsworthDelayEngine: one filtered band matches DelayBand",

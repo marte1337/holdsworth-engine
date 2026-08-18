@@ -96,6 +96,7 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] TestSuite delayBandTests() noexcept;
 [[nodiscard]] TestSuite delayBandModulationTests() noexcept;
 [[nodiscard]] TestSuite delayBandLoopFilterTests() noexcept;
+[[nodiscard]] TestSuite delayBandTapTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayEngineTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayLiveIntegrationTests() noexcept;
 

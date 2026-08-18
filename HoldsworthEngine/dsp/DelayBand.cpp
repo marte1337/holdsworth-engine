@@ -29,6 +29,14 @@ struct StereoGains
   return {std::cos(angle), std::sin(angle)};
 }
 
+// Provisional interpretation pending Magicstomp measurement: the audible tap
+// follows the instantaneous modulated loop length proportionally.
+[[nodiscard]] double proportionalTapDelayTimeMs(const TapFraction tapFraction,
+                                                const double loopDelayTimeMs) noexcept
+{
+  return tapFraction.value * loopDelayTimeMs;
+}
+
 } // namespace
 
 DelayBand::DelayBand(const double maximumDelayTimeMs)
@@ -53,6 +61,7 @@ void DelayBand::prepare(const double sampleRate, const std::size_t maximumBlockS
   mDelayLine.prepare(sampleRate, maximumBlockSize);
   mDelayModulator.prepare(sampleRate);
   mLoopFilter.prepare(sampleRate);
+  mTapOutputFilter.prepare(sampleRate);
   mMinimumDelayTimeMs = minimumDelayTimeMs;
   mMaximumBlockSize = maximumBlockSize;
   mPrepared = true;
@@ -64,6 +73,7 @@ void DelayBand::reset() noexcept
   mDelayLine.reset();
   mDelayModulator.reset();
   mLoopFilter.reset();
+  mTapOutputFilter.reset();
   mCurrentModulatedDelayTimeMs = delayTimeMs();
 }
 
@@ -115,6 +125,21 @@ void DelayBand::setLoopFilterConfiguration(
   const DelayLoopFilterConfiguration& configuration) noexcept
 {
   mLoopFilter.setConfiguration(configuration);
+  mTapOutputFilter.setConfiguration(configuration);
+}
+
+void DelayBand::setTapFraction(const TapFraction tapFraction) noexcept
+{
+  const Sample sanitizedValue = std::isfinite(tapFraction.value)
+                                  ? std::clamp(tapFraction.value, 0.0, 1.0)
+                                  : 1.0;
+  const bool isActivatingIndependentTap = mTapFraction.value == 1.0 && sanitizedValue < 1.0;
+  mTapFraction.value = sanitizedValue;
+
+  // The independent output-filter state is meaningful only while TAP is below
+  // 100%. Do not revive state left dormant during the exact legacy path.
+  if (isActivatingIndependentTap)
+    mTapOutputFilter.reset();
 }
 
 void DelayBand::processBlock(const std::span<const Sample> monoInput,
@@ -135,6 +160,68 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
 
   const Sample leftOutputGain = mOutputLevel * mLeftPanGain;
   const Sample rightOutputGain = mOutputLevel * mRightPanGain;
+
+  if (mTapFraction.value < 1.0)
+  {
+    const bool filtersAreBypassed = mLoopFilter.isBypassed();
+    const Sample baseDelayTimeMs = delayTimeMs();
+    const Sample maximumDelay = maximumDelayTimeMs();
+    const bool hasModulation = mEffectiveModulationDepth.value != 0.0;
+
+    for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+    {
+      // Both reads observe the same pre-write history. The full-loop read
+      // determines feedback; the current-sample-aware TAP read observes the
+      // pending lineInput at zero/sub-one-sample positions. Exactly one write
+      // advances the shared history after both reads are complete.
+      Sample instantaneousLoopDelayTimeMs = baseDelayTimeMs;
+      if (hasModulation)
+      {
+        const Sample modulationOffsetMs = mDelayModulator.nextOffsetMs();
+        instantaneousLoopDelayTimeMs =
+          std::clamp(baseDelayTimeMs + modulationOffsetMs,
+                     mMinimumDelayTimeMs,
+                     maximumDelay);
+      }
+
+      const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
+      const Sample rawLoopDelayed = hasModulation
+                                      ? mDelayLine.readDelayedSampleAtDelayTimeMs(
+                                          instantaneousLoopDelayTimeMs)
+                                      : mDelayLine.readDelayedSample();
+      const Sample filteredLoopDelayed = filtersAreBypassed
+                                           ? rawLoopDelayed
+                                           : mLoopFilter.processSample(rawLoopDelayed);
+      const Sample lineInput =
+        externalInput + mFeedbackCoefficient * filteredLoopDelayed;
+
+      const Sample tapDelayTimeMs =
+        proportionalTapDelayTimeMs(mTapFraction, instantaneousLoopDelayTimeMs);
+      const Sample rawTapDelayed =
+        mDelayLine.readDelayedSampleAtDelayTimeMs(tapDelayTimeMs, lineInput);
+      const Sample filteredTapDelayed = filtersAreBypassed
+                                          ? rawTapDelayed
+                                          : mTapOutputFilter.processSample(rawTapDelayed);
+
+      mDelayLine.pushSample(lineInput);
+      if (!hasModulation)
+        static_cast<void>(mDelayModulator.nextOffsetMs());
+      mCurrentModulatedDelayTimeMs = instantaneousLoopDelayTimeMs;
+
+      if (mEnabled)
+      {
+        wetLeft[frame] = filteredTapDelayed * leftOutputGain;
+        wetRight[frame] = filteredTapDelayed * rightOutputGain;
+      }
+      else
+      {
+        wetLeft[frame] = 0.0;
+        wetRight[frame] = 0.0;
+      }
+    }
+
+    return;
+  }
 
   // Both-filter-OFF is an explicit legacy path. Keep the established static
   // and moving recurrences operationally unchanged: no nominally-neutral

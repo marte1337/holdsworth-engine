@@ -164,6 +164,40 @@ bool testExplicitReadDoesNotAllocate()
   return expectNear("explicit read allocation test output", output, 0.0);
 }
 
+bool testCurrentSampleAwareReadSupportsZeroAndSubOneSamplePositions()
+{
+  dsp::FractionalDelayLine delay(10.0);
+  delay.prepare(1000.0, 4);
+  delay.setDelayTimeMs(3.0);
+  delay.pushSample(4.0);
+
+  const double configuredDelayTimeMs = delay.delayTimeMs();
+  const double currentSample = 12.0;
+
+  return expectNear("current-aware zero-sample read",
+                    delay.readDelayedSampleAtDelayTimeMs(0.0, currentSample),
+                    12.0)
+         && expectNear("current-aware quarter-sample read",
+                       delay.readDelayedSampleAtDelayTimeMs(0.25, currentSample),
+                       10.0)
+         && expectNear("current-aware half-sample read",
+                       delay.readDelayedSampleAtDelayTimeMs(0.5, currentSample),
+                       8.0)
+         && expectNear("current-aware one-sample read",
+                       delay.readDelayedSampleAtDelayTimeMs(1.0, currentSample),
+                       4.0)
+         && expectNear("current-aware non-finite read",
+                       delay.readDelayedSampleAtDelayTimeMs(
+                         std::numeric_limits<double>::quiet_NaN(), currentSample),
+                       currentSample)
+         && expectNear("current-aware read preserves configured delay",
+                       delay.delayTimeMs(),
+                       configuredDelayTimeMs)
+         && expectNear("current-aware read does not advance history",
+                       delay.readDelayedSampleAtDelayTimeMs(1.0, currentSample),
+                       4.0);
+}
+
 bool testResetClearsHistory()
 {
   dsp::FractionalDelayLine delay(10.0);
@@ -278,6 +312,8 @@ constexpr std::array kTests{
   TestCase{"FractionalDelayLine: explicit read is stateless and safely clamped",
            testExplicitReadIsStatelessAndClampedToFeedbackRange},
   TestCase{"FractionalDelayLine: explicit read performs no allocations", testExplicitReadDoesNotAllocate},
+  TestCase{"FractionalDelayLine: current-aware read supports zero and sub-one positions",
+           testCurrentSampleAwareReadSupportsZeroAndSubOneSamplePositions},
   TestCase{"FractionalDelayLine: reset clears history", testResetClearsHistory},
   TestCase{"FractionalDelayLine: exact in-place processing", testExactInPlaceProcessing},
   TestCase{"FractionalDelayLine: block partitioning is invariant", testBlockPartitioningDoesNotChangeOutput},

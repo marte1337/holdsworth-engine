@@ -112,6 +112,30 @@ FractionalDelayLine::readDelayedSampleAtDelayTimeMs(const double delayTimeMs) co
   return readHistoryAtDelayInSamples(effectiveDelayInSamples);
 }
 
+FractionalDelayLine::Sample FractionalDelayLine::readDelayedSampleAtDelayTimeMs(
+  const double delayTimeMs,
+  const Sample currentSample) const noexcept
+{
+  const bool validRead = mPrepared;
+  assert(validRead && "readDelayedSampleAtDelayTimeMs() requires a prepared delay line");
+  if (!validRead)
+    return 0.0;
+
+  const double maximumDelayInSamples = mMaximumDelayTimeMs * mSampleRate * 0.001;
+  const double requestedDelayInSamples =
+    std::isfinite(delayTimeMs) ? delayTimeMs * mSampleRate * 0.001 : 0.0;
+  const double effectiveDelayInSamples =
+    std::clamp(requestedDelayInSamples, 0.0, maximumDelayInSamples);
+
+  if (effectiveDelayInSamples < 1.0)
+  {
+    const Sample previousSample = mBuffer[indexBehindWriteHead(1)];
+    return currentSample + (previousSample - currentSample) * effectiveDelayInSamples;
+  }
+
+  return readHistoryAtDelayInSamples(effectiveDelayInSamples);
+}
+
 FractionalDelayLine::Sample
 FractionalDelayLine::readHistoryAtDelayInSamples(const double delayInSamples) const noexcept
 {

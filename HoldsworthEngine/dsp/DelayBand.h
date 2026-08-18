@@ -10,6 +10,19 @@
 namespace holdsworth::dsp
 {
 
+// Normalized audible observation position within the full delay loop. This is
+// a DSP value and deliberately has no implicit relationship to Yamaha's
+// documented TAP percentage control.
+struct TapFraction final
+{
+  explicit constexpr TapFraction(const double value = 1.0) noexcept
+  : value(value)
+  {
+  }
+
+  double value = 1.0;
+};
+
 // One mono-input delay voice with feedback and wet-only stereo output.
 //
 // prepare() performs all storage allocation. Once prepared, reset(), parameter
@@ -69,6 +82,11 @@ public:
   void setLoopFilterConfiguration(
     const DelayLoopFilterConfiguration& configuration) noexcept;
 
+  // Audible tap position normalized to [0, 1]. The feedback recurrence keeps
+  // using the full loop delay. A non-finite value selects the legacy-safe full
+  // loop position (1.0).
+  void setTapFraction(TapFraction tapFraction) noexcept;
+
   // A disabled band emits silence, rejects new external input, and continues
   // advancing its existing feedback state. It does not clear or freeze history.
   void setEnabled(bool enabled) noexcept { mEnabled = enabled; }
@@ -114,6 +132,7 @@ public:
   {
     return mLoopFilter.effectiveConfiguration();
   }
+  [[nodiscard]] TapFraction tapFraction() const noexcept { return mTapFraction; }
 
   // Diagnostic value: the delay used by the most recently processed sample.
   // Before processing after prepare/reset/a parameter change, it is the
@@ -142,6 +161,7 @@ private:
   FractionalDelayLine mDelayLine;
   DelayModulator mDelayModulator;
   DelayLoopFilter mLoopFilter;
+  DelayLoopFilter mTapOutputFilter;
   Sample mRequestedDelayTimeMs = 0.0;
   Sample mMinimumDelayTimeMs = 0.0;
   ModulationDepthMs mRequestedModulationDepth{};
@@ -152,6 +172,7 @@ private:
   Sample mPan = 0.0;
   Sample mLeftPanGain = 0.0;
   Sample mRightPanGain = 0.0;
+  TapFraction mTapFraction{};
   std::size_t mMaximumBlockSize = 0;
   bool mEnabled = true;
   bool mPrepared = false;

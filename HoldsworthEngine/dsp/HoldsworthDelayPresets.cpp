@@ -33,6 +33,7 @@ namespace
   values.feedbackControlValue = YamahaFeedbackControlValue{controlValue};
   values.lowCutControlValue = ::holdsworth::presets::YamahaLowCutControlValue::off();
   values.highCutControlValue = ::holdsworth::presets::YamahaHighCutControlValue::off();
+  values.tapPercentValue = ::holdsworth::presets::YamahaTapPercentValue{100.0};
   return values;
 }
 
@@ -52,7 +53,8 @@ namespace
           YamahaPanControlValue{panDirection, panMagnitude},
           YamahaLevelControlValue{levelControlValue},
           ::holdsworth::presets::YamahaLowCutControlValue::off(),
-          ::holdsworth::presets::YamahaHighCutControlValue::off()};
+          ::holdsworth::presets::YamahaHighCutControlValue::off(),
+          ::holdsworth::presets::YamahaTapPercentValue{100.0}};
 }
 
 const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{
