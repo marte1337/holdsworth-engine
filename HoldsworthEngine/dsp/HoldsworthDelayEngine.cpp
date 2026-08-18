@@ -86,6 +86,7 @@ void HoldsworthDelayEngine::setBandConfiguration(
   band.setModulationRate(configuration.modulationRate);
   band.setModulationDepth(configuration.modulationDepth);
   band.setModulationPhase(configuration.modulationPhase);
+  band.setLoopFilterConfiguration(configuration.loopFilter);
   band.setEnabled(configuration.enabled);
 }
 
@@ -104,6 +105,7 @@ HoldsworthDelayConfiguration HoldsworthDelayEngine::configuration() const noexce
     bandConfiguration.modulationRate = band.requestedModulationRate();
     bandConfiguration.modulationDepth = band.requestedModulationDepth();
     bandConfiguration.modulationPhase = band.modulationResetPhase();
+    bandConfiguration.loopFilter = band.requestedLoopFilterConfiguration();
   }
   result.globalWetOutputLevel = mGlobalWetOutputLevel;
   return result;

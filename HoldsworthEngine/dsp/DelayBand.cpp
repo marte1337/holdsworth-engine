@@ -52,6 +52,7 @@ void DelayBand::prepare(const double sampleRate, const std::size_t maximumBlockS
 
   mDelayLine.prepare(sampleRate, maximumBlockSize);
   mDelayModulator.prepare(sampleRate);
+  mLoopFilter.prepare(sampleRate);
   mMinimumDelayTimeMs = minimumDelayTimeMs;
   mMaximumBlockSize = maximumBlockSize;
   mPrepared = true;
@@ -62,6 +63,7 @@ void DelayBand::reset() noexcept
 {
   mDelayLine.reset();
   mDelayModulator.reset();
+  mLoopFilter.reset();
   mCurrentModulatedDelayTimeMs = delayTimeMs();
 }
 
@@ -109,6 +111,12 @@ void DelayBand::setModulationPhase(const ModulationPhaseCycles phase) noexcept
   mCurrentModulatedDelayTimeMs = delayTimeMs();
 }
 
+void DelayBand::setLoopFilterConfiguration(
+  const DelayLoopFilterConfiguration& configuration) noexcept
+{
+  mLoopFilter.setConfiguration(configuration);
+}
+
 void DelayBand::processBlock(const std::span<const Sample> monoInput,
                              const std::span<Sample> wetLeft,
                              const std::span<Sample> wetRight) noexcept
@@ -128,20 +136,60 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
   const Sample leftOutputGain = mOutputLevel * mLeftPanGain;
   const Sample rightOutputGain = mOutputLevel * mRightPanGain;
 
-  // Keep the established static-delay recurrence in a dedicated path. The
-  // modulator still advances once per sample, but no moving-read arithmetic
-  // can perturb a zero-depth band's samples.
-  if (mEffectiveModulationDepth.value == 0.0)
+  // Both-filter-OFF is an explicit legacy path. Keep the established static
+  // and moving recurrences operationally unchanged: no nominally-neutral
+  // filter is called and no extra arithmetic can perturb Lead 121, Chorus 011,
+  // or any other existing configuration.
+  if (mLoopFilter.isBypassed())
   {
+    // Keep the established static-delay recurrence in a dedicated path. The
+    // modulator still advances once per sample, but no moving-read arithmetic
+    // can perturb a zero-depth band's samples.
+    if (mEffectiveModulationDepth.value == 0.0)
+    {
+      for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+      {
+        // Capture input before writing either output so exact input/output
+        // aliasing remains safe.
+        const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
+        const Sample delayed = mDelayLine.readDelayedSample();
+        const Sample lineInput = externalInput + mFeedbackCoefficient * delayed;
+        mDelayLine.pushSample(lineInput);
+        static_cast<void>(mDelayModulator.nextOffsetMs());
+
+        if (mEnabled)
+        {
+          wetLeft[frame] = delayed * leftOutputGain;
+          wetRight[frame] = delayed * rightOutputGain;
+        }
+        else
+        {
+          wetLeft[frame] = 0.0;
+          wetRight[frame] = 0.0;
+        }
+      }
+
+      mCurrentModulatedDelayTimeMs = delayTimeMs();
+      return;
+    }
+
+    const Sample baseDelayTimeMs = delayTimeMs();
+    const Sample maximumDelay = maximumDelayTimeMs();
     for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
     {
-      // Capture input before writing either output so exact input/output
-      // aliasing remains safe.
+      // DelayModulator advances exactly once for every processed sample, across
+      // both block and enabled-state boundaries.
+      const Sample modulationOffsetMs = mDelayModulator.nextOffsetMs();
+      const Sample movingDelayTimeMs =
+        std::clamp(baseDelayTimeMs + modulationOffsetMs, mMinimumDelayTimeMs, maximumDelay);
+
+      // The moving tap is read before the conventional external feedback write:
+      // lineInput[n] = enabledInput[n] + feedback * delayed[n].
       const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
-      const Sample delayed = mDelayLine.readDelayedSample();
+      const Sample delayed = mDelayLine.readDelayedSampleAtDelayTimeMs(movingDelayTimeMs);
       const Sample lineInput = externalInput + mFeedbackCoefficient * delayed;
       mDelayLine.pushSample(lineInput);
-      static_cast<void>(mDelayModulator.nextOffsetMs());
+      mCurrentModulatedDelayTimeMs = movingDelayTimeMs;
 
       if (mEnabled)
       {
@@ -155,10 +203,40 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
       }
     }
 
+    return;
+  }
+
+  // Active-filter static recurrence. The first delayed sample is filtered
+  // before both output and feedback, so every repeat accumulates filtering.
+  if (mEffectiveModulationDepth.value == 0.0)
+  {
+    for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+    {
+      const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
+      const Sample rawDelayed = mDelayLine.readDelayedSample();
+      const Sample filteredDelayed = mLoopFilter.processSample(rawDelayed);
+      const Sample lineInput = externalInput + mFeedbackCoefficient * filteredDelayed;
+      mDelayLine.pushSample(lineInput);
+      static_cast<void>(mDelayModulator.nextOffsetMs());
+
+      if (mEnabled)
+      {
+        wetLeft[frame] = filteredDelayed * leftOutputGain;
+        wetRight[frame] = filteredDelayed * rightOutputGain;
+      }
+      else
+      {
+        wetLeft[frame] = 0.0;
+        wetRight[frame] = 0.0;
+      }
+    }
+
     mCurrentModulatedDelayTimeMs = delayTimeMs();
     return;
   }
 
+  // Active-filter moving recurrence. Preserve the established modulation/read
+  // order and insert filtering only between the delay read and feedback write.
   const Sample baseDelayTimeMs = delayTimeMs();
   const Sample maximumDelay = maximumDelayTimeMs();
   for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
@@ -172,15 +250,16 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
     // The moving tap is read before the conventional external feedback write:
     // lineInput[n] = enabledInput[n] + feedback * delayed[n].
     const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
-    const Sample delayed = mDelayLine.readDelayedSampleAtDelayTimeMs(movingDelayTimeMs);
-    const Sample lineInput = externalInput + mFeedbackCoefficient * delayed;
+    const Sample rawDelayed = mDelayLine.readDelayedSampleAtDelayTimeMs(movingDelayTimeMs);
+    const Sample filteredDelayed = mLoopFilter.processSample(rawDelayed);
+    const Sample lineInput = externalInput + mFeedbackCoefficient * filteredDelayed;
     mDelayLine.pushSample(lineInput);
     mCurrentModulatedDelayTimeMs = movingDelayTimeMs;
 
     if (mEnabled)
     {
-      wetLeft[frame] = delayed * leftOutputGain;
-      wetRight[frame] = delayed * rightOutputGain;
+      wetLeft[frame] = filteredDelayed * leftOutputGain;
+      wetRight[frame] = filteredDelayed * rightOutputGain;
     }
     else
     {

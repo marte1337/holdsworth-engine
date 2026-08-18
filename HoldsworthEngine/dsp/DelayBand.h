@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DelayLoopFilter.h"
 #include "DelayModulator.h"
 #include "FractionalDelayLine.h"
 
@@ -62,6 +63,12 @@ public:
   void setModulationDepth(ModulationDepthMs depth) noexcept;
   void setModulationPhase(ModulationPhaseCycles phase) noexcept;
 
+  // Physical loop-filter configuration. A disengaged cutoff means that
+  // section is explicitly OFF. These values have no relationship to Yamaha's
+  // documented LOW CUT/HIGH CUT controls.
+  void setLoopFilterConfiguration(
+    const DelayLoopFilterConfiguration& configuration) noexcept;
+
   // A disabled band emits silence, rejects new external input, and continues
   // advancing its existing feedback state. It does not clear or freeze history.
   void setEnabled(bool enabled) noexcept { mEnabled = enabled; }
@@ -99,6 +106,14 @@ public:
   {
     return mDelayModulator.resetPhase();
   }
+  [[nodiscard]] DelayLoopFilterConfiguration requestedLoopFilterConfiguration() const noexcept
+  {
+    return mLoopFilter.requestedConfiguration();
+  }
+  [[nodiscard]] DelayLoopFilterConfiguration effectiveLoopFilterConfiguration() const noexcept
+  {
+    return mLoopFilter.effectiveConfiguration();
+  }
 
   // Diagnostic value: the delay used by the most recently processed sample.
   // Before processing after prepare/reset/a parameter change, it is the
@@ -126,6 +141,7 @@ private:
 
   FractionalDelayLine mDelayLine;
   DelayModulator mDelayModulator;
+  DelayLoopFilter mLoopFilter;
   Sample mRequestedDelayTimeMs = 0.0;
   Sample mMinimumDelayTimeMs = 0.0;
   ModulationDepthMs mRequestedModulationDepth{};

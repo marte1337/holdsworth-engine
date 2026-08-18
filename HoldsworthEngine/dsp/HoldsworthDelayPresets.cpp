@@ -31,6 +31,8 @@ namespace
 {
   DocumentedYamahaBandValues values;
   values.feedbackControlValue = YamahaFeedbackControlValue{controlValue};
+  values.lowCutControlValue = ::holdsworth::presets::YamahaLowCutControlValue::off();
+  values.highCutControlValue = ::holdsworth::presets::YamahaHighCutControlValue::off();
   return values;
 }
 
@@ -48,7 +50,9 @@ namespace
           ::holdsworth::presets::YamahaDepthControlValue{depthControlValue},
           YamahaDelayTimeMs{delayTimeMs},
           YamahaPanControlValue{panDirection, panMagnitude},
-          YamahaLevelControlValue{levelControlValue}};
+          YamahaLevelControlValue{levelControlValue},
+          ::holdsworth::presets::YamahaLowCutControlValue::off(),
+          ::holdsworth::presets::YamahaHighCutControlValue::off()};
 }
 
 const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{

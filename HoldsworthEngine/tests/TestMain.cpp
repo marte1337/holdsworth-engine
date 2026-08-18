@@ -79,8 +79,10 @@ int main()
 
   const std::array suites{fractionalDelayLineTests(),
                           delayModulatorTests(),
+                          delayLoopFilterTests(),
                           delayBandTests(),
                           delayBandModulationTests(),
+                          delayBandLoopFilterTests(),
                           holdsworthDelayEngineTests(),
                           holdsworthDelayLiveIntegrationTests()};
   std::size_t totalTests = 0;

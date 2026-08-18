@@ -1,5 +1,6 @@
 #include "../dsp/HoldsworthDelayEngine.h"
 #include "../dsp/HoldsworthDelayPresets.h"
+#include "../presets/YamahaFilterSourceValues.h"
 #include "../presets/YamahaModulationSourceValues.h"
 #include "TestHarness.h"
 
@@ -8,6 +9,7 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <optional>
 #include <span>
 #include <string_view>
 #include <type_traits>
@@ -32,11 +34,33 @@ static_assert(!std::is_convertible_v<holdsworth::presets::YamahaDepthControlValu
                                      holdsworth::dsp::ModulationDepthMs>);
 static_assert(!std::is_convertible_v<holdsworth::dsp::ModulationDepthMs,
                                      holdsworth::presets::YamahaDepthControlValue>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaLowCutControlValue,
+                                     holdsworth::dsp::LowCutFrequencyHz>);
+static_assert(!std::is_convertible_v<holdsworth::dsp::LowCutFrequencyHz,
+                                     holdsworth::presets::YamahaLowCutControlValue>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaHighCutControlValue,
+                                     holdsworth::dsp::HighCutFrequencyHz>);
+static_assert(!std::is_convertible_v<holdsworth::dsp::HighCutFrequencyHz,
+                                     holdsworth::presets::YamahaHighCutControlValue>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaDocumentedFilterFrequencyHz,
+                                     holdsworth::dsp::LowCutFrequencyHz>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaDocumentedFilterFrequencyHz,
+                                     holdsworth::dsp::HighCutFrequencyHz>);
 
 namespace holdsworth::test
 {
 namespace
 {
+
+template <typename Cutoff>
+bool equalRequestedCutoff(const std::optional<Cutoff>& actual,
+                          const std::optional<Cutoff>& expected) noexcept
+{
+  if (actual.has_value() != expected.has_value())
+    return false;
+
+  return !actual.has_value() || nearlyEqual(actual->value, expected->value);
+}
 
 void configureBand(dsp::DelayBandConfiguration& band,
                    const double delayTimeMs,
@@ -92,6 +116,13 @@ dsp::HoldsworthDelayConfiguration makeModulatedExerciseConfiguration() noexcept
                   0.37 + 0.23 * static_cast<double>(i),
                   0.20 + 0.07 * static_cast<double>(i),
                   0.03125 + 0.101 * static_cast<double>(i));
+    if (i % 2 == 0)
+    {
+      configuration.bands[i].loopFilter.lowCut =
+        dsp::LowCutFrequencyHz{12.0 + 4.0 * static_cast<double>(i)};
+    }
+    configuration.bands[i].loopFilter.highCut =
+      dsp::HighCutFrequencyHz{260.0 + 13.0 * static_cast<double>(i)};
   }
 
   return configuration;
@@ -122,6 +153,10 @@ bool expectConfiguration(const std::string_view testName,
                         expectedBand.modulationDepth.value)
         || !nearlyEqual(actualBand.modulationPhase.value,
                         expectedBand.modulationPhase.value)
+        || !equalRequestedCutoff(actualBand.loopFilter.lowCut,
+                                 expectedBand.loopFilter.lowCut)
+        || !equalRequestedCutoff(actualBand.loopFilter.highCut,
+                                 expectedBand.loopFilter.highCut)
         || actualBand.enabled != expectedBand.enabled)
     {
       std::cerr << testName << ": configuration mismatch at band " << (i + 1) << '\n';
@@ -130,6 +165,52 @@ bool expectConfiguration(const std::string_view testName,
   }
 
   return true;
+}
+
+bool testConfigurationReturnsRequestedLoopFilterValues()
+{
+  dsp::HoldsworthDelayEngine engine(20.0);
+  auto requested = makeExerciseConfiguration();
+
+  requested.bands[0].loopFilter.lowCut = dsp::LowCutFrequencyHz{0.0001};
+  requested.bands[1].loopFilter.highCut = dsp::HighCutFrequencyHz{30000.0};
+  requested.bands[2].loopFilter.lowCut = dsp::LowCutFrequencyHz{5000.0};
+  requested.bands[2].loopFilter.highCut = dsp::HighCutFrequencyHz{1000.0};
+  requested.bands[3].loopFilter.lowCut = dsp::LowCutFrequencyHz{17.0};
+  requested.bands[4].loopFilter.highCut = dsp::HighCutFrequencyHz{211.0};
+  requested.bands[5].loopFilter.lowCut = dsp::LowCutFrequencyHz{31.0};
+  requested.bands[5].loopFilter.highCut = dsp::HighCutFrequencyHz{233.0};
+  requested.bands[6].loopFilter.lowCut = dsp::LowCutFrequencyHz{67.0};
+  requested.bands[7].loopFilter.highCut = dsp::HighCutFrequencyHz{307.0};
+
+  engine.applyConfiguration(requested);
+  if (!expectConfiguration("pre-prepare loop-filter configuration",
+                           engine.configuration(),
+                           requested))
+    return false;
+
+  // Several requested values are outside the effective technical range at
+  // 1 kHz. Engine state must still report the sanitized positive requests,
+  // including the deliberately overlapping 5 kHz low-cut / 1 kHz high-cut.
+  engine.prepare(1000.0, 8);
+  if (!expectConfiguration("sample-rate-independent requested loop filters",
+                           engine.configuration(),
+                           requested))
+    return false;
+
+  const std::array<double, 8> input{1.0, -0.5, 0.25, 0.0, 0.75, -0.25, 0.0, 0.0};
+  std::array<double, input.size()> left{};
+  std::array<double, input.size()> right{};
+  engine.processBlock(input, left, right);
+  if (!expectConfiguration("processing preserves requested loop filters",
+                           engine.configuration(),
+                           requested))
+    return false;
+
+  engine.prepare(96000.0, 8);
+  return expectConfiguration("sample-rate change preserves requested loop filters",
+                             engine.configuration(),
+                             requested);
 }
 
 bool testConfigurationReturnsRequestedModulationValues()
@@ -206,6 +287,44 @@ bool testSingleModulatedBandMatchesDelayBand()
 
   return expectSamples("single modulated-band engine left", engineLeft, referenceLeft, 0.0)
          && expectSamples("single modulated-band engine right", engineRight, referenceRight, 0.0);
+}
+
+bool testSingleFilteredBandMatchesDelayBand()
+{
+  constexpr std::size_t numSamples = 16;
+  constexpr std::array<double, numSamples> input{1.0, -0.5, 0.25, 0.0, 0.0, 0.0,
+                                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                                  0.0, 0.0, 0.0, 0.0};
+
+  dsp::DelayLoopFilterConfiguration loopFilter;
+  loopFilter.lowCut = dsp::LowCutFrequencyHz{50.0};
+  loopFilter.highCut = dsp::HighCutFrequencyHz{300.0};
+
+  dsp::HoldsworthDelayConfiguration configuration;
+  configureBand(configuration.bands[5], 2.5, 0.45, 0.7, -0.25);
+  configuration.bands[5].loopFilter = loopFilter;
+
+  dsp::HoldsworthDelayEngine engine(20.0);
+  engine.prepare(1000.0, numSamples);
+  engine.applyConfiguration(configuration);
+  std::array<double, numSamples> engineLeft{};
+  std::array<double, numSamples> engineRight{};
+  engine.processBlock(input, engineLeft, engineRight);
+
+  dsp::DelayBand referenceBand(20.0);
+  referenceBand.prepare(1000.0, numSamples);
+  referenceBand.setDelayTimeMs(2.5);
+  referenceBand.setFeedbackCoefficient(0.45);
+  referenceBand.setOutputLevel(0.7);
+  referenceBand.setPan(-0.25);
+  referenceBand.setLoopFilterConfiguration(loopFilter);
+  referenceBand.setEnabled(true);
+  std::array<double, numSamples> referenceLeft{};
+  std::array<double, numSamples> referenceRight{};
+  referenceBand.processBlock(input, referenceLeft, referenceRight);
+
+  return expectSamples("single filtered-band engine left", engineLeft, referenceLeft, 0.0)
+         && expectSamples("single filtered-band engine right", engineRight, referenceRight, 0.0);
 }
 
 bool testEightIndependentBandsAppearAtExpectedPositions()
@@ -484,23 +603,53 @@ bool testProcessingDoesNotAllocate()
   dsp::HoldsworthDelayEngine engine(700.0);
   engine.prepare(48000.0, blockSize);
 
-  engine.applyConfiguration(dsp::presets::chorus011ProvisionalV1().dspConfiguration);
+  auto configuration = dsp::presets::chorus011ProvisionalV1().dspConfiguration;
+  for (std::size_t i = 0; i < configuration.bands.size(); ++i)
+  {
+    configuration.bands[i].loopFilter.lowCut =
+      dsp::LowCutFrequencyHz{40.0 + 10.0 * static_cast<double>(i)};
+    configuration.bands[i].loopFilter.highCut =
+      dsp::HighCutFrequencyHz{8000.0 - 250.0 * static_cast<double>(i)};
+  }
 
   std::array<double, blockSize> input{};
   std::array<double, blockSize> left{};
   std::array<double, blockSize> right{};
 
   beginAllocationTracking();
+  engine.applyConfiguration(configuration);
   engine.processBlock(input, left, right);
   const std::size_t allocations = endAllocationTracking();
 
   if (allocations != 0)
   {
-    std::cerr << "real-time allocation: HoldsworthDelayEngine::processBlock made " << allocations
-              << " allocation(s)\n";
+    std::cerr << "real-time allocation: HoldsworthDelayEngine configuration/processing made "
+              << allocations << " allocation(s)\n";
     return false;
   }
   return true;
+}
+
+bool testYamahaFilterReferencePointsRemainSourceMetadata()
+{
+  const auto& lowCutReference = presets::kDocumentedLowCutControl10At1000Hz;
+  const auto& highCutReference = presets::kDocumentedHighCutControl10At1000Hz;
+
+  return lowCutReference.controlValue.state == presets::YamahaFilterControlState::numericValue
+         && expectNear("documented Yamaha low-cut control reference",
+                       lowCutReference.controlValue.value,
+                       10.0)
+         && expectNear("documented Yamaha low-cut frequency reference",
+                       lowCutReference.documentedFrequency.value,
+                       1000.0)
+         && highCutReference.controlValue.state
+              == presets::YamahaFilterControlState::numericValue
+         && expectNear("documented Yamaha high-cut control reference",
+                       highCutReference.controlValue.value,
+                       10.0)
+         && expectNear("documented Yamaha high-cut frequency reference",
+                       highCutReference.documentedFrequency.value,
+                       1000.0);
 }
 
 bool testLead121PresetDefinition()
@@ -537,6 +686,12 @@ bool testLead121PresetDefinition()
     const auto& documented = preset.documentedYamahaValues[i];
     const auto& source = documented.feedbackControlValue;
     if (!source.has_value()
+        || !documented.lowCutControlValue.has_value()
+        || documented.lowCutControlValue->state
+             != presets::YamahaFilterControlState::off
+        || !documented.highCutControlValue.has_value()
+        || documented.highCutControlValue->state
+             != presets::YamahaFilterControlState::off
         || documented.speedControlValue.has_value()
         || documented.depthControlValue.has_value()
         || documented.delayTimeMs.has_value()
@@ -550,6 +705,8 @@ bool testLead121PresetDefinition()
         || !nearlyEqual(band.modulationRate.value, 0.0)
         || !nearlyEqual(band.modulationDepth.value, 0.0)
         || !nearlyEqual(band.modulationPhase.value, 0.0)
+        || band.loopFilter.lowCut.has_value()
+        || band.loopFilter.highCut.has_value()
         || !band.enabled)
     {
       std::cerr << "Lead 121 preset mismatch at band " << (i + 1) << '\n';
@@ -624,8 +781,8 @@ bool testLead121OutputIsBitExactWithLegacyStaticTopology()
     referenceRight[frame] *= preset.dspConfiguration.globalWetOutputLevel;
   }
 
-  return expectSamples("Lead 121 legacy-static left", engineLeft, referenceLeft, 0.0)
-         && expectSamples("Lead 121 legacy-static right", engineRight, referenceRight, 0.0);
+  return expectSamplesBitExact("Lead 121 legacy-static left", engineLeft, referenceLeft)
+         && expectSamplesBitExact("Lead 121 legacy-static right", engineRight, referenceRight);
 }
 
 bool testChorus011PresetDefinition()
@@ -701,6 +858,12 @@ bool testChorus011PresetDefinition()
     if (!source.feedbackControlValue.has_value()
         || !source.speedControlValue.has_value()
         || !source.depthControlValue.has_value()
+        || !source.lowCutControlValue.has_value()
+        || source.lowCutControlValue->state
+             != presets::YamahaFilterControlState::off
+        || !source.highCutControlValue.has_value()
+        || source.highCutControlValue->state
+             != presets::YamahaFilterControlState::off
         || !source.delayTimeMs.has_value()
         || !source.panControlValue.has_value()
         || !source.levelControlValue.has_value()
@@ -718,6 +881,8 @@ bool testChorus011PresetDefinition()
         || !nearlyEqual(band.modulationPhase.value, expectedDspPhase[i])
         || !nearlyEqual(band.pan, expectedDspPan[i])
         || !nearlyEqual(band.outputLevel, expectedDspLevel[i])
+        || band.loopFilter.lowCut.has_value()
+        || band.loopFilter.highCut.has_value()
         || !band.enabled)
     {
       std::cerr << "Chorus 011 source/DSP mismatch at band " << (i + 1) << '\n';
@@ -741,11 +906,83 @@ bool testChorus011PresetDefinition()
                              preset.dspConfiguration);
 }
 
+bool testChorus011OutputIsBitExactWithLegacyMovingTopology()
+{
+  constexpr std::size_t numSamples = 5000;
+  constexpr double sampleRate = 1000.0;
+  constexpr double maximumDelayTimeMs = 700.0;
+
+  std::array<double, numSamples> input{};
+  for (std::size_t i = 0; i < input.size(); ++i)
+    input[i] = static_cast<double>(static_cast<int>((i * 31) % 53) - 26) * 0.0078125;
+
+  const auto& preset = dsp::presets::chorus011ProvisionalV1();
+  dsp::HoldsworthDelayEngine engine(maximumDelayTimeMs);
+  engine.prepare(sampleRate, numSamples);
+  engine.applyConfiguration(preset.dspConfiguration);
+  std::array<double, numSamples> engineLeft{};
+  std::array<double, numSamples> engineRight{};
+  engine.processBlock(input, engineLeft, engineRight);
+
+  // Configure the established per-band moving-delay topology directly, while
+  // deliberately never touching the newly added loop-filter API. Together
+  // with the independent DelayBand legacy-recurrence test, this locks the
+  // complete eight-band Chorus 011 output to its pre-filter behavior.
+  std::array<dsp::DelayBand, dsp::HoldsworthDelayEngine::kBandCount> referenceBands{
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs}};
+
+  std::array<double, numSamples> referenceLeft{};
+  std::array<double, numSamples> referenceRight{};
+  std::array<double, numSamples> bandLeft{};
+  std::array<double, numSamples> bandRight{};
+  for (std::size_t bandIndex = 0; bandIndex < referenceBands.size(); ++bandIndex)
+  {
+    auto& band = referenceBands[bandIndex];
+    const auto& configuration = preset.dspConfiguration.bands[bandIndex];
+    band.prepare(sampleRate, numSamples);
+    band.setDelayTimeMs(configuration.delayTimeMs);
+    band.setFeedbackCoefficient(configuration.feedback.value);
+    band.setOutputLevel(configuration.outputLevel);
+    band.setPan(configuration.pan);
+    band.setModulationRate(configuration.modulationRate);
+    band.setModulationDepth(configuration.modulationDepth);
+    band.setModulationPhase(configuration.modulationPhase);
+    band.setEnabled(configuration.enabled);
+    band.processBlock(input, bandLeft, bandRight);
+
+    for (std::size_t frame = 0; frame < numSamples; ++frame)
+    {
+      referenceLeft[frame] += bandLeft[frame];
+      referenceRight[frame] += bandRight[frame];
+    }
+  }
+
+  for (std::size_t frame = 0; frame < numSamples; ++frame)
+  {
+    referenceLeft[frame] *= preset.dspConfiguration.globalWetOutputLevel;
+    referenceRight[frame] *= preset.dspConfiguration.globalWetOutputLevel;
+  }
+
+  return expectSamplesBitExact("Chorus 011 legacy-moving left", engineLeft, referenceLeft)
+         && expectSamplesBitExact("Chorus 011 legacy-moving right", engineRight, referenceRight);
+}
+
 constexpr std::array kTests{
+  TestCase{"HoldsworthDelayEngine: configuration preserves requested loop-filter values",
+           testConfigurationReturnsRequestedLoopFilterValues},
   TestCase{"HoldsworthDelayEngine: configuration preserves requested modulation values",
            testConfigurationReturnsRequestedModulationValues},
   TestCase{"HoldsworthDelayEngine: one modulated band matches DelayBand",
            testSingleModulatedBandMatchesDelayBand},
+  TestCase{"HoldsworthDelayEngine: one filtered band matches DelayBand",
+           testSingleFilteredBandMatchesDelayBand},
   TestCase{"HoldsworthDelayEngine: eight bands have independent tap positions",
            testEightIndependentBandsAppearAtExpectedPositions},
   TestCase{"HoldsworthDelayEngine: eight bands sum without hidden normalization",
@@ -758,18 +995,22 @@ constexpr std::array kTests{
            testResetClearsAllHistoriesAndPreservesConfiguration},
   TestCase{"HoldsworthDelayEngine: reset restores deterministic modulation phases",
            testResetRestoresDeterministicModulationPhases},
-  TestCase{"HoldsworthDelayEngine: eight modulated bands are block-partition invariant",
+  TestCase{"HoldsworthDelayEngine: eight modulated/filtered bands are block-partition invariant",
            testBlockPartitioningDoesNotChangeOutput},
   TestCase{"HoldsworthDelayEngine: exact input/output aliasing", testExactInputOutputAliasing},
   TestCase{"HoldsworthDelayEngine: global wet clamps and sanitizes non-finite values",
            testGlobalWetLevelClampsAndSanitizes},
   TestCase{"HoldsworthDelayEngine: processing performs no allocations", testProcessingDoesNotAllocate},
+  TestCase{"Yamaha filter reference points remain typed source metadata",
+           testYamahaFilterReferencePointsRemainSourceMetadata},
   TestCase{"HoldsworthDelayEngine: Lead 121 source and DSP values remain separate",
            testLead121PresetDefinition},
   TestCase{"HoldsworthDelayEngine: Lead 121 output is bit-exact with legacy static topology",
            testLead121OutputIsBitExactWithLegacyStaticTopology},
   TestCase{"HoldsworthDelayEngine: Chorus 011 source and provisional DSP values remain separate",
            testChorus011PresetDefinition},
+  TestCase{"HoldsworthDelayEngine: Chorus 011 output is bit-exact with legacy moving topology",
+           testChorus011OutputIsBitExactWithLegacyMovingTopology},
 };
 
 } // namespace

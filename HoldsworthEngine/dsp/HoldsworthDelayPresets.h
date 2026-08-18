@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HoldsworthDelayEngine.h"
+#include "../presets/YamahaFilterSourceValues.h"
 #include "../presets/YamahaModulationSourceValues.h"
 
 #include <array>
@@ -80,6 +81,8 @@ struct DocumentedYamahaBandValues final
   std::optional<YamahaDelayTimeMs> delayTimeMs;
   std::optional<YamahaPanControlValue> panControlValue;
   std::optional<YamahaLevelControlValue> levelControlValue;
+  std::optional<::holdsworth::presets::YamahaLowCutControlValue> lowCutControlValue;
+  std::optional<::holdsworth::presets::YamahaHighCutControlValue> highCutControlValue;
 };
 
 struct DocumentedYamahaGlobalValues final

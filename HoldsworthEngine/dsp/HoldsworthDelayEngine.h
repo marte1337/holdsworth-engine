@@ -34,6 +34,7 @@ struct DelayBandConfiguration final
   ModulationRateHz modulationRate{};
   ModulationDepthMs modulationDepth{};
   ModulationPhaseCycles modulationPhase{};
+  DelayLoopFilterConfiguration loopFilter{};
 };
 
 struct HoldsworthDelayConfiguration final
@@ -81,9 +82,10 @@ public:
                             const DelayBandConfiguration& configuration) noexcept;
 
   // Returns sanitized requested parameter values. In particular, delay time,
-  // modulation rate, and modulation depth are not their sample-rate- or
-  // delay-boundary-dependent effective values. modulationPhase is the
-  // configured reset phase rather than the phase advancing during processing.
+  // modulation rate, modulation depth, and loop-filter cutoffs are not their
+  // sample-rate- or delay-boundary-dependent effective values. modulationPhase
+  // is the configured reset phase rather than the phase advancing during
+  // processing.
   [[nodiscard]] HoldsworthDelayConfiguration configuration() const noexcept;
 
   // Linear gain in [0, 1], applied after summing all eight wet band outputs.
