@@ -12,7 +12,8 @@ namespace
   const double outputLevel,
   const double modulationRateHz = 0.0,
   const double modulationDepthMs = 0.0,
-  const double modulationPhaseCycles = 0.0) noexcept
+  const double modulationPhaseCycles = 0.0,
+  const double tapFraction = 1.0) noexcept
 {
   DelayBandConfiguration configuration;
   configuration.delayTimeMs = delayTimeMs;
@@ -23,6 +24,7 @@ namespace
   configuration.modulationRate = ModulationRateHz{modulationRateHz};
   configuration.modulationDepth = ModulationDepthMs{modulationDepthMs};
   configuration.modulationPhase = ModulationPhaseCycles{modulationPhaseCycles};
+  configuration.tapFraction = TapFraction{tapFraction};
   return configuration;
 }
 
@@ -44,7 +46,8 @@ namespace
   const double depthControlValue,
   const YamahaPanDirection panDirection,
   const double panMagnitude,
-  const double levelControlValue) noexcept
+  const double levelControlValue,
+  const double tapPercentValue = 100.0) noexcept
 {
   return {YamahaFeedbackControlValue{feedbackControlValue},
           ::holdsworth::presets::YamahaSpeedControlValue{speedControlValue},
@@ -54,7 +57,7 @@ namespace
           YamahaLevelControlValue{levelControlValue},
           ::holdsworth::presets::YamahaLowCutControlValue::off(),
           ::holdsworth::presets::YamahaHighCutControlValue::off(),
-          ::holdsworth::presets::YamahaTapPercentValue{100.0}};
+          ::holdsworth::presets::YamahaTapPercentValue{tapPercentValue}};
 }
 
 const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{
@@ -81,6 +84,7 @@ const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{
   FeedbackCalibrationStatus::provisionalUnmeasured,
   461.0,
   {},
+  std::nullopt,
   std::nullopt};
 
 // The modulation rates, depths, phases, normalized feedback coefficients, and
@@ -115,7 +119,43 @@ const HoldsworthDelayPresetDefinition kChorus011ProvisionalV1{
    YamahaPanControlValue{YamahaPanDirection::center, 0.0}},
   ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
                                 YamahaModulationMappingStatus::unmeasured,
-                                ModulationPhaseRelationshipStatus::provisional}};
+                                ModulationPhaseRelationshipStatus::provisional},
+  std::nullopt};
+
+// Physical feedback, modulation, level, and phase values are unmeasured
+// audition seeds. They are stored literally and are not calculated from the
+// separately transcribed Yamaha source controls. TAP is likewise written
+// explicitly in both source-percent and normalized DSP domains.
+const HoldsworthDelayPresetDefinition kChorus031ProvisionalV1{
+  "chorus031-provisional-v1",
+  "Chorus 031 / Chorus 7 (Provisional v1)",
+  HoldsworthDelayConfiguration{
+    {makeBandConfiguration(31.5, 0.0, -1.0, 1.0, 0.66, 0.75, 0.0, 0.254),
+     makeBandConfiguration(22.6, 0.0, 1.0, 1.0, 0.87, 0.75, 0.5, 0.254),
+     makeBandConfiguration(40.0, 0.0, -1.0, 1.0, 0.52, 0.75, 0.25, 0.254),
+     makeBandConfiguration(48.0, 0.0, 1.0, 0.5, 0.78, 0.75, 0.75, 0.254),
+     makeBandConfiguration(250.0, 0.40, -1.0, 0.4, 0.46, 0.75, 0.125),
+     makeBandConfiguration(361.0, 0.32, 1.0, 0.4, 0.58, 0.75, 0.625),
+     makeBandConfiguration(300.0, 0.40, -1.0, 0.4, 0.38, 0.75, 0.375),
+     makeBandConfiguration(400.0, 0.24, 1.0, 0.4, 0.81, 0.75, 0.875)},
+    1.0},
+  {documentedChorusBand(31.5, 0.0, 4.5, 2.5, YamahaPanDirection::left, 10.0, 10.0, 25.4),
+   documentedChorusBand(22.6, 0.0, 5.2, 2.5, YamahaPanDirection::right, 10.0, 10.0, 25.4),
+   documentedChorusBand(40.0, 0.0, 4.0, 2.5, YamahaPanDirection::left, 10.0, 10.0, 25.4),
+   documentedChorusBand(48.0, 0.0, 4.9, 2.5, YamahaPanDirection::right, 10.0, 5.0, 25.4),
+   documentedChorusBand(250.0, 5.0, 3.8, 2.5, YamahaPanDirection::left, 10.0, 4.0),
+   documentedChorusBand(361.0, 4.0, 4.2, 2.5, YamahaPanDirection::right, 10.0, 4.0),
+   documentedChorusBand(300.0, 5.0, 3.5, 2.5, YamahaPanDirection::left, 10.0, 4.0),
+   documentedChorusBand(400.0, 3.0, 5.0, 2.5, YamahaPanDirection::right, 10.0, 4.0)},
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  400.75,
+  {YamahaLevelControlValue{8.0},
+   YamahaLevelControlValue{8.0},
+   YamahaPanControlValue{YamahaPanDirection::center, 0.0}},
+  ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
+                                YamahaModulationMappingStatus::unmeasured,
+                                ModulationPhaseRelationshipStatus::provisional},
+  DocumentedYamahaPresetIdentity{"031", "Chorus 7", "Allan Holdsworth"}};
 
 } // namespace
 
@@ -130,6 +170,11 @@ const HoldsworthDelayPresetDefinition& lead121UnmodulatedProvisional() noexcept
 const HoldsworthDelayPresetDefinition& chorus011ProvisionalV1() noexcept
 {
   return kChorus011ProvisionalV1;
+}
+
+const HoldsworthDelayPresetDefinition& chorus031ProvisionalV1() noexcept
+{
+  return kChorus031ProvisionalV1;
 }
 
 } // namespace presets

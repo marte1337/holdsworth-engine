@@ -114,6 +114,15 @@ struct ModulationCalibrationMetadata final
     ModulationPhaseRelationshipStatus::provisional;
 };
 
+// Literal identity fields from the Yamaha patch list. They are descriptive
+// source metadata and are not used by the DSP engine.
+struct DocumentedYamahaPresetIdentity final
+{
+  std::string_view presetNumber;
+  std::string_view presetName;
+  std::string_view author;
+};
+
 struct HoldsworthDelayPresetDefinition final
 {
   std::string_view id;
@@ -124,6 +133,7 @@ struct HoldsworthDelayPresetDefinition final
   double requiredMaximumDelayTimeMs = 0.0;
   DocumentedYamahaGlobalValues documentedYamahaGlobalValues;
   std::optional<ModulationCalibrationMetadata> modulationCalibration;
+  std::optional<DocumentedYamahaPresetIdentity> documentedYamahaPresetIdentity;
 };
 
 namespace presets
@@ -138,6 +148,11 @@ namespace presets
 // Chorus 011 source settings. No Yamaha SPEED, DEPTH, or feedback mapping is
 // implied by its physical values.
 [[nodiscard]] const HoldsworthDelayPresetDefinition& chorus011ProvisionalV1() noexcept;
+
+// A provisional physical-DSP audition configuration for Yamaha preset 031,
+// Chorus 7 by Allan Holdsworth. Its source values and DSP values remain
+// independent literal data; no Yamaha-control conversion is implied.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& chorus031ProvisionalV1() noexcept;
 
 } // namespace presets
 } // namespace holdsworth::dsp

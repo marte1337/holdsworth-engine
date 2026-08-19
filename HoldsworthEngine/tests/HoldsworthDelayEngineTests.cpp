@@ -688,6 +688,7 @@ bool testLead121PresetDefinition()
       || preset.displayName.empty()
       || preset.feedbackCalibration != dsp::FeedbackCalibrationStatus::provisionalUnmeasured
       || preset.modulationCalibration.has_value()
+      || preset.documentedYamahaPresetIdentity.has_value()
       || preset.documentedYamahaGlobalValues.effectLevel.has_value()
       || preset.documentedYamahaGlobalValues.directLevel.has_value()
       || preset.documentedYamahaGlobalValues.directPan.has_value()
@@ -846,6 +847,7 @@ bool testChorus011PresetDefinition()
   if (preset.id != "chorus011-provisional-v1"
       || preset.displayName.empty()
       || preset.feedbackCalibration != dsp::FeedbackCalibrationStatus::provisionalUnmeasured
+      || preset.documentedYamahaPresetIdentity.has_value()
       || !preset.modulationCalibration.has_value()
       || preset.modulationCalibration->speedMapping
            != dsp::YamahaModulationMappingStatus::unmeasured
@@ -998,6 +1000,211 @@ bool testChorus011OutputIsBitExactWithLegacyMovingTopology()
          && expectSamplesBitExact("Chorus 011 legacy-moving right", engineRight, referenceRight);
 }
 
+bool testChorus031PresetDefinition()
+{
+  const auto& preset = dsp::presets::chorus031ProvisionalV1();
+  constexpr std::array<double, 8> expectedDelayTimes{31.5, 22.6, 40.0, 48.0,
+                                                      250.0, 361.0, 300.0, 400.0};
+  constexpr std::array<double, 8> expectedYamahaFeedback{0.0, 0.0, 0.0, 0.0,
+                                                         5.0, 4.0, 5.0, 3.0};
+  constexpr std::array<double, 8> expectedYamahaTap{25.4, 25.4, 25.4, 25.4,
+                                                    100.0, 100.0, 100.0, 100.0};
+  constexpr std::array<double, 8> expectedYamahaSpeed{4.5, 5.2, 4.0, 4.9,
+                                                      3.8, 4.2, 3.5, 5.0};
+  constexpr std::array<double, 8> expectedYamahaDepth{2.5, 2.5, 2.5, 2.5,
+                                                      2.5, 2.5, 2.5, 2.5};
+  constexpr std::array<dsp::YamahaPanDirection, 8> expectedYamahaPan{
+    dsp::YamahaPanDirection::left,
+    dsp::YamahaPanDirection::right,
+    dsp::YamahaPanDirection::left,
+    dsp::YamahaPanDirection::right,
+    dsp::YamahaPanDirection::left,
+    dsp::YamahaPanDirection::right,
+    dsp::YamahaPanDirection::left,
+    dsp::YamahaPanDirection::right};
+  constexpr std::array<double, 8> expectedYamahaLevel{10.0, 10.0, 10.0, 5.0,
+                                                      4.0, 4.0, 4.0, 4.0};
+
+  constexpr std::array<double, 8> expectedDspFeedback{0.0, 0.0, 0.0, 0.0,
+                                                      0.40, 0.32, 0.40, 0.24};
+  constexpr std::array<double, 8> expectedDspRate{0.66, 0.87, 0.52, 0.78,
+                                                  0.46, 0.58, 0.38, 0.81};
+  constexpr std::array<double, 8> expectedDspDepth{0.75, 0.75, 0.75, 0.75,
+                                                   0.75, 0.75, 0.75, 0.75};
+  constexpr std::array<double, 8> expectedDspPhase{0.0, 0.5, 0.25, 0.75,
+                                                   0.125, 0.625, 0.375, 0.875};
+  constexpr std::array<double, 8> expectedDspTap{0.254, 0.254, 0.254, 0.254,
+                                                 1.0, 1.0, 1.0, 1.0};
+  constexpr std::array<double, 8> expectedDspPan{-1.0, 1.0, -1.0, 1.0,
+                                                  -1.0, 1.0, -1.0, 1.0};
+  constexpr std::array<double, 8> expectedDspLevel{1.0, 1.0, 1.0, 0.5,
+                                                    0.4, 0.4, 0.4, 0.4};
+
+  const auto& globals = preset.documentedYamahaGlobalValues;
+  const auto& identity = preset.documentedYamahaPresetIdentity;
+  if (preset.id != "chorus031-provisional-v1"
+      || preset.displayName != "Chorus 031 / Chorus 7 (Provisional v1)"
+      || !identity.has_value()
+      || identity->presetNumber != "031"
+      || identity->presetName != "Chorus 7"
+      || identity->author != "Allan Holdsworth"
+      || preset.feedbackCalibration != dsp::FeedbackCalibrationStatus::provisionalUnmeasured
+      || !preset.modulationCalibration.has_value()
+      || preset.modulationCalibration->speedMapping
+           != dsp::YamahaModulationMappingStatus::unmeasured
+      || preset.modulationCalibration->depthMapping
+           != dsp::YamahaModulationMappingStatus::unmeasured
+      || preset.modulationCalibration->phaseRelationship
+           != dsp::ModulationPhaseRelationshipStatus::provisional
+      || !expectNear("Chorus 031 required maximum delay",
+                     preset.requiredMaximumDelayTimeMs,
+                     400.75)
+      || !expectNear("Chorus 031 global wet level",
+                     preset.dspConfiguration.globalWetOutputLevel,
+                     1.0)
+      || !globals.effectLevel.has_value()
+      || !expectNear("Chorus 031 Yamaha effect level", globals.effectLevel->value, 8.0)
+      || !globals.directLevel.has_value()
+      || !expectNear("Chorus 031 Yamaha direct level", globals.directLevel->value, 8.0)
+      || !globals.directPan.has_value()
+      || globals.directPan->direction != dsp::YamahaPanDirection::center
+      || !expectNear("Chorus 031 Yamaha direct pan", globals.directPan->magnitude, 0.0))
+  {
+    std::cerr << "Chorus 031 preset/global metadata mismatch\n";
+    return false;
+  }
+
+  double requiredPhysicalCapacityMs = 0.0;
+  for (std::size_t i = 0; i < expectedDelayTimes.size(); ++i)
+  {
+    const auto& source = preset.documentedYamahaValues[i];
+    const auto& band = preset.dspConfiguration.bands[i];
+    if (!source.feedbackControlValue.has_value()
+        || !source.speedControlValue.has_value()
+        || !source.depthControlValue.has_value()
+        || !source.delayTimeMs.has_value()
+        || !source.panControlValue.has_value()
+        || !source.levelControlValue.has_value()
+        || !source.lowCutControlValue.has_value()
+        || source.lowCutControlValue->state != presets::YamahaFilterControlState::off
+        || !source.highCutControlValue.has_value()
+        || source.highCutControlValue->state != presets::YamahaFilterControlState::off
+        || !source.tapPercentValue.has_value()
+        || !nearlyEqual(source.feedbackControlValue->value, expectedYamahaFeedback[i])
+        || !nearlyEqual(source.speedControlValue->value, expectedYamahaSpeed[i])
+        || !nearlyEqual(source.depthControlValue->value, expectedYamahaDepth[i])
+        || !nearlyEqual(source.delayTimeMs->value, expectedDelayTimes[i])
+        || source.panControlValue->direction != expectedYamahaPan[i]
+        || !nearlyEqual(source.panControlValue->magnitude, 10.0)
+        || !nearlyEqual(source.levelControlValue->value, expectedYamahaLevel[i])
+        || !nearlyEqual(source.tapPercentValue->value, expectedYamahaTap[i])
+        || !nearlyEqual(band.delayTimeMs, expectedDelayTimes[i])
+        || !nearlyEqual(band.feedback.value, expectedDspFeedback[i])
+        || !nearlyEqual(band.modulationRate.value, expectedDspRate[i])
+        || !nearlyEqual(band.modulationDepth.value, expectedDspDepth[i])
+        || !nearlyEqual(band.modulationPhase.value, expectedDspPhase[i])
+        || !nearlyEqual(band.tapFraction.value, expectedDspTap[i])
+        || !nearlyEqual(band.pan, expectedDspPan[i])
+        || !nearlyEqual(band.outputLevel, expectedDspLevel[i])
+        || band.loopFilter.lowCut.has_value()
+        || band.loopFilter.highCut.has_value()
+        || !band.enabled)
+    {
+      std::cerr << "Chorus 031 source/DSP mismatch at band " << (i + 1) << '\n';
+      return false;
+    }
+
+    requiredPhysicalCapacityMs =
+      std::max(requiredPhysicalCapacityMs, band.delayTimeMs + band.modulationDepth.value);
+  }
+
+  if (!expectNear("Chorus 031 capacity includes positive modulation excursion",
+                  preset.requiredMaximumDelayTimeMs,
+                  requiredPhysicalCapacityMs))
+    return false;
+
+  dsp::HoldsworthDelayEngine engine(preset.requiredMaximumDelayTimeMs);
+  engine.applyConfiguration(preset.dspConfiguration);
+  engine.prepare(48000.0, 8);
+  return expectConfiguration("Chorus 031 configuration round-trip",
+                             engine.configuration(),
+                             preset.dspConfiguration);
+}
+
+bool testChorus031EarlyTapRenderingUsesExactFractionalPositions()
+{
+  constexpr std::size_t numSamples = 64;
+  constexpr double sampleRate = 1000.0;
+  const auto& preset = dsp::presets::chorus031ProvisionalV1();
+
+  for (std::size_t selectedBand = 0; selectedBand < 4; ++selectedBand)
+  {
+    auto configuration = preset.dspConfiguration;
+    for (auto& band : configuration.bands)
+      band.enabled = false;
+
+    auto& selected = configuration.bands[selectedBand];
+    selected.enabled = true;
+    selected.modulationDepth = dsp::ModulationDepthMs{0.0};
+
+    dsp::HoldsworthDelayEngine engine(preset.requiredMaximumDelayTimeMs);
+    engine.applyConfiguration(configuration);
+    engine.prepare(sampleRate, numSamples);
+
+    const std::array<double, numSamples> impulse{1.0};
+    std::array<double, numSamples> actualLeft{};
+    std::array<double, numSamples> actualRight{};
+    engine.processBlock(impulse, actualLeft, actualRight);
+
+    const double tapDelaySamples = selected.delayTimeMs * selected.tapFraction.value;
+    const std::size_t newerNeighbor = static_cast<std::size_t>(std::floor(tapDelaySamples));
+    const std::size_t olderNeighbor = newerNeighbor + 1;
+    const double olderWeight = tapDelaySamples - static_cast<double>(newerNeighbor);
+    const double newerWeight = 1.0 - olderWeight;
+
+    std::array<double, numSamples> expectedLeft{};
+    std::array<double, numSamples> expectedRight{};
+    auto& audibleChannel = selected.pan < 0.0 ? expectedLeft : expectedRight;
+    audibleChannel[newerNeighbor] = selected.outputLevel * newerWeight;
+    audibleChannel[olderNeighbor] = selected.outputLevel * olderWeight;
+
+    if (!expectSamples("Chorus 031 early TAP left", actualLeft, expectedLeft, 1.0e-12)
+        || !expectSamples("Chorus 031 early TAP right", actualRight, expectedRight, 1.0e-12)
+        || !(tapDelaySamples < selected.delayTimeMs))
+    {
+      std::cerr << "Chorus 031 TAP rendering mismatch at band " << (selectedBand + 1)
+                << " (tap delay " << tapDelaySamples << " samples)\n";
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool testChorus031ConfigurationAndProcessingDoNotAllocate()
+{
+  constexpr std::size_t blockSize = 256;
+  const auto& preset = dsp::presets::chorus031ProvisionalV1();
+  dsp::HoldsworthDelayEngine engine(preset.requiredMaximumDelayTimeMs);
+  engine.prepare(48000.0, blockSize);
+  std::array<double, blockSize> input{};
+  std::array<double, blockSize> left{};
+  std::array<double, blockSize> right{};
+
+  beginAllocationTracking();
+  engine.applyConfiguration(preset.dspConfiguration);
+  engine.processBlock(input, left, right);
+  const std::size_t allocations = endAllocationTracking();
+
+  if (allocations != 0)
+  {
+    std::cerr << "real-time allocation: Chorus 031 apply/process made "
+              << allocations << " allocation(s)\n";
+    return false;
+  }
+  return true;
+}
+
 constexpr std::array kTests{
   TestCase{"HoldsworthDelayEngine: configuration preserves requested loop-filter values",
            testConfigurationReturnsRequestedLoopFilterValues},
@@ -1035,6 +1242,12 @@ constexpr std::array kTests{
            testChorus011PresetDefinition},
   TestCase{"HoldsworthDelayEngine: Chorus 011 output is bit-exact with legacy moving topology",
            testChorus011OutputIsBitExactWithLegacyMovingTopology},
+  TestCase{"HoldsworthDelayEngine: Chorus 031 source and provisional DSP values remain separate",
+           testChorus031PresetDefinition},
+  TestCase{"HoldsworthDelayEngine: Chorus 031 renders 25.4% TAP at exact fractional positions",
+           testChorus031EarlyTapRenderingUsesExactFractionalPositions},
+  TestCase{"HoldsworthDelayEngine: Chorus 031 configuration and processing perform no allocations",
+           testChorus031ConfigurationAndProcessingDoNotAllocate},
 };
 
 } // namespace
