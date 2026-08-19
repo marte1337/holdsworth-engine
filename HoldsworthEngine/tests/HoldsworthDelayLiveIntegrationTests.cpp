@@ -128,9 +128,13 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
   engine.prepare(48000.0, 64);
 
   const auto& selectedLead = integration::developmentDelayPresetDefinition(DevelopmentPreset::lead121);
-  const auto& selectedChorus = integration::developmentDelayPresetDefinition(DevelopmentPreset::chorus011);
+  const auto& selectedChorus011 =
+    integration::developmentDelayPresetDefinition(DevelopmentPreset::chorus011);
+  const auto& selectedChorus031 =
+    integration::developmentDelayPresetDefinition(DevelopmentPreset::chorus031);
   if (&selectedLead != &dsp::presets::lead121UnmodulatedProvisional()
-      || &selectedChorus != &dsp::presets::chorus011ProvisionalV1())
+      || &selectedChorus011 != &dsp::presets::chorus011ProvisionalV1()
+      || &selectedChorus031 != &dsp::presets::chorus031ProvisionalV1())
   {
     std::cerr << "development preset selector did not return the existing preset definitions\n";
     return false;
@@ -142,9 +146,26 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
     return false;
 
   integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  if (!expectConfigurationExact(
+        "Chorus 011 selection", engine.configuration(), selectedChorus011.dspConfiguration))
+    return false;
+
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
   return expectConfigurationExact(
-           "Chorus selection", engine.configuration(), selectedChorus.dspConfiguration)
-         && integration::developmentDelayPresetFromIndex(99U) == DevelopmentPreset::lead121;
+           "Chorus 031 selection", engine.configuration(), selectedChorus031.dspConfiguration)
+         && integration::developmentDelayPresetFromIndex(99U) == DevelopmentPreset::lead121
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.0)
+              == DevelopmentPreset::lead121
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.5)
+              == DevelopmentPreset::chorus011
+         && integration::developmentDelayPresetFromNormalizedControlValue(1.0)
+              == DevelopmentPreset::chorus031
+         && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::lead121)
+              == 0.0
+         && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus011)
+              == 0.5
+         && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus031)
+              == 1.0;
 }
 
 bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
@@ -164,8 +185,10 @@ bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
 
   beginAllocationTracking();
   integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
   integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
   integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
   const std::size_t switchAllocations = endAllocationTracking();
   if (switchAllocations != 0)
   {
@@ -173,7 +196,7 @@ bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
     return false;
   }
 
-  // No new input follows the switch. Chorus band 1's shorter moving tap must
+  // No new input follows the switch. Chorus 031's early TAPs must
   // still encounter the ones stored while Lead was selected. A reset inside
   // preset application would make both output blocks completely silent.
   const std::array<double, tailSize> silence{};
@@ -199,6 +222,8 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   std::array<double, 2> leadOutputRight{};
   std::array<double, 2> chorusOutputLeft{};
   std::array<double, 2> chorusOutputRight{};
+  std::array<double, 2> chorus031OutputLeft{};
+  std::array<double, 2> chorus031OutputRight{};
 
   dsp::HoldsworthDelayEngine engine(700.0);
   engine.prepare(48000.0, dry.size());
@@ -210,11 +235,23 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   Mixer::mixStereo(
     dry, wetLeft, wetRight, integrationWetMultiplier, chorusOutputLeft, chorusOutputRight);
 
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
+  Mixer::mixStereo(
+    dry, wetLeft, wetRight, integrationWetMultiplier, chorus031OutputLeft, chorus031OutputRight);
+
   return expectSamples("preset switch preserves integration wet mix left", chorusOutputLeft, leadOutputLeft, 0.0)
          && expectSamples("preset switch preserves integration wet mix right", chorusOutputRight, leadOutputRight, 0.0)
-         && expectNear("Chorus preset retains its own DSP wet level",
+         && expectSamples("Chorus 031 switch preserves integration wet mix left",
+                          chorus031OutputLeft,
+                          leadOutputLeft,
+                          0.0)
+         && expectSamples("Chorus 031 switch preserves integration wet mix right",
+                          chorus031OutputRight,
+                          leadOutputRight,
+                          0.0)
+         && expectNear("Chorus 031 preset retains its own DSP wet level",
                        engine.configuration().globalWetOutputLevel,
-                       dsp::presets::chorus011ProvisionalV1().dspConfiguration.globalWetOutputLevel,
+                       dsp::presets::chorus031ProvisionalV1().dspConfiguration.globalWetOutputLevel,
                        0.0);
 }
 

@@ -646,11 +646,9 @@ void NeuralAmpModeler::OnUIOpen()
     decodeNormalizedControlValue(mHoldsworthDelayMixLevel.load(std::memory_order_relaxed)));
   SendControlValueFromDelegate(
     kCtrlTagHoldsworthDelayPreset,
-    holdsworth::integration::developmentDelayPresetFromIndex(
-      mHoldsworthDelayRequestedPreset.load(std::memory_order_relaxed))
-        == holdsworth::integration::DevelopmentDelayPreset::chorus011
-      ? 1.0
-      : 0.0);
+    holdsworth::integration::developmentDelayPresetNormalizedControlValue(
+      holdsworth::integration::developmentDelayPresetFromIndex(
+        mHoldsworthDelayRequestedPreset.load(std::memory_order_relaxed))));
 #endif
 
   if (mNAMPath.GetLength())
@@ -752,9 +750,7 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
       double normalizedValue = 0.0;
       std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
       const auto requestedPreset =
-        std::isfinite(normalizedValue) && normalizedValue >= 0.5
-          ? holdsworth::integration::DevelopmentDelayPreset::chorus011
-          : holdsworth::integration::DevelopmentDelayPreset::lead121;
+        holdsworth::integration::developmentDelayPresetFromNormalizedControlValue(normalizedValue);
       mHoldsworthDelayRequestedPreset.store(
         static_cast<std::uint32_t>(requestedPreset), std::memory_order_relaxed);
       return true;

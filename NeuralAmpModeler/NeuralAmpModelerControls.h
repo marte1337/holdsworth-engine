@@ -933,7 +933,7 @@ public:
       auto* presetControl = AddNamedChildControl(
         new IVTabSwitchControl(presetArea,
                                sendPreset,
-                               {"Lead 121", "Chorus 011"},
+                               {"Lead 121", "Chorus 011", "Chorus 031"},
                                "Holdsworth Delay Preset",
                                delayStyle),
         mControlNames.holdsworthDelayPreset,
