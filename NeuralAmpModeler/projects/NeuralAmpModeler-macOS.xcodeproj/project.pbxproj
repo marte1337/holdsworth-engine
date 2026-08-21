@@ -544,6 +544,7 @@
 		D1A700012F00000800000701 /* DelayLoopFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000800000002 /* DelayLoopFilter.cpp */; };
 		D1A700012F00000800000801 /* DelayLoopFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000800000002 /* DelayLoopFilter.cpp */; };
 		D1A700012F00000900000003 /* DelayBandTapTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000900000002 /* DelayBandTapTests.cpp */; };
+		D1A700012F00000A00000002 /* DelayBandSignalPolarityTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000A00000001 /* DelayBandSignalPolarityTests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1139,6 +1140,7 @@
 		D1A700012F00000800000005 /* DelayBandLoopFilterTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayBandLoopFilterTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00000900000001 /* YamahaTapSourceValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YamahaTapSourceValues.h; sourceTree = "<group>"; };
 		D1A700012F00000900000002 /* DelayBandTapTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayBandTapTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00000A00000001 /* DelayBandSignalPolarityTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayBandSignalPolarityTests.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2156,6 +2158,7 @@
 				D1A700012F00000600000004 /* DelayBandModulationTests.cpp */,
 				D1A700012F00000800000005 /* DelayBandLoopFilterTests.cpp */,
 				D1A700012F00000900000002 /* DelayBandTapTests.cpp */,
+				D1A700012F00000A00000001 /* DelayBandSignalPolarityTests.cpp */,
 				D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */,
 				D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */,
 			);
@@ -3258,6 +3261,7 @@
 				D1A700012F00000600000009 /* DelayBandModulationTests.cpp in Sources */,
 				D1A700012F00000800000009 /* DelayBandLoopFilterTests.cpp in Sources */,
 				D1A700012F00000900000003 /* DelayBandTapTests.cpp in Sources */,
+				D1A700012F00000A00000002 /* DelayBandSignalPolarityTests.cpp in Sources */,
 				D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */,
 				D1A700012F00000500000004 /* HoldsworthDelayLiveIntegrationTests.cpp in Sources */,
 			);

@@ -25,4 +25,22 @@ struct YamahaDepthControlValue final
   double value = 0.0;
 };
 
+// Exact Yamaha WAVE display choices. These source values deliberately do not
+// convert to the DSP's provisional ModulationWaveform representation.
+enum class YamahaWaveformControlValue
+{
+  sine,
+  triangle,
+  sawUp,
+  sawDown
+};
+
+// Exact Yamaha PHASE display choices for the delay sound. This is deliberately
+// unrelated to the oscillator's ModulationPhaseCycles configuration.
+enum class YamahaDelaySignalPhaseControlValue
+{
+  normal,
+  reverse
+};
+
 } // namespace holdsworth::presets

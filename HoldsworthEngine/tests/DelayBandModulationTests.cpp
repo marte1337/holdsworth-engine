@@ -73,6 +73,47 @@ bool testZeroDepthIsBitExactWithLegacyFeedbackAndPartitioning()
          && expectNear("zero-depth LFO still advances", band.modulationPhase().value, 0.897);
 }
 
+bool testZeroDepthWaveformsRemainBitExactWithSineStaticPath()
+{
+  constexpr std::size_t numSamples = 64;
+  std::array<double, numSamples> input{};
+  for (std::size_t index = 0; index < input.size(); ++index)
+    input[index] = static_cast<double>(static_cast<int>((index * 13) % 29) - 14) * 0.03125;
+
+  const auto configure = [](dsp::DelayBand& band, const dsp::ModulationWaveform waveform) {
+    band.setDelayTimeMs(7.25);
+    band.setFeedbackCoefficient(0.67);
+    band.setOutputLevel(0.83);
+    band.setPan(0.17);
+    band.setModulationRate(dsp::ModulationRateHz{19.25});
+    band.setModulationDepth(dsp::ModulationDepthMs{0.0});
+    band.setModulationPhase(dsp::ModulationPhaseCycles{0.137});
+    band.setModulationWaveform(waveform);
+    band.prepare(1000.0, numSamples);
+  };
+
+  dsp::DelayBand sine(20.0);
+  configure(sine, dsp::ModulationWaveform::sine);
+  std::array<double, numSamples> sineLeft{};
+  std::array<double, numSamples> sineRight{};
+  sine.processBlock(input, sineLeft, sineRight);
+
+  for (const dsp::ModulationWaveform waveform : std::array{dsp::ModulationWaveform::triangle,
+                                                           dsp::ModulationWaveform::sawUp,
+                                                           dsp::ModulationWaveform::sawDown})
+  {
+    dsp::DelayBand candidate(20.0);
+    configure(candidate, waveform);
+    std::array<double, numSamples> candidateLeft{};
+    std::array<double, numSamples> candidateRight{};
+    candidate.processBlock(input, candidateLeft, candidateRight);
+    if (!expectSamplesBitExact("zero-depth waveform legacy left", candidateLeft, sineLeft)
+        || !expectSamplesBitExact("zero-depth waveform legacy right", candidateRight, sineRight))
+      return false;
+  }
+  return true;
+}
+
 bool testZeroRateAndFixedPhaseProduceStaticOffset()
 {
   constexpr std::array<double, 12> input{
@@ -213,6 +254,7 @@ void configurePartitionBand(dsp::DelayBand& band, const std::size_t maximumBlock
   band.setModulationRate(dsp::ModulationRateHz{27.5});
   band.setModulationDepth(dsp::ModulationDepthMs{1.3});
   band.setModulationPhase(dsp::ModulationPhaseCycles{0.137});
+  band.setModulationWaveform(dsp::ModulationWaveform::sawUp);
   band.prepare(1000.0, maximumBlockSize);
 }
 
@@ -266,6 +308,7 @@ bool testResetRestoresHistoryAndConfiguredLfoPhase()
   band.setModulationRate(dsp::ModulationRateHz{41.25});
   band.setModulationDepth(dsp::ModulationDepthMs{1.7});
   band.setModulationPhase(dsp::ModulationPhaseCycles{0.213});
+  band.setModulationWaveform(dsp::ModulationWaveform::triangle);
   band.prepare(1000.0, numSamples);
 
   std::array<double, numSamples> firstLeft{};
@@ -358,6 +401,7 @@ bool testModulatedProcessingDoesNotAllocate()
   band.setModulationRate(dsp::ModulationRateHz{0.73});
   band.setModulationDepth(dsp::ModulationDepthMs{4.0});
   band.setModulationPhase(dsp::ModulationPhaseCycles{0.19});
+  band.setModulationWaveform(dsp::ModulationWaveform::sawDown);
   band.prepare(48000.0, 256);
 
   std::array<double, 256> input{};
@@ -380,6 +424,8 @@ bool testModulatedProcessingDoesNotAllocate()
 constexpr std::array kTests{
   TestCase{"DelayBand modulation: zero depth is bit-exact with legacy feedback",
            testZeroDepthIsBitExactWithLegacyFeedbackAndPartitioning},
+  TestCase{"DelayBand modulation: zero depth is bit-exact across waveforms",
+           testZeroDepthWaveformsRemainBitExactWithSineStaticPath},
   TestCase{"DelayBand modulation: zero rate and fixed phase produce a static offset",
            testZeroRateAndFixedPhaseProduceStaticOffset},
   TestCase{"DelayBand modulation: delay advances at sample rate", testModulationAdvancesPerSampleRatherThanPerBlock},

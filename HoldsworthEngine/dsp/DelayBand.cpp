@@ -121,6 +121,11 @@ void DelayBand::setModulationPhase(const ModulationPhaseCycles phase) noexcept
   mCurrentModulatedDelayTimeMs = delayTimeMs();
 }
 
+void DelayBand::setModulationWaveform(const ModulationWaveform waveform) noexcept
+{
+  mDelayModulator.setWaveform(waveform);
+}
+
 void DelayBand::setLoopFilterConfiguration(
   const DelayLoopFilterConfiguration& configuration) noexcept
 {
@@ -142,6 +147,19 @@ void DelayBand::setTapFraction(const TapFraction tapFraction) noexcept
     mTapOutputFilter.reset();
 }
 
+void DelayBand::setDelaySignalPolarity(const DelaySignalPolarity polarity) noexcept
+{
+  switch (polarity)
+  {
+    case DelaySignalPolarity::normal:
+    case DelaySignalPolarity::reverse:
+      mDelaySignalPolarity = polarity;
+      return;
+  }
+
+  mDelaySignalPolarity = DelaySignalPolarity::normal;
+}
+
 void DelayBand::processBlock(const std::span<const Sample> monoInput,
                              const std::span<Sample> wetLeft,
                              const std::span<Sample> wetRight) noexcept
@@ -160,6 +178,7 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
 
   const Sample leftOutputGain = mOutputLevel * mLeftPanGain;
   const Sample rightOutputGain = mOutputLevel * mRightPanGain;
+  const bool reversesAudibleDelay = mDelaySignalPolarity == DelaySignalPolarity::reverse;
 
   if (mTapFraction.value < 1.0)
   {
@@ -210,8 +229,18 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
 
       if (mEnabled)
       {
-        wetLeft[frame] = filteredTapDelayed * leftOutputGain;
-        wetRight[frame] = filteredTapDelayed * rightOutputGain;
+        if (!reversesAudibleDelay)
+        {
+          // Keep the established Normal output expressions verbatim.
+          wetLeft[frame] = filteredTapDelayed * leftOutputGain;
+          wetRight[frame] = filteredTapDelayed * rightOutputGain;
+        }
+        else
+        {
+          const Sample reversedTapDelayed = -filteredTapDelayed;
+          wetLeft[frame] = reversedTapDelayed * leftOutputGain;
+          wetRight[frame] = reversedTapDelayed * rightOutputGain;
+        }
       }
       else
       {
@@ -246,8 +275,18 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
 
         if (mEnabled)
         {
-          wetLeft[frame] = delayed * leftOutputGain;
-          wetRight[frame] = delayed * rightOutputGain;
+          if (!reversesAudibleDelay)
+          {
+            // Keep the established Normal output expressions verbatim.
+            wetLeft[frame] = delayed * leftOutputGain;
+            wetRight[frame] = delayed * rightOutputGain;
+          }
+          else
+          {
+            const Sample reversedDelayed = -delayed;
+            wetLeft[frame] = reversedDelayed * leftOutputGain;
+            wetRight[frame] = reversedDelayed * rightOutputGain;
+          }
         }
         else
         {
@@ -280,8 +319,18 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
 
       if (mEnabled)
       {
-        wetLeft[frame] = delayed * leftOutputGain;
-        wetRight[frame] = delayed * rightOutputGain;
+        if (!reversesAudibleDelay)
+        {
+          // Keep the established Normal output expressions verbatim.
+          wetLeft[frame] = delayed * leftOutputGain;
+          wetRight[frame] = delayed * rightOutputGain;
+        }
+        else
+        {
+          const Sample reversedDelayed = -delayed;
+          wetLeft[frame] = reversedDelayed * leftOutputGain;
+          wetRight[frame] = reversedDelayed * rightOutputGain;
+        }
       }
       else
       {
@@ -308,8 +357,18 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
 
       if (mEnabled)
       {
-        wetLeft[frame] = filteredDelayed * leftOutputGain;
-        wetRight[frame] = filteredDelayed * rightOutputGain;
+        if (!reversesAudibleDelay)
+        {
+          // Keep the established Normal output expressions verbatim.
+          wetLeft[frame] = filteredDelayed * leftOutputGain;
+          wetRight[frame] = filteredDelayed * rightOutputGain;
+        }
+        else
+        {
+          const Sample reversedFilteredDelayed = -filteredDelayed;
+          wetLeft[frame] = reversedFilteredDelayed * leftOutputGain;
+          wetRight[frame] = reversedFilteredDelayed * rightOutputGain;
+        }
       }
       else
       {
@@ -345,8 +404,18 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
 
     if (mEnabled)
     {
-      wetLeft[frame] = filteredDelayed * leftOutputGain;
-      wetRight[frame] = filteredDelayed * rightOutputGain;
+      if (!reversesAudibleDelay)
+      {
+        // Keep the established Normal output expressions verbatim.
+        wetLeft[frame] = filteredDelayed * leftOutputGain;
+        wetRight[frame] = filteredDelayed * rightOutputGain;
+      }
+      else
+      {
+        const Sample reversedFilteredDelayed = -filteredDelayed;
+        wetLeft[frame] = reversedFilteredDelayed * leftOutputGain;
+        wetRight[frame] = reversedFilteredDelayed * rightOutputGain;
+      }
     }
     else
     {

@@ -85,6 +85,9 @@ struct DocumentedYamahaBandValues final
   std::optional<::holdsworth::presets::YamahaLowCutControlValue> lowCutControlValue;
   std::optional<::holdsworth::presets::YamahaHighCutControlValue> highCutControlValue;
   std::optional<::holdsworth::presets::YamahaTapPercentValue> tapPercentValue;
+  std::optional<::holdsworth::presets::YamahaWaveformControlValue> waveformControlValue;
+  std::optional<::holdsworth::presets::YamahaDelaySignalPhaseControlValue>
+    delaySignalPhaseControlValue;
 };
 
 struct DocumentedYamahaGlobalValues final

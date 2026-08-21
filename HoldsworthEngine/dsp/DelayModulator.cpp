@@ -8,6 +8,40 @@
 
 namespace holdsworth::dsp
 {
+namespace
+{
+
+[[nodiscard]] double triangleAtPhase(const double phaseCycles) noexcept
+{
+  if (phaseCycles < 0.25)
+    return 4.0 * phaseCycles;
+  if (phaseCycles < 0.75)
+    return 2.0 - 4.0 * phaseCycles;
+  return 4.0 * phaseCycles - 4.0;
+}
+
+// Yamaha names Saw Up and Saw Down for their documented audible pitch
+// direction. Because decreasing delay time raises pitch, the provisional
+// delay-time offset ramp moves in the opposite numerical direction.
+[[nodiscard]] double provisionalNonSineValue(const ModulationWaveform waveform,
+                                              const double phaseCycles) noexcept
+{
+  switch (waveform)
+  {
+    case ModulationWaveform::triangle:
+      return triangleAtPhase(phaseCycles);
+    case ModulationWaveform::sawUp:
+      return 1.0 - 2.0 * phaseCycles;
+    case ModulationWaveform::sawDown:
+      return -1.0 + 2.0 * phaseCycles;
+    case ModulationWaveform::sine:
+      break;
+  }
+
+  return 0.0;
+}
+
+} // namespace
 
 void DelayModulator::prepare(const double sampleRate)
 {
@@ -41,6 +75,21 @@ void DelayModulator::setDepth(const ModulationDepthMs depth) noexcept
   mDepth.value = std::isfinite(depth.value) && depth.value >= 0.0 ? depth.value : 0.0;
 }
 
+void DelayModulator::setWaveform(const ModulationWaveform waveform) noexcept
+{
+  switch (waveform)
+  {
+    case ModulationWaveform::sine:
+    case ModulationWaveform::triangle:
+    case ModulationWaveform::sawUp:
+    case ModulationWaveform::sawDown:
+      mWaveform = waveform;
+      return;
+  }
+
+  mWaveform = ModulationWaveform::sine;
+}
+
 void DelayModulator::setPhase(const ModulationPhaseCycles phase) noexcept
 {
   mResetPhase.value = std::isfinite(phase.value) ? wrapPhase(phase.value) : 0.0;
@@ -54,7 +103,17 @@ DelayModulator::Sample DelayModulator::nextOffsetMs() noexcept
   if (!mPrepared)
     return 0.0;
 
-  const Sample offsetMs = mDepth.value * mSine;
+  // Preserve the established sine arithmetic and advancement verbatim. In
+  // particular, do not recompute sine from logical phase in the hot path.
+  if (mWaveform == ModulationWaveform::sine)
+  {
+    const Sample offsetMs = mDepth.value * mSine;
+    advanceOneSample();
+    return offsetMs;
+  }
+
+  const Sample offsetMs =
+    mDepth.value * provisionalNonSineValue(mWaveform, mPhaseCycles);
   advanceOneSample();
   return offsetMs;
 }

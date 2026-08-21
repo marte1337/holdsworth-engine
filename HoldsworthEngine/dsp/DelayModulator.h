@@ -37,8 +37,18 @@ struct ModulationPhaseCycles final
   double value = 0.0;
 };
 
-// A sine low-frequency oscillator that produces delay-time offsets in
-// milliseconds. It owns no buffers and performs no allocation.
+// Provisional mathematical modulation waveforms. Exact Yamaha waveform shape,
+// phase origin, and discontinuity treatment remain unmeasured.
+enum class ModulationWaveform
+{
+  sine,
+  triangle,
+  sawUp,
+  sawDown
+};
+
+// A low-frequency oscillator that produces delay-time offsets in milliseconds.
+// It owns no buffers and performs no allocation.
 //
 // mPhaseCycles is the sole authoritative time state. The sine/cosine pair is
 // only a hot-path cache of that phase: state-changing calls rebuild it from
@@ -70,6 +80,10 @@ public:
   void setRate(ModulationRateHz rate) noexcept;
   void setDepth(ModulationDepthMs depth) noexcept;
 
+  // Changes the waveform without changing or resetting oscillator time.
+  // Invalid enum representations select the legacy-safe sine waveform.
+  void setWaveform(ModulationWaveform waveform) noexcept;
+
   // Wraps a finite phase into [0, 1), immediately rephases the oscillator, and
   // establishes the phase subsequently restored by reset(). Non-finite values
   // are treated as zero.
@@ -78,6 +92,7 @@ public:
   [[nodiscard]] ModulationRateHz requestedRate() const noexcept { return mRequestedRate; }
   [[nodiscard]] ModulationRateHz effectiveRate() const noexcept { return mEffectiveRate; }
   [[nodiscard]] ModulationDepthMs depth() const noexcept { return mDepth; }
+  [[nodiscard]] ModulationWaveform waveform() const noexcept { return mWaveform; }
   [[nodiscard]] ModulationPhaseCycles resetPhase() const noexcept { return mResetPhase; }
 
   // Phase of the sample that the next nextOffsetMs() call will produce.
@@ -88,9 +103,9 @@ public:
 
   [[nodiscard]] bool isPrepared() const noexcept { return mPrepared; }
 
-  // Returns depth * sin(2*pi*currentPhase), then advances authoritative phase
-  // by one sample. The regular hot-path update uses quadrature rotation; only
-  // the periodic cache resynchronization evaluates sine and cosine.
+  // Returns depth * waveform(currentPhase), then advances authoritative phase
+  // by one sample. Sine retains the established quadrature-cache path; the
+  // provisional triangle and saw paths use only arithmetic and comparisons.
   [[nodiscard]] Sample nextOffsetMs() noexcept;
 
 private:
@@ -102,6 +117,7 @@ private:
   ModulationRateHz mRequestedRate{};
   ModulationRateHz mEffectiveRate{};
   ModulationDepthMs mDepth{};
+  ModulationWaveform mWaveform = ModulationWaveform::sine;
   ModulationPhaseCycles mResetPhase{};
   Sample mSampleRate = 0.0;
   Sample mPhaseCycles = 0.0;

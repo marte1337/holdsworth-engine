@@ -84,6 +84,7 @@ int main()
                           delayBandModulationTests(),
                           delayBandLoopFilterTests(),
                           delayBandTapTests(),
+                          delayBandSignalPolarityTests(),
                           holdsworthDelayEngineTests(),
                           holdsworthDelayLiveIntegrationTests()};
   std::size_t totalTests = 0;

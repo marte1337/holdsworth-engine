@@ -36,6 +36,8 @@ struct DelayBandConfiguration final
   ModulationPhaseCycles modulationPhase{};
   DelayLoopFilterConfiguration loopFilter{};
   TapFraction tapFraction{};
+  ModulationWaveform modulationWaveform = ModulationWaveform::sine;
+  DelaySignalPolarity delaySignalPolarity = DelaySignalPolarity::normal;
 };
 
 struct HoldsworthDelayConfiguration final
@@ -83,10 +85,11 @@ public:
                             const DelayBandConfiguration& configuration) noexcept;
 
   // Returns sanitized requested parameter values. In particular, delay time,
-  // modulation rate, modulation depth, loop-filter cutoffs, and TAP fraction
-  // are requested configuration values rather than sample-rate- or
-  // delay-boundary-dependent transient state. modulationPhase is the configured
-  // reset phase rather than the phase advancing during processing.
+  // modulation rate, modulation depth, loop-filter cutoffs, TAP fraction,
+  // waveform, and signal polarity are requested configuration values rather
+  // than sample-rate- or delay-boundary-dependent transient state.
+  // modulationPhase is the configured reset phase rather than the phase
+  // advancing during processing.
   [[nodiscard]] HoldsworthDelayConfiguration configuration() const noexcept;
 
   // Linear gain in [0, 1], applied after summing all eight wet band outputs.

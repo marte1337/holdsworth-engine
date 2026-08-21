@@ -53,6 +53,14 @@ static_assert(!std::is_convertible_v<holdsworth::dsp::TapFraction,
                                      holdsworth::presets::YamahaTapPercentValue>);
 static_assert(!std::is_convertible_v<double, holdsworth::dsp::TapFraction>);
 static_assert(!std::is_convertible_v<double, holdsworth::presets::YamahaTapPercentValue>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaWaveformControlValue,
+                                     holdsworth::dsp::ModulationWaveform>);
+static_assert(!std::is_convertible_v<holdsworth::dsp::ModulationWaveform,
+                                     holdsworth::presets::YamahaWaveformControlValue>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaDelaySignalPhaseControlValue,
+                                     holdsworth::dsp::DelaySignalPolarity>);
+static_assert(!std::is_convertible_v<holdsworth::dsp::DelaySignalPolarity,
+                                     holdsworth::presets::YamahaDelaySignalPhaseControlValue>);
 
 namespace holdsworth::test
 {
@@ -132,6 +140,13 @@ dsp::HoldsworthDelayConfiguration makeModulatedExerciseConfiguration() noexcept
       dsp::HighCutFrequencyHz{260.0 + 13.0 * static_cast<double>(i)};
     configuration.bands[i].tapFraction =
       dsp::TapFraction{0.15 + 0.1 * static_cast<double>(i)};
+    constexpr std::array waveforms{dsp::ModulationWaveform::sine,
+                                   dsp::ModulationWaveform::triangle,
+                                   dsp::ModulationWaveform::sawUp,
+                                   dsp::ModulationWaveform::sawDown};
+    configuration.bands[i].modulationWaveform = waveforms[i % waveforms.size()];
+    configuration.bands[i].delaySignalPolarity =
+      i % 2 == 0 ? dsp::DelaySignalPolarity::normal : dsp::DelaySignalPolarity::reverse;
   }
 
   return configuration;
@@ -168,6 +183,8 @@ bool expectConfiguration(const std::string_view testName,
                                  expectedBand.loopFilter.highCut)
         || !nearlyEqual(actualBand.tapFraction.value,
                         expectedBand.tapFraction.value)
+        || actualBand.modulationWaveform != expectedBand.modulationWaveform
+        || actualBand.delaySignalPolarity != expectedBand.delaySignalPolarity
         || actualBand.enabled != expectedBand.enabled)
     {
       std::cerr << testName << ": configuration mismatch at band " << (i + 1) << '\n';
@@ -276,6 +293,8 @@ bool testSingleModulatedBandMatchesDelayBand()
   dsp::HoldsworthDelayConfiguration configuration;
   configureBand(configuration.bands[2], 1.5, 0.5, 0.6, 0.2, true, 37.5, 0.4, 0.137);
   configuration.bands[2].tapFraction = dsp::TapFraction{0.4};
+  configuration.bands[2].modulationWaveform = dsp::ModulationWaveform::sawDown;
+  configuration.bands[2].delaySignalPolarity = dsp::DelaySignalPolarity::reverse;
 
   dsp::HoldsworthDelayEngine engine(20.0);
   engine.prepare(1000.0, numSamples);
@@ -293,7 +312,9 @@ bool testSingleModulatedBandMatchesDelayBand()
   referenceBand.setModulationRate(dsp::ModulationRateHz{37.5});
   referenceBand.setModulationDepth(dsp::ModulationDepthMs{0.4});
   referenceBand.setModulationPhase(dsp::ModulationPhaseCycles{0.137});
+  referenceBand.setModulationWaveform(dsp::ModulationWaveform::sawDown);
   referenceBand.setTapFraction(dsp::TapFraction{0.4});
+  referenceBand.setDelaySignalPolarity(dsp::DelaySignalPolarity::reverse);
   referenceBand.setEnabled(true);
   std::array<double, numSamples> referenceLeft{};
   std::array<double, numSamples> referenceRight{};
@@ -620,6 +641,10 @@ bool testProcessingDoesNotAllocate()
   engine.prepare(48000.0, blockSize);
 
   auto configuration = dsp::presets::chorus011ProvisionalV1().dspConfiguration;
+  constexpr std::array waveforms{dsp::ModulationWaveform::sine,
+                                 dsp::ModulationWaveform::triangle,
+                                 dsp::ModulationWaveform::sawUp,
+                                 dsp::ModulationWaveform::sawDown};
   for (std::size_t i = 0; i < configuration.bands.size(); ++i)
   {
     configuration.bands[i].loopFilter.lowCut =
@@ -628,6 +653,9 @@ bool testProcessingDoesNotAllocate()
       dsp::HighCutFrequencyHz{8000.0 - 250.0 * static_cast<double>(i)};
     configuration.bands[i].tapFraction =
       dsp::TapFraction{0.2 + 0.09 * static_cast<double>(i)};
+    configuration.bands[i].modulationWaveform = waveforms[i % waveforms.size()];
+    configuration.bands[i].delaySignalPolarity =
+      i % 2 == 0 ? dsp::DelaySignalPolarity::normal : dsp::DelaySignalPolarity::reverse;
   }
 
   std::array<double, blockSize> input{};
@@ -713,6 +741,12 @@ bool testLead121PresetDefinition()
              != presets::YamahaFilterControlState::off
         || !documented.tapPercentValue.has_value()
         || !nearlyEqual(documented.tapPercentValue->value, 100.0)
+        || !documented.waveformControlValue.has_value()
+        || *documented.waveformControlValue
+             != presets::YamahaWaveformControlValue::sine
+        || !documented.delaySignalPhaseControlValue.has_value()
+        || *documented.delaySignalPhaseControlValue
+             != presets::YamahaDelaySignalPhaseControlValue::normal
         || documented.speedControlValue.has_value()
         || documented.depthControlValue.has_value()
         || documented.delayTimeMs.has_value()
@@ -729,6 +763,8 @@ bool testLead121PresetDefinition()
         || band.loopFilter.lowCut.has_value()
         || band.loopFilter.highCut.has_value()
         || !nearlyEqual(band.tapFraction.value, 1.0)
+        || band.modulationWaveform != dsp::ModulationWaveform::sine
+        || band.delaySignalPolarity != dsp::DelaySignalPolarity::normal
         || !band.enabled)
     {
       std::cerr << "Lead 121 preset mismatch at band " << (i + 1) << '\n';
@@ -889,6 +925,11 @@ bool testChorus011PresetDefinition()
              != presets::YamahaFilterControlState::off
         || !source.tapPercentValue.has_value()
         || !nearlyEqual(source.tapPercentValue->value, 100.0)
+        || !source.waveformControlValue.has_value()
+        || *source.waveformControlValue != presets::YamahaWaveformControlValue::sine
+        || !source.delaySignalPhaseControlValue.has_value()
+        || *source.delaySignalPhaseControlValue
+             != presets::YamahaDelaySignalPhaseControlValue::normal
         || !source.delayTimeMs.has_value()
         || !source.panControlValue.has_value()
         || !source.levelControlValue.has_value()
@@ -909,6 +950,8 @@ bool testChorus011PresetDefinition()
         || band.loopFilter.lowCut.has_value()
         || band.loopFilter.highCut.has_value()
         || !nearlyEqual(band.tapFraction.value, 1.0)
+        || band.modulationWaveform != dsp::ModulationWaveform::sine
+        || band.delaySignalPolarity != dsp::DelaySignalPolarity::normal
         || !band.enabled)
     {
       std::cerr << "Chorus 011 source/DSP mismatch at band " << (i + 1) << '\n';
@@ -1090,6 +1133,11 @@ bool testChorus031PresetDefinition()
         || !source.highCutControlValue.has_value()
         || source.highCutControlValue->state != presets::YamahaFilterControlState::off
         || !source.tapPercentValue.has_value()
+        || !source.waveformControlValue.has_value()
+        || *source.waveformControlValue != presets::YamahaWaveformControlValue::sine
+        || !source.delaySignalPhaseControlValue.has_value()
+        || *source.delaySignalPhaseControlValue
+             != presets::YamahaDelaySignalPhaseControlValue::normal
         || !nearlyEqual(source.feedbackControlValue->value, expectedYamahaFeedback[i])
         || !nearlyEqual(source.speedControlValue->value, expectedYamahaSpeed[i])
         || !nearlyEqual(source.depthControlValue->value, expectedYamahaDepth[i])
@@ -1108,6 +1156,8 @@ bool testChorus031PresetDefinition()
         || !nearlyEqual(band.outputLevel, expectedDspLevel[i])
         || band.loopFilter.lowCut.has_value()
         || band.loopFilter.highCut.has_value()
+        || band.modulationWaveform != dsp::ModulationWaveform::sine
+        || band.delaySignalPolarity != dsp::DelaySignalPolarity::normal
         || !band.enabled)
     {
       std::cerr << "Chorus 031 source/DSP mismatch at band " << (i + 1) << '\n';
@@ -1129,6 +1179,74 @@ bool testChorus031PresetDefinition()
   return expectConfiguration("Chorus 031 configuration round-trip",
                              engine.configuration(),
                              preset.dspConfiguration);
+}
+
+bool testChorus031OutputIsBitExactWithLegacySineNormalTopology()
+{
+  constexpr std::size_t numSamples = 2048;
+  constexpr double sampleRate = 1000.0;
+  constexpr double maximumDelayTimeMs = 700.0;
+
+  std::array<double, numSamples> input{};
+  for (std::size_t frame = 0; frame < input.size(); ++frame)
+    input[frame] = static_cast<double>(static_cast<int>((frame * 37) % 61) - 30) * 0.00625;
+
+  const auto& preset = dsp::presets::chorus031ProvisionalV1();
+  dsp::HoldsworthDelayEngine engine(maximumDelayTimeMs);
+  engine.prepare(sampleRate, numSamples);
+  engine.applyConfiguration(preset.dspConfiguration);
+  std::array<double, numSamples> engineLeft{};
+  std::array<double, numSamples> engineRight{};
+  engine.processBlock(input, engineLeft, engineRight);
+
+  std::array<dsp::DelayBand, dsp::HoldsworthDelayEngine::kBandCount> referenceBands{
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs},
+    dsp::DelayBand{maximumDelayTimeMs}};
+
+  std::array<double, numSamples> referenceLeft{};
+  std::array<double, numSamples> referenceRight{};
+  std::array<double, numSamples> bandLeft{};
+  std::array<double, numSamples> bandRight{};
+  for (std::size_t bandIndex = 0; bandIndex < referenceBands.size(); ++bandIndex)
+  {
+    auto& band = referenceBands[bandIndex];
+    const auto& configuration = preset.dspConfiguration.bands[bandIndex];
+    band.prepare(sampleRate, numSamples);
+    band.setDelayTimeMs(configuration.delayTimeMs);
+    band.setFeedbackCoefficient(configuration.feedback.value);
+    band.setOutputLevel(configuration.outputLevel);
+    band.setPan(configuration.pan);
+    band.setModulationRate(configuration.modulationRate);
+    band.setModulationDepth(configuration.modulationDepth);
+    band.setModulationPhase(configuration.modulationPhase);
+    band.setLoopFilterConfiguration(configuration.loopFilter);
+    band.setTapFraction(configuration.tapFraction);
+    band.setEnabled(configuration.enabled);
+    // Intentionally omit the new setters. Default Sine/Normal is the
+    // pre-feature Chorus 031 behavior against which the preset is locked.
+    band.processBlock(input, bandLeft, bandRight);
+
+    for (std::size_t frame = 0; frame < numSamples; ++frame)
+    {
+      referenceLeft[frame] += bandLeft[frame];
+      referenceRight[frame] += bandRight[frame];
+    }
+  }
+
+  for (std::size_t frame = 0; frame < numSamples; ++frame)
+  {
+    referenceLeft[frame] *= preset.dspConfiguration.globalWetOutputLevel;
+    referenceRight[frame] *= preset.dspConfiguration.globalWetOutputLevel;
+  }
+
+  return expectSamplesBitExact("Chorus 031 legacy Sine/Normal left", engineLeft, referenceLeft)
+         && expectSamplesBitExact("Chorus 031 legacy Sine/Normal right", engineRight, referenceRight);
 }
 
 bool testChorus031EarlyTapRenderingUsesExactFractionalPositions()
@@ -1244,6 +1362,8 @@ constexpr std::array kTests{
            testChorus011OutputIsBitExactWithLegacyMovingTopology},
   TestCase{"HoldsworthDelayEngine: Chorus 031 source and provisional DSP values remain separate",
            testChorus031PresetDefinition},
+  TestCase{"HoldsworthDelayEngine: Chorus 031 output is bit-exact with legacy Sine/Normal topology",
+           testChorus031OutputIsBitExactWithLegacySineNormalTopology},
   TestCase{"HoldsworthDelayEngine: Chorus 031 renders 25.4% TAP at exact fractional positions",
            testChorus031EarlyTapRenderingUsesExactFractionalPositions},
   TestCase{"HoldsworthDelayEngine: Chorus 031 configuration and processing perform no allocations",

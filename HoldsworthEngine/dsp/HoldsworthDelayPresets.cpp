@@ -25,6 +25,8 @@ namespace
   configuration.modulationDepth = ModulationDepthMs{modulationDepthMs};
   configuration.modulationPhase = ModulationPhaseCycles{modulationPhaseCycles};
   configuration.tapFraction = TapFraction{tapFraction};
+  configuration.modulationWaveform = ModulationWaveform::sine;
+  configuration.delaySignalPolarity = DelaySignalPolarity::normal;
   return configuration;
 }
 
@@ -36,6 +38,9 @@ namespace
   values.lowCutControlValue = ::holdsworth::presets::YamahaLowCutControlValue::off();
   values.highCutControlValue = ::holdsworth::presets::YamahaHighCutControlValue::off();
   values.tapPercentValue = ::holdsworth::presets::YamahaTapPercentValue{100.0};
+  values.waveformControlValue = ::holdsworth::presets::YamahaWaveformControlValue::sine;
+  values.delaySignalPhaseControlValue =
+    ::holdsworth::presets::YamahaDelaySignalPhaseControlValue::normal;
   return values;
 }
 
@@ -49,15 +54,20 @@ namespace
   const double levelControlValue,
   const double tapPercentValue = 100.0) noexcept
 {
-  return {YamahaFeedbackControlValue{feedbackControlValue},
-          ::holdsworth::presets::YamahaSpeedControlValue{speedControlValue},
-          ::holdsworth::presets::YamahaDepthControlValue{depthControlValue},
-          YamahaDelayTimeMs{delayTimeMs},
-          YamahaPanControlValue{panDirection, panMagnitude},
-          YamahaLevelControlValue{levelControlValue},
-          ::holdsworth::presets::YamahaLowCutControlValue::off(),
-          ::holdsworth::presets::YamahaHighCutControlValue::off(),
-          ::holdsworth::presets::YamahaTapPercentValue{tapPercentValue}};
+  DocumentedYamahaBandValues values;
+  values.feedbackControlValue = YamahaFeedbackControlValue{feedbackControlValue};
+  values.speedControlValue = ::holdsworth::presets::YamahaSpeedControlValue{speedControlValue};
+  values.depthControlValue = ::holdsworth::presets::YamahaDepthControlValue{depthControlValue};
+  values.delayTimeMs = YamahaDelayTimeMs{delayTimeMs};
+  values.panControlValue = YamahaPanControlValue{panDirection, panMagnitude};
+  values.levelControlValue = YamahaLevelControlValue{levelControlValue};
+  values.lowCutControlValue = ::holdsworth::presets::YamahaLowCutControlValue::off();
+  values.highCutControlValue = ::holdsworth::presets::YamahaHighCutControlValue::off();
+  values.tapPercentValue = ::holdsworth::presets::YamahaTapPercentValue{tapPercentValue};
+  values.waveformControlValue = ::holdsworth::presets::YamahaWaveformControlValue::sine;
+  values.delaySignalPhaseControlValue =
+    ::holdsworth::presets::YamahaDelaySignalPhaseControlValue::normal;
+  return values;
 }
 
 const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{
