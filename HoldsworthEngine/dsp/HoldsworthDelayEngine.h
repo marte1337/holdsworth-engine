@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DelayBand.h"
+#include "ModulationSync.h"
 
 #include <array>
 #include <cstddef>
@@ -9,8 +10,6 @@
 
 namespace holdsworth::dsp
 {
-
-inline constexpr std::size_t kHoldsworthDelayBandCount = 8;
 
 // A normalized feedback value for the DSP recurrence. This type deliberately
 // has no relationship or conversion to Yamaha's documented control values.
@@ -44,6 +43,7 @@ struct HoldsworthDelayConfiguration final
 {
   std::array<DelayBandConfiguration, kHoldsworthDelayBandCount> bands{};
   double globalWetOutputLevel = 1.0;
+  ModulationSyncConfiguration modulationSync{};
 };
 
 // An eight-band mono-input, wet-only stereo delay processor.
@@ -67,17 +67,28 @@ public:
   HoldsworthDelayEngine(HoldsworthDelayEngine&&) noexcept = delete;
   HoldsworthDelayEngine& operator=(HoldsworthDelayEngine&&) noexcept = delete;
 
-  // Allocates all eight delay histories and three maximum-block-sized scratch
-  // buffers. Calling prepare() again discards existing delay history while
-  // preserving parameter values.
+  // Allocates all eight delay histories, the three established
+  // maximum-block-sized audio scratch buffers, and fixed eight-band
+  // synchronized-modulation scratch. Calling prepare() again discards existing
+  // delay history while preserving parameter values.
   void prepare(double sampleRate, std::size_t maximumBlockSize);
 
   // Clears all eight delay histories without changing configuration.
   void reset() noexcept;
 
-  // Applies all band parameters and the global wet level without resetting
-  // history. Values are sanitized by the same rules as DelayBand's setters.
-  void applyConfiguration(const HoldsworthDelayConfiguration& configuration) noexcept;
+  // Transactionally validates synchronization first, then applies all band
+  // parameters, the global wet level, and the resolved synchronization plan
+  // without resetting delay/filter history. On failure, no engine state is
+  // changed. Values are sanitized by the same rules as DelayBand's setters.
+  ModulationSyncApplyResult applyConfiguration(
+    const HoldsworthDelayConfiguration& configuration) noexcept;
+
+  // Applies only a complete synchronization relationship snapshot. Existing
+  // audio/configuration state and root clock phases are retained. A private
+  // slave oscillator that resumes independent operation is restored to its
+  // configured reset phase without clearing delay/filter history.
+  ModulationSyncApplyResult applyModulationSyncConfiguration(
+    const ModulationSyncConfiguration& configuration) noexcept;
 
   // bandIndex must be in [0, kBandCount). Invalid indices assert in Debug and
   // are ignored without modifying any band when assertions are disabled.
@@ -113,10 +124,52 @@ public:
                     std::span<Sample> wetRight) noexcept;
 
 private:
+  enum class PhaseRotationKind
+  {
+    zero,
+    quarter,
+    half,
+    threeQuarter,
+    arbitrary
+  };
+
+  struct ResolvedSynchronization final
+  {
+    std::array<std::size_t, kBandCount> slaveIndices{};
+    std::size_t slaveCount = 0;
+    std::size_t masterIndex = 0;
+    Sample phaseOffsetCycles = 0.0;
+    Sample sineOffset = 0.0;
+    Sample cosineOffset = 1.0;
+    PhaseRotationKind rotationKind = PhaseRotationKind::zero;
+    bool isSynchronizedSlave = false;
+    bool isSynchronizationRoot = false;
+  };
+
+  struct ResolvedSynchronizationPlan final
+  {
+    std::array<ResolvedSynchronization, kBandCount> bands{};
+    bool hasSynchronization = false;
+  };
+
+  static ModulationSyncApplyResult resolveModulationSyncConfiguration(
+    const ModulationSyncConfiguration& requested,
+    ModulationSyncConfiguration& canonical,
+    ResolvedSynchronizationPlan& resolved) noexcept;
+
+  void commitModulationSyncConfiguration(
+    const ModulationSyncConfiguration& canonical,
+    const ResolvedSynchronizationPlan& resolved,
+    bool resetNewlyIndependentSlaveClocks) noexcept;
+  void generateSynchronizedModulationOffsets(std::size_t frameCount) noexcept;
+
   std::array<DelayBand, kBandCount> mBands;
   std::vector<Sample> mInputScratch;
   std::vector<Sample> mBandWetLeft;
   std::vector<Sample> mBandWetRight;
+  std::vector<Sample> mSynchronizedModulationOffsets;
+  ModulationSyncConfiguration mModulationSyncConfiguration{};
+  ResolvedSynchronizationPlan mResolvedSynchronizationPlan{};
   Sample mGlobalWetOutputLevel = 1.0;
   std::size_t mMaximumBlockSize = 0;
   bool mPrepared = false;

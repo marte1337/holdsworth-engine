@@ -3,6 +3,7 @@
 #include "HoldsworthDelayEngine.h"
 #include "../presets/YamahaFilterSourceValues.h"
 #include "../presets/YamahaModulationSourceValues.h"
+#include "../presets/YamahaSyncSourceValues.h"
 #include "../presets/YamahaTapSourceValues.h"
 
 #include <array>
@@ -88,6 +89,7 @@ struct DocumentedYamahaBandValues final
   std::optional<::holdsworth::presets::YamahaWaveformControlValue> waveformControlValue;
   std::optional<::holdsworth::presets::YamahaDelaySignalPhaseControlValue>
     delaySignalPhaseControlValue;
+  std::optional<::holdsworth::presets::YamahaSyncControlValue> syncControlValue;
 };
 
 struct DocumentedYamahaGlobalValues final

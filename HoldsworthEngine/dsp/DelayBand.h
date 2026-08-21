@@ -10,6 +10,8 @@
 namespace holdsworth::dsp
 {
 
+class HoldsworthDelayEngine;
+
 // Normalized audible observation position within the full delay loop. This is
 // a DSP value and deliberately has no implicit relationship to Yamaha's
 // documented TAP percentage control.
@@ -176,6 +178,23 @@ public:
                     std::span<Sample> wetRight) noexcept;
 
 private:
+  friend class HoldsworthDelayEngine;
+
+  // Engine-only SYNC hooks. A root advances and snapshots its authoritative
+  // clock during the prepass. Every synchronized participant then consumes a
+  // prepared offset block without advancing its private modulator in the audio
+  // render path.
+  [[nodiscard]] Sample advanceModulationClock(
+    ModulationClockSample& clockSample) noexcept;
+  [[nodiscard]] Sample modulationOffsetAtClockSample(
+    const ModulationClockSample& clockSample) const noexcept;
+  void processBlockUsingPrecomputedModulationOffsets(
+    std::span<const Sample> monoInput,
+    std::span<const Sample> modulationOffsetsMs,
+    std::span<Sample> wetLeft,
+    std::span<Sample> wetRight) noexcept;
+  void resetModulationClock() noexcept;
+
   void applyEffectiveDelayTime() noexcept;
   void applyEffectiveModulationDepth() noexcept;
   void updatePanGains() noexcept;

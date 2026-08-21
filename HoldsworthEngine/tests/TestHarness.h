@@ -99,6 +99,7 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] TestSuite delayBandTapTests() noexcept;
 [[nodiscard]] TestSuite delayBandSignalPolarityTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayEngineTests() noexcept;
+[[nodiscard]] TestSuite modulationSyncTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayLiveIntegrationTests() noexcept;
 
 } // namespace holdsworth::test

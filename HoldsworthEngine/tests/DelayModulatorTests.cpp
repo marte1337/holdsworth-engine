@@ -77,6 +77,95 @@ bool testExplicitSineIsBitExactWithLegacyDefault()
   return explicitSine.waveform() == dsp::ModulationWaveform::sine;
 }
 
+bool testClockSnapshotOverloadIsBitExactWithIndependentAdvancement()
+{
+  constexpr std::size_t numSamples =
+    24 * dsp::DelayModulator::kCacheResynchronizationInterval + 137;
+  constexpr std::array waveforms{dsp::ModulationWaveform::sine,
+                                 dsp::ModulationWaveform::triangle,
+                                 dsp::ModulationWaveform::sawUp,
+                                 dsp::ModulationWaveform::sawDown};
+
+  for (const dsp::ModulationWaveform waveform : waveforms)
+  {
+    dsp::DelayModulator independent;
+    dsp::DelayModulator synchronizedRoot;
+    for (dsp::DelayModulator* modulator : std::array{&independent, &synchronizedRoot})
+    {
+      modulator->setRate(dsp::ModulationRateHz{7.123456789});
+      modulator->setDepth(dsp::ModulationDepthMs{0.875});
+      modulator->setPhase(dsp::ModulationPhaseCycles{0.137});
+      modulator->setWaveform(waveform);
+      modulator->prepare(48000.0);
+    }
+
+    for (std::size_t sampleIndex = 0; sampleIndex < numSamples; ++sampleIndex)
+    {
+      const double phaseBeforeSample = independent.currentPhase().value;
+      const std::array independentOutput{independent.nextOffsetMs()};
+
+      dsp::ModulationClockSample clockSample;
+      const std::array rootOutput{synchronizedRoot.nextOffsetMs(clockSample)};
+      const std::array evaluatedOutput{
+        synchronizedRoot.offsetMsAtClockSample(clockSample)};
+
+      if (!expectSamplesBitExact("clock-snapshot root output", rootOutput, independentOutput)
+          || !expectSamplesBitExact("clock-snapshot external evaluation",
+                                    evaluatedOutput,
+                                    independentOutput)
+          || !expectNear("clock-snapshot pre-advance phase",
+                         clockSample.phase.value,
+                         phaseBeforeSample,
+                         0.0)
+          || !expectNear("clock-snapshot post-advance phase",
+                         synchronizedRoot.currentPhase().value,
+                         independent.currentPhase().value,
+                         0.0))
+      {
+        std::cerr << "clock-snapshot mismatch at sample " << sampleIndex << '\n';
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+bool testExternalClockEvaluationDoesNotAdvanceDormantClock()
+{
+  dsp::DelayModulator root;
+  root.setRate(dsp::ModulationRateHz{13.0});
+  root.setDepth(dsp::ModulationDepthMs{0.0});
+  root.setPhase(dsp::ModulationPhaseCycles{0.125});
+  root.prepare(1000.0);
+
+  dsp::DelayModulator slave;
+  slave.setRate(dsp::ModulationRateHz{97.0});
+  slave.setDepth(dsp::ModulationDepthMs{0.75});
+  slave.setPhase(dsp::ModulationPhaseCycles{0.37});
+  slave.setWaveform(dsp::ModulationWaveform::triangle);
+  slave.prepare(1000.0);
+
+  const double dormantPhase = slave.currentPhase().value;
+  for (std::size_t sampleIndex = 0;
+       sampleIndex < 3 * dsp::DelayModulator::kCacheResynchronizationInterval + 19;
+       ++sampleIndex)
+  {
+    dsp::ModulationClockSample clockSample;
+    static_cast<void>(root.nextOffsetMs(clockSample));
+    const double first = slave.offsetMsAtClockSample(clockSample);
+    const double second = slave.offsetMsAtClockSample(clockSample);
+    if (!expectNear("external clock evaluation is repeatable", second, first, 0.0)
+        || !expectNear("external clock leaves dormant phase unchanged",
+                       slave.currentPhase().value,
+                       dormantPhase,
+                       0.0))
+      return false;
+  }
+
+  return root.currentPhase().value != root.resetPhase().value;
+}
+
 bool testTriangleQuarterCycleLandmarks()
 {
   dsp::DelayModulator modulator;
@@ -386,14 +475,18 @@ bool testHotPathDoesNotAllocate()
   {
     modulator.setWaveform(waveform);
     for (std::size_t i = 0; i < 2 * dsp::DelayModulator::kCacheResynchronizationInterval + 1; ++i)
-      static_cast<void>(modulator.nextOffsetMs());
+    {
+      dsp::ModulationClockSample clockSample;
+      static_cast<void>(modulator.nextOffsetMs(clockSample));
+      static_cast<void>(modulator.offsetMsAtClockSample(clockSample));
+    }
   }
   const std::size_t allocations = endAllocationTracking();
 
   if (allocations != 0)
   {
-    std::cerr << "real-time allocation: DelayModulator::nextOffsetMs made " << allocations
-              << " allocation(s)\n";
+    std::cerr << "real-time allocation: DelayModulator clock processing made "
+              << allocations << " allocation(s)\n";
     return false;
   }
   return true;
@@ -403,6 +496,10 @@ constexpr std::array kTests{
   TestCase{"DelayModulator: phase convention and known sine sequence", testKnownSineSequenceAndPhaseConvention},
   TestCase{"DelayModulator: explicit sine is bit-exact with legacy default",
            testExplicitSineIsBitExactWithLegacyDefault},
+  TestCase{"DelayModulator: clock snapshot advances root exactly like independent path",
+           testClockSnapshotOverloadIsBitExactWithIndependentAdvancement},
+  TestCase{"DelayModulator: external clock evaluation does not advance dormant clock",
+           testExternalClockEvaluationDoesNotAdvanceDormantClock},
   TestCase{"DelayModulator: triangle has quarter-cycle landmarks", testTriangleQuarterCycleLandmarks},
   TestCase{"DelayModulator: saw directions and discontinuities are explicit",
            testSawDirectionsAndCycleDiscontinuities},

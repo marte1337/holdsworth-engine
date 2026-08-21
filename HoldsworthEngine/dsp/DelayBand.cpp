@@ -160,6 +160,24 @@ void DelayBand::setDelaySignalPolarity(const DelaySignalPolarity polarity) noexc
   mDelaySignalPolarity = DelaySignalPolarity::normal;
 }
 
+DelayBand::Sample DelayBand::advanceModulationClock(
+  ModulationClockSample& clockSample) noexcept
+{
+  return mDelayModulator.nextOffsetMs(clockSample);
+}
+
+DelayBand::Sample DelayBand::modulationOffsetAtClockSample(
+  const ModulationClockSample& clockSample) const noexcept
+{
+  return mDelayModulator.offsetMsAtClockSample(clockSample);
+}
+
+void DelayBand::resetModulationClock() noexcept
+{
+  mDelayModulator.reset();
+  mCurrentModulatedDelayTimeMs = delayTimeMs();
+}
+
 void DelayBand::processBlock(const std::span<const Sample> monoInput,
                              const std::span<Sample> wetLeft,
                              const std::span<Sample> wetRight) noexcept
@@ -395,6 +413,250 @@ void DelayBand::processBlock(const std::span<const Sample> monoInput,
 
     // The moving tap is read before the conventional external feedback write:
     // lineInput[n] = enabledInput[n] + feedback * delayed[n].
+    const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
+    const Sample rawDelayed = mDelayLine.readDelayedSampleAtDelayTimeMs(movingDelayTimeMs);
+    const Sample filteredDelayed = mLoopFilter.processSample(rawDelayed);
+    const Sample lineInput = externalInput + mFeedbackCoefficient * filteredDelayed;
+    mDelayLine.pushSample(lineInput);
+    mCurrentModulatedDelayTimeMs = movingDelayTimeMs;
+
+    if (mEnabled)
+    {
+      if (!reversesAudibleDelay)
+      {
+        // Keep the established Normal output expressions verbatim.
+        wetLeft[frame] = filteredDelayed * leftOutputGain;
+        wetRight[frame] = filteredDelayed * rightOutputGain;
+      }
+      else
+      {
+        const Sample reversedFilteredDelayed = -filteredDelayed;
+        wetLeft[frame] = reversedFilteredDelayed * leftOutputGain;
+        wetRight[frame] = reversedFilteredDelayed * rightOutputGain;
+      }
+    }
+    else
+    {
+      wetLeft[frame] = 0.0;
+      wetRight[frame] = 0.0;
+    }
+  }
+}
+
+void DelayBand::processBlockUsingPrecomputedModulationOffsets(
+  const std::span<const Sample> monoInput,
+  const std::span<const Sample> modulationOffsetsMs,
+  const std::span<Sample> wetLeft,
+  const std::span<Sample> wetRight) noexcept
+{
+  const bool outputsAreDistinct = monoInput.empty() || wetLeft.data() != wetRight.data();
+  const bool validCall = mPrepared && monoInput.size() == modulationOffsetsMs.size()
+                         && monoInput.size() == wetLeft.size()
+                         && monoInput.size() == wetRight.size()
+                         && monoInput.size() <= mMaximumBlockSize && outputsAreDistinct;
+  assert(validCall && "prepare() must precede synchronized processing, and spans must satisfy the prepared contract");
+  if (!validCall)
+  {
+    std::fill(wetLeft.begin(), wetLeft.end(), 0.0);
+    std::fill(wetRight.begin(), wetRight.end(), 0.0);
+    return;
+  }
+
+  const Sample leftOutputGain = mOutputLevel * mLeftPanGain;
+  const Sample rightOutputGain = mOutputLevel * mRightPanGain;
+  const bool reversesAudibleDelay = mDelaySignalPolarity == DelaySignalPolarity::reverse;
+
+  if (mTapFraction.value < 1.0)
+  {
+    const bool filtersAreBypassed = mLoopFilter.isBypassed();
+    const Sample baseDelayTimeMs = delayTimeMs();
+    const Sample maximumDelay = maximumDelayTimeMs();
+    const bool hasModulation = mEffectiveModulationDepth.value != 0.0;
+
+    for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+    {
+      // The SYNC prepass has already advanced the authoritative root clock.
+      // Both delay reads still observe the same pre-write history, exactly as
+      // in the independent path.
+      Sample instantaneousLoopDelayTimeMs = baseDelayTimeMs;
+      if (hasModulation)
+      {
+        const Sample modulationOffsetMs = modulationOffsetsMs[frame];
+        instantaneousLoopDelayTimeMs =
+          std::clamp(baseDelayTimeMs + modulationOffsetMs,
+                     mMinimumDelayTimeMs,
+                     maximumDelay);
+      }
+
+      const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
+      const Sample rawLoopDelayed = hasModulation
+                                      ? mDelayLine.readDelayedSampleAtDelayTimeMs(
+                                          instantaneousLoopDelayTimeMs)
+                                      : mDelayLine.readDelayedSample();
+      const Sample filteredLoopDelayed = filtersAreBypassed
+                                           ? rawLoopDelayed
+                                           : mLoopFilter.processSample(rawLoopDelayed);
+      const Sample lineInput =
+        externalInput + mFeedbackCoefficient * filteredLoopDelayed;
+
+      const Sample tapDelayTimeMs =
+        proportionalTapDelayTimeMs(mTapFraction, instantaneousLoopDelayTimeMs);
+      const Sample rawTapDelayed =
+        mDelayLine.readDelayedSampleAtDelayTimeMs(tapDelayTimeMs, lineInput);
+      const Sample filteredTapDelayed = filtersAreBypassed
+                                          ? rawTapDelayed
+                                          : mTapOutputFilter.processSample(rawTapDelayed);
+
+      mDelayLine.pushSample(lineInput);
+      mCurrentModulatedDelayTimeMs = instantaneousLoopDelayTimeMs;
+
+      if (mEnabled)
+      {
+        if (!reversesAudibleDelay)
+        {
+          // Keep the established Normal output expressions verbatim.
+          wetLeft[frame] = filteredTapDelayed * leftOutputGain;
+          wetRight[frame] = filteredTapDelayed * rightOutputGain;
+        }
+        else
+        {
+          const Sample reversedTapDelayed = -filteredTapDelayed;
+          wetLeft[frame] = reversedTapDelayed * leftOutputGain;
+          wetRight[frame] = reversedTapDelayed * rightOutputGain;
+        }
+      }
+      else
+      {
+        wetLeft[frame] = 0.0;
+        wetRight[frame] = 0.0;
+      }
+    }
+
+    return;
+  }
+
+  // Match the independent path's dedicated both-filter-OFF static and moving
+  // recurrences. Only modulation-offset production has moved to the prepass.
+  if (mLoopFilter.isBypassed())
+  {
+    if (mEffectiveModulationDepth.value == 0.0)
+    {
+      for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+      {
+        const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
+        const Sample delayed = mDelayLine.readDelayedSample();
+        const Sample lineInput = externalInput + mFeedbackCoefficient * delayed;
+        mDelayLine.pushSample(lineInput);
+
+        if (mEnabled)
+        {
+          if (!reversesAudibleDelay)
+          {
+            // Keep the established Normal output expressions verbatim.
+            wetLeft[frame] = delayed * leftOutputGain;
+            wetRight[frame] = delayed * rightOutputGain;
+          }
+          else
+          {
+            const Sample reversedDelayed = -delayed;
+            wetLeft[frame] = reversedDelayed * leftOutputGain;
+            wetRight[frame] = reversedDelayed * rightOutputGain;
+          }
+        }
+        else
+        {
+          wetLeft[frame] = 0.0;
+          wetRight[frame] = 0.0;
+        }
+      }
+
+      mCurrentModulatedDelayTimeMs = delayTimeMs();
+      return;
+    }
+
+    const Sample baseDelayTimeMs = delayTimeMs();
+    const Sample maximumDelay = maximumDelayTimeMs();
+    for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+    {
+      const Sample modulationOffsetMs = modulationOffsetsMs[frame];
+      const Sample movingDelayTimeMs =
+        std::clamp(baseDelayTimeMs + modulationOffsetMs, mMinimumDelayTimeMs, maximumDelay);
+
+      const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
+      const Sample delayed = mDelayLine.readDelayedSampleAtDelayTimeMs(movingDelayTimeMs);
+      const Sample lineInput = externalInput + mFeedbackCoefficient * delayed;
+      mDelayLine.pushSample(lineInput);
+      mCurrentModulatedDelayTimeMs = movingDelayTimeMs;
+
+      if (mEnabled)
+      {
+        if (!reversesAudibleDelay)
+        {
+          // Keep the established Normal output expressions verbatim.
+          wetLeft[frame] = delayed * leftOutputGain;
+          wetRight[frame] = delayed * rightOutputGain;
+        }
+        else
+        {
+          const Sample reversedDelayed = -delayed;
+          wetLeft[frame] = reversedDelayed * leftOutputGain;
+          wetRight[frame] = reversedDelayed * rightOutputGain;
+        }
+      }
+      else
+      {
+        wetLeft[frame] = 0.0;
+        wetRight[frame] = 0.0;
+      }
+    }
+
+    return;
+  }
+
+  if (mEffectiveModulationDepth.value == 0.0)
+  {
+    for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+    {
+      const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
+      const Sample rawDelayed = mDelayLine.readDelayedSample();
+      const Sample filteredDelayed = mLoopFilter.processSample(rawDelayed);
+      const Sample lineInput = externalInput + mFeedbackCoefficient * filteredDelayed;
+      mDelayLine.pushSample(lineInput);
+
+      if (mEnabled)
+      {
+        if (!reversesAudibleDelay)
+        {
+          // Keep the established Normal output expressions verbatim.
+          wetLeft[frame] = filteredDelayed * leftOutputGain;
+          wetRight[frame] = filteredDelayed * rightOutputGain;
+        }
+        else
+        {
+          const Sample reversedFilteredDelayed = -filteredDelayed;
+          wetLeft[frame] = reversedFilteredDelayed * leftOutputGain;
+          wetRight[frame] = reversedFilteredDelayed * rightOutputGain;
+        }
+      }
+      else
+      {
+        wetLeft[frame] = 0.0;
+        wetRight[frame] = 0.0;
+      }
+    }
+
+    mCurrentModulatedDelayTimeMs = delayTimeMs();
+    return;
+  }
+
+  const Sample baseDelayTimeMs = delayTimeMs();
+  const Sample maximumDelay = maximumDelayTimeMs();
+  for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+  {
+    const Sample modulationOffsetMs = modulationOffsetsMs[frame];
+    const Sample movingDelayTimeMs =
+      std::clamp(baseDelayTimeMs + modulationOffsetMs, mMinimumDelayTimeMs, maximumDelay);
+
     const Sample externalInput = mEnabled ? monoInput[frame] : 0.0;
     const Sample rawDelayed = mDelayLine.readDelayedSampleAtDelayTimeMs(movingDelayTimeMs);
     const Sample filteredDelayed = mLoopFilter.processSample(rawDelayed);

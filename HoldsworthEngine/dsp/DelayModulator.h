@@ -37,6 +37,17 @@ struct ModulationPhaseCycles final
   double value = 0.0;
 };
 
+// One sample of authoritative oscillator time plus its synchronized
+// quadrature-cache representation. A SYNC root produces this snapshot before
+// advancing; dependent bands may then evaluate their own waveform and depth
+// at exactly the same logical time without owning or advancing another clock.
+struct ModulationClockSample final
+{
+  ModulationPhaseCycles phase{};
+  double sine = 0.0;
+  double cosine = 1.0;
+};
+
 // Provisional mathematical modulation waveforms. Exact Yamaha waveform shape,
 // phase origin, and discontinuity treatment remain unmeasured.
 enum class ModulationWaveform
@@ -107,6 +118,17 @@ public:
   // by one sample. Sine retains the established quadrature-cache path; the
   // provisional triangle and saw paths use only arithmetic and comparisons.
   [[nodiscard]] Sample nextOffsetMs() noexcept;
+
+  // Captures the exact pre-advance logical/cache state and then delegates to
+  // the established nextOffsetMs() path. The returned offset and oscillator
+  // advancement are therefore bit-for-bit identical to an ordinary call.
+  [[nodiscard]] Sample nextOffsetMs(ModulationClockSample& clockSample) noexcept;
+
+  // Evaluates this modulator's waveform and depth at an externally supplied
+  // clock sample without changing either oscillator. The supplied phase and
+  // quadrature values must describe the same normalized oscillator time.
+  [[nodiscard]] Sample offsetMsAtClockSample(
+    const ModulationClockSample& clockSample) const noexcept;
 
 private:
   static Sample wrapPhase(Sample phaseCycles) noexcept;

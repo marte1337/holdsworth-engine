@@ -31,7 +31,8 @@ namespace
 }
 
 [[nodiscard]] constexpr DocumentedYamahaBandValues documentedFeedback(
-  const double controlValue) noexcept
+  const double controlValue,
+  const ::holdsworth::presets::YamahaEffectBandNumber effectBand) noexcept
 {
   DocumentedYamahaBandValues values;
   values.feedbackControlValue = YamahaFeedbackControlValue{controlValue};
@@ -41,10 +42,13 @@ namespace
   values.waveformControlValue = ::holdsworth::presets::YamahaWaveformControlValue::sine;
   values.delaySignalPhaseControlValue =
     ::holdsworth::presets::YamahaDelaySignalPhaseControlValue::normal;
+  values.syncControlValue =
+    ::holdsworth::presets::YamahaSyncControlValue::independentSelf(effectBand);
   return values;
 }
 
 [[nodiscard]] constexpr DocumentedYamahaBandValues documentedChorusBand(
+  const ::holdsworth::presets::YamahaEffectBandNumber effectBand,
   const double delayTimeMs,
   const double feedbackControlValue,
   const double speedControlValue,
@@ -67,6 +71,8 @@ namespace
   values.waveformControlValue = ::holdsworth::presets::YamahaWaveformControlValue::sine;
   values.delaySignalPhaseControlValue =
     ::holdsworth::presets::YamahaDelaySignalPhaseControlValue::normal;
+  values.syncControlValue =
+    ::holdsworth::presets::YamahaSyncControlValue::independentSelf(effectBand);
   return values;
 }
 
@@ -83,14 +89,14 @@ const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{
      makeBandConfiguration(355.0, 0.35, -1.0, 0.5),
      makeBandConfiguration(461.0, 0.30, 1.0, 0.5)},
     1.0},
-  {documentedFeedback(0.0),
-   documentedFeedback(0.0),
-   documentedFeedback(0.0),
-   documentedFeedback(0.0),
-   documentedFeedback(4.5),
-   documentedFeedback(4.0),
-   documentedFeedback(3.5),
-   documentedFeedback(3.0)},
+  {documentedFeedback(0.0, ::holdsworth::presets::YamahaEffectBandNumber::band1),
+   documentedFeedback(0.0, ::holdsworth::presets::YamahaEffectBandNumber::band2),
+   documentedFeedback(0.0, ::holdsworth::presets::YamahaEffectBandNumber::band3),
+   documentedFeedback(0.0, ::holdsworth::presets::YamahaEffectBandNumber::band4),
+   documentedFeedback(4.5, ::holdsworth::presets::YamahaEffectBandNumber::band5),
+   documentedFeedback(4.0, ::holdsworth::presets::YamahaEffectBandNumber::band6),
+   documentedFeedback(3.5, ::holdsworth::presets::YamahaEffectBandNumber::band7),
+   documentedFeedback(3.0, ::holdsworth::presets::YamahaEffectBandNumber::band8)},
   FeedbackCalibrationStatus::provisionalUnmeasured,
   461.0,
   {},
@@ -114,14 +120,22 @@ const HoldsworthDelayPresetDefinition kChorus011ProvisionalV1{
      makeBandConfiguration(341.0, 0.34, -1.0, 0.65, 0.72, 0.75, 0.375),
      makeBandConfiguration(450.0, 0.26, 1.0, 0.65, 0.33, 0.75, 0.875)},
     1.0},
-  {documentedChorusBand(23.6, 0.0, 3.5, 2.5, YamahaPanDirection::left, 10.0, 10.0),
-   documentedChorusBand(30.0, 0.0, 4.0, 2.5, YamahaPanDirection::right, 10.0, 10.0),
-   documentedChorusBand(38.1, 0.0, 4.2, 2.5, YamahaPanDirection::right, 10.0, 10.0),
-   documentedChorusBand(47.6, 0.0, 3.7, 2.5, YamahaPanDirection::left, 10.0, 10.0),
-   documentedChorusBand(300.0, 4.5, 3.5, 2.5, YamahaPanDirection::left, 10.0, 6.5),
-   documentedChorusBand(400.0, 3.5, 3.8, 2.5, YamahaPanDirection::right, 10.0, 6.5),
-   documentedChorusBand(341.0, 4.3, 4.7, 2.5, YamahaPanDirection::left, 10.0, 6.5),
-   documentedChorusBand(450.0, 3.4, 3.3, 2.5, YamahaPanDirection::right, 10.0, 6.5)},
+  {documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band1,
+                        23.6, 0.0, 3.5, 2.5, YamahaPanDirection::left, 10.0, 10.0),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band2,
+                        30.0, 0.0, 4.0, 2.5, YamahaPanDirection::right, 10.0, 10.0),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band3,
+                        38.1, 0.0, 4.2, 2.5, YamahaPanDirection::right, 10.0, 10.0),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band4,
+                        47.6, 0.0, 3.7, 2.5, YamahaPanDirection::left, 10.0, 10.0),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band5,
+                        300.0, 4.5, 3.5, 2.5, YamahaPanDirection::left, 10.0, 6.5),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band6,
+                        400.0, 3.5, 3.8, 2.5, YamahaPanDirection::right, 10.0, 6.5),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band7,
+                        341.0, 4.3, 4.7, 2.5, YamahaPanDirection::left, 10.0, 6.5),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band8,
+                        450.0, 3.4, 3.3, 2.5, YamahaPanDirection::right, 10.0, 6.5)},
   FeedbackCalibrationStatus::provisionalUnmeasured,
   450.75,
   {YamahaLevelControlValue{8.5},
@@ -149,14 +163,22 @@ const HoldsworthDelayPresetDefinition kChorus031ProvisionalV1{
      makeBandConfiguration(300.0, 0.40, -1.0, 0.4, 0.38, 0.75, 0.375),
      makeBandConfiguration(400.0, 0.24, 1.0, 0.4, 0.81, 0.75, 0.875)},
     1.0},
-  {documentedChorusBand(31.5, 0.0, 4.5, 2.5, YamahaPanDirection::left, 10.0, 10.0, 25.4),
-   documentedChorusBand(22.6, 0.0, 5.2, 2.5, YamahaPanDirection::right, 10.0, 10.0, 25.4),
-   documentedChorusBand(40.0, 0.0, 4.0, 2.5, YamahaPanDirection::left, 10.0, 10.0, 25.4),
-   documentedChorusBand(48.0, 0.0, 4.9, 2.5, YamahaPanDirection::right, 10.0, 5.0, 25.4),
-   documentedChorusBand(250.0, 5.0, 3.8, 2.5, YamahaPanDirection::left, 10.0, 4.0),
-   documentedChorusBand(361.0, 4.0, 4.2, 2.5, YamahaPanDirection::right, 10.0, 4.0),
-   documentedChorusBand(300.0, 5.0, 3.5, 2.5, YamahaPanDirection::left, 10.0, 4.0),
-   documentedChorusBand(400.0, 3.0, 5.0, 2.5, YamahaPanDirection::right, 10.0, 4.0)},
+  {documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band1,
+                        31.5, 0.0, 4.5, 2.5, YamahaPanDirection::left, 10.0, 10.0, 25.4),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band2,
+                        22.6, 0.0, 5.2, 2.5, YamahaPanDirection::right, 10.0, 10.0, 25.4),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band3,
+                        40.0, 0.0, 4.0, 2.5, YamahaPanDirection::left, 10.0, 10.0, 25.4),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band4,
+                        48.0, 0.0, 4.9, 2.5, YamahaPanDirection::right, 10.0, 5.0, 25.4),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band5,
+                        250.0, 5.0, 3.8, 2.5, YamahaPanDirection::left, 10.0, 4.0),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band6,
+                        361.0, 4.0, 4.2, 2.5, YamahaPanDirection::right, 10.0, 4.0),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band7,
+                        300.0, 5.0, 3.5, 2.5, YamahaPanDirection::left, 10.0, 4.0),
+   documentedChorusBand(::holdsworth::presets::YamahaEffectBandNumber::band8,
+                        400.0, 3.0, 5.0, 2.5, YamahaPanDirection::right, 10.0, 4.0)},
   FeedbackCalibrationStatus::provisionalUnmeasured,
   400.75,
   {YamahaLevelControlValue{8.0},

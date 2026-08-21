@@ -118,6 +118,31 @@ DelayModulator::Sample DelayModulator::nextOffsetMs() noexcept
   return offsetMs;
 }
 
+DelayModulator::Sample DelayModulator::nextOffsetMs(
+  ModulationClockSample& clockSample) noexcept
+{
+  clockSample.phase = ModulationPhaseCycles{mPhaseCycles};
+  clockSample.sine = mSine;
+  clockSample.cosine = mCosine;
+
+  // Preserve the established output and advancement path verbatim. In
+  // particular, this overload must never independently reproduce that logic.
+  return nextOffsetMs();
+}
+
+DelayModulator::Sample DelayModulator::offsetMsAtClockSample(
+  const ModulationClockSample& clockSample) const noexcept
+{
+  assert(mPrepared && "prepare() must precede offsetMsAtClockSample()");
+  if (!mPrepared)
+    return 0.0;
+
+  if (mWaveform == ModulationWaveform::sine)
+    return mDepth.value * clockSample.sine;
+
+  return mDepth.value * provisionalNonSineValue(mWaveform, clockSample.phase.value);
+}
+
 DelayModulator::Sample DelayModulator::wrapPhase(const Sample phaseCycles) noexcept
 {
   const Sample wrapped = phaseCycles - std::floor(phaseCycles);
