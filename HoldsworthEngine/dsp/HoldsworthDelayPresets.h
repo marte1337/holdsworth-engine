@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HoldsworthDelayEngine.h"
+#include "../presets/YamahaBandStructureSourceValues.h"
 #include "../presets/YamahaFilterSourceValues.h"
 #include "../presets/YamahaModulationSourceValues.h"
 #include "../presets/YamahaSyncSourceValues.h"
@@ -77,6 +78,9 @@ enum class FeedbackCalibrationStatus
 
 struct DocumentedYamahaBandValues final
 {
+  std::optional<::holdsworth::presets::YamahaEffectBandSwitchState> switchState;
+  std::optional<::holdsworth::presets::YamahaConnectControlValue> connectControlValue;
+  std::optional<::holdsworth::presets::YamahaGroupControlValue> groupControlValue;
   std::optional<YamahaFeedbackControlValue> feedbackControlValue;
   std::optional<::holdsworth::presets::YamahaSpeedControlValue> speedControlValue;
   std::optional<::holdsworth::presets::YamahaDepthControlValue> depthControlValue;
@@ -108,6 +112,7 @@ enum class YamahaModulationMappingStatus
 enum class ModulationPhaseRelationshipStatus
 {
   provisional,
+  documentedReference,
   measured
 };
 
@@ -139,6 +144,8 @@ struct HoldsworthDelayPresetDefinition final
   DocumentedYamahaGlobalValues documentedYamahaGlobalValues;
   std::optional<ModulationCalibrationMetadata> modulationCalibration;
   std::optional<DocumentedYamahaPresetIdentity> documentedYamahaPresetIdentity;
+  std::optional<::holdsworth::presets::YamahaSyncAuditionReference>
+    documentedYamahaSyncAuditionReference;
 };
 
 namespace presets
@@ -158,6 +165,16 @@ namespace presets
 // Chorus 7 by Allan Holdsworth. Its source values and DSP values remain
 // independent literal data; no Yamaha-control conversion is implied.
 [[nodiscard]] const HoldsworthDelayPresetDefinition& chorus031ProvisionalV1() noexcept;
+
+// A provisional physical-DSP audition configuration for Yamaha factory preset
+// 922, Sync Parameter Sample. Band 2 follows Band 1 with a neutral physical
+// phase offset while retaining the exact factory SPEED 0.0 source value.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& sync922BaselineProvisionalV1() noexcept;
+
+// A manual-guided diagnostic variant of factory preset 922. The factory source
+// transcription remains SPEED 0.0, while the DSP relationship uses the exact
+// half-cycle point Yamaha documents for synchronized SPEED 5.0.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& sync922HalfCycleDiagnosticV1() noexcept;
 
 } // namespace presets
 } // namespace holdsworth::dsp

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "YamahaModulationSourceValues.h"
+
 #include <cstdint>
 
 namespace holdsworth::presets
@@ -60,6 +62,31 @@ private:
 
   YamahaSyncControlState mState;
   YamahaEffectBandNumber mDisplayedBand;
+};
+
+// A discrete phase relationship explicitly documented by Yamaha. This is
+// source/reference metadata only and does not convert to DSP phase cycles.
+struct YamahaDocumentedPhaseDifferenceDegrees final
+{
+  explicit constexpr YamahaDocumentedPhaseDifferenceDegrees(
+    const double phaseDifferenceDegrees = 0.0) noexcept
+  : value(phaseDifferenceDegrees)
+  {
+  }
+
+  double value = 0.0;
+};
+
+// Describes a separate manual-guided audition setting without rewriting the
+// stored factory patch transcription. In particular, isFactoryPresetValue is
+// false for the documented synchronized SPEED 5.0 / 180-degree experiment
+// applied to factory preset 922, whose stored Band 2 SPEED remains 0.0.
+struct YamahaSyncAuditionReference final
+{
+  YamahaEffectBandNumber synchronizedBand = YamahaEffectBandNumber::band1;
+  YamahaSpeedControlValue synchronizedSpeedControlValue{};
+  YamahaDocumentedPhaseDifferenceDegrees documentedPhaseDifference{};
+  bool isFactoryPresetValue = false;
 };
 
 } // namespace holdsworth::presets

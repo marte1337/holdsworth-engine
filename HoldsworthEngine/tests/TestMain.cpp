@@ -87,6 +87,7 @@ int main()
                           delayBandSignalPolarityTests(),
                           holdsworthDelayEngineTests(),
                           modulationSyncTests(),
+                          sync922PresetTests(),
                           holdsworthDelayLiveIntegrationTests()};
   std::size_t totalTests = 0;
   int failures = 0;

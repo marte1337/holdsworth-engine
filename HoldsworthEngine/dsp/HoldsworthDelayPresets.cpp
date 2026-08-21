@@ -76,6 +76,78 @@ namespace
   return values;
 }
 
+[[nodiscard]] constexpr DocumentedYamahaBandValues documentedSync922ActiveBand(
+  const ::holdsworth::presets::YamahaEffectBandNumber effectBand,
+  const ::holdsworth::presets::YamahaSyncControlValue syncControlValue,
+  const double speedControlValue,
+  const YamahaPanDirection panDirection) noexcept
+{
+  DocumentedYamahaBandValues values;
+  values.switchState = ::holdsworth::presets::YamahaEffectBandSwitchState::on;
+  values.connectControlValue = ::holdsworth::presets::YamahaConnectControlValue::input();
+  values.groupControlValue =
+    ::holdsworth::presets::YamahaGroupControlValue::individual(effectBand);
+  values.feedbackControlValue = YamahaFeedbackControlValue{0.0};
+  values.speedControlValue = ::holdsworth::presets::YamahaSpeedControlValue{speedControlValue};
+  values.depthControlValue = ::holdsworth::presets::YamahaDepthControlValue{6.1};
+  values.delayTimeMs = YamahaDelayTimeMs{10.0};
+  values.panControlValue = YamahaPanControlValue{panDirection, 10.0};
+  values.levelControlValue = YamahaLevelControlValue{10.0};
+  values.lowCutControlValue = ::holdsworth::presets::YamahaLowCutControlValue::off();
+  values.highCutControlValue = ::holdsworth::presets::YamahaHighCutControlValue::off();
+  values.tapPercentValue = ::holdsworth::presets::YamahaTapPercentValue{100.0};
+  values.waveformControlValue = ::holdsworth::presets::YamahaWaveformControlValue::sine;
+  values.delaySignalPhaseControlValue =
+    ::holdsworth::presets::YamahaDelaySignalPhaseControlValue::normal;
+  values.syncControlValue = syncControlValue;
+  return values;
+}
+
+[[nodiscard]] constexpr DocumentedYamahaBandValues documentedSync922DisabledBand() noexcept
+{
+  DocumentedYamahaBandValues values;
+  values.switchState = ::holdsworth::presets::YamahaEffectBandSwitchState::off;
+  return values;
+}
+
+[[nodiscard]] constexpr HoldsworthDelayConfiguration makeSync922DspConfiguration(
+  const ModulationPhaseOffsetCycles phaseOffset) noexcept
+{
+  HoldsworthDelayConfiguration configuration;
+  configuration.bands[0] =
+    makeBandConfiguration(10.0, 0.0, -1.0, 1.0, 0.27, 1.5, 0.0);
+  configuration.bands[1] =
+    makeBandConfiguration(10.0, 0.0, 1.0, 1.0, 0.0, 1.5, 0.0);
+  configuration.modulationSync.relationships[1] =
+    SynchronizedModulationRelationship{DelayBandId::band1, phaseOffset};
+  return configuration;
+}
+
+[[nodiscard]] constexpr std::array<DocumentedYamahaBandValues,
+                                   kHoldsworthDelayBandCount>
+makeSync922DocumentedYamahaValues() noexcept
+{
+  return {
+    documentedSync922ActiveBand(
+      ::holdsworth::presets::YamahaEffectBandNumber::band1,
+      ::holdsworth::presets::YamahaSyncControlValue::independentSelf(
+        ::holdsworth::presets::YamahaEffectBandNumber::band1),
+      3.0,
+      YamahaPanDirection::left),
+    documentedSync922ActiveBand(
+      ::holdsworth::presets::YamahaEffectBandNumber::band2,
+      ::holdsworth::presets::YamahaSyncControlValue::synchronizedTo(
+        ::holdsworth::presets::YamahaEffectBandNumber::band1),
+      0.0,
+      YamahaPanDirection::right),
+    documentedSync922DisabledBand(),
+    documentedSync922DisabledBand(),
+    documentedSync922DisabledBand(),
+    documentedSync922DisabledBand(),
+    documentedSync922DisabledBand(),
+    documentedSync922DisabledBand()};
+}
+
 const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{
   "lead121-unmodulated-provisional-v1",
   "Lead 121 (Unmodulated, Provisional)",
@@ -100,6 +172,7 @@ const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{
   FeedbackCalibrationStatus::provisionalUnmeasured,
   461.0,
   {},
+  std::nullopt,
   std::nullopt,
   std::nullopt};
 
@@ -144,6 +217,7 @@ const HoldsworthDelayPresetDefinition kChorus011ProvisionalV1{
   ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
                                 YamahaModulationMappingStatus::unmeasured,
                                 ModulationPhaseRelationshipStatus::provisional},
+  std::nullopt,
   std::nullopt};
 
 // Physical feedback, modulation, level, and phase values are unmeasured
@@ -187,7 +261,50 @@ const HoldsworthDelayPresetDefinition kChorus031ProvisionalV1{
   ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
                                 YamahaModulationMappingStatus::unmeasured,
                                 ModulationPhaseRelationshipStatus::provisional},
-  DocumentedYamahaPresetIdentity{"031", "Chorus 7", "Allan Holdsworth"}};
+  DocumentedYamahaPresetIdentity{"031", "Chorus 7", "Allan Holdsworth"},
+  std::nullopt};
+
+// Factory preset 922 stores synchronized Band 2 SPEED 0.0. The neutral DSP
+// phase offset is an explicit unmeasured audition interpretation rather than a
+// Yamaha-control conversion.
+const HoldsworthDelayPresetDefinition kSync922BaselineProvisionalV1{
+  "sync922-baseline-provisional-v1",
+  "Yamaha 922 Sync Parameter Sample (Baseline, Provisional v1)",
+  makeSync922DspConfiguration(ModulationPhaseOffsetCycles{0.0}),
+  makeSync922DocumentedYamahaValues(),
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  11.5,
+  {YamahaLevelControlValue{10.0},
+   YamahaLevelControlValue{10.0},
+   YamahaPanControlValue{YamahaPanDirection::center, 0.0}},
+  ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
+                                YamahaModulationMappingStatus::unmeasured,
+                                ModulationPhaseRelationshipStatus::provisional},
+  DocumentedYamahaPresetIdentity{"922", "Sync Parameter Sample", ""},
+  std::nullopt};
+
+// Yamaha's manual documents synchronized SPEED 5.0 as a 180-degree phase
+// difference. This diagnostic uses that isolated reference point while the
+// factory source transcription above remains SPEED 0.0.
+const HoldsworthDelayPresetDefinition kSync922HalfCycleDiagnosticV1{
+  "sync922-half-cycle-diagnostic-v1",
+  "Yamaha 922 Sync Parameter Sample (180° Diagnostic v1)",
+  makeSync922DspConfiguration(ModulationPhaseOffsetCycles{0.5}),
+  makeSync922DocumentedYamahaValues(),
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  11.5,
+  {YamahaLevelControlValue{10.0},
+   YamahaLevelControlValue{10.0},
+   YamahaPanControlValue{YamahaPanDirection::center, 0.0}},
+  ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
+                                YamahaModulationMappingStatus::unmeasured,
+                                ModulationPhaseRelationshipStatus::documentedReference},
+  DocumentedYamahaPresetIdentity{"922", "Sync Parameter Sample", ""},
+  ::holdsworth::presets::YamahaSyncAuditionReference{
+    ::holdsworth::presets::YamahaEffectBandNumber::band2,
+    ::holdsworth::presets::YamahaSpeedControlValue{5.0},
+    ::holdsworth::presets::YamahaDocumentedPhaseDifferenceDegrees{180.0},
+    false}};
 
 } // namespace
 
@@ -207,6 +324,16 @@ const HoldsworthDelayPresetDefinition& chorus011ProvisionalV1() noexcept
 const HoldsworthDelayPresetDefinition& chorus031ProvisionalV1() noexcept
 {
   return kChorus031ProvisionalV1;
+}
+
+const HoldsworthDelayPresetDefinition& sync922BaselineProvisionalV1() noexcept
+{
+  return kSync922BaselineProvisionalV1;
+}
+
+const HoldsworthDelayPresetDefinition& sync922HalfCycleDiagnosticV1() noexcept
+{
+  return kSync922HalfCycleDiagnosticV1;
 }
 
 } // namespace presets
