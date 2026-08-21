@@ -176,5 +176,10 @@ namespace presets
 // half-cycle point Yamaha documents for synchronized SPEED 5.0.
 [[nodiscard]] const HoldsworthDelayPresetDefinition& sync922HalfCycleDiagnosticV1() noexcept;
 
+// An audition-only comparison derived from the physical DSP settings used by
+// the 922 baseline, with Band 2 left on its dormant independent zero-Hz clock.
+// It deliberately carries no Yamaha factory source transcription.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& sync922IndependentDiagnosticV1() noexcept;
+
 } // namespace presets
 } // namespace holdsworth::dsp

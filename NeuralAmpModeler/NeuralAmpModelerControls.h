@@ -732,6 +732,37 @@ public:
   };
 };
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+// Development-only geometry adapter. IVTabSwitchControl continues to own the
+// selected value, highlighting, hit testing, and action callback; only its
+// one-dimensional button layout is replaced by a readable 2 x 3 grid.
+class NAMDevelopmentPresetGridControl final : public IVTabSwitchControl
+{
+public:
+  NAMDevelopmentPresetGridControl(const IRECT& bounds,
+                                  IActionFunction actionFunction,
+                                  const std::vector<const char*>& options,
+                                  const char* label,
+                                  const IVStyle& style)
+  : IVTabSwitchControl(bounds, actionFunction, options, label, style)
+  {
+  }
+
+  void OnResize() override
+  {
+    SetTargetRECT(MakeRects(mRECT));
+    mButtons.Resize(0);
+
+    constexpr int rows = 2;
+    constexpr int columns = 3;
+    for (int buttonIndex = 0; buttonIndex < rows * columns; ++buttonIndex)
+      mButtons.Add(mWidgetBounds.GetGridCell(buttonIndex, rows, columns).GetPadded(-2.0f));
+
+    SetDirty(false);
+  }
+};
+#endif
+
 class NAMSettingsPageControl : public IContainerBaseWithNamedChildren
 {
 public:
@@ -858,15 +889,18 @@ public:
     // iPlug's UI-to-DSP message path and are deliberately not serialized or
     // exposed as host automation parameters yet.
     {
-      const auto delayControlArea = GetRECT().GetPadded(-pad).GetFromBottom(120.0f).GetFromTop(42.0f);
-      const float enabledWidth = 0.29f * delayControlArea.W();
-      const float wetWidth = 0.25f * delayControlArea.W();
-      const auto enabledArea = delayControlArea.GetFromLeft(enabledWidth).GetHPadded(-3.0f).GetVPadded(-2.0f);
-      const auto presetArea = delayControlArea.GetReducedFromLeft(enabledWidth)
-                                .GetReducedFromRight(wetWidth)
-                                .GetHPadded(-3.0f)
-                                .GetVPadded(-2.0f);
-      const auto wetArea = delayControlArea.GetFromRight(wetWidth).GetHPadded(-3.0f).GetVPadded(-2.0f);
+      // The footer occupies the bottom 78 px of the padded Settings bounds.
+      // This 100 px section ends exactly where that footer begins, keeping the
+      // temporary controls isolated from both it and the normal NAM controls.
+      const auto developmentArea =
+        GetRECT().GetPadded(-pad).GetFromBottom(178.0f).GetFromTop(100.0f);
+      const auto presetArea =
+        developmentArea.GetFromTop(66.0f).GetHPadded(-3.0f).GetVPadded(-1.0f);
+      const auto utilityArea = developmentArea.GetFromBottom(30.0f);
+      const auto enabledArea =
+        utilityArea.GetFromLeft(0.46f * utilityArea.W()).GetHPadded(-3.0f).GetVPadded(-1.0f);
+      const auto wetArea =
+        utilityArea.GetFromRight(0.46f * utilityArea.W()).GetHPadded(-3.0f).GetVPadded(-1.0f);
       const IVStyle delayStyle = style.WithDrawFrame(false);
 
       auto sendEnabled = [](IControl* pCaller) {
@@ -931,11 +965,16 @@ public:
         "Development-only delay bypass. Disabled blocks advance existing tails with silence.");
 
       auto* presetControl = AddNamedChildControl(
-        new IVTabSwitchControl(presetArea,
-                               sendPreset,
-                               {"Lead 121", "Chorus 011", "Chorus 031"},
-                               "Holdsworth Delay Preset",
-                               delayStyle),
+        new NAMDevelopmentPresetGridControl(presetArea,
+                                            sendPreset,
+                                            {"Lead 121",
+                                             "Chorus 011",
+                                             "Chorus 031",
+                                             "922 Off",
+                                             "922 Sync 0°",
+                                             "922 Sync 180°"},
+                                            "Holdsworth Delay Preset",
+                                            delayStyle),
         mControlNames.holdsworthDelayPreset,
         kCtrlTagHoldsworthDelayPreset);
       presetControl->SetTooltip(

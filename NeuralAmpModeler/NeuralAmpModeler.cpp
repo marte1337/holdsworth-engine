@@ -432,8 +432,10 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
       // Configuration setters are allocation-free and externally synchronized
       // here at the audio-block boundary. Do not reset: existing memory should
       // form a temporary hybrid tail when a preset is changed while ringing.
-      holdsworth::integration::applyDevelopmentDelayPreset(mHoldsworthDelayEngine, requestedPreset);
-      mHoldsworthDelayAppliedPreset = requestedPresetIndex;
+      const auto applyResult =
+        holdsworth::integration::applyDevelopmentDelayPreset(mHoldsworthDelayEngine, requestedPreset);
+      if (applyResult == holdsworth::dsp::ModulationSyncApplyResult::applied)
+        mHoldsworthDelayAppliedPreset = requestedPresetIndex;
     }
   }
 
@@ -549,8 +551,10 @@ void NeuralAmpModeler::OnReset()
   // integration control. Lead 121 remains the new-instance default.
   const auto holdsworthDelayPreset = holdsworth::integration::developmentDelayPresetFromIndex(
     mHoldsworthDelayRequestedPreset.load(std::memory_order_relaxed));
-  holdsworth::integration::applyDevelopmentDelayPreset(mHoldsworthDelayEngine, holdsworthDelayPreset);
-  mHoldsworthDelayAppliedPreset = static_cast<std::uint32_t>(holdsworthDelayPreset);
+  const auto holdsworthDelayApplyResult =
+    holdsworth::integration::applyDevelopmentDelayPreset(mHoldsworthDelayEngine, holdsworthDelayPreset);
+  if (holdsworthDelayApplyResult == holdsworth::dsp::ModulationSyncApplyResult::applied)
+    mHoldsworthDelayAppliedPreset = static_cast<std::uint32_t>(holdsworthDelayPreset);
   mHoldsworthDelayEngine.reset();
   std::fill(mHoldsworthDelaySilentInput.begin(), mHoldsworthDelaySilentInput.end(), 0.0);
 #endif

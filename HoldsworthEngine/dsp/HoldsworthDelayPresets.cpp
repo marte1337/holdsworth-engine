@@ -123,6 +123,15 @@ namespace
   return configuration;
 }
 
+[[nodiscard]] constexpr HoldsworthDelayConfiguration
+makeSync922IndependentDspConfiguration() noexcept
+{
+  HoldsworthDelayConfiguration configuration =
+    makeSync922DspConfiguration(ModulationPhaseOffsetCycles{0.0});
+  configuration.modulationSync = {};
+  return configuration;
+}
+
 [[nodiscard]] constexpr std::array<DocumentedYamahaBandValues,
                                    kHoldsworthDelayBandCount>
 makeSync922DocumentedYamahaValues() noexcept
@@ -306,6 +315,23 @@ const HoldsworthDelayPresetDefinition kSync922HalfCycleDiagnosticV1{
     ::holdsworth::presets::YamahaDocumentedPhaseDifferenceDegrees{180.0},
     false}};
 
+// This is an audition-only control case, not Yamaha factory source data. Its
+// physical band settings match the approved 922 baseline, but Band 2 runs its
+// retained independent zero-Hz modulation clock and no SYNC graph is present.
+const HoldsworthDelayPresetDefinition kSync922IndependentDiagnosticV1{
+  "sync922-independent-diagnostic-v1",
+  "Yamaha 922 Sync OFF Diagnostic",
+  makeSync922IndependentDspConfiguration(),
+  {},
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  11.5,
+  {},
+  ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
+                                YamahaModulationMappingStatus::unmeasured,
+                                ModulationPhaseRelationshipStatus::provisional},
+  std::nullopt,
+  std::nullopt};
+
 } // namespace
 
 namespace presets
@@ -334,6 +360,11 @@ const HoldsworthDelayPresetDefinition& sync922BaselineProvisionalV1() noexcept
 const HoldsworthDelayPresetDefinition& sync922HalfCycleDiagnosticV1() noexcept
 {
   return kSync922HalfCycleDiagnosticV1;
+}
+
+const HoldsworthDelayPresetDefinition& sync922IndependentDiagnosticV1() noexcept
+{
+  return kSync922IndependentDiagnosticV1;
 }
 
 } // namespace presets

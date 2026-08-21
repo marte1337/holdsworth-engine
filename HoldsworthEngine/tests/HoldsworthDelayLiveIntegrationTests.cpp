@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <array>
 #include <iostream>
+#include <limits>
 #include <string_view>
 
 namespace holdsworth::test
@@ -39,10 +40,36 @@ bool expectConfigurationExact(const std::string_view testName,
       && actualBand.modulationRate.value == expectedBand.modulationRate.value
       && actualBand.modulationDepth.value == expectedBand.modulationDepth.value
       && actualBand.modulationPhase.value == expectedBand.modulationPhase.value
-      && actualBand.tapFraction.value == expectedBand.tapFraction.value;
+      && actualBand.tapFraction.value == expectedBand.tapFraction.value
+      && actualBand.modulationWaveform == expectedBand.modulationWaveform
+      && actualBand.delaySignalPolarity == expectedBand.delaySignalPolarity
+      && actualBand.loopFilter.lowCut.has_value() == expectedBand.loopFilter.lowCut.has_value()
+      && actualBand.loopFilter.highCut.has_value() == expectedBand.loopFilter.highCut.has_value()
+      && (!actualBand.loopFilter.lowCut.has_value()
+          || actualBand.loopFilter.lowCut->value == expectedBand.loopFilter.lowCut->value)
+      && (!actualBand.loopFilter.highCut.has_value()
+          || actualBand.loopFilter.highCut->value == expectedBand.loopFilter.highCut->value);
     if (!matches)
     {
       std::cerr << testName << ": band " << (bandIndex + 1) << " differs\n";
+      return false;
+    }
+  }
+
+  for (std::size_t bandIndex = 0; bandIndex < dsp::kHoldsworthDelayBandCount; ++bandIndex)
+  {
+    const auto& actualRelationship = actual.modulationSync.relationships[bandIndex];
+    const auto& expectedRelationship = expected.modulationSync.relationships[bandIndex];
+    const bool matches =
+      actualRelationship.has_value() == expectedRelationship.has_value()
+      && (!actualRelationship.has_value()
+          || (actualRelationship->masterBand == expectedRelationship->masterBand
+              && actualRelationship->phaseOffset.value
+                   == expectedRelationship->phaseOffset.value));
+    if (!matches)
+    {
+      std::cerr << testName << ": synchronization relationship " << (bandIndex + 1)
+                << " differs\n";
       return false;
     }
   }
@@ -127,45 +154,79 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
   dsp::HoldsworthDelayEngine engine(700.0);
   engine.prepare(48000.0, 64);
 
-  const auto& selectedLead = integration::developmentDelayPresetDefinition(DevelopmentPreset::lead121);
-  const auto& selectedChorus011 =
-    integration::developmentDelayPresetDefinition(DevelopmentPreset::chorus011);
-  const auto& selectedChorus031 =
-    integration::developmentDelayPresetDefinition(DevelopmentPreset::chorus031);
-  if (&selectedLead != &dsp::presets::lead121UnmodulatedProvisional()
-      || &selectedChorus011 != &dsp::presets::chorus011ProvisionalV1()
-      || &selectedChorus031 != &dsp::presets::chorus031ProvisionalV1())
+  constexpr std::array selections{
+    DevelopmentPreset::lead121,
+    DevelopmentPreset::chorus011,
+    DevelopmentPreset::chorus031,
+    DevelopmentPreset::sync922Independent,
+    DevelopmentPreset::sync922Baseline,
+    DevelopmentPreset::sync922HalfCycle};
+  const std::array expectedDefinitions{
+    &dsp::presets::lead121UnmodulatedProvisional(),
+    &dsp::presets::chorus011ProvisionalV1(),
+    &dsp::presets::chorus031ProvisionalV1(),
+    &dsp::presets::sync922IndependentDiagnosticV1(),
+    &dsp::presets::sync922BaselineProvisionalV1(),
+    &dsp::presets::sync922HalfCycleDiagnosticV1()};
+
+  for (std::size_t index = 0; index < selections.size(); ++index)
   {
-    std::cerr << "development preset selector did not return the existing preset definitions\n";
-    return false;
+    const auto& selected = integration::developmentDelayPresetDefinition(selections[index]);
+    if (&selected != expectedDefinitions[index]
+        || integration::applyDevelopmentDelayPreset(engine, selections[index])
+             != dsp::ModulationSyncApplyResult::applied
+        || !expectConfigurationExact(
+          selected.displayName, engine.configuration(), selected.dspConfiguration))
+    {
+      std::cerr << "development preset selection " << index << " did not apply exactly\n";
+      return false;
+    }
   }
 
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
-  if (!expectConfigurationExact(
-        "Lead selection", engine.configuration(), selectedLead.dspConfiguration))
-    return false;
-
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
-  if (!expectConfigurationExact(
-        "Chorus 011 selection", engine.configuration(), selectedChorus011.dspConfiguration))
-    return false;
-
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
-  return expectConfigurationExact(
-           "Chorus 031 selection", engine.configuration(), selectedChorus031.dspConfiguration)
+  return integration::kDevelopmentDelayPresetCount == 6
          && integration::developmentDelayPresetFromIndex(99U) == DevelopmentPreset::lead121
          && integration::developmentDelayPresetFromNormalizedControlValue(0.0)
               == DevelopmentPreset::lead121
-         && integration::developmentDelayPresetFromNormalizedControlValue(0.5)
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.2)
               == DevelopmentPreset::chorus011
-         && integration::developmentDelayPresetFromNormalizedControlValue(1.0)
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.4)
               == DevelopmentPreset::chorus031
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.6)
+              == DevelopmentPreset::sync922Independent
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.8)
+              == DevelopmentPreset::sync922Baseline
+         && integration::developmentDelayPresetFromNormalizedControlValue(1.0)
+              == DevelopmentPreset::sync922HalfCycle
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::lead121)
               == 0.0
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus011)
-              == 0.5
+              == 0.2
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus031)
-              == 1.0;
+              == 0.4
+         && integration::developmentDelayPresetNormalizedControlValue(
+              DevelopmentPreset::sync922Independent) == 0.6
+         && integration::developmentDelayPresetNormalizedControlValue(
+              DevelopmentPreset::sync922Baseline) == 0.8
+         && integration::developmentDelayPresetNormalizedControlValue(
+              DevelopmentPreset::sync922HalfCycle) == 1.0;
+}
+
+bool testRejectedDevelopmentConfigurationIsTransactional()
+{
+  dsp::HoldsworthDelayEngine engine(700.0);
+  engine.prepare(48000.0, 64);
+  if (integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031)
+      != dsp::ModulationSyncApplyResult::applied)
+    return false;
+  const auto previousConfiguration = engine.configuration();
+
+  auto invalid = dsp::presets::sync922BaselineProvisionalV1().dspConfiguration;
+  invalid.modulationSync.relationships[1]->phaseOffset.value =
+    std::numeric_limits<double>::quiet_NaN();
+  const auto result = engine.applyConfiguration(invalid);
+  return result == dsp::ModulationSyncApplyResult::invalidPhaseOffset
+         && expectConfigurationExact(
+           "rejected development transaction", engine.configuration(), previousConfiguration);
 }
 
 bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
@@ -184,21 +245,31 @@ bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
   Mixer::advanceDelay(engine, true, seedInput, seedSilence, seedWetLeft, seedWetRight);
 
   beginAllocationTracking();
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
+  const auto chorus011Result =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  const auto chorus031Result =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
+  const auto syncOffResult =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Independent);
+  const auto syncZeroResult =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Baseline);
+  const auto syncHalfResult =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922HalfCycle);
   const std::size_t switchAllocations = endAllocationTracking();
-  if (switchAllocations != 0)
+  if (switchAllocations != 0
+      || chorus011Result != dsp::ModulationSyncApplyResult::applied
+      || chorus031Result != dsp::ModulationSyncApplyResult::applied
+      || syncOffResult != dsp::ModulationSyncApplyResult::applied
+      || syncZeroResult != dsp::ModulationSyncApplyResult::applied
+      || syncHalfResult != dsp::ModulationSyncApplyResult::applied)
   {
     std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
     return false;
   }
 
-  // No new input follows the switch. Chorus 031's early TAPs must
-  // still encounter the ones stored while Lead was selected. A reset inside
-  // preset application would make both output blocks completely silent.
+  // No new input follows the switch. The final 922 configuration's 10 ms taps
+  // must still encounter the ones stored while Lead was selected. A reset
+  // inside preset application would make both output blocks completely silent.
   const std::array<double, tailSize> silence{};
   std::array<double, tailSize> wetLeft{};
   std::array<double, tailSize> wetRight{};
@@ -224,6 +295,8 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   std::array<double, 2> chorusOutputRight{};
   std::array<double, 2> chorus031OutputLeft{};
   std::array<double, 2> chorus031OutputRight{};
+  std::array<double, 2> syncOutputLeft{};
+  std::array<double, 2> syncOutputRight{};
 
   dsp::HoldsworthDelayEngine engine(700.0);
   engine.prepare(48000.0, dry.size());
@@ -239,6 +312,10 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   Mixer::mixStereo(
     dry, wetLeft, wetRight, integrationWetMultiplier, chorus031OutputLeft, chorus031OutputRight);
 
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922HalfCycle);
+  Mixer::mixStereo(
+    dry, wetLeft, wetRight, integrationWetMultiplier, syncOutputLeft, syncOutputRight);
+
   return expectSamples("preset switch preserves integration wet mix left", chorusOutputLeft, leadOutputLeft, 0.0)
          && expectSamples("preset switch preserves integration wet mix right", chorusOutputRight, leadOutputRight, 0.0)
          && expectSamples("Chorus 031 switch preserves integration wet mix left",
@@ -249,9 +326,18 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
                           chorus031OutputRight,
                           leadOutputRight,
                           0.0)
-         && expectNear("Chorus 031 preset retains its own DSP wet level",
+         && expectSamples("922 switch preserves integration wet mix left",
+                          syncOutputLeft,
+                          leadOutputLeft,
+                          0.0)
+         && expectSamples("922 switch preserves integration wet mix right",
+                          syncOutputRight,
+                          leadOutputRight,
+                          0.0)
+         && expectNear("922 preset retains its own DSP wet level",
                        engine.configuration().globalWetOutputLevel,
-                       dsp::presets::chorus031ProvisionalV1().dspConfiguration.globalWetOutputLevel,
+                       dsp::presets::sync922HalfCycleDiagnosticV1()
+                         .dspConfiguration.globalWetOutputLevel,
                        0.0);
 }
 
@@ -347,6 +433,8 @@ constexpr std::array kTests{
            testWetMixMultiplierIsSeparateFromEngineGlobalWetLevel},
   TestCase{"Live integration: development preset selection applies existing configurations exactly",
            testDevelopmentPresetSelectionAppliesExactExistingConfigurations},
+  TestCase{"Live integration: rejected development configuration remains transactional",
+           testRejectedDevelopmentConfigurationIsTransactional},
   TestCase{"Live integration: preset switching allocates nothing and preserves history",
            testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory},
   TestCase{"Live integration: preset switching leaves temporary wet mix independent",

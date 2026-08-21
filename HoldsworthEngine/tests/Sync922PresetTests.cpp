@@ -141,7 +141,7 @@ bool expectExactDspBand(const std::string_view testName,
 
 bool expectExactPresetConfiguration(const std::string_view testName,
                                     const dsp::HoldsworthDelayPresetDefinition& preset,
-                                    const double expectedPhaseOffset)
+                                    const std::optional<double> expectedPhaseOffset)
 {
   if (!expectExactDspBand(testName, preset.dspConfiguration.bands[0], 0.27, -1.0)
       || !expectExactDspBand(testName, preset.dspConfiguration.bands[1], 0.0, 1.0)
@@ -166,9 +166,11 @@ bool expectExactPresetConfiguration(const std::string_view testName,
       preset.dspConfiguration.modulationSync.relationships[bandIndex];
     if (bandIndex == 1)
     {
-      if (!relationship.has_value()
-          || relationship->masterBand != DelayBandId::band1
-          || !nearlyEqual(relationship->phaseOffset.value, expectedPhaseOffset))
+      if (relationship.has_value() != expectedPhaseOffset.has_value()
+          || (relationship.has_value()
+              && (relationship->masterBand != DelayBandId::band1
+                  || !nearlyEqual(relationship->phaseOffset.value,
+                                  *expectedPhaseOffset))))
       {
         std::cerr << testName << ": Band 2 synchronization mismatch\n";
         return false;
@@ -182,6 +184,38 @@ bool expectExactPresetConfiguration(const std::string_view testName,
     }
   }
 
+  return true;
+}
+
+bool expectNoYamahaSourceMetadata(const std::string_view testName,
+                                  const dsp::HoldsworthDelayPresetDefinition& preset)
+{
+  if (preset.documentedYamahaPresetIdentity.has_value()
+      || preset.documentedYamahaGlobalValues.effectLevel.has_value()
+      || preset.documentedYamahaGlobalValues.directLevel.has_value()
+      || preset.documentedYamahaGlobalValues.directPan.has_value()
+      || preset.documentedYamahaSyncAuditionReference.has_value())
+  {
+    std::cerr << testName << ": diagnostic invented Yamaha preset metadata\n";
+    return false;
+  }
+
+  for (const auto& band : preset.documentedYamahaValues)
+  {
+    if (band.switchState.has_value() || band.connectControlValue.has_value()
+        || band.groupControlValue.has_value() || band.feedbackControlValue.has_value()
+        || band.speedControlValue.has_value() || band.depthControlValue.has_value()
+        || band.delayTimeMs.has_value() || band.panControlValue.has_value()
+        || band.levelControlValue.has_value() || band.lowCutControlValue.has_value()
+        || band.highCutControlValue.has_value() || band.tapPercentValue.has_value()
+        || band.waveformControlValue.has_value()
+        || band.delaySignalPhaseControlValue.has_value()
+        || band.syncControlValue.has_value())
+    {
+      std::cerr << testName << ": diagnostic invented Yamaha band metadata\n";
+      return false;
+    }
+  }
   return true;
 }
 
@@ -235,17 +269,22 @@ bool testFactorySourceAndDspVariantsAreExactAndSeparate()
 {
   const auto& baseline = dsp::presets::sync922BaselineProvisionalV1();
   const auto& diagnostic = dsp::presets::sync922HalfCycleDiagnosticV1();
+  const auto& independent = dsp::presets::sync922IndependentDiagnosticV1();
 
   if (baseline.id != "sync922-baseline-provisional-v1"
       || diagnostic.id != "sync922-half-cycle-diagnostic-v1"
+      || independent.id != "sync922-independent-diagnostic-v1"
       || baseline.displayName
            != "Yamaha 922 Sync Parameter Sample (Baseline, Provisional v1)"
       || diagnostic.displayName
            != "Yamaha 922 Sync Parameter Sample (180° Diagnostic v1)"
+      || independent.displayName != "Yamaha 922 Sync OFF Diagnostic"
       || !expectExactFactorySource("922 baseline source", baseline)
       || !expectExactFactorySource("922 diagnostic source", diagnostic)
+      || !expectNoYamahaSourceMetadata("922 independent source", independent)
       || !expectExactPresetConfiguration("922 baseline DSP", baseline, 0.0)
       || !expectExactPresetConfiguration("922 half-cycle DSP", diagnostic, 0.5)
+      || !expectExactPresetConfiguration("922 independent DSP", independent, std::nullopt)
       || baseline.documentedYamahaSyncAuditionReference.has_value()
       || !diagnostic.documentedYamahaSyncAuditionReference.has_value())
     return false;
@@ -272,7 +311,8 @@ bool testConfigurationsApplyTransactionallyAndRoundTrip()
 
   for (const auto* preset :
        std::array{&dsp::presets::sync922BaselineProvisionalV1(),
-                  &dsp::presets::sync922HalfCycleDiagnosticV1()})
+                  &dsp::presets::sync922HalfCycleDiagnosticV1(),
+                  &dsp::presets::sync922IndependentDiagnosticV1()})
   {
     if (engine.applyConfiguration(preset->dspConfiguration)
           != ModulationSyncApplyResult::applied)
@@ -282,13 +322,15 @@ bool testConfigurationsApplyTransactionallyAndRoundTrip()
     const auto& actualRelationship = actual.modulationSync.relationships[1];
     const auto& expectedRelationship =
       preset->dspConfiguration.modulationSync.relationships[1];
+    const bool relationshipsMatch =
+      actualRelationship.has_value() == expectedRelationship.has_value()
+      && (!actualRelationship.has_value()
+          || (actualRelationship->masterBand == expectedRelationship->masterBand
+              && nearlyEqual(actualRelationship->phaseOffset.value,
+                             expectedRelationship->phaseOffset.value)));
     if (!expectExactDspBand("922 round-trip Band 1", actual.bands[0], 0.27, -1.0)
         || !expectExactDspBand("922 round-trip Band 2", actual.bands[1], 0.0, 1.0)
-        || !actualRelationship.has_value()
-        || !expectedRelationship.has_value()
-        || actualRelationship->masterBand != expectedRelationship->masterBand
-        || !nearlyEqual(actualRelationship->phaseOffset.value,
-                        expectedRelationship->phaseOffset.value))
+        || !relationshipsMatch)
       return false;
   }
 
@@ -379,6 +421,36 @@ bool testRemovingSyncRestoresDormantZeroRateAndDisabledBandsStaySilent()
   return expectSamplesBitExact("922 dormant zero-rate Band 2", right, expectedRight);
 }
 
+bool testIndependentDiagnosticUsesDormantZeroRateWithoutSync()
+{
+  constexpr std::size_t blockSize = 32;
+  HoldsworthDelayEngine engine(11.5);
+  engine.prepare(1000.0, blockSize);
+  const auto& configuration =
+    dsp::presets::sync922IndependentDiagnosticV1().dspConfiguration;
+  if (engine.applyConfiguration(configuration) != ModulationSyncApplyResult::applied)
+    return false;
+
+  for (const auto& relationship : engine.configuration().modulationSync.relationships)
+  {
+    if (relationship.has_value())
+      return false;
+  }
+
+  std::array<double, blockSize> impulse{};
+  impulse[0] = 1.0;
+  std::array<double, blockSize> left{};
+  std::array<double, blockSize> right{};
+  engine.processBlock(impulse, left, right);
+  std::array<double, blockSize> expected{};
+  expected[10] = 1.0;
+  // Band 1 remains the moving 0.27 Hz reference on the left. Band 2's own
+  // independent rate is exactly zero, so only the hard-right output is the
+  // fixed 10-sample delay.
+  return expectSamplesBitExact("922 independent fixed right", right, expected)
+         && left != expected;
+}
+
 void renderPartitioned(HoldsworthDelayEngine& engine,
                        const std::span<const double> input,
                        const std::span<double> left,
@@ -447,6 +519,9 @@ bool testConfigurationsAndProcessingDoNotAllocate()
   const auto baselineResult = engine.applyConfiguration(
     dsp::presets::sync922BaselineProvisionalV1().dspConfiguration);
   engine.processBlock(input, left, right);
+  const auto independentResult = engine.applyConfiguration(
+    dsp::presets::sync922IndependentDiagnosticV1().dspConfiguration);
+  engine.processBlock(input, left, right);
   const auto diagnosticResult = engine.applyConfiguration(
     dsp::presets::sync922HalfCycleDiagnosticV1().dspConfiguration);
   engine.processBlock(input, left, right);
@@ -455,6 +530,7 @@ bool testConfigurationsAndProcessingDoNotAllocate()
   if (allocations != 0)
     std::cerr << "922 configuration/processing allocated " << allocations << " time(s)\n";
   return baselineResult == ModulationSyncApplyResult::applied
+         && independentResult == ModulationSyncApplyResult::applied
          && diagnosticResult == ModulationSyncApplyResult::applied
          && allocations == 0;
 }
@@ -470,6 +546,8 @@ constexpr std::array kTests{
            testHalfCycleUsesExactOppositeEqualDepthSineOffsets},
   TestCase{"Yamaha 922: removing SYNC restores dormant zero-rate slave",
            testRemovingSyncRestoresDormantZeroRateAndDisabledBandsStaySilent},
+  TestCase{"Yamaha 922: independent diagnostic has dormant zero-rate modulation",
+           testIndependentDiagnosticUsesDormantZeroRateWithoutSync},
   TestCase{"Yamaha 922: diagnostic is partition invariant and reset deterministic",
            testDiagnosticIsPartitionInvariantAndResetDeterministic},
   TestCase{"Yamaha 922: configuration and processing perform no allocations",

@@ -15,10 +15,13 @@ enum class DevelopmentDelayPreset : std::uint32_t
 {
   lead121 = 0,
   chorus011 = 1,
-  chorus031 = 2
+  chorus031 = 2,
+  sync922Independent = 3,
+  sync922Baseline = 4,
+  sync922HalfCycle = 5
 };
 
-inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 3;
+inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 6;
 
 // Invalid wire values fail safely to the proven Lead 121 default.
 [[nodiscard]] constexpr DevelopmentDelayPreset developmentDelayPresetFromIndex(
@@ -30,14 +33,20 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 3;
       return DevelopmentDelayPreset::chorus011;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::chorus031):
       return DevelopmentDelayPreset::chorus031;
+    case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922Independent):
+      return DevelopmentDelayPreset::sync922Independent;
+    case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922Baseline):
+      return DevelopmentDelayPreset::sync922Baseline;
+    case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922HalfCycle):
+      return DevelopmentDelayPreset::sync922HalfCycle;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::lead121):
     default:
       return DevelopmentDelayPreset::lead121;
   }
 }
 
-// Temporary tab controls communicate a normalized value. With three choices,
-// the exact wire values are 0.0, 0.5, and 1.0.
+// Temporary tab controls communicate a normalized value. With six choices,
+// the exact wire values progress from 0.0 through 1.0 in 0.2 steps.
 [[nodiscard]] inline DevelopmentDelayPreset developmentDelayPresetFromNormalizedControlValue(
   const double normalizedValue) noexcept
 {
@@ -61,6 +70,12 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 3;
 {
   switch (preset)
   {
+    case DevelopmentDelayPreset::sync922HalfCycle:
+      return dsp::presets::sync922HalfCycleDiagnosticV1();
+    case DevelopmentDelayPreset::sync922Baseline:
+      return dsp::presets::sync922BaselineProvisionalV1();
+    case DevelopmentDelayPreset::sync922Independent:
+      return dsp::presets::sync922IndependentDiagnosticV1();
     case DevelopmentDelayPreset::chorus031:
       return dsp::presets::chorus031ProvisionalV1();
     case DevelopmentDelayPreset::chorus011:
@@ -74,10 +89,11 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 3;
 // Applies the selected existing DSP configuration without resetting delay
 // memory. Switching during an active tail can therefore produce a temporary
 // hybrid/morphing tail, which is intentional for this audition milestone.
-inline void applyDevelopmentDelayPreset(dsp::HoldsworthDelayEngine& engine,
-                                        const DevelopmentDelayPreset preset) noexcept
+inline dsp::ModulationSyncApplyResult applyDevelopmentDelayPreset(
+  dsp::HoldsworthDelayEngine& engine,
+  const DevelopmentDelayPreset preset) noexcept
 {
-  engine.applyConfiguration(developmentDelayPresetDefinition(preset).dspConfiguration);
+  return engine.applyConfiguration(developmentDelayPresetDefinition(preset).dspConfiguration);
 }
 
 } // namespace holdsworth::integration
