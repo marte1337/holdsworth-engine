@@ -158,16 +158,14 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
     DevelopmentPreset::lead121,
     DevelopmentPreset::chorus011,
     DevelopmentPreset::chorus031,
-    DevelopmentPreset::sync922Independent,
     DevelopmentPreset::sync922Baseline,
-    DevelopmentPreset::sync922HalfCycle};
+    DevelopmentPreset::sync922Band1Reverse};
   const std::array expectedDefinitions{
     &dsp::presets::lead121UnmodulatedProvisional(),
     &dsp::presets::chorus011ProvisionalV1(),
     &dsp::presets::chorus031ProvisionalV1(),
-    &dsp::presets::sync922IndependentDiagnosticV1(),
     &dsp::presets::sync922BaselineProvisionalV1(),
-    &dsp::presets::sync922HalfCycleDiagnosticV1()};
+    &dsp::presets::sync922Band1ReverseDiagnosticV1()};
 
   for (std::size_t index = 0; index < selections.size(); ++index)
   {
@@ -183,32 +181,28 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
     }
   }
 
-  return integration::kDevelopmentDelayPresetCount == 6
+  return integration::kDevelopmentDelayPresetCount == 5
          && integration::developmentDelayPresetFromIndex(99U) == DevelopmentPreset::lead121
          && integration::developmentDelayPresetFromNormalizedControlValue(0.0)
               == DevelopmentPreset::lead121
-         && integration::developmentDelayPresetFromNormalizedControlValue(0.2)
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.25)
               == DevelopmentPreset::chorus011
-         && integration::developmentDelayPresetFromNormalizedControlValue(0.4)
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.5)
               == DevelopmentPreset::chorus031
-         && integration::developmentDelayPresetFromNormalizedControlValue(0.6)
-              == DevelopmentPreset::sync922Independent
-         && integration::developmentDelayPresetFromNormalizedControlValue(0.8)
+         && integration::developmentDelayPresetFromNormalizedControlValue(0.75)
               == DevelopmentPreset::sync922Baseline
          && integration::developmentDelayPresetFromNormalizedControlValue(1.0)
-              == DevelopmentPreset::sync922HalfCycle
+              == DevelopmentPreset::sync922Band1Reverse
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::lead121)
               == 0.0
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus011)
-              == 0.2
+              == 0.25
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus031)
-              == 0.4
+              == 0.5
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::sync922Independent) == 0.6
+              DevelopmentPreset::sync922Baseline) == 0.75
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::sync922Baseline) == 0.8
-         && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::sync922HalfCycle) == 1.0;
+              DevelopmentPreset::sync922Band1Reverse) == 1.0;
 }
 
 bool testRejectedDevelopmentConfigurationIsTransactional()
@@ -249,19 +243,16 @@ bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
   const auto chorus031Result =
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
-  const auto syncOffResult =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Independent);
-  const auto syncZeroResult =
+  const auto syncBaselineResult =
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Baseline);
-  const auto syncHalfResult =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922HalfCycle);
+  const auto syncReverseResult =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Band1Reverse);
   const std::size_t switchAllocations = endAllocationTracking();
   if (switchAllocations != 0
       || chorus011Result != dsp::ModulationSyncApplyResult::applied
       || chorus031Result != dsp::ModulationSyncApplyResult::applied
-      || syncOffResult != dsp::ModulationSyncApplyResult::applied
-      || syncZeroResult != dsp::ModulationSyncApplyResult::applied
-      || syncHalfResult != dsp::ModulationSyncApplyResult::applied)
+      || syncBaselineResult != dsp::ModulationSyncApplyResult::applied
+      || syncReverseResult != dsp::ModulationSyncApplyResult::applied)
   {
     std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
     return false;
@@ -312,7 +303,7 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   Mixer::mixStereo(
     dry, wetLeft, wetRight, integrationWetMultiplier, chorus031OutputLeft, chorus031OutputRight);
 
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922HalfCycle);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Band1Reverse);
   Mixer::mixStereo(
     dry, wetLeft, wetRight, integrationWetMultiplier, syncOutputLeft, syncOutputRight);
 
@@ -326,17 +317,17 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
                           chorus031OutputRight,
                           leadOutputRight,
                           0.0)
-         && expectSamples("922 switch preserves integration wet mix left",
+         && expectSamples("922 B1 Reverse switch preserves integration wet mix left",
                           syncOutputLeft,
                           leadOutputLeft,
                           0.0)
-         && expectSamples("922 switch preserves integration wet mix right",
+         && expectSamples("922 B1 Reverse switch preserves integration wet mix right",
                           syncOutputRight,
                           leadOutputRight,
                           0.0)
-         && expectNear("922 preset retains its own DSP wet level",
+         && expectNear("922 B1 Reverse preset retains its own DSP wet level",
                        engine.configuration().globalWetOutputLevel,
-                       dsp::presets::sync922HalfCycleDiagnosticV1()
+                       dsp::presets::sync922Band1ReverseDiagnosticV1()
                          .dspConfiguration.globalWetOutputLevel,
                        0.0);
 }

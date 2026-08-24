@@ -755,7 +755,7 @@ public:
 
     constexpr int rows = 2;
     constexpr int columns = 3;
-    for (int buttonIndex = 0; buttonIndex < rows * columns; ++buttonIndex)
+    for (int buttonIndex = 0; buttonIndex < mNumStates; ++buttonIndex)
       mButtons.Add(mWidgetBounds.GetGridCell(buttonIndex, rows, columns).GetPadded(-2.0f));
 
     SetDirty(false);
@@ -970,9 +970,8 @@ public:
                                             {"Lead 121",
                                              "Chorus 011",
                                              "Chorus 031",
-                                             "922 Off",
-                                             "922 Sync 0°",
-                                             "922 Sync 180°"},
+                                             "922 Base",
+                                             "922 B1 REV"},
                                             "Holdsworth Delay Preset",
                                             delayStyle),
         mControlNames.holdsworthDelayPreset,

@@ -124,6 +124,15 @@ namespace
 }
 
 [[nodiscard]] constexpr HoldsworthDelayConfiguration
+makeSync922Band1ReverseDspConfiguration() noexcept
+{
+  HoldsworthDelayConfiguration configuration =
+    makeSync922DspConfiguration(ModulationPhaseOffsetCycles{0.0});
+  configuration.bands[0].delaySignalPolarity = DelaySignalPolarity::reverse;
+  return configuration;
+}
+
+[[nodiscard]] constexpr HoldsworthDelayConfiguration
 makeSync922IndependentDspConfiguration() noexcept
 {
   HoldsworthDelayConfiguration configuration =
@@ -292,6 +301,25 @@ const HoldsworthDelayPresetDefinition kSync922BaselineProvisionalV1{
   DocumentedYamahaPresetIdentity{"922", "Sync Parameter Sample", ""},
   std::nullopt};
 
+// Yamaha's manual uses Band 1 PHASE Reverse as an audition instruction for
+// preset 922. It is not the stored factory state: the source transcription
+// below remains exactly NOR/NOR while only the DSP Band 1 polarity is reversed.
+const HoldsworthDelayPresetDefinition kSync922Band1ReverseDiagnosticV1{
+  "sync922-band1-reverse-diagnostic-v1",
+  "Yamaha 922 Sync Parameter Sample (Band 1 Reverse Diagnostic v1)",
+  makeSync922Band1ReverseDspConfiguration(),
+  makeSync922DocumentedYamahaValues(),
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  11.5,
+  {YamahaLevelControlValue{10.0},
+   YamahaLevelControlValue{10.0},
+   YamahaPanControlValue{YamahaPanDirection::center, 0.0}},
+  ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
+                                YamahaModulationMappingStatus::unmeasured,
+                                ModulationPhaseRelationshipStatus::provisional},
+  DocumentedYamahaPresetIdentity{"922", "Sync Parameter Sample", ""},
+  std::nullopt};
+
 // Yamaha's manual documents synchronized SPEED 5.0 as a 180-degree phase
 // difference. This diagnostic uses that isolated reference point while the
 // factory source transcription above remains SPEED 0.0.
@@ -355,6 +383,11 @@ const HoldsworthDelayPresetDefinition& chorus031ProvisionalV1() noexcept
 const HoldsworthDelayPresetDefinition& sync922BaselineProvisionalV1() noexcept
 {
   return kSync922BaselineProvisionalV1;
+}
+
+const HoldsworthDelayPresetDefinition& sync922Band1ReverseDiagnosticV1() noexcept
+{
+  return kSync922Band1ReverseDiagnosticV1;
 }
 
 const HoldsworthDelayPresetDefinition& sync922HalfCycleDiagnosticV1() noexcept

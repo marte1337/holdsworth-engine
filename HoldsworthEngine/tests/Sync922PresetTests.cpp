@@ -117,7 +117,9 @@ bool expectDisabledSourceBandHasOnlySwitch(
 bool expectExactDspBand(const std::string_view testName,
                         const dsp::DelayBandConfiguration& band,
                         const double rate,
-                        const double pan)
+                        const double pan,
+                        const dsp::DelaySignalPolarity expectedPolarity =
+                          dsp::DelaySignalPolarity::normal)
 {
   const bool valid =
     band.enabled
@@ -132,18 +134,83 @@ bool expectExactDspBand(const std::string_view testName,
     && band.modulationWaveform == dsp::ModulationWaveform::sine
     && !band.loopFilter.lowCut.has_value()
     && !band.loopFilter.highCut.has_value()
-    && band.delaySignalPolarity == dsp::DelaySignalPolarity::normal;
+    && band.delaySignalPolarity == expectedPolarity;
 
   if (!valid)
     std::cerr << testName << ": DSP band mismatch\n";
   return valid;
 }
 
+bool expectConfigurationExact(const std::string_view testName,
+                              const dsp::HoldsworthDelayConfiguration& actual,
+                              const dsp::HoldsworthDelayConfiguration& expected)
+{
+  if (actual.globalWetOutputLevel != expected.globalWetOutputLevel)
+  {
+    std::cerr << testName << ": global wet level differs\n";
+    return false;
+  }
+
+  for (std::size_t bandIndex = 0; bandIndex < dsp::kHoldsworthDelayBandCount; ++bandIndex)
+  {
+    const auto& actualBand = actual.bands[bandIndex];
+    const auto& expectedBand = expected.bands[bandIndex];
+    const bool matches =
+      actualBand.delayTimeMs == expectedBand.delayTimeMs
+      && actualBand.feedback.value == expectedBand.feedback.value
+      && actualBand.outputLevel == expectedBand.outputLevel
+      && actualBand.pan == expectedBand.pan
+      && actualBand.enabled == expectedBand.enabled
+      && actualBand.modulationRate.value == expectedBand.modulationRate.value
+      && actualBand.modulationDepth.value == expectedBand.modulationDepth.value
+      && actualBand.modulationPhase.value == expectedBand.modulationPhase.value
+      && actualBand.tapFraction.value == expectedBand.tapFraction.value
+      && actualBand.modulationWaveform == expectedBand.modulationWaveform
+      && actualBand.delaySignalPolarity == expectedBand.delaySignalPolarity
+      && actualBand.loopFilter.lowCut.has_value()
+           == expectedBand.loopFilter.lowCut.has_value()
+      && actualBand.loopFilter.highCut.has_value()
+           == expectedBand.loopFilter.highCut.has_value()
+      && (!actualBand.loopFilter.lowCut.has_value()
+          || actualBand.loopFilter.lowCut->value == expectedBand.loopFilter.lowCut->value)
+      && (!actualBand.loopFilter.highCut.has_value()
+          || actualBand.loopFilter.highCut->value == expectedBand.loopFilter.highCut->value);
+    if (!matches)
+    {
+      std::cerr << testName << ": band " << (bandIndex + 1) << " differs\n";
+      return false;
+    }
+  }
+
+  for (std::size_t bandIndex = 0; bandIndex < dsp::kHoldsworthDelayBandCount; ++bandIndex)
+  {
+    const auto& actualRelationship = actual.modulationSync.relationships[bandIndex];
+    const auto& expectedRelationship = expected.modulationSync.relationships[bandIndex];
+    const bool matches =
+      actualRelationship.has_value() == expectedRelationship.has_value()
+      && (!actualRelationship.has_value()
+          || (actualRelationship->masterBand == expectedRelationship->masterBand
+              && actualRelationship->phaseOffset.value
+                   == expectedRelationship->phaseOffset.value));
+    if (!matches)
+    {
+      std::cerr << testName << ": synchronization relationship " << (bandIndex + 1)
+                << " differs\n";
+      return false;
+    }
+  }
+
+  return true;
+}
+
 bool expectExactPresetConfiguration(const std::string_view testName,
                                     const dsp::HoldsworthDelayPresetDefinition& preset,
-                                    const std::optional<double> expectedPhaseOffset)
+                                    const std::optional<double> expectedPhaseOffset,
+                                    const dsp::DelaySignalPolarity band1Polarity =
+                                      dsp::DelaySignalPolarity::normal)
 {
-  if (!expectExactDspBand(testName, preset.dspConfiguration.bands[0], 0.27, -1.0)
+  if (!expectExactDspBand(
+        testName, preset.dspConfiguration.bands[0], 0.27, -1.0, band1Polarity)
       || !expectExactDspBand(testName, preset.dspConfiguration.bands[1], 0.0, 1.0)
       || !nearlyEqual(preset.dspConfiguration.globalWetOutputLevel, 1.0)
       || !nearlyEqual(preset.requiredMaximumDelayTimeMs, 11.5))
@@ -268,40 +335,82 @@ bool expectExactFactorySource(const std::string_view testName,
 bool testFactorySourceAndDspVariantsAreExactAndSeparate()
 {
   const auto& baseline = dsp::presets::sync922BaselineProvisionalV1();
-  const auto& diagnostic = dsp::presets::sync922HalfCycleDiagnosticV1();
+  const auto& band1Reverse = dsp::presets::sync922Band1ReverseDiagnosticV1();
+  const auto& halfCycle = dsp::presets::sync922HalfCycleDiagnosticV1();
   const auto& independent = dsp::presets::sync922IndependentDiagnosticV1();
 
   if (baseline.id != "sync922-baseline-provisional-v1"
-      || diagnostic.id != "sync922-half-cycle-diagnostic-v1"
+      || band1Reverse.id != "sync922-band1-reverse-diagnostic-v1"
+      || halfCycle.id != "sync922-half-cycle-diagnostic-v1"
       || independent.id != "sync922-independent-diagnostic-v1"
       || baseline.displayName
            != "Yamaha 922 Sync Parameter Sample (Baseline, Provisional v1)"
-      || diagnostic.displayName
+      || band1Reverse.displayName
+           != "Yamaha 922 Sync Parameter Sample (Band 1 Reverse Diagnostic v1)"
+      || halfCycle.displayName
            != "Yamaha 922 Sync Parameter Sample (180° Diagnostic v1)"
       || independent.displayName != "Yamaha 922 Sync OFF Diagnostic"
       || !expectExactFactorySource("922 baseline source", baseline)
-      || !expectExactFactorySource("922 diagnostic source", diagnostic)
+      || !expectExactFactorySource("922 Band 1 Reverse source", band1Reverse)
+      || !expectExactFactorySource("922 half-cycle source", halfCycle)
       || !expectNoYamahaSourceMetadata("922 independent source", independent)
       || !expectExactPresetConfiguration("922 baseline DSP", baseline, 0.0)
-      || !expectExactPresetConfiguration("922 half-cycle DSP", diagnostic, 0.5)
+      || !expectExactPresetConfiguration("922 Band 1 Reverse DSP",
+                                         band1Reverse,
+                                         0.0,
+                                         dsp::DelaySignalPolarity::reverse)
+      || !expectExactPresetConfiguration("922 half-cycle DSP", halfCycle, 0.5)
       || !expectExactPresetConfiguration("922 independent DSP", independent, std::nullopt)
       || baseline.documentedYamahaSyncAuditionReference.has_value()
-      || !diagnostic.documentedYamahaSyncAuditionReference.has_value())
+      || band1Reverse.documentedYamahaSyncAuditionReference.has_value()
+      || !halfCycle.documentedYamahaSyncAuditionReference.has_value())
     return false;
 
-  const auto& reference = *diagnostic.documentedYamahaSyncAuditionReference;
+  const auto& reference = *halfCycle.documentedYamahaSyncAuditionReference;
   return reference.synchronizedBand == YamahaEffectBandNumber::band2
          && nearlyEqual(reference.synchronizedSpeedControlValue.value, 5.0)
          && nearlyEqual(reference.documentedPhaseDifference.value, 180.0)
          && !reference.isFactoryPresetValue
-         && diagnostic.documentedYamahaValues[1].speedControlValue.has_value()
-         && nearlyEqual(diagnostic.documentedYamahaValues[1].speedControlValue->value, 0.0)
+         && halfCycle.documentedYamahaValues[1].speedControlValue.has_value()
+         && nearlyEqual(halfCycle.documentedYamahaValues[1].speedControlValue->value, 0.0)
          && baseline.modulationCalibration.has_value()
          && baseline.modulationCalibration->phaseRelationship
               == dsp::ModulationPhaseRelationshipStatus::provisional
-         && diagnostic.modulationCalibration.has_value()
-         && diagnostic.modulationCalibration->phaseRelationship
+         && band1Reverse.modulationCalibration.has_value()
+         && band1Reverse.modulationCalibration->phaseRelationship
+              == dsp::ModulationPhaseRelationshipStatus::provisional
+         && halfCycle.modulationCalibration.has_value()
+         && halfCycle.modulationCalibration->phaseRelationship
               == dsp::ModulationPhaseRelationshipStatus::documentedReference;
+}
+
+bool testBand1ReverseChangesOnlyDspPolarityAndKeepsFactoryNorNorSource()
+{
+  const auto& baseline = dsp::presets::sync922BaselineProvisionalV1();
+  const auto& diagnostic = dsp::presets::sync922Band1ReverseDiagnosticV1();
+  auto expectedDiagnostic = baseline.dspConfiguration;
+  expectedDiagnostic.bands[0].delaySignalPolarity = dsp::DelaySignalPolarity::reverse;
+
+  const auto& baselineBand1 = baseline.dspConfiguration.bands[0];
+  const auto& baselineBand2 = baseline.dspConfiguration.bands[1];
+  const auto& diagnosticBand1 = diagnostic.dspConfiguration.bands[0];
+  const auto& diagnosticBand2 = diagnostic.dspConfiguration.bands[1];
+  const auto& sourceBand1 = diagnostic.documentedYamahaValues[0];
+  const auto& sourceBand2 = diagnostic.documentedYamahaValues[1];
+
+  return baselineBand1.delaySignalPolarity == dsp::DelaySignalPolarity::normal
+         && baselineBand2.delaySignalPolarity == dsp::DelaySignalPolarity::normal
+         && diagnosticBand1.delaySignalPolarity == dsp::DelaySignalPolarity::reverse
+         && diagnosticBand2.delaySignalPolarity == dsp::DelaySignalPolarity::normal
+         && expectConfigurationExact("922 Band 1 Reverse single-field DSP delta",
+                                     diagnostic.dspConfiguration,
+                                     expectedDiagnostic)
+         && expectExactFactorySource("922 Band 1 Reverse NOR/NOR source", diagnostic)
+         && sourceBand1.delaySignalPhaseControlValue
+              == presets::YamahaDelaySignalPhaseControlValue::normal
+         && sourceBand2.delaySignalPhaseControlValue
+              == presets::YamahaDelaySignalPhaseControlValue::normal
+         && !diagnostic.documentedYamahaSyncAuditionReference.has_value();
 }
 
 bool testConfigurationsApplyTransactionallyAndRoundTrip()
@@ -311,6 +420,7 @@ bool testConfigurationsApplyTransactionallyAndRoundTrip()
 
   for (const auto* preset :
        std::array{&dsp::presets::sync922BaselineProvisionalV1(),
+                  &dsp::presets::sync922Band1ReverseDiagnosticV1(),
                   &dsp::presets::sync922HalfCycleDiagnosticV1(),
                   &dsp::presets::sync922IndependentDiagnosticV1()})
   {
@@ -318,19 +428,8 @@ bool testConfigurationsApplyTransactionallyAndRoundTrip()
           != ModulationSyncApplyResult::applied)
       return false;
 
-    const auto actual = engine.configuration();
-    const auto& actualRelationship = actual.modulationSync.relationships[1];
-    const auto& expectedRelationship =
-      preset->dspConfiguration.modulationSync.relationships[1];
-    const bool relationshipsMatch =
-      actualRelationship.has_value() == expectedRelationship.has_value()
-      && (!actualRelationship.has_value()
-          || (actualRelationship->masterBand == expectedRelationship->masterBand
-              && nearlyEqual(actualRelationship->phaseOffset.value,
-                             expectedRelationship->phaseOffset.value)));
-    if (!expectExactDspBand("922 round-trip Band 1", actual.bands[0], 0.27, -1.0)
-        || !expectExactDspBand("922 round-trip Band 2", actual.bands[1], 0.0, 1.0)
-        || !relationshipsMatch)
+    if (!expectConfigurationExact(
+          "922 configuration round-trip", engine.configuration(), preset->dspConfiguration))
       return false;
   }
 
@@ -519,6 +618,9 @@ bool testConfigurationsAndProcessingDoNotAllocate()
   const auto baselineResult = engine.applyConfiguration(
     dsp::presets::sync922BaselineProvisionalV1().dspConfiguration);
   engine.processBlock(input, left, right);
+  const auto band1ReverseResult = engine.applyConfiguration(
+    dsp::presets::sync922Band1ReverseDiagnosticV1().dspConfiguration);
+  engine.processBlock(input, left, right);
   const auto independentResult = engine.applyConfiguration(
     dsp::presets::sync922IndependentDiagnosticV1().dspConfiguration);
   engine.processBlock(input, left, right);
@@ -530,6 +632,7 @@ bool testConfigurationsAndProcessingDoNotAllocate()
   if (allocations != 0)
     std::cerr << "922 configuration/processing allocated " << allocations << " time(s)\n";
   return baselineResult == ModulationSyncApplyResult::applied
+         && band1ReverseResult == ModulationSyncApplyResult::applied
          && independentResult == ModulationSyncApplyResult::applied
          && diagnosticResult == ModulationSyncApplyResult::applied
          && allocations == 0;
@@ -538,6 +641,8 @@ bool testConfigurationsAndProcessingDoNotAllocate()
 constexpr std::array kTests{
   TestCase{"Yamaha 922: factory source and DSP variants remain exact and separate",
            testFactorySourceAndDspVariantsAreExactAndSeparate},
+  TestCase{"Yamaha 922: Band 1 Reverse changes only DSP polarity and keeps NOR/NOR source",
+           testBand1ReverseChangesOnlyDspPolarityAndKeepsFactoryNorNorSource},
   TestCase{"Yamaha 922: configurations apply transactionally and round-trip",
            testConfigurationsApplyTransactionallyAndRoundTrip},
   TestCase{"Yamaha 922: baseline locks root/slave rates across long render",

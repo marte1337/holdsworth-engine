@@ -11,17 +11,18 @@ namespace holdsworth::integration
 
 // Session-local choices exposed by the temporary development UI. These are
 // deliberately not plugin parameters and have no serialized representation.
+// The Sync OFF and 180-degree diagnostics remain available as DSP presets but
+// are intentionally absent from this milestone's live selector.
 enum class DevelopmentDelayPreset : std::uint32_t
 {
   lead121 = 0,
   chorus011 = 1,
   chorus031 = 2,
-  sync922Independent = 3,
-  sync922Baseline = 4,
-  sync922HalfCycle = 5
+  sync922Baseline = 3,
+  sync922Band1Reverse = 4
 };
 
-inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 6;
+inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 5;
 
 // Invalid wire values fail safely to the proven Lead 121 default.
 [[nodiscard]] constexpr DevelopmentDelayPreset developmentDelayPresetFromIndex(
@@ -33,20 +34,18 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 6;
       return DevelopmentDelayPreset::chorus011;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::chorus031):
       return DevelopmentDelayPreset::chorus031;
-    case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922Independent):
-      return DevelopmentDelayPreset::sync922Independent;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922Baseline):
       return DevelopmentDelayPreset::sync922Baseline;
-    case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922HalfCycle):
-      return DevelopmentDelayPreset::sync922HalfCycle;
+    case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922Band1Reverse):
+      return DevelopmentDelayPreset::sync922Band1Reverse;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::lead121):
     default:
       return DevelopmentDelayPreset::lead121;
   }
 }
 
-// Temporary tab controls communicate a normalized value. With six choices,
-// the exact wire values progress from 0.0 through 1.0 in 0.2 steps.
+// Temporary tab controls communicate a normalized value. With five choices,
+// the exact wire values progress from 0.0 through 1.0 in 0.25 steps.
 [[nodiscard]] inline DevelopmentDelayPreset developmentDelayPresetFromNormalizedControlValue(
   const double normalizedValue) noexcept
 {
@@ -70,12 +69,10 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 6;
 {
   switch (preset)
   {
-    case DevelopmentDelayPreset::sync922HalfCycle:
-      return dsp::presets::sync922HalfCycleDiagnosticV1();
+    case DevelopmentDelayPreset::sync922Band1Reverse:
+      return dsp::presets::sync922Band1ReverseDiagnosticV1();
     case DevelopmentDelayPreset::sync922Baseline:
       return dsp::presets::sync922BaselineProvisionalV1();
-    case DevelopmentDelayPreset::sync922Independent:
-      return dsp::presets::sync922IndependentDiagnosticV1();
     case DevelopmentDelayPreset::chorus031:
       return dsp::presets::chorus031ProvisionalV1();
     case DevelopmentDelayPreset::chorus011:

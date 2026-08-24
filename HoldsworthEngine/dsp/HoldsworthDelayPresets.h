@@ -171,6 +171,11 @@ namespace presets
 // phase offset while retaining the exact factory SPEED 0.0 source value.
 [[nodiscard]] const HoldsworthDelayPresetDefinition& sync922BaselineProvisionalV1() noexcept;
 
+// A manual-guided PHASE audition derived from factory preset 922. The stored
+// Yamaha PHASE source values remain NOR/NOR; only the physical DSP signal
+// polarity for Band 1 is reversed.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& sync922Band1ReverseDiagnosticV1() noexcept;
+
 // A manual-guided diagnostic variant of factory preset 922. The factory source
 // transcription remains SPEED 0.0, while the DSP relationship uses the exact
 // half-cycle point Yamaha documents for synchronized SPEED 5.0.
