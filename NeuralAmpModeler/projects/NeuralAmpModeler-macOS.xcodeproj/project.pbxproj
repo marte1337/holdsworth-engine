@@ -547,6 +547,7 @@
 		D1A700012F00000A00000002 /* DelayBandSignalPolarityTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000A00000001 /* DelayBandSignalPolarityTests.cpp */; };
 		D1A700012F00000B00000003 /* ModulationSyncTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000B00000002 /* ModulationSyncTests.cpp */; };
 		D1A700012F00000C00000003 /* Sync922PresetTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000C00000002 /* Sync922PresetTests.cpp */; };
+		D1A700012F00000D00000004 /* AudioRoutingTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000D00000003 /* AudioRoutingTests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1148,6 +1149,9 @@
 		D1A700012F00000B00000004 /* YamahaSyncSourceValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YamahaSyncSourceValues.h; sourceTree = "<group>"; };
 		D1A700012F00000C00000002 /* Sync922PresetTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sync922PresetTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00000C00000004 /* YamahaBandStructureSourceValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YamahaBandStructureSourceValues.h; sourceTree = "<group>"; };
+		D1A700012F00000D00000001 /* DelayBandIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DelayBandIdentity.h; sourceTree = "<group>"; };
+		D1A700012F00000D00000002 /* AudioRouting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioRouting.h; sourceTree = "<group>"; };
+		D1A700012F00000D00000003 /* AudioRoutingTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AudioRoutingTests.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2128,7 +2132,9 @@
 				D1A700012F00000200000002 /* DelayBand.cpp */,
 				D1A700012F00000300000001 /* HoldsworthDelayEngine.h */,
 				D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */,
+				D1A700012F00000D00000001 /* DelayBandIdentity.h */,
 				D1A700012F00000B00000001 /* ModulationSync.h */,
+				D1A700012F00000D00000002 /* AudioRouting.h */,
 				D1A700012F00000300000003 /* HoldsworthDelayPresets.h */,
 				D1A700012F00000300000004 /* HoldsworthDelayPresets.cpp */,
 			);
@@ -2171,6 +2177,7 @@
 				D1A700012F00000A00000001 /* DelayBandSignalPolarityTests.cpp */,
 				D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */,
 				D1A700012F00000B00000002 /* ModulationSyncTests.cpp */,
+				D1A700012F00000D00000003 /* AudioRoutingTests.cpp */,
 				D1A700012F00000C00000002 /* Sync922PresetTests.cpp */,
 				D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */,
 			);
@@ -3276,6 +3283,7 @@
 				D1A700012F00000A00000002 /* DelayBandSignalPolarityTests.cpp in Sources */,
 				D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */,
 				D1A700012F00000B00000003 /* ModulationSyncTests.cpp in Sources */,
+				D1A700012F00000D00000004 /* AudioRoutingTests.cpp in Sources */,
 				D1A700012F00000C00000003 /* Sync922PresetTests.cpp in Sources */,
 				D1A700012F00000500000004 /* HoldsworthDelayLiveIntegrationTests.cpp in Sources */,
 			);

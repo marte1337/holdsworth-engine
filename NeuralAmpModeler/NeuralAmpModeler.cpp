@@ -434,7 +434,7 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
       // form a temporary hybrid tail when a preset is changed while ringing.
       const auto applyResult =
         holdsworth::integration::applyDevelopmentDelayPreset(mHoldsworthDelayEngine, requestedPreset);
-      if (applyResult == holdsworth::dsp::ModulationSyncApplyResult::applied)
+      if (applyResult.wasApplied())
         mHoldsworthDelayAppliedPreset = requestedPresetIndex;
     }
   }
@@ -553,7 +553,7 @@ void NeuralAmpModeler::OnReset()
     mHoldsworthDelayRequestedPreset.load(std::memory_order_relaxed));
   const auto holdsworthDelayApplyResult =
     holdsworth::integration::applyDevelopmentDelayPreset(mHoldsworthDelayEngine, holdsworthDelayPreset);
-  if (holdsworthDelayApplyResult == holdsworth::dsp::ModulationSyncApplyResult::applied)
+  if (holdsworthDelayApplyResult.wasApplied())
     mHoldsworthDelayAppliedPreset = static_cast<std::uint32_t>(holdsworthDelayPreset);
   mHoldsworthDelayEngine.reset();
   std::fill(mHoldsworthDelaySilentInput.begin(), mHoldsworthDelaySilentInput.end(), 0.0);
