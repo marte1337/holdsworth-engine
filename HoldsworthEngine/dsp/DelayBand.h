@@ -70,8 +70,10 @@ public:
   // Yamaha control mapping. Non-finite values are treated as zero.
   void setFeedbackCoefficient(Sample coefficient) noexcept;
 
-  // Linear wet-output gain in [0, 1]. This gain is outside the feedback loop.
-  // Non-finite values are treated as zero.
+  // Linear audible-delay gain in [0, 1]. It controls stereo wet output and the
+  // provisional delayed contribution to mono CONNECT routing, but never the
+  // routed direct band input. This gain is outside the feedback loop and is
+  // not a calibrated Yamaha EFFECT LEVEL mapping. Non-finite values are zero.
   void setOutputLevel(Sample level) noexcept;
 
   // Equal-power pan in [-1, 1]: -1 is hard left, 0 is center, and 1 is hard
@@ -193,7 +195,35 @@ private:
     std::span<const Sample> modulationOffsetsMs,
     std::span<Sample> wetLeft,
     std::span<Sample> wetRight) noexcept;
+
+  // Engine-only CONNECT hooks. These preserve the established stereo wet
+  // output while additionally exposing the mono signal consumed by downstream
+  // bands. The routed output is deliberately pre-pan and independent of the
+  // engine/global wet gains.
+  void processBlockWithRoutingOutput(
+    std::span<const Sample> monoInput,
+    std::span<Sample> routedOutput,
+    std::span<Sample> wetLeft,
+    std::span<Sample> wetRight) noexcept;
+  void processBlockUsingPrecomputedModulationOffsetsWithRoutingOutput(
+    std::span<const Sample> monoInput,
+    std::span<const Sample> modulationOffsetsMs,
+    std::span<Sample> routedOutput,
+    std::span<Sample> wetLeft,
+    std::span<Sample> wetRight) noexcept;
   void resetModulationClock() noexcept;
+
+  template <bool UsesPrecomputedModulationOffsets>
+  void processBlockWithRoutingOutputImpl(
+    std::span<const Sample> monoInput,
+    std::span<const Sample> modulationOffsetsMs,
+    std::span<Sample> routedOutput,
+    std::span<Sample> wetLeft,
+    std::span<Sample> wetRight) noexcept;
+
+  [[nodiscard]] Sample connectedRoutingOutputForSample(
+    Sample bandInput,
+    Sample audibleDelayedSignal) const noexcept;
 
   void applyEffectiveDelayTime() noexcept;
   void applyEffectiveModulationDepth() noexcept;

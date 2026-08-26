@@ -74,6 +74,22 @@ bool expectConfigurationExact(const std::string_view testName,
     }
   }
 
+  for (std::size_t bandIndex = 0;
+       bandIndex < dsp::kHoldsworthDelayBandCount;
+       ++bandIndex)
+  {
+    const auto& actualInput = actual.audioRouting.inputs[bandIndex];
+    const auto& expectedInput = expected.audioRouting.inputs[bandIndex];
+    if (actualInput.has_value() != expectedInput.has_value()
+        || (actualInput.has_value()
+            && actualInput->sourceBand != expectedInput->sourceBand))
+    {
+      std::cerr << testName << ": audio-routing input " << (bandIndex + 1)
+                << " differs\n";
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -171,8 +187,8 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
   {
     const auto& selected = integration::developmentDelayPresetDefinition(selections[index]);
     if (&selected != expectedDefinitions[index]
-        || integration::applyDevelopmentDelayPreset(engine, selections[index])
-             != dsp::ModulationSyncApplyResult::applied
+        || !integration::applyDevelopmentDelayPreset(engine, selections[index])
+              .wasApplied()
         || !expectConfigurationExact(
           selected.displayName, engine.configuration(), selected.dspConfiguration))
     {
@@ -209,8 +225,8 @@ bool testRejectedDevelopmentConfigurationIsTransactional()
 {
   dsp::HoldsworthDelayEngine engine(700.0);
   engine.prepare(48000.0, 64);
-  if (integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031)
-      != dsp::ModulationSyncApplyResult::applied)
+  if (!integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031)
+         .wasApplied())
     return false;
   const auto previousConfiguration = engine.configuration();
 
@@ -218,7 +234,8 @@ bool testRejectedDevelopmentConfigurationIsTransactional()
   invalid.modulationSync.relationships[1]->phaseOffset.value =
     std::numeric_limits<double>::quiet_NaN();
   const auto result = engine.applyConfiguration(invalid);
-  return result == dsp::ModulationSyncApplyResult::invalidPhaseOffset
+  return result.modulationSync == dsp::ModulationSyncApplyResult::invalidPhaseOffset
+         && result.audioRouting == dsp::AudioRoutingApplyResult::applied
          && expectConfigurationExact(
            "rejected development transaction", engine.configuration(), previousConfiguration);
 }
@@ -249,10 +266,10 @@ bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Band1Reverse);
   const std::size_t switchAllocations = endAllocationTracking();
   if (switchAllocations != 0
-      || chorus011Result != dsp::ModulationSyncApplyResult::applied
-      || chorus031Result != dsp::ModulationSyncApplyResult::applied
-      || syncBaselineResult != dsp::ModulationSyncApplyResult::applied
-      || syncReverseResult != dsp::ModulationSyncApplyResult::applied)
+      || !chorus011Result.wasApplied()
+      || !chorus031Result.wasApplied()
+      || !syncBaselineResult.wasApplied()
+      || !syncReverseResult.wasApplied())
   {
     std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
     return false;

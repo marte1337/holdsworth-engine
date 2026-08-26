@@ -687,6 +687,221 @@ void DelayBand::processBlockUsingPrecomputedModulationOffsets(
   }
 }
 
+DelayBand::Sample DelayBand::connectedRoutingOutputForSample(const Sample bandInput,
+                                                             const Sample audibleDelayedSignal) const noexcept
+{
+  // Provisional Yamaha CONNECT interpretation pending hardware measurement.
+  // Keep this as the single seam for any future measured EFFECT LEVEL/send
+  // placement. A disabled band bypasses its input for routing while retaining
+  // the established muted-wet/reject-new-delay-input recurrence semantics.
+  if (!mEnabled)
+    return bandInput;
+
+  const Sample signedAudibleDelay =
+    mDelaySignalPolarity == DelaySignalPolarity::reverse ? -audibleDelayedSignal : audibleDelayedSignal;
+  return bandInput + signedAudibleDelay * mOutputLevel;
+}
+
+void DelayBand::processBlockWithRoutingOutput(const std::span<const Sample> monoInput,
+                                              const std::span<Sample> routedOutput, const std::span<Sample> wetLeft,
+                                              const std::span<Sample> wetRight) noexcept
+{
+  processBlockWithRoutingOutputImpl<false>(monoInput, {}, routedOutput, wetLeft, wetRight);
+}
+
+void DelayBand::processBlockUsingPrecomputedModulationOffsetsWithRoutingOutput(
+  const std::span<const Sample> monoInput, const std::span<const Sample> modulationOffsetsMs,
+  const std::span<Sample> routedOutput, const std::span<Sample> wetLeft, const std::span<Sample> wetRight) noexcept
+{
+  processBlockWithRoutingOutputImpl<true>(monoInput, modulationOffsetsMs, routedOutput, wetLeft, wetRight);
+}
+
+template <bool UsesPrecomputedModulationOffsets>
+void DelayBand::processBlockWithRoutingOutputImpl(const std::span<const Sample> monoInput,
+                                                  const std::span<const Sample> modulationOffsetsMs,
+                                                  const std::span<Sample> routedOutput, const std::span<Sample> wetLeft,
+                                                  const std::span<Sample> wetRight) noexcept
+{
+  const bool outputsAreDistinct = monoInput.empty()
+                                  || (routedOutput.data() != wetLeft.data() && routedOutput.data() != wetRight.data()
+                                      && wetLeft.data() != wetRight.data());
+  const bool offsetsAreValid = !UsesPrecomputedModulationOffsets || monoInput.size() == modulationOffsetsMs.size();
+  const bool validCall = mPrepared && offsetsAreValid && monoInput.size() == routedOutput.size()
+                         && monoInput.size() == wetLeft.size() && monoInput.size() == wetRight.size()
+                         && monoInput.size() <= mMaximumBlockSize && outputsAreDistinct;
+  assert(validCall && "prepare() must precede CONNECT processing, and spans must satisfy the prepared contract");
+  if (!validCall)
+  {
+    std::fill(routedOutput.begin(), routedOutput.end(), 0.0);
+    std::fill(wetLeft.begin(), wetLeft.end(), 0.0);
+    std::fill(wetRight.begin(), wetRight.end(), 0.0);
+    return;
+  }
+
+  const Sample leftOutputGain = mOutputLevel * mLeftPanGain;
+  const Sample rightOutputGain = mOutputLevel * mRightPanGain;
+  const bool reversesAudibleDelay = mDelaySignalPolarity == DelaySignalPolarity::reverse;
+
+  const auto writeOutputs = [this, routedOutput, wetLeft, wetRight, leftOutputGain, rightOutputGain,
+                             reversesAudibleDelay](const std::size_t frame, const Sample bandInput,
+                                                   const Sample audibleDelayedSignal) noexcept {
+    routedOutput[frame] = connectedRoutingOutputForSample(bandInput, audibleDelayedSignal);
+
+    if (!mEnabled)
+    {
+      wetLeft[frame] = 0.0;
+      wetRight[frame] = 0.0;
+      return;
+    }
+
+    if (!reversesAudibleDelay)
+    {
+      wetLeft[frame] = audibleDelayedSignal * leftOutputGain;
+      wetRight[frame] = audibleDelayedSignal * rightOutputGain;
+    }
+    else
+    {
+      const Sample reversedAudibleDelay = -audibleDelayedSignal;
+      wetLeft[frame] = reversedAudibleDelay * leftOutputGain;
+      wetRight[frame] = reversedAudibleDelay * rightOutputGain;
+    }
+  };
+
+  if (mTapFraction.value < 1.0)
+  {
+    const bool filtersAreBypassed = mLoopFilter.isBypassed();
+    const Sample baseDelayTimeMs = delayTimeMs();
+    const Sample maximumDelay = maximumDelayTimeMs();
+    const bool hasModulation = mEffectiveModulationDepth.value != 0.0;
+
+    for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+    {
+      Sample instantaneousLoopDelayTimeMs = baseDelayTimeMs;
+      if (hasModulation)
+      {
+        Sample modulationOffsetMs = 0.0;
+        if constexpr (UsesPrecomputedModulationOffsets)
+          modulationOffsetMs = modulationOffsetsMs[frame];
+        else
+          modulationOffsetMs = mDelayModulator.nextOffsetMs();
+
+        instantaneousLoopDelayTimeMs =
+          std::clamp(baseDelayTimeMs + modulationOffsetMs, mMinimumDelayTimeMs, maximumDelay);
+      }
+
+      const Sample bandInput = monoInput[frame];
+      const Sample externalInput = mEnabled ? bandInput : 0.0;
+      const Sample rawLoopDelayed = hasModulation
+                                      ? mDelayLine.readDelayedSampleAtDelayTimeMs(instantaneousLoopDelayTimeMs)
+                                      : mDelayLine.readDelayedSample();
+      const Sample filteredLoopDelayed =
+        filtersAreBypassed ? rawLoopDelayed : mLoopFilter.processSample(rawLoopDelayed);
+      const Sample lineInput = externalInput + mFeedbackCoefficient * filteredLoopDelayed;
+
+      const Sample tapDelayTimeMs = proportionalTapDelayTimeMs(mTapFraction, instantaneousLoopDelayTimeMs);
+      const Sample rawTapDelayed = mDelayLine.readDelayedSampleAtDelayTimeMs(tapDelayTimeMs, lineInput);
+      const Sample filteredTapDelayed =
+        filtersAreBypassed ? rawTapDelayed : mTapOutputFilter.processSample(rawTapDelayed);
+
+      mDelayLine.pushSample(lineInput);
+      if constexpr (!UsesPrecomputedModulationOffsets)
+      {
+        if (!hasModulation)
+          static_cast<void>(mDelayModulator.nextOffsetMs());
+      }
+      mCurrentModulatedDelayTimeMs = instantaneousLoopDelayTimeMs;
+      writeOutputs(frame, bandInput, filteredTapDelayed);
+    }
+
+    return;
+  }
+
+  if (mLoopFilter.isBypassed())
+  {
+    if (mEffectiveModulationDepth.value == 0.0)
+    {
+      for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+      {
+        const Sample bandInput = monoInput[frame];
+        const Sample externalInput = mEnabled ? bandInput : 0.0;
+        const Sample delayed = mDelayLine.readDelayedSample();
+        const Sample lineInput = externalInput + mFeedbackCoefficient * delayed;
+        mDelayLine.pushSample(lineInput);
+        if constexpr (!UsesPrecomputedModulationOffsets)
+          static_cast<void>(mDelayModulator.nextOffsetMs());
+        writeOutputs(frame, bandInput, delayed);
+      }
+
+      mCurrentModulatedDelayTimeMs = delayTimeMs();
+      return;
+    }
+
+    const Sample baseDelayTimeMs = delayTimeMs();
+    const Sample maximumDelay = maximumDelayTimeMs();
+    for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+    {
+      Sample modulationOffsetMs = 0.0;
+      if constexpr (UsesPrecomputedModulationOffsets)
+        modulationOffsetMs = modulationOffsetsMs[frame];
+      else
+        modulationOffsetMs = mDelayModulator.nextOffsetMs();
+      const Sample movingDelayTimeMs =
+        std::clamp(baseDelayTimeMs + modulationOffsetMs, mMinimumDelayTimeMs, maximumDelay);
+
+      const Sample bandInput = monoInput[frame];
+      const Sample externalInput = mEnabled ? bandInput : 0.0;
+      const Sample delayed = mDelayLine.readDelayedSampleAtDelayTimeMs(movingDelayTimeMs);
+      const Sample lineInput = externalInput + mFeedbackCoefficient * delayed;
+      mDelayLine.pushSample(lineInput);
+      mCurrentModulatedDelayTimeMs = movingDelayTimeMs;
+      writeOutputs(frame, bandInput, delayed);
+    }
+
+    return;
+  }
+
+  if (mEffectiveModulationDepth.value == 0.0)
+  {
+    for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+    {
+      const Sample bandInput = monoInput[frame];
+      const Sample externalInput = mEnabled ? bandInput : 0.0;
+      const Sample rawDelayed = mDelayLine.readDelayedSample();
+      const Sample filteredDelayed = mLoopFilter.processSample(rawDelayed);
+      const Sample lineInput = externalInput + mFeedbackCoefficient * filteredDelayed;
+      mDelayLine.pushSample(lineInput);
+      if constexpr (!UsesPrecomputedModulationOffsets)
+        static_cast<void>(mDelayModulator.nextOffsetMs());
+      writeOutputs(frame, bandInput, filteredDelayed);
+    }
+
+    mCurrentModulatedDelayTimeMs = delayTimeMs();
+    return;
+  }
+
+  const Sample baseDelayTimeMs = delayTimeMs();
+  const Sample maximumDelay = maximumDelayTimeMs();
+  for (std::size_t frame = 0; frame < monoInput.size(); ++frame)
+  {
+    Sample modulationOffsetMs = 0.0;
+    if constexpr (UsesPrecomputedModulationOffsets)
+      modulationOffsetMs = modulationOffsetsMs[frame];
+    else
+      modulationOffsetMs = mDelayModulator.nextOffsetMs();
+    const Sample movingDelayTimeMs =
+      std::clamp(baseDelayTimeMs + modulationOffsetMs, mMinimumDelayTimeMs, maximumDelay);
+
+    const Sample bandInput = monoInput[frame];
+    const Sample externalInput = mEnabled ? bandInput : 0.0;
+    const Sample rawDelayed = mDelayLine.readDelayedSampleAtDelayTimeMs(movingDelayTimeMs);
+    const Sample filteredDelayed = mLoopFilter.processSample(rawDelayed);
+    const Sample lineInput = externalInput + mFeedbackCoefficient * filteredDelayed;
+    mDelayLine.pushSample(lineInput);
+    mCurrentModulatedDelayTimeMs = movingDelayTimeMs;
+    writeOutputs(frame, bandInput, filteredDelayed);
+  }
+}
+
 void DelayBand::applyEffectiveDelayTime() noexcept
 {
   const Sample effectiveDelayTimeMs = mPrepared

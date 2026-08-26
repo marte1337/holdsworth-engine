@@ -192,6 +192,20 @@ bool expectConfiguration(const std::string_view testName,
     }
   }
 
+  for (std::size_t i = 0; i < actual.audioRouting.inputs.size(); ++i)
+  {
+    const auto& actualInput = actual.audioRouting.inputs[i];
+    const auto& expectedInput = expected.audioRouting.inputs[i];
+    if (actualInput.has_value() != expectedInput.has_value()
+        || (actualInput.has_value()
+            && actualInput->sourceBand != expectedInput->sourceBand))
+    {
+      std::cerr << testName << ": audio-routing input mismatch at band "
+                << (i + 1) << '\n';
+      return false;
+    }
+  }
+
   return true;
 }
 

@@ -4,7 +4,9 @@
 
 #include <algorithm>
 #include <array>
+#include <bit>
 #include <cstddef>
+#include <cstdint>
 #include <iostream>
 #include <span>
 #include <type_traits>
@@ -22,6 +24,10 @@ static_assert(!std::is_convertible_v<holdsworth::presets::YamahaDepthControlValu
                                      holdsworth::dsp::ModulationDepthMs>);
 static_assert(!std::is_convertible_v<holdsworth::presets::YamahaConnectControlValue,
                                      holdsworth::dsp::DelayBandId>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaConnectControlValue,
+                                     holdsworth::dsp::ConnectedBandAudioInput>);
+static_assert(!std::is_convertible_v<holdsworth::dsp::ConnectedBandAudioInput,
+                                     holdsworth::presets::YamahaConnectControlValue>);
 static_assert(!std::is_convertible_v<holdsworth::presets::YamahaGroupControlValue,
                                      holdsworth::dsp::DelayBandId>);
 
@@ -41,6 +47,24 @@ using presets::YamahaEffectBandNumber;
 using presets::YamahaEffectBandSwitchState;
 using presets::YamahaFilterControlState;
 using presets::YamahaSyncControlState;
+
+[[nodiscard]] std::uint64_t bitExactFingerprint(
+  const std::span<const double> samples) noexcept
+{
+  constexpr std::uint64_t offsetBasis = UINT64_C(14695981039346656037);
+  constexpr std::uint64_t prime = UINT64_C(1099511628211);
+  std::uint64_t fingerprint = offsetBasis;
+  for (const double sample : samples)
+  {
+    const std::uint64_t sampleBits = std::bit_cast<std::uint64_t>(sample);
+    for (unsigned int shift = 0; shift < 64; shift += 8)
+    {
+      fingerprint ^= (sampleBits >> shift) & UINT64_C(0xff);
+      fingerprint *= prime;
+    }
+  }
+  return fingerprint;
+}
 
 bool expectActiveSourceBand(const std::string_view testName,
                             const dsp::DocumentedYamahaBandValues& band,
@@ -200,6 +224,22 @@ bool expectConfigurationExact(const std::string_view testName,
     }
   }
 
+  for (std::size_t bandIndex = 0;
+       bandIndex < dsp::kHoldsworthDelayBandCount;
+       ++bandIndex)
+  {
+    const auto& actualInput = actual.audioRouting.inputs[bandIndex];
+    const auto& expectedInput = expected.audioRouting.inputs[bandIndex];
+    if (actualInput.has_value() != expectedInput.has_value()
+        || (actualInput.has_value()
+            && actualInput->sourceBand != expectedInput->sourceBand))
+    {
+      std::cerr << testName << ": audio-routing input " << (bandIndex + 1)
+                << " differs\n";
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -246,6 +286,18 @@ bool expectExactPresetConfiguration(const std::string_view testName,
     else if (relationship.has_value())
     {
       std::cerr << testName << ": unexpected synchronization at Band "
+                << (bandIndex + 1) << '\n';
+      return false;
+    }
+  }
+
+  for (std::size_t bandIndex = 0;
+       bandIndex < preset.dspConfiguration.audioRouting.inputs.size();
+       ++bandIndex)
+  {
+    if (preset.dspConfiguration.audioRouting.inputs[bandIndex].has_value())
+    {
+      std::cerr << testName << ": unexpected DSP CONNECT routing at Band "
                 << (bandIndex + 1) << '\n';
       return false;
     }
@@ -424,8 +476,7 @@ bool testConfigurationsApplyTransactionallyAndRoundTrip()
                   &dsp::presets::sync922HalfCycleDiagnosticV1(),
                   &dsp::presets::sync922IndependentDiagnosticV1()})
   {
-    if (engine.applyConfiguration(preset->dspConfiguration)
-          != ModulationSyncApplyResult::applied)
+    if (!engine.applyConfiguration(preset->dspConfiguration).wasApplied())
       return false;
 
     if (!expectConfigurationExact(
@@ -442,9 +493,9 @@ bool testBaselineLocksRootAndSlaveRatesAcrossLongRender()
     24 * dsp::DelayModulator::kCacheResynchronizationInterval + 137;
   HoldsworthDelayEngine engine(11.5);
   engine.prepare(1000.0, sampleCount);
-  if (engine.applyConfiguration(
-        dsp::presets::sync922BaselineProvisionalV1().dspConfiguration)
-      != ModulationSyncApplyResult::applied)
+  if (!engine.applyConfiguration(
+         dsp::presets::sync922BaselineProvisionalV1().dspConfiguration)
+         .wasApplied())
     return false;
 
   std::vector<double> input(sampleCount);
@@ -501,9 +552,9 @@ bool testRemovingSyncRestoresDormantZeroRateAndDisabledBandsStaySilent()
   constexpr std::size_t blockSize = 64;
   HoldsworthDelayEngine engine(11.5);
   engine.prepare(1000.0, blockSize);
-  if (engine.applyConfiguration(
-        dsp::presets::sync922BaselineProvisionalV1().dspConfiguration)
-        != ModulationSyncApplyResult::applied)
+  if (!engine.applyConfiguration(
+         dsp::presets::sync922BaselineProvisionalV1().dspConfiguration)
+         .wasApplied())
     return false;
 
   std::array<double, blockSize> silence{};
@@ -527,7 +578,7 @@ bool testIndependentDiagnosticUsesDormantZeroRateWithoutSync()
   engine.prepare(1000.0, blockSize);
   const auto& configuration =
     dsp::presets::sync922IndependentDiagnosticV1().dspConfiguration;
-  if (engine.applyConfiguration(configuration) != ModulationSyncApplyResult::applied)
+  if (!engine.applyConfiguration(configuration).wasApplied())
     return false;
 
   for (const auto& relationship : engine.configuration().modulationSync.relationships)
@@ -580,8 +631,8 @@ bool testDiagnosticIsPartitionInvariantAndResetDeterministic()
   HoldsworthDelayEngine partitioned(11.5);
   whole.prepare(1000.0, sampleCount);
   partitioned.prepare(1000.0, 31);
-  if (whole.applyConfiguration(configuration) != ModulationSyncApplyResult::applied
-      || partitioned.applyConfiguration(configuration) != ModulationSyncApplyResult::applied)
+  if (!whole.applyConfiguration(configuration).wasApplied()
+      || !partitioned.applyConfiguration(configuration).wasApplied())
     return false;
 
   std::vector<double> input(sampleCount);
@@ -603,6 +654,60 @@ bool testDiagnosticIsPartitionInvariantAndResetDeterministic()
   whole.processBlock(input, partitionedLeft, partitionedRight);
   return expectSamplesBitExact("922 reset left", partitionedLeft, wholeLeft)
          && expectSamplesBitExact("922 reset right", partitionedRight, wholeRight);
+}
+
+bool testAllExistingDiagnosticRendersMatchFrozenBitExactFingerprints()
+{
+  constexpr std::size_t sampleCount =
+    2 * dsp::DelayModulator::kCacheResynchronizationInterval + 137;
+  const std::array presets{
+    &dsp::presets::sync922BaselineProvisionalV1(),
+    &dsp::presets::sync922Band1ReverseDiagnosticV1(),
+    &dsp::presets::sync922HalfCycleDiagnosticV1(),
+    &dsp::presets::sync922IndependentDiagnosticV1()};
+  constexpr std::array<std::uint64_t, 4> expectedLeft{
+    UINT64_C(6041986933145211498),
+    UINT64_C(9619149460176975850),
+    UINT64_C(6041986933145211498),
+    UINT64_C(6041986933145211498)};
+  constexpr std::array<std::uint64_t, 4> expectedRight{
+    UINT64_C(6041986933145211498),
+    UINT64_C(6041986933145211498),
+    UINT64_C(12852922705196279779),
+    UINT64_C(9710487674041144302)};
+
+  std::vector<double> input(sampleCount);
+  for (std::size_t sample = 0; sample < input.size(); ++sample)
+  {
+    const int centered = static_cast<int>((sample * 43 + 17) % 109) - 54;
+    input[sample] = static_cast<double>(centered) / 59.0;
+  }
+  std::vector<double> left(sampleCount);
+  std::vector<double> right(sampleCount);
+
+  bool allMatch = true;
+  for (std::size_t presetIndex = 0; presetIndex < presets.size(); ++presetIndex)
+  {
+    HoldsworthDelayEngine engine(11.5);
+    engine.prepare(1000.0, sampleCount);
+    if (!engine.applyConfiguration(presets[presetIndex]->dspConfiguration)
+           .wasApplied())
+      return false;
+    engine.processBlock(input, left, right);
+
+    const std::uint64_t actualLeft = bitExactFingerprint(left);
+    const std::uint64_t actualRight = bitExactFingerprint(right);
+    if (actualLeft != expectedLeft[presetIndex]
+        || actualRight != expectedRight[presetIndex])
+    {
+      std::cerr << presets[presetIndex]->id
+                << ": frozen 922 render fingerprint mismatch; left="
+                << actualLeft << ", right=" << actualRight << '\n';
+      allMatch = false;
+    }
+  }
+
+  return allMatch;
 }
 
 bool testConfigurationsAndProcessingDoNotAllocate()
@@ -631,10 +736,10 @@ bool testConfigurationsAndProcessingDoNotAllocate()
 
   if (allocations != 0)
     std::cerr << "922 configuration/processing allocated " << allocations << " time(s)\n";
-  return baselineResult == ModulationSyncApplyResult::applied
-         && band1ReverseResult == ModulationSyncApplyResult::applied
-         && independentResult == ModulationSyncApplyResult::applied
-         && diagnosticResult == ModulationSyncApplyResult::applied
+  return baselineResult.wasApplied()
+         && band1ReverseResult.wasApplied()
+         && independentResult.wasApplied()
+         && diagnosticResult.wasApplied()
          && allocations == 0;
 }
 
@@ -655,6 +760,8 @@ constexpr std::array kTests{
            testIndependentDiagnosticUsesDormantZeroRateWithoutSync},
   TestCase{"Yamaha 922: diagnostic is partition invariant and reset deterministic",
            testDiagnosticIsPartitionInvariantAndResetDeterministic},
+  TestCase{"Yamaha 922: all existing diagnostic renders remain bit-exact",
+           testAllExistingDiagnosticRendersMatchFrozenBitExactFingerprints},
   TestCase{"Yamaha 922: configuration and processing perform no allocations",
            testConfigurationsAndProcessingDoNotAllocate},
 };

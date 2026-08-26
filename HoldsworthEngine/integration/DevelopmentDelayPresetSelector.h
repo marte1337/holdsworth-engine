@@ -86,7 +86,7 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 5;
 // Applies the selected existing DSP configuration without resetting delay
 // memory. Switching during an active tail can therefore produce a temporary
 // hybrid/morphing tail, which is intentional for this audition milestone.
-inline dsp::ModulationSyncApplyResult applyDevelopmentDelayPreset(
+inline dsp::HoldsworthDelayConfigurationApplyResult applyDevelopmentDelayPreset(
   dsp::HoldsworthDelayEngine& engine,
   const DevelopmentDelayPreset preset) noexcept
 {

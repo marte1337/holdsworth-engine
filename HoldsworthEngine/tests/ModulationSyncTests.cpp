@@ -1,5 +1,6 @@
 #include "../dsp/HoldsworthDelayEngine.h"
 #include "../dsp/HoldsworthDelayPresets.h"
+#include "../presets/YamahaBandStructureSourceValues.h"
 #include "../presets/YamahaSyncSourceValues.h"
 #include "TestHarness.h"
 
@@ -29,6 +30,10 @@ static_assert(!std::is_convertible_v<holdsworth::presets::YamahaSpeedControlValu
                                      holdsworth::dsp::ModulationPhaseOffsetCycles>);
 static_assert(!std::is_convertible_v<holdsworth::dsp::ModulationPhaseOffsetCycles,
                                      holdsworth::presets::YamahaSpeedControlValue>);
+static_assert(!std::is_convertible_v<holdsworth::presets::YamahaConnectControlValue,
+                                     holdsworth::dsp::ConnectedBandAudioInput>);
+static_assert(!std::is_convertible_v<holdsworth::dsp::ConnectedBandAudioInput,
+                                     holdsworth::presets::YamahaConnectControlValue>);
 
 namespace holdsworth::test
 {
@@ -103,6 +108,26 @@ bool equalSyncConfiguration(const ModulationSyncConfiguration& actual,
   return true;
 }
 
+bool equalAudioRoutingConfiguration(const dsp::AudioRoutingConfiguration& actual,
+                                    const dsp::AudioRoutingConfiguration& expected,
+                                    const std::string_view testName)
+{
+  for (std::size_t band = 0; band < actual.inputs.size(); ++band)
+  {
+    const auto& actualInput = actual.inputs[band];
+    const auto& expectedInput = expected.inputs[band];
+    if (actualInput.has_value() != expectedInput.has_value()
+        || (actualInput.has_value()
+            && actualInput->sourceBand != expectedInput->sourceBand))
+    {
+      std::cerr << testName << ": audio-routing input differs at Band "
+                << (band + 1) << '\n';
+      return false;
+    }
+  }
+  return true;
+}
+
 template <typename Cutoff>
 bool equalOptionalCutoff(const std::optional<Cutoff>& actual,
                          const std::optional<Cutoff>& expected) noexcept
@@ -121,7 +146,10 @@ bool equalEngineConfiguration(const dsp::HoldsworthDelayConfiguration& actual,
                    0.0)
       || !equalSyncConfiguration(actual.modulationSync,
                                  expected.modulationSync,
-                                 testName))
+                                 testName)
+      || !equalAudioRoutingConfiguration(actual.audioRouting,
+                                         expected.audioRouting,
+                                         testName))
     return false;
 
   for (std::size_t bandIndex = 0; bandIndex < actual.bands.size(); ++bandIndex)
@@ -179,13 +207,15 @@ bool testYamahaSyncSourceMetadataIsStrongAndExact()
   {
     for (std::size_t band = 0; band < expectedBandNumbers.size(); ++band)
     {
-      const auto& source = preset->documentedYamahaValues[band].syncControlValue;
-      if (!source.has_value()
-          || source->state() != YamahaSyncControlState::independentSelf
-          || source->displayedBand() != expectedBandNumbers[band]
-          || preset->dspConfiguration.modulationSync.relationships[band].has_value())
+      const auto& syncSource =
+        preset->documentedYamahaValues[band].syncControlValue;
+      if (!syncSource.has_value()
+          || syncSource->state() != YamahaSyncControlState::independentSelf
+          || syncSource->displayedBand() != expectedBandNumbers[band]
+          || preset->dspConfiguration.modulationSync.relationships[band].has_value()
+          || preset->dspConfiguration.audioRouting.inputs[band].has_value())
       {
-        std::cerr << preset->id << ": Yamaha SYNC OFF/self metadata mismatch at Band "
+        std::cerr << preset->id << ": Yamaha SYNC metadata/DSP graphs mismatch at Band "
                   << (band + 1) << '\n';
         return false;
       }
@@ -307,8 +337,8 @@ bool testRejectedWholeConfigurationPreservesAllStateAndContinuation()
   dsp::HoldsworthDelayEngine reference(40.0);
   actual.prepare(1000.0, blockSize);
   reference.prepare(1000.0, blockSize);
-  if (actual.applyConfiguration(accepted) != ModulationSyncApplyResult::applied
-      || reference.applyConfiguration(accepted) != ModulationSyncApplyResult::applied)
+  if (!actual.applyConfiguration(accepted).wasApplied()
+      || !reference.applyConfiguration(accepted).wasApplied())
     return false;
 
   std::array<double, blockSize> input{};
@@ -330,8 +360,10 @@ bool testRejectedWholeConfigurationPreservesAllStateAndContinuation()
   rejected.bands[2].modulationPhase = dsp::ModulationPhaseCycles{0.91};
   rejected.modulationSync.relationships[0]->phaseOffset.value =
     std::numeric_limits<double>::quiet_NaN();
-  if (actual.applyConfiguration(rejected)
-      != ModulationSyncApplyResult::invalidPhaseOffset
+  const auto rejectedResult = actual.applyConfiguration(rejected);
+  if (rejectedResult.modulationSync
+        != ModulationSyncApplyResult::invalidPhaseOffset
+      || rejectedResult.audioRouting != dsp::AudioRoutingApplyResult::applied
       || !equalEngineConfiguration(actual.configuration(),
                                    reference.configuration(),
                                    "rejected whole configuration"))
@@ -359,8 +391,8 @@ bool testRejectedGraphOnlyConfigurationPreservesClockHistoryAndContinuation()
   dsp::HoldsworthDelayEngine reference(50.0);
   actual.prepare(1000.0, blockSize);
   reference.prepare(1000.0, blockSize);
-  if (actual.applyConfiguration(accepted) != ModulationSyncApplyResult::applied
-      || reference.applyConfiguration(accepted) != ModulationSyncApplyResult::applied)
+  if (!actual.applyConfiguration(accepted).wasApplied()
+      || !reference.applyConfiguration(accepted).wasApplied())
     return false;
 
   std::array<double, blockSize> input{};
@@ -466,10 +498,10 @@ bool testRootAudioAdvancesExactlyOnceAcrossLongRender()
   dsp::HoldsworthDelayEngine independentRoot(50.0);
   synchronizedRoot.prepare(48000.0, maximumBlockSize);
   independentRoot.prepare(48000.0, maximumBlockSize);
-  if (synchronizedRoot.applyConfiguration(makeRootEquivalenceConfiguration(true))
-        != ModulationSyncApplyResult::applied
-      || independentRoot.applyConfiguration(makeRootEquivalenceConfiguration(false))
-           != ModulationSyncApplyResult::applied)
+  if (!synchronizedRoot.applyConfiguration(makeRootEquivalenceConfiguration(true))
+         .wasApplied()
+      || !independentRoot.applyConfiguration(makeRootEquivalenceConfiguration(false))
+            .wasApplied())
     return false;
 
   if (!compareStreaming(synchronizedRoot,
@@ -521,14 +553,10 @@ bool testZeroDepthAndDisabledRootsStillClockSlave()
        std::array{&enabledRoot, &disabledRoot, &independentRoot, &staticSlave})
     engine->prepare(1000.0, sampleCount);
 
-  if (enabledRoot.applyConfiguration(synchronizedConfiguration)
-        != ModulationSyncApplyResult::applied
-      || disabledRoot.applyConfiguration(disabledRootConfiguration)
-           != ModulationSyncApplyResult::applied
-      || independentRoot.applyConfiguration(independentRootConfiguration)
-           != ModulationSyncApplyResult::applied
-      || staticSlave.applyConfiguration(staticSlaveConfiguration)
-           != ModulationSyncApplyResult::applied)
+  if (!enabledRoot.applyConfiguration(synchronizedConfiguration).wasApplied()
+      || !disabledRoot.applyConfiguration(disabledRootConfiguration).wasApplied()
+      || !independentRoot.applyConfiguration(independentRootConfiguration).wasApplied()
+      || !staticSlave.applyConfiguration(staticSlaveConfiguration).wasApplied())
     return false;
 
   std::vector<double> input(sampleCount);
@@ -618,7 +646,7 @@ bool testEqualDepthSineHalfCycleIsExactOpposite()
 
   dsp::HoldsworthDelayEngine engine(20.0);
   engine.prepare(1000.0, sampleCount);
-  if (engine.applyConfiguration(configuration) != ModulationSyncApplyResult::applied)
+  if (!engine.applyConfiguration(configuration).wasApplied())
     return false;
 
   const std::array<double, sampleCount> impulse{1.0};
@@ -678,10 +706,9 @@ bool testHalfCycleAndSlaveWaveformDepthRemainIndependent()
     dsp::HoldsworthDelayEngine independentReference(1000.0);
     synchronizedEngine.prepare(sampleRate, sampleCount);
     independentReference.prepare(sampleRate, sampleCount);
-    if (synchronizedEngine.applyConfiguration(synchronizedConfiguration)
-          != ModulationSyncApplyResult::applied
-        || independentReference.applyConfiguration(independentReferenceConfiguration)
-             != ModulationSyncApplyResult::applied)
+    if (!synchronizedEngine.applyConfiguration(synchronizedConfiguration).wasApplied()
+        || !independentReference.applyConfiguration(independentReferenceConfiguration)
+              .wasApplied())
       return false;
 
     std::array<double, sampleCount> syncLeft{};
@@ -754,8 +781,8 @@ bool testFanOutMasterAfterSlavesIsPartitionInvariantAndResetDeterministic()
   dsp::HoldsworthDelayEngine partitioned(60.0);
   whole.prepare(1000.0, sampleCount);
   partitioned.prepare(1000.0, 31);
-  if (whole.applyConfiguration(configuration) != ModulationSyncApplyResult::applied
-      || partitioned.applyConfiguration(configuration) != ModulationSyncApplyResult::applied)
+  if (!whole.applyConfiguration(configuration).wasApplied()
+      || !partitioned.applyConfiguration(configuration).wasApplied())
     return false;
 
   std::vector<double> input(sampleCount);
@@ -814,7 +841,7 @@ bool testSynchronizedConfigurationAndProcessingDoNotAllocate()
               << allocations << " allocation(s)\n";
     return false;
   }
-  return firstApply == ModulationSyncApplyResult::applied
+  return firstApply.wasApplied()
          && independentApply == ModulationSyncApplyResult::applied
          && synchronizedApply == ModulationSyncApplyResult::applied;
 }

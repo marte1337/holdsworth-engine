@@ -87,6 +87,7 @@ int main()
                           delayBandSignalPolarityTests(),
                           holdsworthDelayEngineTests(),
                           modulationSyncTests(),
+                          audioRoutingTests(),
                           sync922PresetTests(),
                           holdsworthDelayLiveIntegrationTests()};
   std::size_t totalTests = 0;

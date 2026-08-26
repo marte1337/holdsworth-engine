@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AudioRouting.h"
 #include "DelayBand.h"
 #include "ModulationSync.h"
 
@@ -44,6 +45,22 @@ struct HoldsworthDelayConfiguration final
   std::array<DelayBandConfiguration, kHoldsworthDelayBandCount> bands{};
   double globalWetOutputLevel = 1.0;
   ModulationSyncConfiguration modulationSync{};
+  AudioRoutingConfiguration audioRouting{};
+};
+
+// Full-engine configuration validates SYNC and CONNECT independently before
+// mutating any live state. Both results are reported even when either graph is
+// rejected.
+struct HoldsworthDelayConfigurationApplyResult final
+{
+  ModulationSyncApplyResult modulationSync = ModulationSyncApplyResult::applied;
+  AudioRoutingApplyResult audioRouting = AudioRoutingApplyResult::applied;
+
+  [[nodiscard]] constexpr bool wasApplied() const noexcept
+  {
+    return modulationSync == ModulationSyncApplyResult::applied
+           && audioRouting == AudioRoutingApplyResult::applied;
+  }
 };
 
 // An eight-band mono-input, wet-only stereo delay processor.
@@ -68,19 +85,20 @@ public:
   HoldsworthDelayEngine& operator=(HoldsworthDelayEngine&&) noexcept = delete;
 
   // Allocates all eight delay histories, the three established
-  // maximum-block-sized audio scratch buffers, and fixed eight-band
-  // synchronized-modulation scratch. Calling prepare() again discards existing
-  // delay history while preserving parameter values.
+  // maximum-block-sized audio scratch buffers, fixed eight-band synchronized-
+  // modulation scratch, and CONNECT-only routing/per-band wet scratch. Calling
+  // prepare() again discards existing delay history while preserving parameter
+  // values.
   void prepare(double sampleRate, std::size_t maximumBlockSize);
 
   // Clears all eight delay histories without changing configuration.
   void reset() noexcept;
 
-  // Transactionally validates synchronization first, then applies all band
-  // parameters, the global wet level, and the resolved synchronization plan
-  // without resetting delay/filter history. On failure, no engine state is
-  // changed. Values are sanitized by the same rules as DelayBand's setters.
-  ModulationSyncApplyResult applyConfiguration(
+  // Transactionally validates synchronization and audio routing before
+  // applying any band parameters, the global wet level, or either resolved
+  // plan. On failure, no engine state is changed. Values are sanitized by the
+  // same rules as DelayBand's setters.
+  HoldsworthDelayConfigurationApplyResult applyConfiguration(
     const HoldsworthDelayConfiguration& configuration) noexcept;
 
   // Applies only a complete synchronization relationship snapshot. Existing
@@ -89,6 +107,12 @@ public:
   // configured reset phase without clearing delay/filter history.
   ModulationSyncApplyResult applyModulationSyncConfiguration(
     const ModulationSyncConfiguration& configuration) noexcept;
+
+  // Applies only a complete CONNECT relationship snapshot. Existing band,
+  // SYNC, oscillator, delay, and filter state is retained. Invalid requests do
+  // not alter the previously accepted routing plan.
+  AudioRoutingApplyResult applyAudioRoutingConfiguration(
+    const AudioRoutingConfiguration& configuration) noexcept;
 
   // bandIndex must be in [0, kBandCount). Invalid indices assert in Debug and
   // are ignored without modifying any band when assertions are disabled.
@@ -152,24 +176,48 @@ private:
     bool hasSynchronization = false;
   };
 
+  struct ResolvedAudioRoutingPlan final
+  {
+    // kBandCount denotes direct engine input (Yamaha CONNECT IN).
+    std::array<std::size_t, kBandCount> sourceIndices{};
+    std::array<std::size_t, kBandCount> processingOrder{};
+    bool hasConnections = false;
+  };
+
   static ModulationSyncApplyResult resolveModulationSyncConfiguration(
     const ModulationSyncConfiguration& requested,
     ModulationSyncConfiguration& canonical,
     ResolvedSynchronizationPlan& resolved) noexcept;
 
+  static AudioRoutingApplyResult resolveAudioRoutingConfiguration(
+    const AudioRoutingConfiguration& requested,
+    AudioRoutingConfiguration& canonical,
+    ResolvedAudioRoutingPlan& resolved) noexcept;
+
   void commitModulationSyncConfiguration(
     const ModulationSyncConfiguration& canonical,
     const ResolvedSynchronizationPlan& resolved,
     bool resetNewlyIndependentSlaveClocks) noexcept;
+  void commitAudioRoutingConfiguration(
+    const AudioRoutingConfiguration& canonical,
+    const ResolvedAudioRoutingPlan& resolved) noexcept;
   void generateSynchronizedModulationOffsets(std::size_t frameCount) noexcept;
+  void processConnectedBlock(std::span<const Sample> monoInput,
+                             std::span<Sample> wetLeft,
+                             std::span<Sample> wetRight) noexcept;
 
   std::array<DelayBand, kBandCount> mBands;
   std::vector<Sample> mInputScratch;
   std::vector<Sample> mBandWetLeft;
   std::vector<Sample> mBandWetRight;
   std::vector<Sample> mSynchronizedModulationOffsets;
+  std::vector<Sample> mBandRoutingOutputs;
+  std::vector<Sample> mConnectedBandWetLeft;
+  std::vector<Sample> mConnectedBandWetRight;
   ModulationSyncConfiguration mModulationSyncConfiguration{};
   ResolvedSynchronizationPlan mResolvedSynchronizationPlan{};
+  AudioRoutingConfiguration mAudioRoutingConfiguration{};
+  ResolvedAudioRoutingPlan mResolvedAudioRoutingPlan{};
   Sample mGlobalWetOutputLevel = 1.0;
   std::size_t mMaximumBlockSize = 0;
   bool mPrepared = false;

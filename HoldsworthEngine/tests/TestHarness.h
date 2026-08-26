@@ -100,6 +100,7 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] TestSuite delayBandSignalPolarityTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayEngineTests() noexcept;
 [[nodiscard]] TestSuite modulationSyncTests() noexcept;
+[[nodiscard]] TestSuite audioRoutingTests() noexcept;
 [[nodiscard]] TestSuite sync922PresetTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayLiveIntegrationTests() noexcept;
 

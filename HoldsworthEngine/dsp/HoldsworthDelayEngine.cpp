@@ -60,11 +60,20 @@ void HoldsworthDelayEngine::prepare(const double sampleRate,
   mPrepared = false;
 
   // Allocate replacement scratch before changing the currently owned buffers.
-  // The four swaps below cannot allocate or throw.
+  // The swaps below cannot allocate or throw.
   std::vector<Sample> preparedInputScratch(maximumBlockSize, 0.0);
   std::vector<Sample> preparedBandWetLeft(maximumBlockSize, 0.0);
   std::vector<Sample> preparedBandWetRight(maximumBlockSize, 0.0);
   std::vector<Sample> preparedSynchronizedModulationOffsets(
+    kBandCount * maximumBlockSize,
+    0.0);
+  std::vector<Sample> preparedBandRoutingOutputs(
+    kBandCount * maximumBlockSize,
+    0.0);
+  std::vector<Sample> preparedConnectedBandWetLeft(
+    kBandCount * maximumBlockSize,
+    0.0);
+  std::vector<Sample> preparedConnectedBandWetRight(
     kBandCount * maximumBlockSize,
     0.0);
 
@@ -75,6 +84,9 @@ void HoldsworthDelayEngine::prepare(const double sampleRate,
   mBandWetLeft.swap(preparedBandWetLeft);
   mBandWetRight.swap(preparedBandWetRight);
   mSynchronizedModulationOffsets.swap(preparedSynchronizedModulationOffsets);
+  mBandRoutingOutputs.swap(preparedBandRoutingOutputs);
+  mConnectedBandWetLeft.swap(preparedConnectedBandWetLeft);
+  mConnectedBandWetRight.swap(preparedConnectedBandWetRight);
   mMaximumBlockSize = maximumBlockSize;
   mPrepared = true;
 }
@@ -90,9 +102,12 @@ void HoldsworthDelayEngine::reset() noexcept
   std::fill(mSynchronizedModulationOffsets.begin(),
             mSynchronizedModulationOffsets.end(),
             0.0);
+  std::fill(mBandRoutingOutputs.begin(), mBandRoutingOutputs.end(), 0.0);
+  std::fill(mConnectedBandWetLeft.begin(), mConnectedBandWetLeft.end(), 0.0);
+  std::fill(mConnectedBandWetRight.begin(), mConnectedBandWetRight.end(), 0.0);
 }
 
-ModulationSyncApplyResult HoldsworthDelayEngine::applyConfiguration(
+HoldsworthDelayConfigurationApplyResult HoldsworthDelayEngine::applyConfiguration(
   const HoldsworthDelayConfiguration& configuration) noexcept
 {
   ModulationSyncConfiguration canonicalSyncConfiguration;
@@ -101,12 +116,22 @@ ModulationSyncApplyResult HoldsworthDelayEngine::applyConfiguration(
     resolveModulationSyncConfiguration(configuration.modulationSync,
                                        canonicalSyncConfiguration,
                                        resolvedSyncPlan);
-  if (syncResult != ModulationSyncApplyResult::applied)
-    return syncResult;
 
-  // Synchronization is externally changed only at an audio-block boundary.
-  // Once validation succeeds, every operation below is noexcept and cannot
-  // partially fail.
+  AudioRoutingConfiguration canonicalAudioRoutingConfiguration;
+  ResolvedAudioRoutingPlan resolvedAudioRoutingPlan;
+  const AudioRoutingApplyResult audioRoutingResult =
+    resolveAudioRoutingConfiguration(configuration.audioRouting,
+                                     canonicalAudioRoutingConfiguration,
+                                     resolvedAudioRoutingPlan);
+
+  const HoldsworthDelayConfigurationApplyResult result{syncResult,
+                                                        audioRoutingResult};
+  if (!result.wasApplied())
+    return result;
+
+  // Graph configuration is externally changed only at an audio-block
+  // boundary. Once both validations succeed, every operation below is
+  // noexcept and cannot partially fail.
   for (std::size_t index = 0; index < kBandCount; ++index)
     setBandConfiguration(index, configuration.bands[index]);
 
@@ -114,7 +139,9 @@ ModulationSyncApplyResult HoldsworthDelayEngine::applyConfiguration(
   commitModulationSyncConfiguration(canonicalSyncConfiguration,
                                     resolvedSyncPlan,
                                     false);
-  return ModulationSyncApplyResult::applied;
+  commitAudioRoutingConfiguration(canonicalAudioRoutingConfiguration,
+                                  resolvedAudioRoutingPlan);
+  return result;
 }
 
 ModulationSyncApplyResult HoldsworthDelayEngine::applyModulationSyncConfiguration(
@@ -133,6 +160,20 @@ ModulationSyncApplyResult HoldsworthDelayEngine::applyModulationSyncConfiguratio
                                     resolvedPlan,
                                     true);
   return ModulationSyncApplyResult::applied;
+}
+
+AudioRoutingApplyResult HoldsworthDelayEngine::applyAudioRoutingConfiguration(
+  const AudioRoutingConfiguration& configuration) noexcept
+{
+  AudioRoutingConfiguration canonicalConfiguration;
+  ResolvedAudioRoutingPlan resolvedPlan;
+  const AudioRoutingApplyResult result =
+    resolveAudioRoutingConfiguration(configuration, canonicalConfiguration, resolvedPlan);
+  if (result != AudioRoutingApplyResult::applied)
+    return result;
+
+  commitAudioRoutingConfiguration(canonicalConfiguration, resolvedPlan);
+  return AudioRoutingApplyResult::applied;
 }
 
 void HoldsworthDelayEngine::setBandConfiguration(
@@ -181,6 +222,7 @@ HoldsworthDelayConfiguration HoldsworthDelayEngine::configuration() const noexce
   }
   result.globalWetOutputLevel = mGlobalWetOutputLevel;
   result.modulationSync = mModulationSyncConfiguration;
+  result.audioRouting = mAudioRoutingConfiguration;
   return result;
 }
 
@@ -287,6 +329,67 @@ ModulationSyncApplyResult HoldsworthDelayEngine::resolveModulationSyncConfigurat
   return ModulationSyncApplyResult::applied;
 }
 
+AudioRoutingApplyResult HoldsworthDelayEngine::resolveAudioRoutingConfiguration(
+  const AudioRoutingConfiguration& requested, AudioRoutingConfiguration& canonical,
+  ResolvedAudioRoutingPlan& resolved) noexcept
+{
+  canonical = requested;
+  resolved = ResolvedAudioRoutingPlan{};
+  resolved.sourceIndices.fill(kBandCount);
+
+  std::array<std::size_t, kBandCount> incomingEdgeCounts{};
+  for (std::size_t destinationIndex = 0; destinationIndex < kBandCount; ++destinationIndex)
+  {
+    const auto& input = canonical.inputs[destinationIndex];
+    if (!input.has_value())
+      continue;
+
+    std::size_t sourceIndex = 0;
+    if (!delayBandIndex(input->sourceBand, sourceIndex))
+      return AudioRoutingApplyResult::invalidSourceReference;
+    if (sourceIndex == destinationIndex)
+      return AudioRoutingApplyResult::selfReference;
+
+    resolved.sourceIndices[destinationIndex] = sourceIndex;
+    incomingEdgeCounts[destinationIndex] = 1;
+    resolved.hasConnections = true;
+  }
+
+  // Resolve a deterministic topological order once at configuration time.
+  // At each step the lowest-numbered ready band wins. The destination-indexed
+  // representation makes fan-in unrepresentable while allowing chains,
+  // arbitrary numerical direction, and source fan-out.
+  std::array<bool, kBandCount> wasScheduled{};
+  for (std::size_t orderIndex = 0; orderIndex < kBandCount; ++orderIndex)
+  {
+    std::size_t readyIndex = kBandCount;
+    for (std::size_t candidateIndex = 0; candidateIndex < kBandCount; ++candidateIndex)
+    {
+      if (!wasScheduled[candidateIndex] && incomingEdgeCounts[candidateIndex] == 0)
+      {
+        readyIndex = candidateIndex;
+        break;
+      }
+    }
+
+    if (readyIndex == kBandCount)
+      return AudioRoutingApplyResult::cycleDetected;
+
+    resolved.processingOrder[orderIndex] = readyIndex;
+    wasScheduled[readyIndex] = true;
+
+    for (std::size_t destinationIndex = 0; destinationIndex < kBandCount; ++destinationIndex)
+    {
+      if (!wasScheduled[destinationIndex] && resolved.sourceIndices[destinationIndex] == readyIndex)
+      {
+        incomingEdgeCounts[destinationIndex] = 0;
+      }
+    }
+  }
+
+  return AudioRoutingApplyResult::applied;
+}
+
 void HoldsworthDelayEngine::commitModulationSyncConfiguration(
   const ModulationSyncConfiguration& canonical,
   const ResolvedSynchronizationPlan& resolved,
@@ -307,6 +410,13 @@ void HoldsworthDelayEngine::commitModulationSyncConfiguration(
 
   mModulationSyncConfiguration = canonical;
   mResolvedSynchronizationPlan = resolved;
+}
+
+void HoldsworthDelayEngine::commitAudioRoutingConfiguration(const AudioRoutingConfiguration& canonical,
+                                                            const ResolvedAudioRoutingPlan& resolved) noexcept
+{
+  mAudioRoutingConfiguration = canonical;
+  mResolvedAudioRoutingPlan = resolved;
 }
 
 void HoldsworthDelayEngine::generateSynchronizedModulationOffsets(
@@ -387,6 +497,62 @@ HoldsworthDelayEngine::Sample HoldsworthDelayEngine::maximumDelayTimeMs() const 
   return mBands.front().maximumDelayTimeMs();
 }
 
+void HoldsworthDelayEngine::processConnectedBlock(const std::span<const Sample> monoInput,
+                                                  const std::span<Sample> wetLeft,
+                                                  const std::span<Sample> wetRight) noexcept
+{
+  const std::size_t frameCount = monoInput.size();
+  std::copy(monoInput.begin(), monoInput.end(), mInputScratch.begin());
+  std::fill(wetLeft.begin(), wetLeft.end(), 0.0);
+  std::fill(wetRight.begin(), wetRight.end(), 0.0);
+
+  if (mResolvedSynchronizationPlan.hasSynchronization)
+    generateSynchronizedModulationOffsets(frameCount);
+
+  for (const std::size_t bandIndex : mResolvedAudioRoutingPlan.processingOrder)
+  {
+    const std::size_t sourceIndex = mResolvedAudioRoutingPlan.sourceIndices[bandIndex];
+    const Sample* const bandInputData =
+      sourceIndex == kBandCount ? mInputScratch.data() : mBandRoutingOutputs.data() + sourceIndex * mMaximumBlockSize;
+    const std::span<const Sample> bandInput{bandInputData, frameCount};
+    const std::span<Sample> routingOutput{mBandRoutingOutputs.data() + bandIndex * mMaximumBlockSize, frameCount};
+    const std::span<Sample> bandWetLeft{mConnectedBandWetLeft.data() + bandIndex * mMaximumBlockSize, frameCount};
+    const std::span<Sample> bandWetRight{mConnectedBandWetRight.data() + bandIndex * mMaximumBlockSize, frameCount};
+
+    const ResolvedSynchronization& synchronization = mResolvedSynchronizationPlan.bands[bandIndex];
+    if (synchronization.isSynchronizedSlave || synchronization.isSynchronizationRoot)
+    {
+      const std::span<const Sample> modulationOffsets{
+        mSynchronizedModulationOffsets.data() + bandIndex * mMaximumBlockSize, frameCount};
+      mBands[bandIndex].processBlockUsingPrecomputedModulationOffsetsWithRoutingOutput(
+        bandInput, modulationOffsets, routingOutput, bandWetLeft, bandWetRight);
+    }
+    else
+    {
+      mBands[bandIndex].processBlockWithRoutingOutput(bandInput, routingOutput, bandWetLeft, bandWetRight);
+    }
+  }
+
+  // Routing fan-out never changes final summation multiplicity. Each band's
+  // own wet contribution is added exactly once, in stable Band 1..8 order.
+  for (std::size_t bandIndex = 0; bandIndex < kBandCount; ++bandIndex)
+  {
+    const Sample* const bandWetLeft = mConnectedBandWetLeft.data() + bandIndex * mMaximumBlockSize;
+    const Sample* const bandWetRight = mConnectedBandWetRight.data() + bandIndex * mMaximumBlockSize;
+    for (std::size_t frame = 0; frame < frameCount; ++frame)
+    {
+      wetLeft[frame] += bandWetLeft[frame];
+      wetRight[frame] += bandWetRight[frame];
+    }
+  }
+
+  for (std::size_t frame = 0; frame < frameCount; ++frame)
+  {
+    wetLeft[frame] *= mGlobalWetOutputLevel;
+    wetRight[frame] *= mGlobalWetOutputLevel;
+  }
+}
+
 void HoldsworthDelayEngine::processBlock(const std::span<const Sample> monoInput,
                                          const std::span<Sample> wetLeft,
                                          const std::span<Sample> wetRight) noexcept
@@ -400,6 +566,12 @@ void HoldsworthDelayEngine::processBlock(const std::span<const Sample> monoInput
   {
     std::fill(wetLeft.begin(), wetLeft.end(), 0.0);
     std::fill(wetRight.begin(), wetRight.end(), 0.0);
+    return;
+  }
+
+  if (mResolvedAudioRoutingPlan.hasConnections)
+  {
+    processConnectedBlock(monoInput, wetLeft, wetRight);
     return;
   }
 
