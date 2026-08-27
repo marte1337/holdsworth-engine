@@ -2,225 +2,185 @@
 name: yamaha-preset-workflow
 description: >
     Add, transcribe, validate, or modify Yamaha UD-Stomp or Magicstomp presets
-    and diagnostic configurations in HoldsworthEngine. Use when a task involves
-    implementing a documented Yamaha preset, Allan Holdsworth Yamaha preset,
-    Yamaha patch-list values, or creating a DSP audition configuration from
-    Yamaha source settings.
+    and diagnostic configurations in HoldsworthEngine. Use for Yamaha factory
+    presets, manual exercises, Holdsworth Yamaha presets, patch-list values, or
+    DSP audition configurations derived from Yamaha source settings.
 ---
 
 # Yamaha Preset Workflow
 
-Use this workflow when adding, validating, transcribing, or modifying a
-documented Yamaha UD-Stomp / Magicstomp preset or a diagnostic configuration
-derived from Yamaha source data.
+Use this workflow for Yamaha preset, source-data, and diagnostic tasks.
 
-Follow the repository-wide rules in `AGENTS.md` in addition to this workflow.
+Follow `AGENTS.md` for repository-wide architecture, realtime, validation,
+visual-validation, and Git rules.
 
-## 1. Verify the source identity first
+## References
 
-Before modifying code, verify the requested preset against official Yamaha
-documentation when an official source is available.
+Use bundled references only when relevant.
 
-Confirm at least:
+- `references/official-sources.md`
+    - official Yamaha source locations;
+    - source priority;
+    - factory state versus manual-exercise state.
 
-- preset number;
-- preset name;
-- documented author when present;
+- `references/ud-stomp-parameters.md`
+    - established project interpretations of Yamaha parameters and features.
+
+Do not load reference files merely because they exist.
+
+Bundled references do not override official Yamaha documentation.
+
+When exact preset values, preset identity, or disputed Yamaha behavior matter,
+verify the relevant official Yamaha source.
+
+If an official source conflicts with a bundled reference, stop and report the
+discrepancy.
+
+## Workflow
+
+### 1. Verify the Yamaha source
+
+Before modifying code, establish exactly which preset, patch, or manual exercise
+the task refers to.
+
+Verify as applicable:
+
+- preset/group/bank/patch identity;
+- name and documented author;
 - enabled/disabled bands;
-- all relevant per-band values;
-- global values.
+- relevant per-band values;
+- relevant global values;
+- manual-instructed temporary changes.
 
-Do not assume values supplied in the user prompt are correct.
+Do not assume user-supplied source values are correct.
 
-If the prompt conflicts with the official Yamaha source:
+If the requested data conflicts with official Yamaha documentation, do not
+silently correct or substitute it. Report the discrepancy first.
 
-1. do not implement the conflicting data;
-2. report the discrepancy;
-3. show the verified source values;
-4. wait for clarification when the intended preset is ambiguous.
+### 2. Preserve source metadata exactly
 
-Never silently "fix" the user's requested preset into a different preset.
+Treat Yamaha values as source-domain data.
 
-## 2. Preserve Yamaha source metadata exactly
+Preserve documented values using existing source types.
 
-Treat documented Yamaha values as source-domain data.
+Keep these distinct:
 
-Preserve documented values exactly, including concepts such as:
+- explicit OFF;
+- zero;
+- unknown;
+- absent/not documented;
+- not applicable.
 
-- Delay Time;
-- Feedback;
-- TAP;
-- SPEED;
-- DEPTH;
-- WAVE;
-- PHASE;
-- SYNC;
-- CONNECT;
-- GROUP;
-- Low Cut;
-- High Cut;
-- Pan;
-- Level;
-- Effect Level;
-- Direct Level;
-- Direct Pan;
-- band ON/OFF state.
+Do not invent Yamaha metadata to fill gaps required only by the DSP diagnostic.
 
-Use the project's existing strongly typed Yamaha source representations.
+### 3. Separate source, exercise, and DSP state
 
-If the source prints a dash or does not document a field, leave that field
-unknown/absent rather than inventing a value.
+Keep distinct:
 
-Distinguish explicitly documented OFF from unknown/not documented.
+1. stored Yamaha factory/source state;
+2. temporary state instructed by a Yamaha manual exercise;
+3. HoldsworthEngine DSP diagnostic configuration.
 
-## 3. Keep Yamaha controls separate from DSP values
+A diagnostic change must not rewrite the stored Yamaha source metadata.
 
-Never treat Yamaha control-domain values as physical DSP values unless an
-existing measured calibration explicitly establishes that relationship.
+### 4. Do not invent physical mappings
 
-Examples:
+Keep Yamaha control values separate from physical DSP values unless approved
+measurement establishes a mapping.
 
-- Yamaha SPEED is not `ModulationRateHz`.
-- Yamaha DEPTH is not `ModulationDepthMs`.
-- Yamaha FEEDBACK is not automatically a feedback coefficient.
-- Yamaha LEVEL is not automatically linear gain.
-- Yamaha band numbers are not container indices.
+In particular, do not assume generic mappings for:
 
-Do not introduce general conversion functions such as:
+- SPEED -> Hz;
+- DEPTH -> milliseconds;
+- FEEDBACK -> coefficient;
+- LEVEL -> gain;
+- PAN law;
+- EFFECT LEVEL;
+- Direct Level / Direct Pan.
 
-    yamahaSpeedToHz(...)
-    yamahaDepthToMs(...)
-    yamahaFeedbackToCoefficient(...)
-    yamahaLevelToGain(...)
+Use explicit provisional diagnostic DSP values where necessary and label them
+as provisional/unmeasured.
 
-unless the repository already contains an approved measured calibration for
-that control.
+### 5. Reuse existing DSP architecture
 
-Until Magicstomp calibration exists, physical DSP settings derived from Yamaha
-controls must be explicitly described as provisional/unmeasured audition data.
+Inspect the existing implementation before creating preset-specific behavior.
 
-## 4. Reuse existing DSP architecture
+When relevant, consult `references/ud-stomp-parameters.md`.
 
-Before implementing a preset, determine which existing features it requires.
+Keep these domains separate:
 
-Check for:
+    SYNC    -> modulation timing
+    CONNECT -> audio routing
+    GROUP   -> delay resource/control grouping
 
-- delay;
-- feedback;
-- modulation;
-- modulation waveform;
-- TAP;
-- loop filters;
-- delay-signal polarity;
-- SYNC;
-- CONNECT;
-- GROUP.
+If the requested Yamaha behavior is not implemented yet, do not fake it using
+another feature.
 
-Use the existing implementation rather than duplicating DSP behavior inside a
-preset.
+Stop and propose the missing architecture separately.
 
-If the preset requires Yamaha behavior that HoldsworthEngine does not yet
-implement, do not fake it with unrelated existing controls.
+### 6. Preserve existing reference behavior
 
-Stop and report:
+Do not change established presets or diagnostics as a side effect of adding a
+new one.
 
-1. the missing behavior;
-2. what the Yamaha source documents;
-3. the smallest DSP architecture required.
+Preserve existing regression and bit-exact guarantees required by `AGENTS.md`
+and the test suite.
 
-Design that DSP feature separately before implementing the preset.
+Do not weaken old tests to make new work pass.
 
-## 5. Construct provisional DSP configuration deliberately
+### 7. Add focused tests
 
-When physical mappings are unmeasured:
-
-- reuse already established provisional literals when the same Yamaha source
-  value appears;
-- preserve obvious ordering relationships where appropriate;
-- do not create an undocumented generic conversion curve merely to generate
-  preset data;
-- label new assumptions explicitly as provisional.
-
-Do not retune existing established reference presets merely to make a new
-preset internally consistent.
-
-Calculate and document required maximum delay capacity from the physical DSP
-configuration.
-
-## 6. Preserve reference behavior
-
-Unless the task explicitly requests otherwise, existing established reference
-presets must remain unchanged.
-
-At minimum preserve the regression expectations defined in `AGENTS.md`.
-
-Do not alter existing preset DSP values as a side effect of adding a new preset.
-
-## 7. Keep source identity and diagnostic identity separate
-
-A diagnostic/audition variant is not automatically a Yamaha factory preset.
-
-If creating a diagnostic variant:
-
-- preserve the actual Yamaha factory source metadata separately;
-- clearly mark the new configuration as diagnostic/provisional;
-- do not rewrite factory metadata to match the diagnostic experiment.
-
-For example, if a Yamaha manual instructs temporarily changing a factory
-parameter for an audition, retain the factory value in the source record and
-describe the temporary change as diagnostic metadata/configuration.
-
-## 8. Add focused tests
-
-For a new preset or diagnostic configuration, test as applicable:
+For a new preset or diagnostic, test the relevant subset of:
 
 - exact source identity;
-- exact Yamaha source metadata;
-- exact physical DSP configuration;
+- exact source metadata;
+- source-versus-diagnostic separation;
+- exact DSP configuration;
 - enabled/disabled bands;
+- routing or SYNC relationships;
 - required delay capacity;
-- engine configuration round-trip;
-- source-type / DSP-type separation;
-- relevant routing relationships;
-- deterministic rendering for the feature being exercised;
-- processing/configuration allocation behavior;
-- established reference-preset regressions.
+- configuration round-trip;
+- source/DSP type separation;
+- allocation-free configuration;
+- relevant behavioral timing/rendering;
+- established preset regressions.
 
-Do not weaken existing regression tests to make the new preset pass.
+Reuse existing engine tests rather than duplicating them unnecessarily.
 
-## 9. Choose validation proportional to the change
+### 8. Keep live audition wiring separate
 
-Follow the validation tiers in `AGENTS.md`.
+Adding a preset definition does not automatically mean exposing it in the
+temporary HoldsworthEngine Dev selector.
 
-Do not automatically run the most expensive DSP/plugin validation matrix for a
-metadata-only or temporary audition-UI change.
+Only change the live selector when auditioning is part of the task.
 
-If implementing or changing realtime DSP architecture, use the full DSP
-validation tier.
+Keep diagnostic UI temporary and nonserialized unless the project explicitly
+moves that behavior into production parameters.
 
-## 10. Do not expose presets live automatically
+### 9. Validate proportionally
 
-Adding a preset definition does not imply adding it to the temporary live
-development selector.
+Use the validation tier defined in `AGENTS.md`.
 
-Unless live audition is part of the task:
+Preset/source/diagnostic changes should normally use focused tests plus the
+appropriate Debug suite and relevant standalone build.
 
-- implement the preset;
-- test it;
-- leave the live selector unchanged.
+Realtime DSP architecture changes require the full DSP validation tier.
 
-Live audition wiring should be a separate small step when useful.
+Do not automatically run expensive unrelated validation.
 
 ## Completion report
 
 Report concisely:
 
-- verified Yamaha preset identity/source;
+- Yamaha source identity verified;
+- official source used when required;
+- bundled references used when relevant;
 - files changed;
+- source metadata added or changed;
 - DSP configuration added or changed;
 - provisional/unmeasured assumptions;
 - tests and validation performed;
-- any Yamaha behavior still requiring hardware measurement;
-- whether live UI was changed.
+- remaining hardware-verification questions;
+- whether live UI or DSP architecture changed.
 
 Do not create a Git commit unless explicitly requested.
