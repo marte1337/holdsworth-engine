@@ -11,15 +11,15 @@ namespace holdsworth::integration
 
 // Session-local choices exposed by the temporary development UI. These are
 // deliberately not plugin parameters and have no serialized representation.
-// The Sync OFF and 180-degree diagnostics remain available as DSP presets but
-// are intentionally absent from this milestone's live selector.
+// The 922 diagnostics remain available as DSP presets but are intentionally
+// absent from this milestone's live selector.
 enum class DevelopmentDelayPreset : std::uint32_t
 {
   lead121 = 0,
   chorus011 = 1,
   chorus031 = 2,
-  sync922Baseline = 3,
-  sync922Band1Reverse = 4
+  connect913Parallel = 3,
+  connect913Serial = 4
 };
 
 inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 5;
@@ -34,10 +34,10 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 5;
       return DevelopmentDelayPreset::chorus011;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::chorus031):
       return DevelopmentDelayPreset::chorus031;
-    case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922Baseline):
-      return DevelopmentDelayPreset::sync922Baseline;
-    case static_cast<std::uint32_t>(DevelopmentDelayPreset::sync922Band1Reverse):
-      return DevelopmentDelayPreset::sync922Band1Reverse;
+    case static_cast<std::uint32_t>(DevelopmentDelayPreset::connect913Parallel):
+      return DevelopmentDelayPreset::connect913Parallel;
+    case static_cast<std::uint32_t>(DevelopmentDelayPreset::connect913Serial):
+      return DevelopmentDelayPreset::connect913Serial;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::lead121):
     default:
       return DevelopmentDelayPreset::lead121;
@@ -69,10 +69,10 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 5;
 {
   switch (preset)
   {
-    case DevelopmentDelayPreset::sync922Band1Reverse:
-      return dsp::presets::sync922Band1ReverseDiagnosticV1();
-    case DevelopmentDelayPreset::sync922Baseline:
-      return dsp::presets::sync922BaselineProvisionalV1();
+    case DevelopmentDelayPreset::connect913Serial:
+      return dsp::presets::connect913SerialDiagnosticV1();
+    case DevelopmentDelayPreset::connect913Parallel:
+      return dsp::presets::connect913ParallelDiagnosticV1();
     case DevelopmentDelayPreset::chorus031:
       return dsp::presets::chorus031ProvisionalV1();
     case DevelopmentDelayPreset::chorus011:

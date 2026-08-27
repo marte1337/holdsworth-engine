@@ -133,6 +133,28 @@ struct DocumentedYamahaPresetIdentity final
   std::string_view author;
 };
 
+// Identity of a patch recalled by a numbered exercise in the official Yamaha
+// owner's manual. This is deliberately separate from patch-list identity:
+// punctuation in displayedPatch distinguishes PRESET-area displays such as
+// "9.13" from USER-area displays such as "913".
+enum class YamahaPatchMemoryArea
+{
+  user,
+  preset
+};
+
+struct DocumentedYamahaManualExerciseReference final
+{
+  std::string_view documentTitle;
+  std::string_view displayedPatch;
+  YamahaPatchMemoryArea memoryArea = YamahaPatchMemoryArea::user;
+  unsigned int groupNumber = 0;
+  unsigned int bankNumber = 0;
+  unsigned int patchNumber = 0;
+  unsigned int initialStateStep = 0;
+  unsigned int modifiedStateStep = 0;
+};
+
 struct HoldsworthDelayPresetDefinition final
 {
   std::string_view id;
@@ -146,6 +168,8 @@ struct HoldsworthDelayPresetDefinition final
   std::optional<DocumentedYamahaPresetIdentity> documentedYamahaPresetIdentity;
   std::optional<::holdsworth::presets::YamahaSyncAuditionReference>
     documentedYamahaSyncAuditionReference;
+  std::optional<DocumentedYamahaManualExerciseReference>
+    documentedYamahaManualExerciseReference;
 };
 
 namespace presets
@@ -185,6 +209,16 @@ namespace presets
 // the 922 baseline, with Band 2 left on its dormant independent zero-Hz clock.
 // It deliberately carries no Yamaha factory source transcription.
 [[nodiscard]] const HoldsworthDelayPresetDefinition& sync922IndependentDiagnosticV1() noexcept;
+
+// A timing-focused physical-DSP diagnostic of the parallel source state in
+// the official UD-Stomp owner's manual's patch 9.13 CONNECT exercise. Only the
+// source values explicitly documented by that exercise are transcribed.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& connect913ParallelDiagnosticV1() noexcept;
+
+// The manual-guided serial diagnostic derived from the same documented 9.13
+// source state by changing Band 2 CONNECT from IN to Band 1. The stored source
+// transcription remains IN/IN and is not presented as a factory serial state.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& connect913SerialDiagnosticV1() noexcept;
 
 } // namespace presets
 } // namespace holdsworth::dsp

@@ -174,14 +174,14 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
     DevelopmentPreset::lead121,
     DevelopmentPreset::chorus011,
     DevelopmentPreset::chorus031,
-    DevelopmentPreset::sync922Baseline,
-    DevelopmentPreset::sync922Band1Reverse};
+    DevelopmentPreset::connect913Parallel,
+    DevelopmentPreset::connect913Serial};
   const std::array expectedDefinitions{
     &dsp::presets::lead121UnmodulatedProvisional(),
     &dsp::presets::chorus011ProvisionalV1(),
     &dsp::presets::chorus031ProvisionalV1(),
-    &dsp::presets::sync922BaselineProvisionalV1(),
-    &dsp::presets::sync922Band1ReverseDiagnosticV1()};
+    &dsp::presets::connect913ParallelDiagnosticV1(),
+    &dsp::presets::connect913SerialDiagnosticV1()};
 
   for (std::size_t index = 0; index < selections.size(); ++index)
   {
@@ -206,9 +206,9 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
          && integration::developmentDelayPresetFromNormalizedControlValue(0.5)
               == DevelopmentPreset::chorus031
          && integration::developmentDelayPresetFromNormalizedControlValue(0.75)
-              == DevelopmentPreset::sync922Baseline
+              == DevelopmentPreset::connect913Parallel
          && integration::developmentDelayPresetFromNormalizedControlValue(1.0)
-              == DevelopmentPreset::sync922Band1Reverse
+              == DevelopmentPreset::connect913Serial
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::lead121)
               == 0.0
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus011)
@@ -216,9 +216,9 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus031)
               == 0.5
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::sync922Baseline) == 0.75
+              DevelopmentPreset::connect913Parallel) == 0.75
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::sync922Band1Reverse) == 1.0;
+              DevelopmentPreset::connect913Serial) == 1.0;
 }
 
 bool testRejectedDevelopmentConfigurationIsTransactional()
@@ -243,9 +243,9 @@ bool testRejectedDevelopmentConfigurationIsTransactional()
 bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
 {
   constexpr std::size_t seedSize = 20;
-  constexpr std::size_t tailSize = 20;
+  constexpr std::size_t tailSize = 70;
   dsp::HoldsworthDelayEngine engine(700.0);
-  engine.prepare(1000.0, 64);
+  engine.prepare(1000.0, 128);
   integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
 
   std::array<double, seedSize> seedInput{};
@@ -260,24 +260,24 @@ bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
   const auto chorus031Result =
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
-  const auto syncBaselineResult =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Baseline);
-  const auto syncReverseResult =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Band1Reverse);
+  const auto connectParallelResult =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::connect913Parallel);
+  const auto connectSerialResult =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::connect913Serial);
   const std::size_t switchAllocations = endAllocationTracking();
   if (switchAllocations != 0
       || !chorus011Result.wasApplied()
       || !chorus031Result.wasApplied()
-      || !syncBaselineResult.wasApplied()
-      || !syncReverseResult.wasApplied())
+      || !connectParallelResult.wasApplied()
+      || !connectSerialResult.wasApplied())
   {
     std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
     return false;
   }
 
-  // No new input follows the switch. The final 922 configuration's 10 ms taps
-  // must still encounter the ones stored while Lead was selected. A reset
-  // inside preset application would make both output blocks completely silent.
+  // No new input follows the switch. The final serial diagnostic's 80 ms Band
+  // 2 delay must still encounter the ones stored while Lead was selected. A
+  // reset inside preset application would make the output completely silent.
   const std::array<double, tailSize> silence{};
   std::array<double, tailSize> wetLeft{};
   std::array<double, tailSize> wetRight{};
@@ -303,8 +303,8 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   std::array<double, 2> chorusOutputRight{};
   std::array<double, 2> chorus031OutputLeft{};
   std::array<double, 2> chorus031OutputRight{};
-  std::array<double, 2> syncOutputLeft{};
-  std::array<double, 2> syncOutputRight{};
+  std::array<double, 2> connectOutputLeft{};
+  std::array<double, 2> connectOutputRight{};
 
   dsp::HoldsworthDelayEngine engine(700.0);
   engine.prepare(48000.0, dry.size());
@@ -320,9 +320,9 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   Mixer::mixStereo(
     dry, wetLeft, wetRight, integrationWetMultiplier, chorus031OutputLeft, chorus031OutputRight);
 
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::sync922Band1Reverse);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::connect913Serial);
   Mixer::mixStereo(
-    dry, wetLeft, wetRight, integrationWetMultiplier, syncOutputLeft, syncOutputRight);
+    dry, wetLeft, wetRight, integrationWetMultiplier, connectOutputLeft, connectOutputRight);
 
   return expectSamples("preset switch preserves integration wet mix left", chorusOutputLeft, leadOutputLeft, 0.0)
          && expectSamples("preset switch preserves integration wet mix right", chorusOutputRight, leadOutputRight, 0.0)
@@ -334,17 +334,17 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
                           chorus031OutputRight,
                           leadOutputRight,
                           0.0)
-         && expectSamples("922 B1 Reverse switch preserves integration wet mix left",
-                          syncOutputLeft,
+         && expectSamples("9.13 Serial switch preserves integration wet mix left",
+                          connectOutputLeft,
                           leadOutputLeft,
                           0.0)
-         && expectSamples("922 B1 Reverse switch preserves integration wet mix right",
-                          syncOutputRight,
+         && expectSamples("9.13 Serial switch preserves integration wet mix right",
+                          connectOutputRight,
                           leadOutputRight,
                           0.0)
-         && expectNear("922 B1 Reverse preset retains its own DSP wet level",
+         && expectNear("9.13 Serial preset retains its own DSP wet level",
                        engine.configuration().globalWetOutputLevel,
-                       dsp::presets::sync922Band1ReverseDiagnosticV1()
+                       dsp::presets::connect913SerialDiagnosticV1()
                          .dspConfiguration.globalWetOutputLevel,
                        0.0);
 }

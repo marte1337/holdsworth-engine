@@ -141,6 +141,62 @@ makeSync922IndependentDspConfiguration() noexcept
   return configuration;
 }
 
+[[nodiscard]] constexpr DocumentedYamahaBandValues documentedConnect913Band(
+  const double delayTimeMs) noexcept
+{
+  DocumentedYamahaBandValues values;
+  values.connectControlValue = ::holdsworth::presets::YamahaConnectControlValue::input();
+  values.feedbackControlValue = YamahaFeedbackControlValue{0.0};
+  values.delayTimeMs = YamahaDelayTimeMs{delayTimeMs};
+  return values;
+}
+
+[[nodiscard]] constexpr std::array<DocumentedYamahaBandValues,
+                                   kHoldsworthDelayBandCount>
+makeConnect913DocumentedYamahaValues() noexcept
+{
+  // The manual's exercise establishes only these two delays, their zero
+  // feedback, and their initial IN/IN routing. Other source controls remain
+  // unknown rather than inheriting the diagnostic's physical DSP choices.
+  return {documentedConnect913Band(600.0),
+          documentedConnect913Band(80.0),
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}};
+}
+
+[[nodiscard]] constexpr HoldsworthDelayConfiguration
+makeConnect913ParallelDspConfiguration() noexcept
+{
+  HoldsworthDelayConfiguration configuration;
+  // Center pan is a neutral timing-audition choice, not Yamaha source data.
+  configuration.bands[0] = makeBandConfiguration(600.0, 0.0, 0.0, 1.0);
+  configuration.bands[1] = makeBandConfiguration(80.0, 0.0, 0.0, 1.0);
+  configuration.globalWetOutputLevel = 1.0;
+  return configuration;
+}
+
+[[nodiscard]] constexpr HoldsworthDelayConfiguration
+makeConnect913SerialDspConfiguration() noexcept
+{
+  HoldsworthDelayConfiguration configuration = makeConnect913ParallelDspConfiguration();
+  configuration.audioRouting.inputs[1] = ConnectedBandAudioInput{DelayBandId::band1};
+  return configuration;
+}
+
+constexpr DocumentedYamahaManualExerciseReference kConnect913ManualExerciseReference{
+  "Yamaha UD-Stomp Owner's Manual",
+  "9.13",
+  YamahaPatchMemoryArea::preset,
+  9,
+  1,
+  3,
+  18,
+  19};
+
 [[nodiscard]] constexpr std::array<DocumentedYamahaBandValues,
                                    kHoldsworthDelayBandCount>
 makeSync922DocumentedYamahaValues() noexcept
@@ -192,6 +248,7 @@ const HoldsworthDelayPresetDefinition kLead121UnmodulatedProvisional{
   {},
   std::nullopt,
   std::nullopt,
+  std::nullopt,
   std::nullopt};
 
 // The modulation rates, depths, phases, normalized feedback coefficients, and
@@ -235,6 +292,7 @@ const HoldsworthDelayPresetDefinition kChorus011ProvisionalV1{
   ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
                                 YamahaModulationMappingStatus::unmeasured,
                                 ModulationPhaseRelationshipStatus::provisional},
+  std::nullopt,
   std::nullopt,
   std::nullopt};
 
@@ -280,6 +338,7 @@ const HoldsworthDelayPresetDefinition kChorus031ProvisionalV1{
                                 YamahaModulationMappingStatus::unmeasured,
                                 ModulationPhaseRelationshipStatus::provisional},
   DocumentedYamahaPresetIdentity{"031", "Chorus 7", "Allan Holdsworth"},
+  std::nullopt,
   std::nullopt};
 
 // Factory preset 922 stores synchronized Band 2 SPEED 0.0. The neutral DSP
@@ -299,6 +358,7 @@ const HoldsworthDelayPresetDefinition kSync922BaselineProvisionalV1{
                                 YamahaModulationMappingStatus::unmeasured,
                                 ModulationPhaseRelationshipStatus::provisional},
   DocumentedYamahaPresetIdentity{"922", "Sync Parameter Sample", ""},
+  std::nullopt,
   std::nullopt};
 
 // Yamaha's manual uses Band 1 PHASE Reverse as an audition instruction for
@@ -318,6 +378,7 @@ const HoldsworthDelayPresetDefinition kSync922Band1ReverseDiagnosticV1{
                                 YamahaModulationMappingStatus::unmeasured,
                                 ModulationPhaseRelationshipStatus::provisional},
   DocumentedYamahaPresetIdentity{"922", "Sync Parameter Sample", ""},
+  std::nullopt,
   std::nullopt};
 
 // Yamaha's manual documents synchronized SPEED 5.0 as a 180-degree phase
@@ -341,7 +402,8 @@ const HoldsworthDelayPresetDefinition kSync922HalfCycleDiagnosticV1{
     ::holdsworth::presets::YamahaEffectBandNumber::band2,
     ::holdsworth::presets::YamahaSpeedControlValue{5.0},
     ::holdsworth::presets::YamahaDocumentedPhaseDifferenceDegrees{180.0},
-    false}};
+    false},
+  std::nullopt};
 
 // This is an audition-only control case, not Yamaha factory source data. Its
 // physical band settings match the approved 922 baseline, but Band 2 runs its
@@ -358,7 +420,40 @@ const HoldsworthDelayPresetDefinition kSync922IndependentDiagnosticV1{
                                 YamahaModulationMappingStatus::unmeasured,
                                 ModulationPhaseRelationshipStatus::provisional},
   std::nullopt,
+  std::nullopt,
   std::nullopt};
+
+// The stored 9.13 source state remains the documented parallel IN/IN state.
+// All other physical parameters here are deliberately simple diagnostic
+// choices and do not claim an unmeasured Yamaha-control conversion.
+const HoldsworthDelayPresetDefinition kConnect913ParallelDiagnosticV1{
+  "connect913-parallel-diagnostic-v1",
+  "Yamaha 9.13 CONNECT Parallel Diagnostic",
+  makeConnect913ParallelDspConfiguration(),
+  makeConnect913DocumentedYamahaValues(),
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  600.0,
+  {},
+  std::nullopt,
+  std::nullopt,
+  std::nullopt,
+  kConnect913ManualExerciseReference};
+
+// This is the audition state produced by following manual step 19. Its source
+// transcription intentionally remains the original 9.13 IN/IN state above;
+// only the physical DSP routing records Band 2 <- Band 1.
+const HoldsworthDelayPresetDefinition kConnect913SerialDiagnosticV1{
+  "connect913-serial-diagnostic-v1",
+  "Yamaha 9.13 CONNECT Serial Diagnostic",
+  makeConnect913SerialDspConfiguration(),
+  makeConnect913DocumentedYamahaValues(),
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  600.0,
+  {},
+  std::nullopt,
+  std::nullopt,
+  std::nullopt,
+  kConnect913ManualExerciseReference};
 
 } // namespace
 
@@ -398,6 +493,16 @@ const HoldsworthDelayPresetDefinition& sync922HalfCycleDiagnosticV1() noexcept
 const HoldsworthDelayPresetDefinition& sync922IndependentDiagnosticV1() noexcept
 {
   return kSync922IndependentDiagnosticV1;
+}
+
+const HoldsworthDelayPresetDefinition& connect913ParallelDiagnosticV1() noexcept
+{
+  return kConnect913ParallelDiagnosticV1;
+}
+
+const HoldsworthDelayPresetDefinition& connect913SerialDiagnosticV1() noexcept
+{
+  return kConnect913SerialDiagnosticV1;
 }
 
 } // namespace presets

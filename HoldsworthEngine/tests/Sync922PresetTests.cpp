@@ -313,7 +313,8 @@ bool expectNoYamahaSourceMetadata(const std::string_view testName,
       || preset.documentedYamahaGlobalValues.effectLevel.has_value()
       || preset.documentedYamahaGlobalValues.directLevel.has_value()
       || preset.documentedYamahaGlobalValues.directPan.has_value()
-      || preset.documentedYamahaSyncAuditionReference.has_value())
+      || preset.documentedYamahaSyncAuditionReference.has_value()
+      || preset.documentedYamahaManualExerciseReference.has_value())
   {
     std::cerr << testName << ": diagnostic invented Yamaha preset metadata\n";
     return false;
@@ -345,6 +346,7 @@ bool expectExactFactorySource(const std::string_view testName,
       || preset.documentedYamahaPresetIdentity->presetNumber != "922"
       || preset.documentedYamahaPresetIdentity->presetName != "Sync Parameter Sample"
       || !preset.documentedYamahaPresetIdentity->author.empty()
+      || preset.documentedYamahaManualExerciseReference.has_value()
       || !preset.documentedYamahaGlobalValues.effectLevel.has_value()
       || !nearlyEqual(preset.documentedYamahaGlobalValues.effectLevel->value, 10.0)
       || !preset.documentedYamahaGlobalValues.directLevel.has_value()
