@@ -34,6 +34,12 @@ namespace
 } // namespace
 
 HoldsworthDelayEngine::HoldsworthDelayEngine(const double maximumDelayTimeMs)
+: HoldsworthDelayEngine(maximumDelayTimeMs, GroupedDelayPhysicalCapacityMs{maximumDelayTimeMs})
+{
+}
+
+HoldsworthDelayEngine::HoldsworthDelayEngine(const double maximumDelayTimeMs,
+                                             const GroupedDelayPhysicalCapacityMs groupedPhysicalCapacity)
 : mBands{DelayBand{maximumDelayTimeMs},
          DelayBand{maximumDelayTimeMs},
          DelayBand{maximumDelayTimeMs},
@@ -42,11 +48,24 @@ HoldsworthDelayEngine::HoldsworthDelayEngine(const double maximumDelayTimeMs)
          DelayBand{maximumDelayTimeMs},
          DelayBand{maximumDelayTimeMs},
          DelayBand{maximumDelayTimeMs}}
+, mGroupedPhysicalCapacity(groupedPhysicalCapacity)
+, mGroupedCircuits{GroupedDelayCircuit{groupedPhysicalCapacity}, GroupedDelayCircuit{groupedPhysicalCapacity},
+                   GroupedDelayCircuit{groupedPhysicalCapacity}, GroupedDelayCircuit{groupedPhysicalCapacity},
+                   GroupedDelayCircuit{groupedPhysicalCapacity}, GroupedDelayCircuit{groupedPhysicalCapacity},
+                   GroupedDelayCircuit{groupedPhysicalCapacity}, GroupedDelayCircuit{groupedPhysicalCapacity}}
 {
   // An unconfigured engine is wet-silent. A configuration or preset explicitly
   // enables the bands it uses.
   for (DelayBand& band : mBands)
     band.setEnabled(false);
+
+  for (std::size_t index = 0; index < kBandCount; ++index)
+  {
+    mResolvedDelayGroupingPlan.ownerHeadIndices[index] = index;
+    mResolvedDelayGroupingPlan.endIndicesByHead[index] = index;
+    mResolvedGroupAudioProcessingPlan.processingOrder[index] = index;
+  }
+  mResolvedGroupAudioProcessingPlan.nodeCount = kBandCount;
 }
 
 void HoldsworthDelayEngine::prepare(const double sampleRate,
@@ -79,6 +98,8 @@ void HoldsworthDelayEngine::prepare(const double sampleRate,
 
   for (DelayBand& band : mBands)
     band.prepare(sampleRate, maximumBlockSize);
+  for (GroupedDelayCircuit& circuit : mGroupedCircuits)
+    circuit.prepare(sampleRate, maximumBlockSize);
 
   mInputScratch.swap(preparedInputScratch);
   mBandWetLeft.swap(preparedBandWetLeft);
@@ -95,6 +116,8 @@ void HoldsworthDelayEngine::reset() noexcept
 {
   for (DelayBand& band : mBands)
     band.reset();
+  for (GroupedDelayCircuit& circuit : mGroupedCircuits)
+    circuit.reset();
 
   std::fill(mInputScratch.begin(), mInputScratch.end(), 0.0);
   std::fill(mBandWetLeft.begin(), mBandWetLeft.end(), 0.0);
@@ -124,8 +147,23 @@ HoldsworthDelayConfigurationApplyResult HoldsworthDelayEngine::applyConfiguratio
                                      canonicalAudioRoutingConfiguration,
                                      resolvedAudioRoutingPlan);
 
-  const HoldsworthDelayConfigurationApplyResult result{syncResult,
-                                                        audioRoutingResult};
+  DelayGroupingConfiguration canonicalDelayGroupingConfiguration;
+  ResolvedDelayGroupingPlan resolvedDelayGroupingPlan;
+  const DelayGroupingApplyResult delayGroupingResult = resolveDelayGroupingConfiguration(
+    configuration.delayGrouping, configuration.bands, canonicalDelayGroupingConfiguration, resolvedDelayGroupingPlan);
+
+  ResolvedGroupAudioProcessingPlan resolvedGroupAudioProcessingPlan;
+  GroupAudioCompositionApplyResult groupAudioCompositionResult = GroupAudioCompositionApplyResult::applied;
+  if (audioRoutingResult == AudioRoutingApplyResult::applied
+      && delayGroupingResult == DelayGroupingApplyResult::applied)
+  {
+    groupAudioCompositionResult =
+      resolveGroupAudioComposition(canonicalAudioRoutingConfiguration, resolvedAudioRoutingPlan,
+                                   resolvedDelayGroupingPlan, resolvedGroupAudioProcessingPlan);
+  }
+
+  const HoldsworthDelayConfigurationApplyResult result{
+    syncResult, audioRoutingResult, delayGroupingResult, groupAudioCompositionResult};
   if (!result.wasApplied())
     return result;
 
@@ -141,6 +179,10 @@ HoldsworthDelayConfigurationApplyResult HoldsworthDelayEngine::applyConfiguratio
                                     false);
   commitAudioRoutingConfiguration(canonicalAudioRoutingConfiguration,
                                   resolvedAudioRoutingPlan);
+  commitDelayGroupingConfiguration(canonicalDelayGroupingConfiguration,
+                                   resolvedDelayGroupingPlan,
+                                   configuration.bands);
+  commitGroupAudioProcessingPlan(resolvedGroupAudioProcessingPlan);
   return result;
 }
 
@@ -172,8 +214,41 @@ AudioRoutingApplyResult HoldsworthDelayEngine::applyAudioRoutingConfiguration(
   if (result != AudioRoutingApplyResult::applied)
     return result;
 
+  ResolvedGroupAudioProcessingPlan resolvedGroupAudioProcessingPlan;
+  const GroupAudioCompositionApplyResult compositionResult = resolveGroupAudioComposition(
+    canonicalConfiguration, resolvedPlan, mResolvedDelayGroupingPlan, resolvedGroupAudioProcessingPlan);
+  if (compositionResult == GroupAudioCompositionApplyResult::nonHeadConnectedDestination)
+    return AudioRoutingApplyResult::nonHeadGroupedDestination;
+  if (compositionResult == GroupAudioCompositionApplyResult::collapsedCycleDetected)
+    return AudioRoutingApplyResult::groupCollapsedCycleDetected;
+
   commitAudioRoutingConfiguration(canonicalConfiguration, resolvedPlan);
+  commitGroupAudioProcessingPlan(resolvedGroupAudioProcessingPlan);
   return AudioRoutingApplyResult::applied;
+}
+
+DelayGroupingApplyResult HoldsworthDelayEngine::applyDelayGroupingConfiguration(
+  const DelayGroupingConfiguration& configuration) noexcept
+{
+  const auto currentBands = this->configuration().bands;
+  DelayGroupingConfiguration canonicalConfiguration;
+  ResolvedDelayGroupingPlan resolvedPlan;
+  const DelayGroupingApplyResult result =
+    resolveDelayGroupingConfiguration(configuration, currentBands, canonicalConfiguration, resolvedPlan);
+  if (result != DelayGroupingApplyResult::applied)
+    return result;
+
+  ResolvedGroupAudioProcessingPlan resolvedGroupAudioProcessingPlan;
+  const GroupAudioCompositionApplyResult compositionResult = resolveGroupAudioComposition(
+    mAudioRoutingConfiguration, mResolvedAudioRoutingPlan, resolvedPlan, resolvedGroupAudioProcessingPlan);
+  if (compositionResult == GroupAudioCompositionApplyResult::nonHeadConnectedDestination)
+    return DelayGroupingApplyResult::nonHeadConnectedDestination;
+  if (compositionResult == GroupAudioCompositionApplyResult::collapsedCycleDetected)
+    return DelayGroupingApplyResult::collapsedCycleDetected;
+
+  commitDelayGroupingConfiguration(canonicalConfiguration, resolvedPlan, currentBands);
+  commitGroupAudioProcessingPlan(resolvedGroupAudioProcessingPlan);
+  return DelayGroupingApplyResult::applied;
 }
 
 void HoldsworthDelayEngine::setBandConfiguration(
@@ -198,6 +273,19 @@ void HoldsworthDelayEngine::setBandConfiguration(
   band.setTapFraction(configuration.tapFraction);
   band.setDelaySignalPolarity(configuration.delaySignalPolarity);
   band.setEnabled(configuration.enabled);
+
+  if (mResolvedDelayGroupingPlan.isGroupHead[bandIndex])
+  {
+    synchronizeGroupedCircuitParameters(bandIndex, configuration.delayTimeMs);
+  }
+  else
+  {
+    const std::size_t ownerHead = mResolvedDelayGroupingPlan.ownerHeadIndices[bandIndex];
+    if (ownerHead != bandIndex)
+    {
+      synchronizeGroupedCircuitParameters(ownerHead, mGroupedCircuits[ownerHead].requestedBaseDelayTimeMs());
+    }
+  }
 }
 
 HoldsworthDelayConfiguration HoldsworthDelayEngine::configuration() const noexcept
@@ -223,6 +311,14 @@ HoldsworthDelayConfiguration HoldsworthDelayEngine::configuration() const noexce
   result.globalWetOutputLevel = mGlobalWetOutputLevel;
   result.modulationSync = mModulationSyncConfiguration;
   result.audioRouting = mAudioRoutingConfiguration;
+  result.delayGrouping = mDelayGroupingConfiguration;
+  for (std::size_t headIndex = 0; headIndex < kBandCount; ++headIndex)
+  {
+    if (mResolvedDelayGroupingPlan.isGroupHead[headIndex])
+    {
+      result.bands[headIndex].delayTimeMs = mGroupedCircuits[headIndex].requestedBaseDelayTimeMs();
+    }
+  }
   return result;
 }
 
@@ -390,6 +486,139 @@ AudioRoutingApplyResult HoldsworthDelayEngine::resolveAudioRoutingConfiguration(
   return AudioRoutingApplyResult::applied;
 }
 
+DelayGroupingApplyResult HoldsworthDelayEngine::resolveDelayGroupingConfiguration(
+  const DelayGroupingConfiguration& requested, const std::array<DelayBandConfiguration, kBandCount>& bandConfigurations,
+  DelayGroupingConfiguration& canonical, ResolvedDelayGroupingPlan& resolved) const noexcept
+{
+  canonical = requested;
+  resolved = ResolvedDelayGroupingPlan{};
+  for (std::size_t index = 0; index < kBandCount; ++index)
+  {
+    resolved.ownerHeadIndices[index] = index;
+    resolved.endIndicesByHead[index] = index;
+  }
+
+  std::array<bool, kBandCount> claimedMembership{};
+  for (std::size_t headIndex = 0; headIndex < kBandCount; ++headIndex)
+  {
+    const auto& requestedRange = canonical.groupsByHead[headIndex];
+    if (!requestedRange.has_value())
+      continue;
+
+    std::size_t endIndex = 0;
+    if (!delayBandIndex(requestedRange->endBand, endIndex))
+      return DelayGroupingApplyResult::invalidBandReference;
+    if (endIndex == headIndex)
+      return DelayGroupingApplyResult::singletonRange;
+    if (endIndex < headIndex)
+      return DelayGroupingApplyResult::descendingRange;
+
+    for (std::size_t memberIndex = headIndex; memberIndex <= endIndex; ++memberIndex)
+    {
+      if (claimedMembership[memberIndex])
+        return DelayGroupingApplyResult::overlappingMembership;
+      claimedMembership[memberIndex] = true;
+    }
+
+    const std::size_t memberCount = endIndex - headIndex + 1;
+    const Sample maximumPermittedDelay = groupedDelayMaximumPermittedTimeMs(memberCount, mGroupedPhysicalCapacity);
+    const Sample requestedDelay = std::isfinite(bandConfigurations[headIndex].delayTimeMs)
+                                    ? std::max(bandConfigurations[headIndex].delayTimeMs, 0.0)
+                                    : 0.0;
+    if (requestedDelay > maximumPermittedDelay)
+      return DelayGroupingApplyResult::delayTimeExceedsCapacity;
+
+    resolved.isGroupHead[headIndex] = true;
+    resolved.endIndicesByHead[headIndex] = endIndex;
+    for (std::size_t memberIndex = headIndex; memberIndex <= endIndex; ++memberIndex)
+      resolved.ownerHeadIndices[memberIndex] = headIndex;
+    resolved.hasGroups = true;
+  }
+
+  return DelayGroupingApplyResult::applied;
+}
+
+GroupAudioCompositionApplyResult HoldsworthDelayEngine::resolveGroupAudioComposition(
+  const AudioRoutingConfiguration& audioRouting, const ResolvedAudioRoutingPlan& resolvedAudioRouting,
+  const ResolvedDelayGroupingPlan& grouping, ResolvedGroupAudioProcessingPlan& resolved) noexcept
+{
+  resolved = ResolvedGroupAudioProcessingPlan{};
+
+  for (std::size_t bandIndex = 0; bandIndex < kBandCount; ++bandIndex)
+  {
+    const std::size_t ownerHead = grouping.ownerHeadIndices[bandIndex];
+    if (ownerHead != bandIndex && audioRouting.inputs[bandIndex].has_value())
+    {
+      return GroupAudioCompositionApplyResult::nonHeadConnectedDestination;
+    }
+  }
+
+  std::array<bool, kBandCount> isNodeHead{};
+  std::array<std::size_t, kBandCount> incomingEdgeCounts{};
+  for (std::size_t bandIndex = 0; bandIndex < kBandCount; ++bandIndex)
+  {
+    const std::size_t headIndex = grouping.ownerHeadIndices[bandIndex];
+    if (headIndex == bandIndex)
+      isNodeHead[headIndex] = true;
+  }
+
+  for (std::size_t destinationHead = 0; destinationHead < kBandCount; ++destinationHead)
+  {
+    if (!isNodeHead[destinationHead])
+      continue;
+
+    const std::size_t sourceBand = resolvedAudioRouting.sourceIndices[destinationHead];
+    if (sourceBand == kBandCount)
+      continue;
+
+    const std::size_t sourceHead = grouping.ownerHeadIndices[sourceBand];
+    if (sourceHead == destinationHead)
+      return GroupAudioCompositionApplyResult::collapsedCycleDetected;
+    incomingEdgeCounts[destinationHead] = 1;
+  }
+
+  std::array<bool, kBandCount> wasScheduled{};
+  std::size_t scheduledCount = 0;
+  while (scheduledCount < kBandCount)
+  {
+    std::size_t readyHead = kBandCount;
+    for (std::size_t candidateHead = 0; candidateHead < kBandCount; ++candidateHead)
+    {
+      if (isNodeHead[candidateHead] && !wasScheduled[candidateHead] && incomingEdgeCounts[candidateHead] == 0)
+      {
+        readyHead = candidateHead;
+        break;
+      }
+    }
+
+    if (readyHead == kBandCount)
+      break;
+
+    resolved.processingOrder[resolved.nodeCount] = readyHead;
+    ++resolved.nodeCount;
+    wasScheduled[readyHead] = true;
+    ++scheduledCount;
+
+    for (std::size_t destinationHead = 0; destinationHead < kBandCount; ++destinationHead)
+    {
+      if (!isNodeHead[destinationHead] || wasScheduled[destinationHead] || incomingEdgeCounts[destinationHead] == 0)
+        continue;
+
+      const std::size_t sourceBand = resolvedAudioRouting.sourceIndices[destinationHead];
+      if (sourceBand != kBandCount && grouping.ownerHeadIndices[sourceBand] == readyHead)
+        incomingEdgeCounts[destinationHead] = 0;
+    }
+  }
+
+  std::size_t nodeCount = 0;
+  for (const bool nodeHead : isNodeHead)
+    nodeCount += nodeHead ? 1U : 0U;
+  if (resolved.nodeCount != nodeCount)
+    return GroupAudioCompositionApplyResult::collapsedCycleDetected;
+
+  return GroupAudioCompositionApplyResult::applied;
+}
+
 void HoldsworthDelayEngine::commitModulationSyncConfiguration(
   const ModulationSyncConfiguration& canonical,
   const ResolvedSynchronizationPlan& resolved,
@@ -417,6 +646,84 @@ void HoldsworthDelayEngine::commitAudioRoutingConfiguration(const AudioRoutingCo
 {
   mAudioRoutingConfiguration = canonical;
   mResolvedAudioRoutingPlan = resolved;
+}
+
+void HoldsworthDelayEngine::commitDelayGroupingConfiguration(
+  const DelayGroupingConfiguration& canonical, const ResolvedDelayGroupingPlan& resolved,
+  const std::array<DelayBandConfiguration, kBandCount>& bandConfigurations) noexcept
+{
+  std::array<bool, kBandCount> affectedBands{};
+  for (std::size_t headIndex = 0; headIndex < kBandCount; ++headIndex)
+  {
+    const bool oldIsGroup = mResolvedDelayGroupingPlan.isGroupHead[headIndex];
+    const bool newIsGroup = resolved.isGroupHead[headIndex];
+    const std::size_t oldEnd = mResolvedDelayGroupingPlan.endIndicesByHead[headIndex];
+    const std::size_t newEnd = resolved.endIndicesByHead[headIndex];
+    const bool topologyChanged = oldIsGroup != newIsGroup || (oldIsGroup && oldEnd != newEnd);
+    if (!topologyChanged)
+      continue;
+
+    if (oldIsGroup)
+    {
+      for (std::size_t bandIndex = headIndex; bandIndex <= oldEnd; ++bandIndex)
+        affectedBands[bandIndex] = true;
+      mGroupedCircuits[headIndex].reset();
+    }
+    if (newIsGroup)
+    {
+      for (std::size_t bandIndex = headIndex; bandIndex <= newEnd; ++bandIndex)
+        affectedBands[bandIndex] = true;
+      mGroupedCircuits[headIndex].reset();
+    }
+  }
+
+  for (std::size_t bandIndex = 0; bandIndex < kBandCount; ++bandIndex)
+  {
+    if (affectedBands[bandIndex])
+      mBands[bandIndex].resetDelayAndFilterHistoryPreservingModulationClock();
+  }
+
+  mDelayGroupingConfiguration = canonical;
+  mResolvedDelayGroupingPlan = resolved;
+
+  for (std::size_t headIndex = 0; headIndex < kBandCount; ++headIndex)
+  {
+    if (!resolved.isGroupHead[headIndex])
+      continue;
+
+    GroupedDelayCircuit& circuit = mGroupedCircuits[headIndex];
+    circuit.setMembership(headIndex, resolved.endIndicesByHead[headIndex]);
+    synchronizeGroupedCircuitParameters(headIndex, bandConfigurations[headIndex].delayTimeMs);
+  }
+}
+
+void HoldsworthDelayEngine::commitGroupAudioProcessingPlan(const ResolvedGroupAudioProcessingPlan& resolved) noexcept
+{
+  mResolvedGroupAudioProcessingPlan = resolved;
+}
+
+void HoldsworthDelayEngine::synchronizeGroupedCircuitParameters(const std::size_t headIndex,
+                                                                const Sample requestedBaseDelayTimeMs) noexcept
+{
+  const bool valid = headIndex < kBandCount && mResolvedDelayGroupingPlan.isGroupHead[headIndex];
+  assert(valid && "headIndex must identify an active GROUP head");
+  if (!valid)
+    return;
+
+  GroupedDelayCircuit& circuit = mGroupedCircuits[headIndex];
+  const DelayBand& headBand = mBands[headIndex];
+  circuit.setBaseDelayTimeMs(requestedBaseDelayTimeMs);
+  circuit.setFeedbackCoefficient(headBand.feedbackCoefficient());
+  circuit.setLoopFilterConfiguration(headBand.requestedLoopFilterConfiguration());
+  const std::size_t endIndex = mResolvedDelayGroupingPlan.endIndicesByHead[headIndex];
+  for (std::size_t bandIndex = headIndex; bandIndex <= endIndex; ++bandIndex)
+  {
+    circuit.setOutputTapFraction(bandIndex, mBands[bandIndex].tapFraction());
+    const bool hasIndependentObservation =
+      mBands[bandIndex].tapFraction().value < 1.0
+      || circuit.effectiveOutputModulationDepth(mBands[bandIndex].requestedModulationDepth()).value != 0.0;
+    circuit.setOutputObservationIsIndependent(bandIndex, hasIndependentObservation);
+  }
 }
 
 void HoldsworthDelayEngine::generateSynchronizedModulationOffsets(
@@ -487,6 +794,116 @@ void HoldsworthDelayEngine::generateSynchronizedModulationOffsets(
   }
 }
 
+void HoldsworthDelayEngine::generateGroupedModulationOffsets(const std::size_t frameCount) noexcept
+{
+  std::array<ModulationDepthMs, kBandCount> effectiveDepths{
+    ModulationDepthMs{},
+    ModulationDepthMs{},
+    ModulationDepthMs{},
+    ModulationDepthMs{},
+    ModulationDepthMs{},
+    ModulationDepthMs{},
+    ModulationDepthMs{},
+    ModulationDepthMs{}};
+  std::array<bool, kBandCount> groupedBands{};
+  for (std::size_t bandIndex = 0; bandIndex < kBandCount; ++bandIndex)
+  {
+    const std::size_t ownerHead = mResolvedDelayGroupingPlan.ownerHeadIndices[bandIndex];
+    if (mResolvedDelayGroupingPlan.isGroupHead[ownerHead])
+    {
+      groupedBands[bandIndex] = true;
+      effectiveDepths[bandIndex] =
+        mGroupedCircuits[ownerHead].effectiveOutputModulationDepth(mBands[bandIndex].requestedModulationDepth());
+    }
+    else
+    {
+      effectiveDepths[bandIndex] = mBands[bandIndex].effectiveModulationDepth();
+    }
+  }
+
+  for (std::size_t rootIndex = 0; rootIndex < kBandCount; ++rootIndex)
+  {
+    const ResolvedSynchronization& root = mResolvedSynchronizationPlan.bands[rootIndex];
+    if (!root.isSynchronizationRoot)
+      continue;
+
+    const ModulationDepthMs rootDepth = effectiveDepths[rootIndex];
+    const bool rootIsGrouped = groupedBands[rootIndex];
+    Sample* const rootOffsets = mSynchronizedModulationOffsets.data() + rootIndex * mMaximumBlockSize;
+
+    for (std::size_t frame = 0; frame < frameCount; ++frame)
+    {
+      ModulationClockSample rootClockSample;
+      rootOffsets[frame] = rootIsGrouped ? mBands[rootIndex].advanceGroupModulationClock(rootDepth, rootClockSample)
+                                         : mBands[rootIndex].advanceModulationClock(rootClockSample);
+
+      for (std::size_t member = 0; member < root.slaveCount; ++member)
+      {
+        const std::size_t slaveIndex = root.slaveIndices[member];
+        const ResolvedSynchronization& slave = mResolvedSynchronizationPlan.bands[slaveIndex];
+
+        ModulationClockSample slaveClockSample;
+        slaveClockSample.phase.value = rootClockSample.phase.value + slave.phaseOffsetCycles;
+        if (slaveClockSample.phase.value >= 1.0)
+          slaveClockSample.phase.value -= 1.0;
+
+        switch (slave.rotationKind)
+        {
+          case PhaseRotationKind::zero:
+            slaveClockSample.sine = rootClockSample.sine;
+            slaveClockSample.cosine = rootClockSample.cosine;
+            break;
+          case PhaseRotationKind::quarter:
+            slaveClockSample.sine = rootClockSample.cosine;
+            slaveClockSample.cosine = -rootClockSample.sine;
+            break;
+          case PhaseRotationKind::half:
+            slaveClockSample.sine = -rootClockSample.sine;
+            slaveClockSample.cosine = -rootClockSample.cosine;
+            break;
+          case PhaseRotationKind::threeQuarter:
+            slaveClockSample.sine = -rootClockSample.cosine;
+            slaveClockSample.cosine = rootClockSample.sine;
+            break;
+          case PhaseRotationKind::arbitrary:
+            slaveClockSample.sine =
+              rootClockSample.sine * slave.cosineOffset + rootClockSample.cosine * slave.sineOffset;
+            slaveClockSample.cosine =
+              rootClockSample.cosine * slave.cosineOffset - rootClockSample.sine * slave.sineOffset;
+            break;
+        }
+
+        const bool slaveIsGrouped = groupedBands[slaveIndex];
+        Sample* const slaveOffsets = mSynchronizedModulationOffsets.data() + slaveIndex * mMaximumBlockSize;
+        slaveOffsets[frame] = slaveIsGrouped ? mBands[slaveIndex].groupModulationOffsetAtClockSample(
+                                                 slaveClockSample, effectiveDepths[slaveIndex])
+                                             : mBands[slaveIndex].modulationOffsetAtClockSample(slaveClockSample);
+      }
+    }
+  }
+
+  // Unsynchronized GROUP members need offsets before their shared circuit is
+  // traversed. Independent ungrouped bands retain their established in-band
+  // modulation path when their logical node is processed below.
+  for (std::size_t bandIndex = 0; bandIndex < kBandCount; ++bandIndex)
+  {
+    const ResolvedSynchronization& synchronization = mResolvedSynchronizationPlan.bands[bandIndex];
+    if (synchronization.isSynchronizedSlave || synchronization.isSynchronizationRoot)
+      continue;
+
+    if (!groupedBands[bandIndex])
+      continue;
+
+    const ModulationDepthMs effectiveDepth = effectiveDepths[bandIndex];
+    Sample* const offsets = mSynchronizedModulationOffsets.data() + bandIndex * mMaximumBlockSize;
+    for (std::size_t frame = 0; frame < frameCount; ++frame)
+    {
+      ModulationClockSample clockSample;
+      offsets[frame] = mBands[bandIndex].advanceGroupModulationClock(effectiveDepth, clockSample);
+    }
+  }
+}
+
 void HoldsworthDelayEngine::setGlobalWetOutputLevel(const Sample level) noexcept
 {
   mGlobalWetOutputLevel = std::isfinite(level) ? std::clamp(level, 0.0, 1.0) : 0.0;
@@ -553,6 +970,84 @@ void HoldsworthDelayEngine::processConnectedBlock(const std::span<const Sample> 
   }
 }
 
+void HoldsworthDelayEngine::processGroupedBlock(const std::span<const Sample> monoInput,
+                                                const std::span<Sample> wetLeft,
+                                                const std::span<Sample> wetRight) noexcept
+{
+  const std::size_t frameCount = monoInput.size();
+  std::copy(monoInput.begin(), monoInput.end(), mInputScratch.begin());
+  std::fill(wetLeft.begin(), wetLeft.end(), 0.0);
+  std::fill(wetRight.begin(), wetRight.end(), 0.0);
+
+  generateGroupedModulationOffsets(frameCount);
+
+  std::array<const Sample*, kBandCount> modulationOffsets{};
+  for (std::size_t bandIndex = 0; bandIndex < kBandCount; ++bandIndex)
+  {
+    modulationOffsets[bandIndex] = mSynchronizedModulationOffsets.data() + bandIndex * mMaximumBlockSize;
+  }
+
+  for (std::size_t nodeOrder = 0; nodeOrder < mResolvedGroupAudioProcessingPlan.nodeCount; ++nodeOrder)
+  {
+    const std::size_t headIndex = mResolvedGroupAudioProcessingPlan.processingOrder[nodeOrder];
+    const std::size_t sourceIndex = mResolvedAudioRoutingPlan.sourceIndices[headIndex];
+    const Sample* const nodeInputData =
+      sourceIndex == kBandCount ? mInputScratch.data() : mBandRoutingOutputs.data() + sourceIndex * mMaximumBlockSize;
+    const std::span<const Sample> nodeInput{nodeInputData, frameCount};
+
+    if (!mResolvedDelayGroupingPlan.isGroupHead[headIndex])
+    {
+      const std::span<Sample> routingOutput{mBandRoutingOutputs.data() + headIndex * mMaximumBlockSize, frameCount};
+      const std::span<Sample> bandWetLeft{mConnectedBandWetLeft.data() + headIndex * mMaximumBlockSize, frameCount};
+      const std::span<Sample> bandWetRight{mConnectedBandWetRight.data() + headIndex * mMaximumBlockSize, frameCount};
+      const ResolvedSynchronization& synchronization = mResolvedSynchronizationPlan.bands[headIndex];
+      if (synchronization.isSynchronizedSlave || synchronization.isSynchronizationRoot)
+      {
+        const std::span<const Sample> offsets{modulationOffsets[headIndex], frameCount};
+        mBands[headIndex].processBlockUsingPrecomputedModulationOffsetsWithRoutingOutput(
+          nodeInput, offsets, routingOutput, bandWetLeft, bandWetRight);
+      }
+      else
+      {
+        mBands[headIndex].processBlockWithRoutingOutput(nodeInput, routingOutput, bandWetLeft, bandWetRight);
+      }
+      continue;
+    }
+
+    std::array<GroupedDelayCircuit::OutputParameters, kBandCount> outputParameters{};
+    const std::size_t endIndex = mResolvedDelayGroupingPlan.endIndicesByHead[headIndex];
+    for (std::size_t bandIndex = headIndex; bandIndex <= endIndex; ++bandIndex)
+    {
+      const DelayBand& band = mBands[bandIndex];
+      outputParameters[bandIndex] = {
+        band.outputLevel(), band.mLeftPanGain, band.mRightPanGain, band.delaySignalPolarity(), band.isEnabled()};
+    }
+
+    mGroupedCircuits[headIndex].processBlock(nodeInput, outputParameters, modulationOffsets, mBandRoutingOutputs.data(),
+                                             mConnectedBandWetLeft.data(), mConnectedBandWetRight.data(),
+                                             mMaximumBlockSize);
+  }
+
+  // GROUP and CONNECT never change the stable final wet multiplicity: every
+  // Yamaha Effect Band output identity contributes exactly once.
+  for (std::size_t bandIndex = 0; bandIndex < kBandCount; ++bandIndex)
+  {
+    const Sample* const bandWetLeft = mConnectedBandWetLeft.data() + bandIndex * mMaximumBlockSize;
+    const Sample* const bandWetRight = mConnectedBandWetRight.data() + bandIndex * mMaximumBlockSize;
+    for (std::size_t frame = 0; frame < frameCount; ++frame)
+    {
+      wetLeft[frame] += bandWetLeft[frame];
+      wetRight[frame] += bandWetRight[frame];
+    }
+  }
+
+  for (std::size_t frame = 0; frame < frameCount; ++frame)
+  {
+    wetLeft[frame] *= mGlobalWetOutputLevel;
+    wetRight[frame] *= mGlobalWetOutputLevel;
+  }
+}
+
 void HoldsworthDelayEngine::processBlock(const std::span<const Sample> monoInput,
                                          const std::span<Sample> wetLeft,
                                          const std::span<Sample> wetRight) noexcept
@@ -566,6 +1061,12 @@ void HoldsworthDelayEngine::processBlock(const std::span<const Sample> monoInput
   {
     std::fill(wetLeft.begin(), wetLeft.end(), 0.0);
     std::fill(wetRight.begin(), wetRight.end(), 0.0);
+    return;
+  }
+
+  if (mResolvedDelayGroupingPlan.hasGroups)
+  {
+    processGroupedBlock(monoInput, wetLeft, wetRight);
     return;
   }
 

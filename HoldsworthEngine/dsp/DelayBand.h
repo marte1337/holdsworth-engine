@@ -190,6 +190,12 @@ private:
     ModulationClockSample& clockSample) noexcept;
   [[nodiscard]] Sample modulationOffsetAtClockSample(
     const ModulationClockSample& clockSample) const noexcept;
+  [[nodiscard]] Sample advanceGroupModulationClock(
+    ModulationDepthMs effectiveGroupDepth,
+    ModulationClockSample& clockSample) noexcept;
+  [[nodiscard]] Sample groupModulationOffsetAtClockSample(
+    const ModulationClockSample& clockSample,
+    ModulationDepthMs effectiveGroupDepth) const noexcept;
   void processBlockUsingPrecomputedModulationOffsets(
     std::span<const Sample> monoInput,
     std::span<const Sample> modulationOffsetsMs,
@@ -212,6 +218,7 @@ private:
     std::span<Sample> wetLeft,
     std::span<Sample> wetRight) noexcept;
   void resetModulationClock() noexcept;
+  void resetDelayAndFilterHistoryPreservingModulationClock() noexcept;
 
   template <bool UsesPrecomputedModulationOffsets>
   void processBlockWithRoutingOutputImpl(

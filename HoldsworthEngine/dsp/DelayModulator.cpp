@@ -143,6 +143,23 @@ DelayModulator::Sample DelayModulator::offsetMsAtClockSample(
   return mDepth.value * provisionalNonSineValue(mWaveform, clockSample.phase.value);
 }
 
+DelayModulator::Sample DelayModulator::offsetMsAtClockSample(
+  const ModulationClockSample& clockSample,
+  const ModulationDepthMs depth) const noexcept
+{
+  assert(mPrepared && "prepare() must precede offsetMsAtClockSample()");
+  if (!mPrepared)
+    return 0.0;
+
+  const Sample sanitizedDepth =
+    std::isfinite(depth.value) && depth.value >= 0.0 ? depth.value : 0.0;
+  if (mWaveform == ModulationWaveform::sine)
+    return sanitizedDepth * clockSample.sine;
+
+  return sanitizedDepth
+         * provisionalNonSineValue(mWaveform, clockSample.phase.value);
+}
+
 DelayModulator::Sample DelayModulator::wrapPhase(const Sample phaseCycles) noexcept
 {
   const Sample wrapped = phaseCycles - std::floor(phaseCycles);

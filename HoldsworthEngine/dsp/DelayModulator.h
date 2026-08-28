@@ -130,6 +130,13 @@ public:
   [[nodiscard]] Sample offsetMsAtClockSample(
     const ModulationClockSample& clockSample) const noexcept;
 
+  // GROUP-only evaluation seam. It keeps this output identity's waveform and
+  // authoritative clock while applying a group-capacity-derived physical
+  // depth instead of the dormant independent DelayBand depth.
+  [[nodiscard]] Sample offsetMsAtClockSample(
+    const ModulationClockSample& clockSample,
+    ModulationDepthMs depth) const noexcept;
+
 private:
   static Sample wrapPhase(Sample phaseCycles) noexcept;
   void updateRateDerivedState() noexcept;

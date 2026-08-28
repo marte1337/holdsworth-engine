@@ -172,9 +172,34 @@ DelayBand::Sample DelayBand::modulationOffsetAtClockSample(
   return mDelayModulator.offsetMsAtClockSample(clockSample);
 }
 
+DelayBand::Sample DelayBand::advanceGroupModulationClock(
+  const ModulationDepthMs effectiveGroupDepth,
+  ModulationClockSample& clockSample) noexcept
+{
+  // Advance the established authoritative oscillator exactly once, then
+  // re-evaluate its captured pre-advance sample with GROUP's physical depth.
+  static_cast<void>(mDelayModulator.nextOffsetMs(clockSample));
+  return mDelayModulator.offsetMsAtClockSample(clockSample, effectiveGroupDepth);
+}
+
+DelayBand::Sample DelayBand::groupModulationOffsetAtClockSample(
+  const ModulationClockSample& clockSample,
+  const ModulationDepthMs effectiveGroupDepth) const noexcept
+{
+  return mDelayModulator.offsetMsAtClockSample(clockSample, effectiveGroupDepth);
+}
+
 void DelayBand::resetModulationClock() noexcept
 {
   mDelayModulator.reset();
+  mCurrentModulatedDelayTimeMs = delayTimeMs();
+}
+
+void DelayBand::resetDelayAndFilterHistoryPreservingModulationClock() noexcept
+{
+  mDelayLine.reset();
+  mLoopFilter.reset();
+  mTapOutputFilter.reset();
   mCurrentModulatedDelayTimeMs = delayTimeMs();
 }
 

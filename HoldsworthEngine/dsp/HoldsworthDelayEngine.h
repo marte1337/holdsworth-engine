@@ -2,6 +2,8 @@
 
 #include "AudioRouting.h"
 #include "DelayBand.h"
+#include "DelayGrouping.h"
+#include "GroupedDelayCircuit.h"
 #include "ModulationSync.h"
 
 #include <array>
@@ -46,20 +48,26 @@ struct HoldsworthDelayConfiguration final
   double globalWetOutputLevel = 1.0;
   ModulationSyncConfiguration modulationSync{};
   AudioRoutingConfiguration audioRouting{};
+  DelayGroupingConfiguration delayGrouping{};
 };
 
-// Full-engine configuration validates SYNC and CONNECT independently before
-// mutating any live state. Both results are reported even when either graph is
-// rejected.
+// Full-engine configuration validates SYNC, CONNECT, GROUP, and their composed
+// processing schedule before mutating any live state. Every domain result is
+// reported, and any rejection preserves all live DSP and graph state.
 struct HoldsworthDelayConfigurationApplyResult final
 {
   ModulationSyncApplyResult modulationSync = ModulationSyncApplyResult::applied;
   AudioRoutingApplyResult audioRouting = AudioRoutingApplyResult::applied;
+  DelayGroupingApplyResult delayGrouping = DelayGroupingApplyResult::applied;
+  GroupAudioCompositionApplyResult groupAudioComposition =
+    GroupAudioCompositionApplyResult::applied;
 
   [[nodiscard]] constexpr bool wasApplied() const noexcept
   {
     return modulationSync == ModulationSyncApplyResult::applied
-           && audioRouting == AudioRoutingApplyResult::applied;
+           && audioRouting == AudioRoutingApplyResult::applied
+           && delayGrouping == DelayGroupingApplyResult::applied
+           && groupAudioComposition == GroupAudioCompositionApplyResult::applied;
   }
 };
 
@@ -79,25 +87,32 @@ public:
   // maximumDelayTimeMs is the runtime capacity of each individual DelayBand.
   explicit HoldsworthDelayEngine(double maximumDelayTimeMs);
 
+  // groupedPhysicalCapacity is allocated separately for every potential GROUP
+  // head. The strongly typed value cannot be confused with an individual-band
+  // capacity or a Yamaha documented maximum.
+  HoldsworthDelayEngine(double maximumDelayTimeMs,
+                        GroupedDelayPhysicalCapacityMs groupedPhysicalCapacity);
+
   HoldsworthDelayEngine(const HoldsworthDelayEngine&) = delete;
   HoldsworthDelayEngine& operator=(const HoldsworthDelayEngine&) = delete;
   HoldsworthDelayEngine(HoldsworthDelayEngine&&) noexcept = delete;
   HoldsworthDelayEngine& operator=(HoldsworthDelayEngine&&) noexcept = delete;
 
-  // Allocates all eight delay histories, the three established
-  // maximum-block-sized audio scratch buffers, fixed eight-band synchronized-
-  // modulation scratch, and CONNECT-only routing/per-band wet scratch. Calling
+  // Allocates all eight independent delay histories, all potential GROUP
+  // histories, the established audio scratch buffers, fixed eight-band
+  // synchronized-modulation scratch, and routing/per-band wet scratch. Calling
   // prepare() again discards existing delay history while preserving parameter
   // values.
   void prepare(double sampleRate, std::size_t maximumBlockSize);
 
-  // Clears all eight delay histories without changing configuration.
+  // Clears all independent and prepared GROUP histories without changing
+  // configuration.
   void reset() noexcept;
 
-  // Transactionally validates synchronization and audio routing before
-  // applying any band parameters, the global wet level, or either resolved
-  // plan. On failure, no engine state is changed. Values are sanitized by the
-  // same rules as DelayBand's setters.
+  // Transactionally validates synchronization, audio routing, delay grouping,
+  // and their composed schedule before applying any band parameters, the
+  // global wet level, or resolved plan. On failure, no engine state is
+  // changed. Values are sanitized by the same rules as DelayBand's setters.
   HoldsworthDelayConfigurationApplyResult applyConfiguration(
     const HoldsworthDelayConfiguration& configuration) noexcept;
 
@@ -113,6 +128,12 @@ public:
   // not alter the previously accepted routing plan.
   AudioRoutingApplyResult applyAudioRoutingConfiguration(
     const AudioRoutingConfiguration& configuration) noexcept;
+
+  // Applies only a complete GROUP topology snapshot. Active CONNECT is
+  // revalidated against the candidate topology before any histories or plans
+  // change. Topology changes use the documented deterministic history policy.
+  DelayGroupingApplyResult applyDelayGroupingConfiguration(
+    const DelayGroupingConfiguration& configuration) noexcept;
 
   // bandIndex must be in [0, kBandCount). Invalid indices assert in Debug and
   // are ignored without modifying any band when assertions are disabled.
@@ -133,6 +154,10 @@ public:
 
   [[nodiscard]] Sample globalWetOutputLevel() const noexcept { return mGlobalWetOutputLevel; }
   [[nodiscard]] Sample maximumDelayTimeMs() const noexcept;
+  [[nodiscard]] Sample groupedPhysicalCapacityMs() const noexcept
+  {
+    return mGroupedPhysicalCapacity.value;
+  }
   [[nodiscard]] bool isPrepared() const noexcept { return mPrepared; }
 
   // Overwrites both output spans with the direct sum of all eight wet stereo
@@ -184,6 +209,24 @@ private:
     bool hasConnections = false;
   };
 
+  struct ResolvedDelayGroupingPlan final
+  {
+    // ownerHeadIndices maps every band identity to its logical processing
+    // node. For an ungrouped band, the owner is the band itself.
+    std::array<std::size_t, kBandCount> ownerHeadIndices{};
+    std::array<std::size_t, kBandCount> endIndicesByHead{};
+    std::array<bool, kBandCount> isGroupHead{};
+    bool hasGroups = false;
+  };
+
+  struct ResolvedGroupAudioProcessingPlan final
+  {
+    // Entries are logical-node head indices. At most one entry represents a
+    // complete GROUP range.
+    std::array<std::size_t, kBandCount> processingOrder{};
+    std::size_t nodeCount = 0;
+  };
+
   static ModulationSyncApplyResult resolveModulationSyncConfiguration(
     const ModulationSyncConfiguration& requested,
     ModulationSyncConfiguration& canonical,
@@ -194,6 +237,18 @@ private:
     AudioRoutingConfiguration& canonical,
     ResolvedAudioRoutingPlan& resolved) noexcept;
 
+  DelayGroupingApplyResult resolveDelayGroupingConfiguration(
+    const DelayGroupingConfiguration& requested,
+    const std::array<DelayBandConfiguration, kBandCount>& bandConfigurations,
+    DelayGroupingConfiguration& canonical,
+    ResolvedDelayGroupingPlan& resolved) const noexcept;
+
+  static GroupAudioCompositionApplyResult resolveGroupAudioComposition(
+    const AudioRoutingConfiguration& audioRouting,
+    const ResolvedAudioRoutingPlan& resolvedAudioRouting,
+    const ResolvedDelayGroupingPlan& grouping,
+    ResolvedGroupAudioProcessingPlan& resolved) noexcept;
+
   void commitModulationSyncConfiguration(
     const ModulationSyncConfiguration& canonical,
     const ResolvedSynchronizationPlan& resolved,
@@ -201,12 +256,27 @@ private:
   void commitAudioRoutingConfiguration(
     const AudioRoutingConfiguration& canonical,
     const ResolvedAudioRoutingPlan& resolved) noexcept;
+  void commitDelayGroupingConfiguration(
+    const DelayGroupingConfiguration& canonical,
+    const ResolvedDelayGroupingPlan& resolved,
+    const std::array<DelayBandConfiguration, kBandCount>& bandConfigurations) noexcept;
+  void commitGroupAudioProcessingPlan(
+    const ResolvedGroupAudioProcessingPlan& resolved) noexcept;
+  void synchronizeGroupedCircuitParameters(
+    std::size_t headIndex,
+    Sample requestedBaseDelayTimeMs) noexcept;
   void generateSynchronizedModulationOffsets(std::size_t frameCount) noexcept;
+  void generateGroupedModulationOffsets(std::size_t frameCount) noexcept;
   void processConnectedBlock(std::span<const Sample> monoInput,
                              std::span<Sample> wetLeft,
                              std::span<Sample> wetRight) noexcept;
+  void processGroupedBlock(std::span<const Sample> monoInput,
+                           std::span<Sample> wetLeft,
+                           std::span<Sample> wetRight) noexcept;
 
   std::array<DelayBand, kBandCount> mBands;
+  const GroupedDelayPhysicalCapacityMs mGroupedPhysicalCapacity;
+  std::array<GroupedDelayCircuit, kBandCount> mGroupedCircuits;
   std::vector<Sample> mInputScratch;
   std::vector<Sample> mBandWetLeft;
   std::vector<Sample> mBandWetRight;
@@ -218,6 +288,9 @@ private:
   ResolvedSynchronizationPlan mResolvedSynchronizationPlan{};
   AudioRoutingConfiguration mAudioRoutingConfiguration{};
   ResolvedAudioRoutingPlan mResolvedAudioRoutingPlan{};
+  DelayGroupingConfiguration mDelayGroupingConfiguration{};
+  ResolvedDelayGroupingPlan mResolvedDelayGroupingPlan{};
+  ResolvedGroupAudioProcessingPlan mResolvedGroupAudioProcessingPlan{};
   Sample mGlobalWetOutputLevel = 1.0;
   std::size_t mMaximumBlockSize = 0;
   bool mPrepared = false;

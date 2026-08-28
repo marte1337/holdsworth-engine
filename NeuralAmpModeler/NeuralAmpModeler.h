@@ -341,7 +341,8 @@ private:
   // Temporary macOS-only development integration. The delay remains an
   // independent wet-only processor; these buffers and controls belong to the
   // plugin wrapper and can be removed when GuitarEngine replaces this bridge.
-  holdsworth::dsp::HoldsworthDelayEngine mHoldsworthDelayEngine{700.0};
+  holdsworth::dsp::HoldsworthDelayEngine mHoldsworthDelayEngine{
+    700.0, holdsworth::dsp::GroupedDelayPhysicalCapacityMs{5890.0}};
   std::vector<iplug::sample> mHoldsworthDelaySilentInput;
   std::vector<iplug::sample> mHoldsworthDelayWetLeft;
   std::vector<iplug::sample> mHoldsworthDelayWetRight;

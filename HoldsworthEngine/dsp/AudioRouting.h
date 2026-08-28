@@ -29,7 +29,9 @@ enum class AudioRoutingApplyResult
   applied,
   invalidSourceReference,
   selfReference,
-  cycleDetected
+  cycleDetected,
+  nonHeadGroupedDestination,
+  groupCollapsedCycleDetected
 };
 
 } // namespace holdsworth::dsp
