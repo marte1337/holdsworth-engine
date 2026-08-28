@@ -92,6 +92,7 @@ int main()
                           group12RhythmDiagnosticTests(),
                           connect913PresetTests(),
                           sync922PresetTests(),
+                          holdsworth223PresetTests(),
                           holdsworthDelayLiveIntegrationTests()};
   std::size_t totalTests = 0;
   int failures = 0;

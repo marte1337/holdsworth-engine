@@ -560,6 +560,7 @@
 		D1A700012F00000F00000701 /* GroupedDelayCircuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000F00000002 /* GroupedDelayCircuit.cpp */; };
 		D1A700012F00000F00000801 /* GroupedDelayCircuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000F00000002 /* GroupedDelayCircuit.cpp */; };
 		D1A700012F00001000000002 /* Group12RhythmDiagnosticTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00001000000001 /* Group12RhythmDiagnosticTests.cpp */; };
+		D1A700012F00001100000002 /* Holdsworth223PresetTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00001100000001 /* Holdsworth223PresetTests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1170,6 +1171,7 @@
 		D1A700012F00000F00000003 /* GroupedDelayCircuit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupedDelayCircuit.h; sourceTree = "<group>"; };
 		D1A700012F00000F00000005 /* DelayGroupingTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DelayGroupingTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00001000000001 /* Group12RhythmDiagnosticTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Group12RhythmDiagnosticTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00001100000001 /* Holdsworth223PresetTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Holdsworth223PresetTests.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2203,6 +2205,7 @@
 				D1A700012F00001000000001 /* Group12RhythmDiagnosticTests.cpp */,
 				D1A700012F00000E00000001 /* Connect913PresetTests.cpp */,
 				D1A700012F00000C00000002 /* Sync922PresetTests.cpp */,
+				D1A700012F00001100000001 /* Holdsworth223PresetTests.cpp */,
 				D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */,
 			);
 			path = tests;
@@ -3321,6 +3324,7 @@
 				D1A700012F00001000000002 /* Group12RhythmDiagnosticTests.cpp in Sources */,
 				D1A700012F00000E00000002 /* Connect913PresetTests.cpp in Sources */,
 				D1A700012F00000C00000003 /* Sync922PresetTests.cpp in Sources */,
+				D1A700012F00001100000002 /* Holdsworth223PresetTests.cpp in Sources */,
 				D1A700012F00000500000004 /* HoldsworthDelayLiveIntegrationTests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

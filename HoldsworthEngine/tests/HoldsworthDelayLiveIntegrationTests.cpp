@@ -191,14 +191,14 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
     DevelopmentPreset::lead121,
     DevelopmentPreset::chorus011,
     DevelopmentPreset::chorus031,
-    DevelopmentPreset::group12Rhythm1200,
-    DevelopmentPreset::group12Rhythm900};
+    DevelopmentPreset::holdsworth223,
+    DevelopmentPreset::group12Rhythm1200};
   const std::array expectedDefinitions{
     &dsp::presets::lead121UnmodulatedProvisional(),
     &dsp::presets::chorus011ProvisionalV1(),
     &dsp::presets::chorus031ProvisionalV1(),
-    &dsp::presets::group12Rhythm1200DiagnosticV1(),
-    &dsp::presets::group12Rhythm900DiagnosticV1()};
+    &dsp::presets::holdsworth223ProvisionalV1(),
+    &dsp::presets::group12Rhythm1200DiagnosticV1()};
 
   for (std::size_t index = 0; index < selections.size(); ++index)
   {
@@ -223,9 +223,9 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
          && integration::developmentDelayPresetFromNormalizedControlValue(0.5)
               == DevelopmentPreset::chorus031
          && integration::developmentDelayPresetFromNormalizedControlValue(0.75)
-              == DevelopmentPreset::group12Rhythm1200
+              == DevelopmentPreset::holdsworth223
          && integration::developmentDelayPresetFromNormalizedControlValue(1.0)
-              == DevelopmentPreset::group12Rhythm900
+              == DevelopmentPreset::group12Rhythm1200
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::lead121)
               == 0.0
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus011)
@@ -233,9 +233,9 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus031)
               == 0.5
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::group12Rhythm1200) == 0.75
+              DevelopmentPreset::holdsworth223) == 0.75
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::group12Rhythm900) == 1.0;
+              DevelopmentPreset::group12Rhythm1200) == 1.0;
 }
 
 bool testRejectedDevelopmentConfigurationIsTransactional()
@@ -271,20 +271,27 @@ bool testDevelopmentPresetSwitchDoesNotAllocateAndPreservesUnchangedGroupHistory
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
   const auto chorus031Result =
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
+  const auto holdsworth223Result =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::holdsworth223);
   const auto group1200Result =
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::group12Rhythm1200);
-  const auto group900Result =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::group12Rhythm900);
   const std::size_t switchAllocations = endAllocationTracking();
   if (switchAllocations != 0
       || !chorus011Result.wasApplied()
       || !chorus031Result.wasApplied()
-      || !group1200Result.wasApplied()
-      || !group900Result.wasApplied())
+      || !holdsworth223Result.wasApplied()
+      || !group1200Result.wasApplied())
   {
     std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
     return false;
   }
+
+  // GROUP 900 remains a defined and tested diagnostic even though it is no
+  // longer one of the five visible development-selector choices.
+  if (!engine.applyConfiguration(
+               dsp::presets::group12Rhythm900DiagnosticV1().dspConfiguration)
+         .wasApplied())
+    return false;
 
   std::array<double, seedSize> seedInput{};
   seedInput.fill(1.0);
@@ -326,8 +333,8 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   std::array<double, 2> chorusOutputRight{};
   std::array<double, 2> chorus031OutputLeft{};
   std::array<double, 2> chorus031OutputRight{};
-  std::array<double, 2> groupOutputLeft{};
-  std::array<double, 2> groupOutputRight{};
+  std::array<double, 2> holdsworth223OutputLeft{};
+  std::array<double, 2> holdsworth223OutputRight{};
 
   dsp::HoldsworthDelayEngine engine(
     700.0, dsp::GroupedDelayPhysicalCapacityMs{1430.0});
@@ -344,9 +351,9 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   Mixer::mixStereo(
     dry, wetLeft, wetRight, integrationWetMultiplier, chorus031OutputLeft, chorus031OutputRight);
 
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::group12Rhythm900);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::holdsworth223);
   Mixer::mixStereo(
-    dry, wetLeft, wetRight, integrationWetMultiplier, groupOutputLeft, groupOutputRight);
+    dry, wetLeft, wetRight, integrationWetMultiplier, holdsworth223OutputLeft, holdsworth223OutputRight);
 
   return expectSamples("preset switch preserves integration wet mix left", chorusOutputLeft, leadOutputLeft, 0.0)
          && expectSamples("preset switch preserves integration wet mix right", chorusOutputRight, leadOutputRight, 0.0)
@@ -358,17 +365,17 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
                           chorus031OutputRight,
                           leadOutputRight,
                           0.0)
-         && expectSamples("Group 900 switch preserves integration wet mix left",
-                          groupOutputLeft,
+         && expectSamples("Holdsworth 223 switch preserves integration wet mix left",
+                          holdsworth223OutputLeft,
                           leadOutputLeft,
                           0.0)
-         && expectSamples("Group 900 switch preserves integration wet mix right",
-                          groupOutputRight,
+         && expectSamples("Holdsworth 223 switch preserves integration wet mix right",
+                          holdsworth223OutputRight,
                           leadOutputRight,
                           0.0)
-         && expectNear("Group 900 preset retains its own DSP wet level",
+         && expectNear("Holdsworth 223 preset retains its own DSP wet level",
                        engine.configuration().globalWetOutputLevel,
-                       dsp::presets::group12Rhythm900DiagnosticV1()
+                       dsp::presets::holdsworth223ProvisionalV1()
                          .dspConfiguration.globalWetOutputLevel,
                        0.0);
 }
