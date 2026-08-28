@@ -194,6 +194,11 @@ namespace presets
 // independent literal data; no Yamaha-control conversion is implied.
 [[nodiscard]] const HoldsworthDelayPresetDefinition& chorus031ProvisionalV1() noexcept;
 
+// A provisional physical-DSP audition configuration for Yamaha preset 111,
+// Chorus 10 by Allan Holdsworth. Documented source controls remain independent
+// from its literal unmeasured DSP audition values.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& holdsworth111ProvisionalV1() noexcept;
+
 // A provisional physical-DSP audition configuration for Yamaha preset 223,
 // Single Source Point Stereo Microphone + Echos by Allan Holdsworth. The
 // documented 5.25 ms NOR / 5.48 ms REV stereo pair is preserved exactly in

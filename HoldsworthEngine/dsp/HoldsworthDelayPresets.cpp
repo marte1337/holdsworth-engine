@@ -110,6 +110,85 @@ namespace
   return values;
 }
 
+[[nodiscard]] constexpr DocumentedYamahaBandValues documented111ActiveBand(
+  const ::holdsworth::presets::YamahaEffectBandNumber effectBand,
+  const double delayTimeMs,
+  const double feedbackControlValue,
+  const double tapPercentValue,
+  const double speedControlValue,
+  const double depthControlValue,
+  const YamahaPanDirection panDirection,
+  const double levelControlValue) noexcept
+{
+  DocumentedYamahaBandValues values;
+  values.switchState = ::holdsworth::presets::YamahaEffectBandSwitchState::on;
+  values.connectControlValue = ::holdsworth::presets::YamahaConnectControlValue::input();
+  values.groupControlValue =
+    ::holdsworth::presets::YamahaGroupControlValue::individual(effectBand);
+  values.feedbackControlValue = YamahaFeedbackControlValue{feedbackControlValue};
+  values.speedControlValue = ::holdsworth::presets::YamahaSpeedControlValue{speedControlValue};
+  values.depthControlValue = ::holdsworth::presets::YamahaDepthControlValue{depthControlValue};
+  values.delayTimeMs = YamahaDelayTimeMs{delayTimeMs};
+  values.panControlValue = YamahaPanControlValue{panDirection, 10.0};
+  values.levelControlValue = YamahaLevelControlValue{levelControlValue};
+  values.lowCutControlValue = ::holdsworth::presets::YamahaLowCutControlValue::off();
+  values.highCutControlValue = ::holdsworth::presets::YamahaHighCutControlValue::off();
+  values.tapPercentValue = ::holdsworth::presets::YamahaTapPercentValue{tapPercentValue};
+  values.waveformControlValue = ::holdsworth::presets::YamahaWaveformControlValue::sine;
+  values.delaySignalPhaseControlValue =
+    ::holdsworth::presets::YamahaDelaySignalPhaseControlValue::normal;
+  values.syncControlValue =
+    ::holdsworth::presets::YamahaSyncControlValue::independentSelf(effectBand);
+  return values;
+}
+
+[[nodiscard]] constexpr DocumentedYamahaBandValues documented111DisabledBand() noexcept
+{
+  DocumentedYamahaBandValues values;
+  values.switchState = ::holdsworth::presets::YamahaEffectBandSwitchState::off;
+  return values;
+}
+
+[[nodiscard]] constexpr HoldsworthDelayConfiguration makeHoldsworth111DspConfiguration() noexcept
+{
+  HoldsworthDelayConfiguration configuration;
+  configuration.bands[0] =
+    makeBandConfiguration(19.4, 0.0, -1.0, 1.0, 0.66, 0.81, 0.0, 0.254);
+  configuration.bands[1] =
+    makeBandConfiguration(15.0, 0.0, 1.0, 1.0, 0.87, 0.81, 0.5, 0.254);
+  configuration.bands[4] =
+    makeBandConfiguration(250.0, 0.40, -1.0, 0.35, 0.46, 0.90, 0.125);
+  configuration.bands[5] =
+    makeBandConfiguration(351.0, 0.32, 1.0, 0.35, 0.58, 0.90, 0.625);
+  configuration.bands[6] =
+    makeBandConfiguration(300.0, 0.40, -1.0, 0.35, 0.38, 0.90, 0.375);
+  configuration.bands[7] =
+    makeBandConfiguration(400.0, 0.24, 1.0, 0.35, 0.81, 0.90, 0.875);
+  configuration.globalWetOutputLevel = 1.0;
+  return configuration;
+}
+
+[[nodiscard]] constexpr std::array<DocumentedYamahaBandValues,
+                                   kHoldsworthDelayBandCount>
+makeHoldsworth111DocumentedYamahaValues() noexcept
+{
+  using Band = ::holdsworth::presets::YamahaEffectBandNumber;
+  return {documented111ActiveBand(
+            Band::band1, 19.4, 0.0, 25.4, 4.5, 2.7, YamahaPanDirection::left, 10.0),
+          documented111ActiveBand(
+            Band::band2, 15.0, 0.0, 25.4, 5.2, 2.7, YamahaPanDirection::right, 10.0),
+          documented111DisabledBand(),
+          documented111DisabledBand(),
+          documented111ActiveBand(
+            Band::band5, 250.0, 5.0, 100.0, 3.8, 3.0, YamahaPanDirection::left, 3.5),
+          documented111ActiveBand(
+            Band::band6, 351.0, 4.0, 100.0, 4.2, 3.0, YamahaPanDirection::right, 3.5),
+          documented111ActiveBand(
+            Band::band7, 300.0, 5.0, 100.0, 3.5, 3.0, YamahaPanDirection::left, 3.5),
+          documented111ActiveBand(
+            Band::band8, 400.0, 3.0, 100.0, 5.0, 3.0, YamahaPanDirection::right, 3.5)};
+}
+
 [[nodiscard]] constexpr DocumentedYamahaBandValues documented223ActiveBand(
   const ::holdsworth::presets::YamahaEffectBandNumber effectBand,
   const double delayTimeMs,
@@ -429,6 +508,26 @@ const HoldsworthDelayPresetDefinition kChorus031ProvisionalV1{
   std::nullopt,
   std::nullopt};
 
+// Rates, depths, phases, feedback coefficients, and output levels are literal
+// unmeasured audition values. EFFECT LEVEL and Direct controls remain exact
+// source metadata and are not mapped into the integration mixer.
+const HoldsworthDelayPresetDefinition kHoldsworth111ProvisionalV1{
+  "holdsworth111-provisional-v1",
+  "Holdsworth 111 / Chorus 10 (Provisional v1)",
+  makeHoldsworth111DspConfiguration(),
+  makeHoldsworth111DocumentedYamahaValues(),
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  400.9,
+  {YamahaLevelControlValue{8.5},
+   YamahaLevelControlValue{6.0},
+   YamahaPanControlValue{YamahaPanDirection::center, 0.0}},
+  ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
+                                YamahaModulationMappingStatus::unmeasured,
+                                ModulationPhaseRelationshipStatus::provisional},
+  DocumentedYamahaPresetIdentity{"111", "Chorus 10", "Allan Holdsworth"},
+  std::nullopt,
+  std::nullopt};
+
 // Physical feedback and output gains are literal unmeasured audition values.
 // Delay time, polarity, enabled state, and relationship topology directly
 // preserve the official patch-list structure. EFFECT LEVEL and Direct controls
@@ -615,6 +714,11 @@ const HoldsworthDelayPresetDefinition& chorus011ProvisionalV1() noexcept
 const HoldsworthDelayPresetDefinition& chorus031ProvisionalV1() noexcept
 {
   return kChorus031ProvisionalV1;
+}
+
+const HoldsworthDelayPresetDefinition& holdsworth111ProvisionalV1() noexcept
+{
+  return kHoldsworth111ProvisionalV1;
 }
 
 const HoldsworthDelayPresetDefinition& holdsworth223ProvisionalV1() noexcept

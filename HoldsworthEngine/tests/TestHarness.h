@@ -105,6 +105,7 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] TestSuite group12RhythmDiagnosticTests() noexcept;
 [[nodiscard]] TestSuite connect913PresetTests() noexcept;
 [[nodiscard]] TestSuite sync922PresetTests() noexcept;
+[[nodiscard]] TestSuite holdsworth111PresetTests() noexcept;
 [[nodiscard]] TestSuite holdsworth223PresetTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayLiveIntegrationTests() noexcept;
 

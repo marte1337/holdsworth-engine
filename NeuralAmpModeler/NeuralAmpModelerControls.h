@@ -1007,7 +1007,7 @@ public:
                                              "Chorus 011",
                                              "Chorus 031",
                                              "Holdsworth 223",
-                                             "Group 1200"},
+                                             "Holdsworth 111"},
                                             "Preset",
                                             delayStyle),
         mControlNames.holdsworthDelayPreset,
