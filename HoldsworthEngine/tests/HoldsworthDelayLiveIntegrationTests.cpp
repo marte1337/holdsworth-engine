@@ -90,6 +90,22 @@ bool expectConfigurationExact(const std::string_view testName,
     }
   }
 
+  for (std::size_t headIndex = 0;
+       headIndex < dsp::kHoldsworthDelayBandCount;
+       ++headIndex)
+  {
+    const auto& actualGroup = actual.delayGrouping.groupsByHead[headIndex];
+    const auto& expectedGroup = expected.delayGrouping.groupsByHead[headIndex];
+    if (actualGroup.has_value() != expectedGroup.has_value()
+        || (actualGroup.has_value()
+            && actualGroup->endBand != expectedGroup->endBand))
+    {
+      std::cerr << testName << ": delay GROUP " << (headIndex + 1)
+                << " differs\n";
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -167,21 +183,22 @@ bool testWetMixMultiplierIsSeparateFromEngineGlobalWetLevel()
 
 bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
 {
-  dsp::HoldsworthDelayEngine engine(700.0);
+  dsp::HoldsworthDelayEngine engine(
+    700.0, dsp::GroupedDelayPhysicalCapacityMs{1430.0});
   engine.prepare(48000.0, 64);
 
   constexpr std::array selections{
     DevelopmentPreset::lead121,
     DevelopmentPreset::chorus011,
     DevelopmentPreset::chorus031,
-    DevelopmentPreset::connect913Parallel,
-    DevelopmentPreset::connect913Serial};
+    DevelopmentPreset::group12Rhythm1200,
+    DevelopmentPreset::group12Rhythm900};
   const std::array expectedDefinitions{
     &dsp::presets::lead121UnmodulatedProvisional(),
     &dsp::presets::chorus011ProvisionalV1(),
     &dsp::presets::chorus031ProvisionalV1(),
-    &dsp::presets::connect913ParallelDiagnosticV1(),
-    &dsp::presets::connect913SerialDiagnosticV1()};
+    &dsp::presets::group12Rhythm1200DiagnosticV1(),
+    &dsp::presets::group12Rhythm900DiagnosticV1()};
 
   for (std::size_t index = 0; index < selections.size(); ++index)
   {
@@ -206,9 +223,9 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
          && integration::developmentDelayPresetFromNormalizedControlValue(0.5)
               == DevelopmentPreset::chorus031
          && integration::developmentDelayPresetFromNormalizedControlValue(0.75)
-              == DevelopmentPreset::connect913Parallel
+              == DevelopmentPreset::group12Rhythm1200
          && integration::developmentDelayPresetFromNormalizedControlValue(1.0)
-              == DevelopmentPreset::connect913Serial
+              == DevelopmentPreset::group12Rhythm900
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::lead121)
               == 0.0
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus011)
@@ -216,9 +233,9 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus031)
               == 0.5
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::connect913Parallel) == 0.75
+              DevelopmentPreset::group12Rhythm1200) == 0.75
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::connect913Serial) == 1.0;
+              DevelopmentPreset::group12Rhythm900) == 1.0;
 }
 
 bool testRejectedDevelopmentConfigurationIsTransactional()
@@ -240,13 +257,34 @@ bool testRejectedDevelopmentConfigurationIsTransactional()
            "rejected development transaction", engine.configuration(), previousConfiguration);
 }
 
-bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
+bool testDevelopmentPresetSwitchDoesNotAllocateAndPreservesUnchangedGroupHistory()
 {
   constexpr std::size_t seedSize = 20;
   constexpr std::size_t tailSize = 70;
-  dsp::HoldsworthDelayEngine engine(700.0);
-  engine.prepare(1000.0, 128);
+  dsp::HoldsworthDelayEngine engine(
+    700.0, dsp::GroupedDelayPhysicalCapacityMs{1430.0});
+  engine.prepare(100.0, 128);
   integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
+
+  beginAllocationTracking();
+  const auto chorus011Result =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
+  const auto chorus031Result =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
+  const auto group1200Result =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::group12Rhythm1200);
+  const auto group900Result =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::group12Rhythm900);
+  const std::size_t switchAllocations = endAllocationTracking();
+  if (switchAllocations != 0
+      || !chorus011Result.wasApplied()
+      || !chorus031Result.wasApplied()
+      || !group1200Result.wasApplied()
+      || !group900Result.wasApplied())
+  {
+    std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
+    return false;
+  }
 
   std::array<double, seedSize> seedInput{};
   seedInput.fill(1.0);
@@ -255,40 +293,25 @@ bool testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory()
   std::array<double, seedSize> seedWetRight{};
   Mixer::advanceDelay(engine, true, seedInput, seedSilence, seedWetLeft, seedWetRight);
 
+  // Both diagnostics keep the same GROUP 1-2 topology. Changing 900 ms to
+  // 1200 ms must therefore preserve the shared history while applying the new
+  // proportional 600 ms early tap (60 samples at this test rate).
   beginAllocationTracking();
-  const auto chorus011Result =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus011);
-  const auto chorus031Result =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
-  const auto connectParallelResult =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::connect913Parallel);
-  const auto connectSerialResult =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::connect913Serial);
-  const std::size_t switchAllocations = endAllocationTracking();
-  if (switchAllocations != 0
-      || !chorus011Result.wasApplied()
-      || !chorus031Result.wasApplied()
-      || !connectParallelResult.wasApplied()
-      || !connectSerialResult.wasApplied())
-  {
-    std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
-    return false;
-  }
-
-  // No new input follows the switch. The final serial diagnostic's 80 ms Band
-  // 2 delay must still encounter the ones stored while Lead was selected. A
-  // reset inside preset application would make the output completely silent.
+  const auto unchangedGroupResult =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::group12Rhythm1200);
+  const std::size_t unchangedGroupAllocations = endAllocationTracking();
   const std::array<double, tailSize> silence{};
   std::array<double, tailSize> wetLeft{};
   std::array<double, tailSize> wetRight{};
   Mixer::advanceDelay(engine, true, silence, silence, wetLeft, wetRight);
   const bool preservedHistory =
-    std::any_of(wetLeft.begin(), wetLeft.end(), [](const double sample) { return sample != 0.0; })
-    || std::any_of(wetRight.begin(), wetRight.end(), [](const double sample) { return sample != 0.0; });
+    std::any_of(wetLeft.begin(), wetLeft.end(), [](const double sample) { return sample != 0.0; });
 
   if (!preservedHistory)
-    std::cerr << "development preset switch implicitly cleared existing delay history\n";
-  return preservedHistory;
+    std::cerr << "unchanged development GROUP topology cleared shared history\n";
+  return unchangedGroupResult.wasApplied()
+         && unchangedGroupAllocations == 0
+         && preservedHistory;
 }
 
 bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
@@ -303,10 +326,11 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   std::array<double, 2> chorusOutputRight{};
   std::array<double, 2> chorus031OutputLeft{};
   std::array<double, 2> chorus031OutputRight{};
-  std::array<double, 2> connectOutputLeft{};
-  std::array<double, 2> connectOutputRight{};
+  std::array<double, 2> groupOutputLeft{};
+  std::array<double, 2> groupOutputRight{};
 
-  dsp::HoldsworthDelayEngine engine(700.0);
+  dsp::HoldsworthDelayEngine engine(
+    700.0, dsp::GroupedDelayPhysicalCapacityMs{1430.0});
   engine.prepare(48000.0, dry.size());
   integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::lead121);
   Mixer::mixStereo(
@@ -320,9 +344,9 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   Mixer::mixStereo(
     dry, wetLeft, wetRight, integrationWetMultiplier, chorus031OutputLeft, chorus031OutputRight);
 
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::connect913Serial);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::group12Rhythm900);
   Mixer::mixStereo(
-    dry, wetLeft, wetRight, integrationWetMultiplier, connectOutputLeft, connectOutputRight);
+    dry, wetLeft, wetRight, integrationWetMultiplier, groupOutputLeft, groupOutputRight);
 
   return expectSamples("preset switch preserves integration wet mix left", chorusOutputLeft, leadOutputLeft, 0.0)
          && expectSamples("preset switch preserves integration wet mix right", chorusOutputRight, leadOutputRight, 0.0)
@@ -334,17 +358,17 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
                           chorus031OutputRight,
                           leadOutputRight,
                           0.0)
-         && expectSamples("9.13 Serial switch preserves integration wet mix left",
-                          connectOutputLeft,
+         && expectSamples("Group 900 switch preserves integration wet mix left",
+                          groupOutputLeft,
                           leadOutputLeft,
                           0.0)
-         && expectSamples("9.13 Serial switch preserves integration wet mix right",
-                          connectOutputRight,
+         && expectSamples("Group 900 switch preserves integration wet mix right",
+                          groupOutputRight,
                           leadOutputRight,
                           0.0)
-         && expectNear("9.13 Serial preset retains its own DSP wet level",
+         && expectNear("Group 900 preset retains its own DSP wet level",
                        engine.configuration().globalWetOutputLevel,
-                       dsp::presets::connect913SerialDiagnosticV1()
+                       dsp::presets::group12Rhythm900DiagnosticV1()
                          .dspConfiguration.globalWetOutputLevel,
                        0.0);
 }
@@ -443,8 +467,8 @@ constexpr std::array kTests{
            testDevelopmentPresetSelectionAppliesExactExistingConfigurations},
   TestCase{"Live integration: rejected development configuration remains transactional",
            testRejectedDevelopmentConfigurationIsTransactional},
-  TestCase{"Live integration: preset switching allocates nothing and preserves history",
-           testDevelopmentPresetSwitchDoesNotAllocateOrResetHistory},
+  TestCase{"Live integration: preset switching allocates nothing and preserves unchanged GROUP history",
+           testDevelopmentPresetSwitchDoesNotAllocateAndPreservesUnchangedGroupHistory},
   TestCase{"Live integration: preset switching leaves temporary wet mix independent",
            testDevelopmentPresetSwitchLeavesWetMultiplierIndependent},
   TestCase{"Live integration: bypass advances tails without capturing input",

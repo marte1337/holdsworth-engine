@@ -187,6 +187,22 @@ makeConnect913SerialDspConfiguration() noexcept
   return configuration;
 }
 
+[[nodiscard]] constexpr HoldsworthDelayConfiguration
+makeGroup12RhythmDspConfiguration(const double groupBaseDelayTimeMs) noexcept
+{
+  HoldsworthDelayConfiguration configuration;
+  configuration.bands[0] =
+    makeBandConfiguration(groupBaseDelayTimeMs, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.5);
+  // The non-head DelayBand time is deliberately dormant. Band 2's audible
+  // 100% output must observe the shared GROUP base delay owned by Band 1.
+  configuration.bands[1] =
+    makeBandConfiguration(0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+  configuration.delayGrouping.groupsByHead[0] =
+    GroupedDelayRange{DelayBandId::band2};
+  configuration.globalWetOutputLevel = 1.0;
+  return configuration;
+}
+
 constexpr DocumentedYamahaManualExerciseReference kConnect913ManualExerciseReference{
   "Yamaha UD-Stomp Owner's Manual",
   "9.13",
@@ -455,6 +471,38 @@ const HoldsworthDelayPresetDefinition kConnect913SerialDiagnosticV1{
   std::nullopt,
   kConnect913ManualExerciseReference};
 
+// Yamaha documents the GROUP resource/output behavior used here, but not
+// these literal physical audition values. Leave all Yamaha source metadata
+// empty rather than presenting this project diagnostic as a factory preset or
+// manual exercise transcription.
+const HoldsworthDelayPresetDefinition kGroup12Rhythm1200DiagnosticV1{
+  "group12-rhythm-1200-diagnostic-v1",
+  "GROUP 1-2 Rhythm 1200 ms Diagnostic",
+  makeGroup12RhythmDspConfiguration(1200.0),
+  {},
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  696.0,
+  {},
+  std::nullopt,
+  std::nullopt,
+  std::nullopt,
+  std::nullopt,
+  GroupedDelayPhysicalCapacityMs{1200.0}};
+
+const HoldsworthDelayPresetDefinition kGroup12Rhythm900DiagnosticV1{
+  "group12-rhythm-900-diagnostic-v1",
+  "GROUP 1-2 Rhythm 900 ms Diagnostic",
+  makeGroup12RhythmDspConfiguration(900.0),
+  {},
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  696.0,
+  {},
+  std::nullopt,
+  std::nullopt,
+  std::nullopt,
+  std::nullopt,
+  GroupedDelayPhysicalCapacityMs{900.0}};
+
 } // namespace
 
 namespace presets
@@ -503,6 +551,16 @@ const HoldsworthDelayPresetDefinition& connect913ParallelDiagnosticV1() noexcept
 const HoldsworthDelayPresetDefinition& connect913SerialDiagnosticV1() noexcept
 {
   return kConnect913SerialDiagnosticV1;
+}
+
+const HoldsworthDelayPresetDefinition& group12Rhythm1200DiagnosticV1() noexcept
+{
+  return kGroup12Rhythm1200DiagnosticV1;
+}
+
+const HoldsworthDelayPresetDefinition& group12Rhythm900DiagnosticV1() noexcept
+{
+  return kGroup12Rhythm900DiagnosticV1;
 }
 
 } // namespace presets

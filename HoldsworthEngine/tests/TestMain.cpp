@@ -89,6 +89,7 @@ int main()
                           modulationSyncTests(),
                           audioRoutingTests(),
                           delayGroupingTests(),
+                          group12RhythmDiagnosticTests(),
                           connect913PresetTests(),
                           sync922PresetTests(),
                           holdsworthDelayLiveIntegrationTests()};

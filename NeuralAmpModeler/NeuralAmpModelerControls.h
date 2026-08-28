@@ -1006,16 +1006,17 @@ public:
                                             {"Lead 121",
                                              "Chorus 011",
                                              "Chorus 031",
-                                             "9.13 Parallel",
-                                             "9.13 Serial"},
+                                             "Group 1200",
+                                             "Group 900"},
                                             "Preset",
                                             delayStyle),
         mControlNames.holdsworthDelayPreset,
         kCtrlTagHoldsworthDelayPreset);
       mDevelopmentSettingsControls.push_back(presetControl);
       presetControl->SetTooltip(
-        "Development-only preset selector. Switching preserves delay memory; for a clean A/B, disable the delay, "
-        "wait for its tail, select a preset, then re-enable it.");
+        "Development-only preset selector. Switching preserves unaffected delay memory; GROUP topology changes "
+        "clear affected histories. For a clean A/B, disable the delay, wait for its tail, select a preset, then "
+        "re-enable it.");
 
       auto* wetControl = AddNamedChildControl(
         new NAMDevelopmentWetSliderControl(wetArea, sendWetLevel, "Delay Wet", delayStyle),

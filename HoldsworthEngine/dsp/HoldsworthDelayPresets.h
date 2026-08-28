@@ -170,6 +170,10 @@ struct HoldsworthDelayPresetDefinition final
     documentedYamahaSyncAuditionReference;
   std::optional<DocumentedYamahaManualExerciseReference>
     documentedYamahaManualExerciseReference;
+  // Physical GROUP history required to audition this definition. This is
+  // project DSP metadata, not a documented Yamaha maximum.
+  std::optional<GroupedDelayPhysicalCapacityMs>
+    requiredGroupedDelayPhysicalCapacity;
 };
 
 namespace presets
@@ -219,6 +223,11 @@ namespace presets
 // source state by changing Band 2 CONNECT from IN to Band 1. The stored source
 // transcription remains IN/IN and is not presented as a factory serial state.
 [[nodiscard]] const HoldsworthDelayPresetDefinition& connect913SerialDiagnosticV1() noexcept;
+
+// Project timing diagnostics derived from Yamaha's documented GROUP behavior.
+// Their physical delay/TAP/PAN/LEVEL choices are not factory source metadata.
+[[nodiscard]] const HoldsworthDelayPresetDefinition& group12Rhythm1200DiagnosticV1() noexcept;
+[[nodiscard]] const HoldsworthDelayPresetDefinition& group12Rhythm900DiagnosticV1() noexcept;
 
 } // namespace presets
 } // namespace holdsworth::dsp
