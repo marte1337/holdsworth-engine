@@ -261,6 +261,75 @@ makeHoldsworth223DocumentedYamahaValues() noexcept
             Band::band8, 400.0, Phase::normal, 3.5, YamahaPanDirection::right, 3.7)};
 }
 
+[[nodiscard]] constexpr DocumentedYamahaBandValues documented231ActiveBand(
+  const ::holdsworth::presets::YamahaEffectBandNumber effectBand,
+  const double delayTimeMs,
+  const double feedbackControlValue,
+  const double speedControlValue,
+  const YamahaPanDirection panDirection,
+  const double panMagnitude,
+  const double levelControlValue) noexcept
+{
+  DocumentedYamahaBandValues values;
+  values.switchState = ::holdsworth::presets::YamahaEffectBandSwitchState::on;
+  values.connectControlValue = ::holdsworth::presets::YamahaConnectControlValue::input();
+  values.groupControlValue =
+    ::holdsworth::presets::YamahaGroupControlValue::individual(effectBand);
+  values.feedbackControlValue = YamahaFeedbackControlValue{feedbackControlValue};
+  values.speedControlValue = ::holdsworth::presets::YamahaSpeedControlValue{speedControlValue};
+  values.depthControlValue = ::holdsworth::presets::YamahaDepthControlValue{2.3};
+  values.delayTimeMs = YamahaDelayTimeMs{delayTimeMs};
+  values.panControlValue = YamahaPanControlValue{panDirection, panMagnitude};
+  values.levelControlValue = YamahaLevelControlValue{levelControlValue};
+  values.lowCutControlValue = ::holdsworth::presets::YamahaLowCutControlValue::off();
+  values.highCutControlValue = ::holdsworth::presets::YamahaHighCutControlValue::off();
+  values.tapPercentValue = ::holdsworth::presets::YamahaTapPercentValue{100.0};
+  values.waveformControlValue = ::holdsworth::presets::YamahaWaveformControlValue::sine;
+  values.delaySignalPhaseControlValue =
+    ::holdsworth::presets::YamahaDelaySignalPhaseControlValue::normal;
+  values.syncControlValue =
+    ::holdsworth::presets::YamahaSyncControlValue::independentSelf(effectBand);
+  return values;
+}
+
+[[nodiscard]] constexpr DocumentedYamahaBandValues documented231DisabledBand() noexcept
+{
+  DocumentedYamahaBandValues values;
+  values.switchState = ::holdsworth::presets::YamahaEffectBandSwitchState::off;
+  return values;
+}
+
+[[nodiscard]] constexpr HoldsworthDelayConfiguration makeHoldsworth231DspConfiguration() noexcept
+{
+  HoldsworthDelayConfiguration configuration;
+  configuration.bands[4] =
+    makeBandConfiguration(321.0, 0.376, -1.0, 0.55, 0.43, 0.69, 0.125);
+  configuration.bands[5] =
+    makeBandConfiguration(429.0, 0.32, 1.0, 0.55, 0.55, 0.69, 0.625);
+  configuration.bands[6] =
+    makeBandConfiguration(360.0, 0.28, 0.0, 0.50, 0.69, 0.69, 0.375);
+  configuration.globalWetOutputLevel = 1.0;
+  return configuration;
+}
+
+[[nodiscard]] constexpr std::array<DocumentedYamahaBandValues,
+                                   kHoldsworthDelayBandCount>
+makeHoldsworth231DocumentedYamahaValues() noexcept
+{
+  using Band = ::holdsworth::presets::YamahaEffectBandNumber;
+  return {documented231DisabledBand(),
+          documented231DisabledBand(),
+          documented231DisabledBand(),
+          documented231DisabledBand(),
+          documented231ActiveBand(
+            Band::band5, 321.0, 4.7, 3.7, YamahaPanDirection::left, 10.0, 5.5),
+          documented231ActiveBand(
+            Band::band6, 429.0, 4.0, 4.1, YamahaPanDirection::right, 10.0, 5.5),
+          documented231ActiveBand(
+            Band::band7, 360.0, 3.5, 4.6, YamahaPanDirection::center, 0.0, 5.0),
+          documented231DisabledBand()};
+}
+
 [[nodiscard]] constexpr HoldsworthDelayConfiguration makeSync922DspConfiguration(
   const ModulationPhaseOffsetCycles phaseOffset) noexcept
 {
@@ -550,6 +619,26 @@ const HoldsworthDelayPresetDefinition kHoldsworth223ProvisionalV1{
   std::nullopt,
   std::nullopt};
 
+// Rates, depth, phases, feedback coefficients, and output levels are literal
+// unmeasured audition values. EFFECT LEVEL and Direct controls remain exact
+// source metadata and are not mapped into the integration mixer.
+const HoldsworthDelayPresetDefinition kHoldsworth231ProvisionalV1{
+  "holdsworth231-provisional-v1",
+  "Holdsworth 231 / Vintage Echo 1 (Provisional v1)",
+  makeHoldsworth231DspConfiguration(),
+  makeHoldsworth231DocumentedYamahaValues(),
+  FeedbackCalibrationStatus::provisionalUnmeasured,
+  429.69,
+  {YamahaLevelControlValue{8.5},
+   YamahaLevelControlValue{8.5},
+   YamahaPanControlValue{YamahaPanDirection::center, 0.0}},
+  ModulationCalibrationMetadata{YamahaModulationMappingStatus::unmeasured,
+                                YamahaModulationMappingStatus::unmeasured,
+                                ModulationPhaseRelationshipStatus::provisional},
+  DocumentedYamahaPresetIdentity{"231", "Vintage Echo 1", "Allan Holdsworth"},
+  std::nullopt,
+  std::nullopt};
+
 // Factory preset 922 stores synchronized Band 2 SPEED 0.0. The neutral DSP
 // phase offset is an explicit unmeasured audition interpretation rather than a
 // Yamaha-control conversion.
@@ -724,6 +813,11 @@ const HoldsworthDelayPresetDefinition& holdsworth111ProvisionalV1() noexcept
 const HoldsworthDelayPresetDefinition& holdsworth223ProvisionalV1() noexcept
 {
   return kHoldsworth223ProvisionalV1;
+}
+
+const HoldsworthDelayPresetDefinition& holdsworth231ProvisionalV1() noexcept
+{
+  return kHoldsworth231ProvisionalV1;
 }
 
 const HoldsworthDelayPresetDefinition& sync922BaselineProvisionalV1() noexcept

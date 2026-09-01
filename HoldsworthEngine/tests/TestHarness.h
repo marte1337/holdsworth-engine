@@ -107,6 +107,7 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] TestSuite sync922PresetTests() noexcept;
 [[nodiscard]] TestSuite holdsworth111PresetTests() noexcept;
 [[nodiscard]] TestSuite holdsworth223PresetTests() noexcept;
+[[nodiscard]] TestSuite holdsworth231PresetTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayLiveIntegrationTests() noexcept;
 
 } // namespace holdsworth::test

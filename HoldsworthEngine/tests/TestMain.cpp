@@ -94,6 +94,7 @@ int main()
                           sync922PresetTests(),
                           holdsworth111PresetTests(),
                           holdsworth223PresetTests(),
+                          holdsworth231PresetTests(),
                           holdsworthDelayLiveIntegrationTests()};
   std::size_t totalTests = 0;
   int failures = 0;
