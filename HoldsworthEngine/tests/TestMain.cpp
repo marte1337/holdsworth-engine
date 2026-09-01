@@ -93,6 +93,7 @@ int main()
                           connect913PresetTests(),
                           sync922PresetTests(),
                           holdsworth111PresetTests(),
+                          holdsworth122PresetTests(),
                           holdsworth223PresetTests(),
                           holdsworth231PresetTests(),
                           holdsworthDelayLiveIntegrationTests()};

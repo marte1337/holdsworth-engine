@@ -19,7 +19,7 @@ enum class DevelopmentDelayPreset : std::uint32_t
   chorus011 = 1,
   chorus031 = 2,
   holdsworth223 = 3,
-  holdsworth231 = 4
+  holdsworth122 = 4
 };
 
 inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 5;
@@ -36,8 +36,8 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 5;
       return DevelopmentDelayPreset::chorus031;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::holdsworth223):
       return DevelopmentDelayPreset::holdsworth223;
-    case static_cast<std::uint32_t>(DevelopmentDelayPreset::holdsworth231):
-      return DevelopmentDelayPreset::holdsworth231;
+    case static_cast<std::uint32_t>(DevelopmentDelayPreset::holdsworth122):
+      return DevelopmentDelayPreset::holdsworth122;
     case static_cast<std::uint32_t>(DevelopmentDelayPreset::lead121):
     default:
       return DevelopmentDelayPreset::lead121;
@@ -69,8 +69,8 @@ inline constexpr std::uint32_t kDevelopmentDelayPresetCount = 5;
 {
   switch (preset)
   {
-    case DevelopmentDelayPreset::holdsworth231:
-      return dsp::presets::holdsworth231ProvisionalV1();
+    case DevelopmentDelayPreset::holdsworth122:
+      return dsp::presets::holdsworth122ProvisionalV1();
     case DevelopmentDelayPreset::holdsworth223:
       return dsp::presets::holdsworth223ProvisionalV1();
     case DevelopmentDelayPreset::chorus031:

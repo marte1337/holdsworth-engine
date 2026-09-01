@@ -192,13 +192,13 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
     DevelopmentPreset::chorus011,
     DevelopmentPreset::chorus031,
     DevelopmentPreset::holdsworth223,
-    DevelopmentPreset::holdsworth231};
+    DevelopmentPreset::holdsworth122};
   const std::array expectedDefinitions{
     &dsp::presets::lead121UnmodulatedProvisional(),
     &dsp::presets::chorus011ProvisionalV1(),
     &dsp::presets::chorus031ProvisionalV1(),
     &dsp::presets::holdsworth223ProvisionalV1(),
-    &dsp::presets::holdsworth231ProvisionalV1()};
+    &dsp::presets::holdsworth122ProvisionalV1()};
 
   for (std::size_t index = 0; index < selections.size(); ++index)
   {
@@ -225,7 +225,7 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
          && integration::developmentDelayPresetFromNormalizedControlValue(0.75)
               == DevelopmentPreset::holdsworth223
          && integration::developmentDelayPresetFromNormalizedControlValue(1.0)
-              == DevelopmentPreset::holdsworth231
+              == DevelopmentPreset::holdsworth122
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::lead121)
               == 0.0
          && integration::developmentDelayPresetNormalizedControlValue(DevelopmentPreset::chorus011)
@@ -235,7 +235,7 @@ bool testDevelopmentPresetSelectionAppliesExactExistingConfigurations()
          && integration::developmentDelayPresetNormalizedControlValue(
               DevelopmentPreset::holdsworth223) == 0.75
          && integration::developmentDelayPresetNormalizedControlValue(
-              DevelopmentPreset::holdsworth231) == 1.0;
+              DevelopmentPreset::holdsworth122) == 1.0;
 }
 
 bool testRejectedDevelopmentConfigurationIsTransactional()
@@ -273,14 +273,14 @@ bool testDevelopmentPresetSwitchDoesNotAllocateAndPreservesUnchangedGroupHistory
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::chorus031);
   const auto holdsworth223Result =
     integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::holdsworth223);
-  const auto holdsworth231Result =
-    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::holdsworth231);
+  const auto holdsworth122Result =
+    integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::holdsworth122);
   const std::size_t switchAllocations = endAllocationTracking();
   if (switchAllocations != 0
       || !chorus011Result.wasApplied()
       || !chorus031Result.wasApplied()
       || !holdsworth223Result.wasApplied()
-      || !holdsworth231Result.wasApplied())
+      || !holdsworth122Result.wasApplied())
   {
     std::cerr << "development preset switch made " << switchAllocations << " allocation(s)\n";
     return false;
@@ -333,8 +333,8 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   std::array<double, 2> chorusOutputRight{};
   std::array<double, 2> chorus031OutputLeft{};
   std::array<double, 2> chorus031OutputRight{};
-  std::array<double, 2> holdsworth231OutputLeft{};
-  std::array<double, 2> holdsworth231OutputRight{};
+  std::array<double, 2> holdsworth122OutputLeft{};
+  std::array<double, 2> holdsworth122OutputRight{};
 
   dsp::HoldsworthDelayEngine engine(
     700.0, dsp::GroupedDelayPhysicalCapacityMs{1430.0});
@@ -351,9 +351,9 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
   Mixer::mixStereo(
     dry, wetLeft, wetRight, integrationWetMultiplier, chorus031OutputLeft, chorus031OutputRight);
 
-  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::holdsworth231);
+  integration::applyDevelopmentDelayPreset(engine, DevelopmentPreset::holdsworth122);
   Mixer::mixStereo(
-    dry, wetLeft, wetRight, integrationWetMultiplier, holdsworth231OutputLeft, holdsworth231OutputRight);
+    dry, wetLeft, wetRight, integrationWetMultiplier, holdsworth122OutputLeft, holdsworth122OutputRight);
 
   return expectSamples("preset switch preserves integration wet mix left", chorusOutputLeft, leadOutputLeft, 0.0)
          && expectSamples("preset switch preserves integration wet mix right", chorusOutputRight, leadOutputRight, 0.0)
@@ -365,17 +365,17 @@ bool testDevelopmentPresetSwitchLeavesWetMultiplierIndependent()
                           chorus031OutputRight,
                           leadOutputRight,
                           0.0)
-         && expectSamples("Holdsworth 231 switch preserves integration wet mix left",
-                          holdsworth231OutputLeft,
+         && expectSamples("Holdsworth 122 switch preserves integration wet mix left",
+                          holdsworth122OutputLeft,
                           leadOutputLeft,
                           0.0)
-         && expectSamples("Holdsworth 231 switch preserves integration wet mix right",
-                          holdsworth231OutputRight,
+         && expectSamples("Holdsworth 122 switch preserves integration wet mix right",
+                          holdsworth122OutputRight,
                           leadOutputRight,
                           0.0)
-         && expectNear("Holdsworth 231 preset retains its own DSP wet level",
+         && expectNear("Holdsworth 122 preset retains its own DSP wet level",
                        engine.configuration().globalWetOutputLevel,
-                       dsp::presets::holdsworth231ProvisionalV1()
+                       dsp::presets::holdsworth122ProvisionalV1()
                          .dspConfiguration.globalWetOutputLevel,
                        0.0);
 }
