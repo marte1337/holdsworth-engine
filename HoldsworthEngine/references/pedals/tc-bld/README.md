@@ -6,8 +6,9 @@ parameter, preset, or UI, and it does not alter the existing Holdsworth delay.
 
 ## Status
 
-**Evidence-complete enough to build a clearly labelled documentary-nominal
-model; not sufficient to claim a hardware-calibrated vintage BLD.**
+**M0a documentary IR authored and internally checked; fresh-session independent
+freeze audit pending; not sufficient to claim a hardware-calibrated vintage
+BLD.**
 
 The original TC user manual and a four-page TC service packet have been found.
 They establish the major topology, nominal parts, controls, published operating
@@ -127,7 +128,7 @@ Confidence labels mean:
 | P2 Bass is 22 kOhm linear; P3 Treble is 100 kOhm linear | High | TC BOM. |
 | TC specifies Bass/Treble as +/-16 dB at 100 Hz/10 kHz | High | User-manual specification table. A 1982 review instead reports +/-18 dB at 60 Hz/8 kHz; measurement convention is unknown. |
 | P4 Distortion is 22 kOhm reverse/negative-log | High | TC BOM. |
-| Distortion is a multi-device, mode-switched circuit, not a generic post-gain waveshaper | High | TC schematic/BOM show silicon diodes, AA119 germanium diode, BC548-B stage, filtering, and differential/feedback interaction. A node-resolved nominal transcription with explicit assumptions is still required; hardware verification is required for calibrated claims. |
+| Distortion is a multi-device, mode-switched circuit, not a generic post-gain waveshaper | High | TC schematic/BOM show silicon diodes, AA119 germanium diode, BC548-B stage, filtering, and differential/feedback interaction. The M0a node-resolved nominal transcription is under `m0a/`; hardware verification is still required for calibrated claims. |
 | P5 threshold is 470 kOhm logarithmic; suppressor is a 1:4 downward-expansion/fade system, not a hard gate | High | TC BOM and user manual. Exact time constants and FET transfer require netlist/hardware work. |
 | Q1/Q2 are BF245-A JFETs; Q2 is selected | High | TC BOM. Their engaged-state switch/control voltages and parasitics need measurement. |
 | Final output uses C25 = 22 uF and R40 = 47 ohm and feeds both output connectors | High | TC schematic/BOM; consistent with the manual's maximum 50-ohm output-impedance claim. XLR pin assignment remains to be checked. |
@@ -152,6 +153,8 @@ Confidence labels mean:
 - [measurement-and-milestones.md](measurement-and-milestones.md) — hardware
   calibration protocol, validation matrix, staged implementation, and coding
   gates.
+- [m0a/README.md](m0a/README.md) — layered documentary IR, assumption variants,
+  named profiles, four-state truth table, static checks, and the M1 handoff.
 
 ## Coding and claim gates
 
@@ -161,7 +164,9 @@ Confidence labels mean:
 - **Before M1:** complete an internally node-resolved netlist, independently
   check it against those documents, record every ambiguous node/contact as an
   assumption with alternatives, and freeze separate nominal/generic
-  device-control/supply/source/load profiles. No pedal is required.
+  device-control/supply/source/load profiles. The M0a authoring gate now passes;
+  the deliberately separate fresh-session freeze audit remains pending. No
+  pedal is required.
 - **Before M2:** make the M1 nominal oracle solve consistently and produce
   reviewed DC, AC, impedance, and control-grid references; define the generic
   taper laws, generic 4741 profile, input-boundary assumption, and volts-domain

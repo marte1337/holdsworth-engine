@@ -1,0 +1,122 @@
+{
+  "format": "tc-bld-generic-profiles-v1",
+  "profile_id": "TC-BLD-DOC-NOMINAL__S1501-3__B1501-06__L1501-6__AS-M0A-001",
+  "global_disclaimer": "Every entry is a named, reproducible engineering assumption. None is a measured vintage BLD value and none identifies the fitted manufacturer, selection criterion, tolerance, aging, or parasitics.",
+  "taper_coordinate": {
+    "x": "normalized shaft position in [0,1]",
+    "x_0": "declared counter-clockwise endpoint when viewed from the shaft",
+    "x_1": "declared clockwise endpoint when viewed from the shaft",
+    "f": "normalized resistance fraction from physical terminal 1 to wiper terminal 2",
+    "resistance_1_to_2": "R_total * f(x)",
+    "resistance_2_to_3": "R_total * (1 - f(x))",
+    "contact_residuals": "zero in these provisional laws; introduce only through a separately named sensitivity or measured profile",
+    "physical_orientation_warning": "P-SM does not number CW/CCW ends and page-4 artwork is mirrored; assumptions A-P1 through A-P5 own orientation."
+  },
+  "tapers": {
+    "TAPER-LIN-IDEAL-V1": {
+      "law":"linear", "closed_form":"f=x", "parameters":{}, "endpoints":{"f_0":"0","f_1":"1"},
+      "measured":false, "evidence":["P-SM service taper class LIN"], "limitations":"ideal law; no residual, wiper/contact resistance, detent, tolerance or vintage curve"
+    },
+    "TAPER-LOG-10PCT-MID-V1": {
+      "law":"power", "closed_form":"f=x^gamma", "parameters":{"gamma":"3.32192809488736234787","midpoint_fraction":"0.1"}, "endpoints":{"f_0":"0","f_1":"1"},
+      "measured":false, "evidence":["P-SM service taper class LOG","generic engineering convention: 10 percent of track at midpoint"], "limitations":"10 percent midpoint is not documented by TC or measured on a vintage part"
+    },
+    "TAPER-NEGLOG-10PCT-MID-V1": {
+      "law":"reverse_power", "closed_form":"f=1-(1-x)^gamma", "parameters":{"gamma":"3.32192809488736234787","midpoint_fraction":"0.9"}, "endpoints":{"f_0":"0","f_1":"1"},
+      "measured":false, "evidence":["P-SM service taper class NEG.LOG","mirror of named generic 10-percent LOG law"], "limitations":"reverse law and physical endpoint sense are provisional, not TC documentation"
+    }
+  },
+  "pot_assignments": {
+    "P1":{"taper":"TAPER-LOG-10PCT-MID-V1","orientation_assumption":"A-P1-TAPER","function":"active Gain feedback rheostat","terminal_map":{"1":"IC1 pin 9","2":"OG/wiper","3":"OG/strapped end"}},
+    "P2":{"taper":"TAPER-LIN-IDEAL-V1","orientation_assumption":"A-P2-TAPER","function":"Bass in coupled active tone network","terminal_map":{"1":"R42/C28 side","2":"R45/C27/C28 wiper","3":"R41/C27 side"}},
+    "P3":{"taper":"TAPER-LIN-IDEAL-V1","orientation_assumption":"A-P3-TAPER","function":"Treble in coupled active tone network","terminal_map":{"1":"R43/C29 side","2":"C30 wiper","3":"R44/C29 side"}},
+    "P4":{"taper":"TAPER-NEGLOG-10PCT-MID-V1","orientation_assumption":"A-P4-TAPER","function":"Distortion feedback/drive","terminal_map":{"1":"R48 side","2":"mode-switch wiper","3":"C12 side"}},
+    "P5":{"taper":"TAPER-LOG-10PCT-MID-V1","orientation_assumption":"A-P5-TAPER","function":"Suppressor threshold","terminal_map":{"1":"R25/C18 side","2":"R24 wiper","3":"detector-output side"}}
+  },
+  "active_devices": {
+    "OPAMP-4741-FAMILY-GENERIC-V1": {
+      "scope":"family-generic quad 741-like op amp; selected for IC1 only",
+      "measured":false,
+      "evidence":["P-XR4741","P-HA4741"],
+      "not_claimed":["manufacturer fitted by TC","meaning of GR1 selection","unit-specific parameters","single-supply performance at the BLD operating point"],
+      "pinout":{"1":"OUT_A","2":"INVERTING_A","3":"NONINVERTING_A","4":"VPLUS","5":"NONINVERTING_B","6":"INVERTING_B","7":"OUT_B","8":"OUT_C","9":"INVERTING_C","10":"NONINVERTING_C","11":"VMINUS","12":"NONINVERTING_D","13":"INVERTING_D","14":"OUT_D"},
+      "parameters": {
+        "supply_span":{"minimum":{"decimal":"4","unit":"V_total"},"maximum":{"decimal":"40","unit":"V_total"},"condition":"family data commonly states +/-2 to +/-20 V; system safety remains limited by other parts","evidence":["P-XR4741","P-HA4741"]},
+        "unity_gain_bandwidth_typical":{"decimal":"3.5","unit":"MHz","condition":"published family typical","evidence":["P-XR4741","P-HA4741"]},
+        "slew_rate_typical":{"positive":{"decimal":"1.6","unit":"V/us"},"negative":{"decimal":"-1.6","unit":"V/us"},"condition":"published family typical","evidence":["P-XR4741","P-HA4741"]},
+        "open_loop_gain_typical":{"decimal":"50000","unit":"V/V","condition":"+/-15 V family typical; grade/vendor spread applies","evidence":["P-HA4741"]},
+        "input_offset_voltage_typical":{"decimal":"0.5","unit":"mV","condition":"+/-15 V family typical","evidence":["P-HA4741"]},
+        "input_bias_current_typical":{"decimal":"60","unit":"nA","condition":"+/-15 V family typical","evidence":["P-HA4741"]},
+        "input_voltage_noise_density_typical":{"decimal":"9","unit":"nV/sqrtHz","condition":"at 1 kHz, published family typical; frequency-dependent model not frozen","evidence":["P-HA4741"]},
+        "output_resistance_typical":{"decimal":"300","unit":"Ohm","condition":"open-loop family typical, not closed-loop output impedance","evidence":["P-HA4741"]},
+        "output_current_typical":{"positive":{"decimal":"15","unit":"mA"},"negative":{"decimal":"-15","unit":"mA"},"condition":"family typical; do not treat as a guaranteed symmetric hard limiter","evidence":["P-HA4741"]},
+        "output_swing_typical_10k":{"positive":{"decimal":"13.7","unit":"V"},"negative":{"decimal":"-13.7","unit":"V"},"condition":"+/-15 V supply, 10 kOhm load","evidence":["P-XR4741","P-HA4741"]},
+        "output_swing_typical_2k":{"positive":{"decimal":"12.5","unit":"V"},"negative":{"decimal":"-12.5","unit":"V"},"condition":"+/-15 V supply, 2 kOhm load","evidence":["P-XR4741","P-HA4741"]},
+        "supply_current_typical":{"decimal":"4.5","unit":"mA","condition":"whole package, +/-15 V family typical","evidence":["P-HA4741"]}
+      },
+      "m1_model_rule":"M1 must record how these conditional dual-supply typicals are mapped to the BLD single-supply rails; no undocumented rail-relative swing scaling is frozen here."
+    },
+    "OPAMP-IDEAL-SENSITIVITY-V1": {
+      "scope":"topology-only M1 sensitivity comparison; never the documentary device selection",
+      "measured":false,
+      "pinout":"same standard quad pinout as OPAMP-4741-FAMILY-GENERIC-V1",
+      "parameters":{"open_loop_gain":"infinite","bandwidth":"infinite","slew_rate":"infinite","input_current":{"decimal":"0","unit":"A"},"input_offset":{"decimal":"0","unit":"V"},"output_resistance":{"decimal":"0","unit":"Ohm"}},
+      "evidence":["none; mathematical sensitivity profile"],
+      "limitations":"not a 4741, not a vintage claim, and cannot predict overload, noise, bias, slew or headroom"
+    },
+    "JFET-BF245A-DOCUMENTARY-STATIC-V1": {
+      "scope":"provisional switch-state envelope for Q1/Q2; not a transistor-fit model",
+      "measured":false,
+      "states": {
+        "channel_off":{"r_ds":{"decimal":"1","unit":"GOhm"},"c_ds":{"decimal":"5","unit":"pF"},"gate_leakage":"ignored"},
+        "channel_on":{"r_ds":{"decimal":"200","unit":"Ohm"},"c_ds":{"decimal":"5","unit":"pF"},"gate_leakage":"ignored"},
+        "ideal_open":{"r_ds":"infinite","c_ds":{"decimal":"0","unit":"pF"},"gate_leakage":"ignored","purpose":"sensitivity only"},
+        "dynamic_suppressor_controlled":{"model":"deferred nonlinear BF245-A control law","purpose":"later M1 variant; not first-oracle runnable until a device equation is selected"}
+      },
+      "evidence":["P-SM identifies BF245-A and the switching/control topology","numerical R/C values are deliberately generic engineering assumptions"],
+      "limitations":"not a BF245 transfer curve, not TC Q2 selection, not a vintage measurement; M1 must sensitivity-sweep or replace it"
+    }
+  },
+  "supply_profiles": {
+    "SUPPLY-9V-EFFECTIVE-V1": {
+      "selected":true, "measured":false, "source_node":"VPLUS", "return_node":"0V", "dc":{"decimal":"9","unit":"V"}, "source_resistance":{"decimal":"0","unit":"Ohm"},
+      "interpretation":"post-protection effective rail for first oracle; external D1/jack/POR path remains documented but is outside the reduced supply source",
+      "vref_rule":"solve R2/R3/C1 explicitly; never clamp VREF to 4.5 V", "evidence":["P-SM single-supply topology and 9 V battery context","P-UM battery specification"], "limitations":"no sag, ripple, protection drop or battery impedance"
+    },
+    "SUPPLY-9V-ADAPTER-DIRECT-V1": {
+      "selected":false, "measured":false, "source_node":"VPLUS", "return_node":"0V", "dc":{"decimal":"9","unit":"V"}, "source_resistance":{"decimal":"0","unit":"Ohm"},
+      "switch_states":{"SW_POWER_JACK":"adapter_inserted","SW_INPUT_JACK_BATTERY":"mono_plug_inserted"},
+      "interpretation":"adapter applies directly to the VPLUS/0 power-jack contacts; both battery normalling contacts are open and D1 reverse-isolates BAT+", "evidence":["P-SM"], "limitations":"adapter source resistance/ripple and connector contact resistance are not documented"
+    },
+    "SUPPLY-9V-BATTERY-SWITCHED-V1": {
+      "selected":false, "measured":false, "source_node":"BATTERY_POSITIVE_A", "return_node":"BATTERY_NEGATIVE_RING", "dc":{"decimal":"9","unit":"V"}, "source_resistance":{"decimal":"0","unit":"Ohm"},
+      "switch_states":{"SW_POWER_JACK":"no_adapter","SW_INPUT_JACK_BATTERY":"mono_plug_inserted"},
+      "interpretation":"battery path with A-to-VPLUS power-jack normalling and input ring-to-sleeve return closure", "evidence":["P-SM"], "limitations":"battery/contact resistance, state of charge and exact jack mechanics are not measured"
+    },
+    "SUPPLY-18V-EFFECTIVE-SENSITIVITY-V1": {
+      "selected":false, "measured":false, "source_node":"VPLUS", "return_node":"0V", "dc":{"decimal":"18","unit":"V"}, "source_resistance":{"decimal":"0","unit":"Ohm"},
+      "interpretation":"documented sensitivity only", "evidence":["P-UM 8-18 V specification/studio prose"], "limitations":"target-unit capacitor/IC2/device ratings must be verified before hardware use"
+    }
+  },
+  "boundary_profiles": {
+    "INPUT-BOUNDARY-SERVICE-INTERNAL-V1": {
+      "selected":true, "measured":false, "interpretation":"No extra input-impedance element; service R13=1 MOhm remains the internal bias/load fact.", "evidence":["P-SM"], "limitations":"does not assert the whole complex input impedance equals exactly 1 MOhm"
+    },
+    "INPUT-BOUNDARY-MANUAL-SENSITIVITY-V1": {
+      "selected":false, "measured":false, "target_effective_input_resistance":{"minimum":{"decimal":"3","unit":"MOhm"},"maximum":{"decimal":"3.3","unit":"MOhm"}},
+      "interpretation":"manual-claim comparison target upstream of the frozen service circuit; never mutates or parallels R13", "evidence":["P-UM"], "limitations":"manual measurement definition, state and frequency are absent"
+    },
+    "BOUNDARY-STUDIO-GENERIC-V1": {
+      "selected":true, "measured":false,
+      "source":{"node":"INPUT_TIP","return":"0V","series_resistance":{"decimal":"1","unit":"kOhm"},"dc_offset":{"decimal":"0","unit":"V"}},
+      "load":{"node":"OUTPUT_HOT","return":"0V","resistance":{"decimal":"1","unit":"MOhm"},"capacitance":{"decimal":"100","unit":"pF"}},
+      "xlr_load":"unloaded", "evidence":["generic declared laboratory/studio condition"], "limitations":"not a TC test condition, pickup/cable model, or measured vintage load"
+    },
+    "BOUNDARY-10K-LOAD-SENSITIVITY-V1": {
+      "selected":false, "measured":false,
+      "source":{"node":"INPUT_TIP","return":"0V","series_resistance":{"decimal":"1","unit":"kOhm"},"dc_offset":{"decimal":"0","unit":"V"}},
+      "load":{"node":"OUTPUT_HOT","return":"0V","resistance":{"decimal":"10","unit":"kOhm"},"capacitance":{"decimal":"100","unit":"pF"}},
+      "xlr_load":"unloaded", "evidence":["generic sensitivity condition; 4741 family data include 10 kOhm swing tests"], "limitations":"not a documented pedal termination"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "format": "tc-bld-source-evidence-v1",
+  "profile_id": "TC-BLD-DOC-NOMINAL__S1501-3__B1501-06__L1501-6__AS-M0A-001",
+  "policy": {
+    "normative_topology_and_nominal_values":["P-SM"],
+    "behavior_and_boundary_claims":["P-UM"],
+    "generic_device_parameters":["P-XR4741","P-HA4741"],
+    "layout_limit":"placement, footprint, orientation marks and readability only; page 4 contains no values",
+    "comparison_sources_may_resolve_topology":false
+  },
+  "sources": {
+    "P-SM":{"class":"primary manufacturer service content on third-party mirror","sha256":"6d794b2ce05a93f53c579303a5b42682604e1c7922e14c064e30ea9175c0ac62","bytes":203201,"pages":4},
+    "P-UM":{"class":"primary manufacturer user documentation on third-party mirror","sha256":"71c9fa4f719d9b22d8897c1a429f1de206aa1de8beaa58180c2088b087d88b4c","bytes":133416,"pages":4},
+    "P-XR4741":{"class":"primary Exar component data; comparison-only for unidentified BLD IC1"},
+    "P-HA4741":{"class":"primary Renesas/Intersil component data; family corroboration only for unidentified BLD IC1","url":"https://www.renesas.com/en/document/dst/ha-4741-datasheet","document":"HA-4741 Data Sheet FN2922.5, July 2004","relevant_pages":[1,2,3]}
+  },
+  "anchors": [
+    {"id":"EV-SCHEMATIC-POWER","source":"P-SM","packet_page":2,"drawing":"1501-3","region":"upper-left supply/reference plus repeated A/input/power-jack callout","establishes":["VPLUS","0V","VREF","BAT+ callout A","BAT- input ring","R1-R3","C1-C3","D1-D3","IC supply pins","dual power-jack normalling candidates"],"readability":"mixed; selected contact truth is medium-confidence"},
+    {"id":"EV-SCHEMATIC-CONTROL","source":"P-SM","packet_page":2,"drawing":"1501-3","region":"left/lower bypass and IC2","establishes":["R4-R12","C3-C7","D16","D18","Q3","IC2 partial pin relationships"],"readability":"poor_for_D17_and_four_IC2_pins"},
+    {"id":"EV-SCHEMATIC-INPUT","source":"P-SM","packet_page":2,"drawing":"1501-3","region":"upper input/first op amp","establishes":["C8-C11","R13-R15","D14-D15","IC1 pins 3/5/6/7"],"readability":"good_except_individual_D14_D15_labels"},
+    {"id":"EV-SCHEMATIC-DISTORTION","source":"P-SM","packet_page":2,"drawing":"1501-3","region":"upper-middle mode/P4/Q4/clamp","establishes":["SW_MODE","P4","Q4","R17-R22","R48","C12","C14","D4","DG1"],"readability":"good_at_block_level_medium_for_physical_switch_numbering"},
+    {"id":"EV-SCHEMATIC-GAIN-TONE","source":"P-SM","packet_page":2,"drawing":"1501-3","region":"middle/right audio","establishes":["NREF_AUDIO","P1-P3","R18","R23","R41-R46","C15-C17","C27-C30","IC1 pins 8-14"],"readability":"good_except_C17_crossing_and_physical_pot_orientation"},
+    {"id":"EV-SCHEMATIC-SUPPRESSOR","source":"P-SM","packet_page":2,"drawing":"1501-3","region":"lower-middle detector/control","establishes":["P5","R24-R38","C18-C24","C26","D5-D13","Q2","Q5","Q6"],"readability":"good_endpoints_medium_control_diode_polarity"},
+    {"id":"EV-SCHEMATIC-OUTPUT","source":"P-SM","packet_page":2,"drawing":"1501-3","region":"right output","establishes":["C25","R39","R40","output jack","single-ended XLR attachment"],"readability":"good_path_medium_XLR_pin_numbers"},
+    {"id":"EV-BOM-ALL","source":"P-SM","packet_page":3,"drawing":"1501-06","region":"complete parts list","establishes":["111-designator inventory","110 populated","all service nominals","R26 not used","taper classes","device families"],"readability":"good_values_mixed_revision_annotations"},
+    {"id":"EV-LAYOUT-ALL","source":"P-SM","packet_page":4,"drawing":"1501-6","region":"complete parts layout with mirrored 1501-2 artwork","establishes":["component placement","R26 footprint","D17 presence","IC orientation","Q1/Q2 gate pads","pot wipers","six-pad mode switch","connector labels","distinct dates"],"readability":"mixed_dense_control_cluster_no_values"},
+    {"id":"EV-UM-BOUNDARIES","source":"P-UM","packet_page":4,"region":"specification table","establishes":["3 MOhm claim","50 Ohm maximum output claim","8-18 V supply claim","published levels/ranges"],"readability":"good"},
+    {"id":"EV-UM-BEHAVIOR","source":"P-UM","packet_pages":[2,3],"region":"operation/control descriptions","establishes":["electronic bypass line driver active","Boost/Distortion behavior","suppressor behavior","3.3 MOhm and 8-24 V prose conflicts"],"readability":"good"}
+    ,{"id":"EV-HA4741-PINOUT","source":"P-HA4741","document_page":1,"region":"standard quad pinout and feature summary","establishes":["generic quad pinout","3.5 MHz bandwidth","1.6 V/us slew","0.5 mV offset","60 nA bias","9 nV/sqrtHz at 1 kHz","+/-2 V to +/-20 V family supply range"],"allowed_use":"generic family profile only"}
+    ,{"id":"EV-HA4741-ELECTRICAL","source":"P-HA4741","document_pages":[2,3],"region":"electrical specifications at VSUPPLY=+/-15 V unless otherwise specified","establishes":["50 kV/V typical large-signal gain","output swing at 10 kOhm and 2 kOhm","output current","output resistance","slew rate","supply current"],"allowed_use":"condition-tagged generic family profile only"}
+  ],
+  "explicit_non_evidence": [
+    "Page-4 A/P arrow callouts are undefined and are not promoted to electrical nodes.",
+    "Mirrored artwork does not establish clockwise pot terminal numbers.",
+    "A photographed Exar 4741 or Toshiba 4007 in one unit does not rename the service BOM parts.",
+    "No comparison, clone, capture, commercial software or community redraw fills a topology gap.",
+    "The unreadable handwritten note above P1, handwritten BLD 6, and undefined page-4 A/P marks are preserved as annotations; they are not component values, revision truth, or electrical nodes."
+  ]
+}

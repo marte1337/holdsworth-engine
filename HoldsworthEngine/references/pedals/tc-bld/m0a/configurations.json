@@ -1,0 +1,60 @@
+{
+  "format": "tc-bld-configurations-v1",
+  "profile_id": "TC-BLD-DOC-NOMINAL__S1501-3__B1501-06__L1501-6__AS-M0A-001",
+  "state_axes": {
+    "mode":{"values":["Boost","Distortion"],"owner":"SW_MODE"},
+    "bypass":{"values":["engaged","bypass"],"owner":"Q1 plus latch/Q2 override; not an audio-contact footswitch"},
+    "suppressor":{"values":["frozen_full_level","dynamic","bypass_override"],"owner":"detector/control network and Q2"},
+    "supply":{"values":["effective_9V","adapter_9V_direct","battery_9V_switched","effective_18V_sensitivity"],"owner":"named supply profiles and explicit jack contact states"}
+  },
+  "mode_contacts": {
+    "Boost":{"closures":[["SW_MODE.P1_COMMON","SW_MODE.P1_BOOST"],["SW_MODE.P2_COMMON","SW_MODE.P2_BOOST"]],"electrical_result":["N_MODE_C11 linked to O1","E linked to O1"],"distortion_branch":"R21/DG1/D4/R22/C14/R20 remains physically connected O1-to-E and may load large signals"},
+    "Distortion":{"closures":[["SW_MODE.P1_COMMON","SW_MODE.P1_DISTORTION"],["SW_MODE.P2_COMMON","SW_MODE.P2_DISTORTION"]],"electrical_result":["N_MODE_C11 linked to N_P4_WIPER","E linked to N_MODE_R48 through the switch, then R48/P4 network"]}
+  },
+  "bypass_relations": {
+    "engaged":{"Q1":"channel_off; complete C13/R19/C31/D13/R47 branch retained","Q2":"suppressor-controlled, or explicitly frozen channel_off/full-level for first oracle","line_driver":"active"},
+    "bypass":{"Q1":"channel_on, passing buffered O1 through C13 into NREF_AUDIO","Q2":"generic channel_on bypass override selected; exact static voltage/polarity remains A-Q2-STATE/A-D17-IC2","line_driver":"active","distortion":"manual says disabled, but physical mode switch retains its last position and fixed network remains documented"}
+  },
+  "supply_bindings": {
+    "effective_9V":{"profile":"SUPPLY-9V-EFFECTIVE-V1","switch_states":{}},
+    "adapter_9V_direct":{"profile":"SUPPLY-9V-ADAPTER-DIRECT-V1","switch_states":{"SW_POWER_JACK":"adapter_inserted","SW_INPUT_JACK_BATTERY":"mono_plug_inserted"}},
+    "battery_9V_switched":{"profile":"SUPPLY-9V-BATTERY-SWITCHED-V1","switch_states":{"SW_POWER_JACK":"no_adapter","SW_INPUT_JACK_BATTERY":"mono_plug_inserted"}},
+    "effective_18V_sensitivity":{"profile":"SUPPLY-18V-EFFECTIVE-SENSITIVITY-V1","switch_states":{}}
+  },
+  "truth_table": [
+    {
+      "id":"STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY",
+      "mode":"Boost","bypass":"engaged","suppressor":"frozen_full_level","supply":"effective_9V",
+      "mode_closures":[["P1_COMMON","P1_BOOST"],["P2_COMMON","P2_BOOST"]],
+      "Q1_state":"channel_off_branch_retained","Q2_state":"channel_off_full_level","selected_for_first_oracle":true,
+      "audio_path":"INPUT_TIP -> C8/R14/IC1(5,6,7) -> O1=E -> R23/C15/IC1(8,9,10) -> OG -> C16/coupled P2-P3 tone network/IC1(12,13,14) -> C25/R40 -> OUTPUT_HOT",
+      "retained_loading":["O1-R21-D4/DG1-R22-C14-R20-E Distortion branch","Q1 dry branch in off state","Q2/R38 full final feedback path","C17 and complete frozen suppressor control graph"]
+    },
+    {
+      "id":"STATE-ENGAGED-DISTORTION-DOCUMENTARY",
+      "mode":"Distortion","bypass":"engaged","suppressor":"dynamic","supply":"effective_9V",
+      "mode_closures":[["P1_COMMON","P1_DISTORTION"],["P2_COMMON","P2_DISTORTION"]],
+      "Q1_state":"channel_off_branch_retained","Q2_state":"dynamic_suppressor_controlled","selected_for_first_oracle":false,
+      "audio_path":"complete first-stage, P4/Q4/asymmetric-clamp Distortion network, Gain, tone, Q2-controlled final stage and output",
+      "m1_note":"retained documentary configuration; nonlinear device equations and calibrated controls are not frozen by M0a"
+    },
+    {
+      "id":"STATE-BYPASS-BOOST-PHYSICAL-MODE-RETAINED",
+      "mode":"Boost","bypass":"bypass","suppressor":"bypass_override","supply":"effective_9V",
+      "mode_closures":[["P1_COMMON","P1_BOOST"],["P2_COMMON","P2_BOOST"]],
+      "Q1_state":"channel_on","Q2_state":"channel_on_bypass_override","selected_for_first_oracle":false,
+      "audio_path":"input buffer O1 -> C13/Q1 -> NREF_AUDIO -> active final line driver -> output; mode network remains physically in its Boost position"
+    },
+    {
+      "id":"STATE-BYPASS-DISTORTION-PHYSICAL-MODE-RETAINED",
+      "mode":"Distortion","bypass":"bypass","suppressor":"bypass_override","supply":"effective_9V",
+      "mode_closures":[["P1_COMMON","P1_DISTORTION"],["P2_COMMON","P2_DISTORTION"]],
+      "Q1_state":"channel_on","Q2_state":"channel_on_bypass_override","selected_for_first_oracle":false,
+      "audio_path":"input buffer O1 -> C13/Q1 -> NREF_AUDIO -> active final line driver -> output; mode network remains physically in its Distortion position"
+    }
+  ],
+  "additional_named_configurations": [
+    {"id":"STATE-ENGAGED-BOOST-DYNAMIC-SUPPRESSOR","base":"STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY","override":{"suppressor":"dynamic","Q2_state":"dynamic_suppressor_controlled"},"purpose":"later full suppressor oracle without reinterpreting topology"},
+    {"id":"STATE-ENGAGED-BOOST-18V-SENSITIVITY","base":"STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY","override":{"supply":"effective_18V_sensitivity"},"purpose":"documented supply sensitivity, not a hardware recommendation"}
+  ]
+}

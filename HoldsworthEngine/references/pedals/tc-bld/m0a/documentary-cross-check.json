@@ -1,0 +1,70 @@
+{
+  "format":"tc-bld-documentary-cross-check-v1",
+  "profile_id":"TC-BLD-DOC-NOMINAL__S1501-3__B1501-06__L1501-6__AS-M0A-001",
+  "status_values":["confirmed","ambiguous","conflict","unreadable","not_depicted","not_applicable"],
+  "designator_dimensions": {
+    "bom":"designator, population, nominal value/taper/part identity only",
+    "schematic":"individual designator and depicted electrical endpoints; pin/polarity exceptions are separately audited",
+    "layout_artwork":"placement/footprint identity only; the layout contains no nominal values and does not establish schematic nets"
+  },
+  "designator_observation_groups": [
+    {"source":"bom","status":"confirmed","refs":["R1-R48","C1-C31","P1-P5","Q1-Q6","D1-D18","DG1","IC1-IC2"],"evidence_anchor":"EV-BOM-ALL","note":"R26 is explicitly NOT USED; grouped BOM rows are expanded by the validator"},
+
+    {"source":"schematic","status":"confirmed","refs":["R1-R25","R27-R48","C1-C31","P1-P5","Q1-Q6","D1-D6","D16","D18","DG1","IC1-IC2"],"evidence_anchors":["EV-SCHEMATIC-POWER","EV-SCHEMATIC-CONTROL","EV-SCHEMATIC-INPUT","EV-SCHEMATIC-DISTORTION","EV-SCHEMATIC-GAIN-TONE","EV-SCHEMATIC-SUPPRESSOR","EV-SCHEMATIC-OUTPUT"]},
+    {"source":"schematic","status":"ambiguous","refs":["D7-D13"],"evidence_anchor":"EV-SCHEMATIC-SUPPRESSOR","assumption_id":"A-CONTROL-DIODE-POLARITY","note":"endpoints visible; individual bars remain medium-confidence"},
+    {"source":"schematic","status":"ambiguous","refs":["D14-D15"],"evidence_anchor":"EV-SCHEMATIC-INPUT","assumption_id":"A-D14-D15-NUMBERING","note":"opposed pair clear; individual reference identity may be swapped"},
+    {"source":"schematic","status":"unreadable","refs":["D17"],"evidence_anchor":"EV-SCHEMATIC-CONTROL","assumption_id":"A-D17-IC2"},
+    {"source":"schematic","status":"not_applicable","refs":["R26"],"evidence_anchor":"EV-BOM-ALL","note":"not populated"},
+
+    {"source":"layout_artwork","status":"confirmed","refs":["R1-R24","R26-R48","C1-C31","P1-P5","Q1-Q6","D1-D6","D17-D18","DG1","IC1-IC2"],"evidence_anchor":"EV-LAYOUT-ALL","note":"placement only; R26 is a labeled unpopulated footprint and D17 location is visible"},
+    {"source":"layout_artwork","status":"ambiguous","refs":["D7-D13"],"evidence_anchor":"EV-LAYOUT-ALL","assumption_id":"A-CONTROL-DIODE-POLARITY","note":"dense lower control cluster"},
+    {"source":"layout_artwork","status":"ambiguous","refs":["D14-D15"],"evidence_anchor":"EV-LAYOUT-ALL","assumption_id":"A-D14-D15-NUMBERING","note":"opposed pair visible; individual identity is not independently certifiable"},
+    {"source":"layout_artwork","status":"unreadable","refs":["R25","D16"],"evidence_anchor":"EV-LAYOUT-ALL","assumption_id":"A-LAYOUT-READABILITY","note":"schematic/BOM establish identity; legends are not clean enough on page 4"}
+  ],
+  "material_checks": [
+    {"id":"CHK-BOM-INVENTORY-VALUES","subject":"all 111 service designators, 110 populated entries, R26 NOT USED, and all nominal values/tapers/parts","schematic":"not_applicable","bom":"confirmed","layout_artwork":"not_applicable"},
+    {"id":"CHK-LAYOUT-PLACEMENT","subject":"per-designator placement/footprint coverage only","schematic":"not_applicable","bom":"not_applicable","layout_artwork":"ambiguous","assumption_id":"A-LAYOUT-READABILITY","note":"R25/D16 legends unreadable; dense diode identities separately classified"},
+    {"id":"CHK-RAILS","subject":"VPLUS and 0V schematic rails plus IC supply-pin connections","schematic":"confirmed","bom":"not_applicable","layout_artwork":"not_applicable"},
+    {"id":"CHK-VREF","subject":"R2/R3/C1 finite-impedance VREF generation","schematic":"confirmed","bom":"confirmed","layout_artwork":"not_applicable","note":"BOM confirms only component values"},
+    {"id":"CHK-POWER-CONTACTS","subject":"battery A/input-ring and dual-normalling external-power contact truth table","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"not_applicable","assumption_id":"A-POWER-JACK-CONTACTS"},
+    {"id":"CHK-IC1-ELECTRICAL-PINS","subject":"IC1 pins 1-14 and four schematic op-amp roles","schematic":"confirmed","bom":"not_applicable","layout_artwork":"not_applicable"},
+    {"id":"CHK-IC1-PACKAGE","subject":"IC1 service identity and physical package orientation","schematic":"not_applicable","bom":"confirmed","layout_artwork":"confirmed","note":"layout notch down; 8/7 top and 14/1 bottom"},
+    {"id":"CHK-IC2-ELECTRICAL-PINS","subject":"IC2 pins 1-14 external electrical use","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"not_applicable","assumption_id":"A-D17-IC2","note":"pins 4/5/9/11 and D17 relation are not safely resolved"},
+    {"id":"CHK-IC2-PACKAGE","subject":"IC2 service identity and package orientation","schematic":"not_applicable","bom":"confirmed","layout_artwork":"confirmed","note":"layout notch up; 1/14 top and 7/8 bottom"},
+    {"id":"CHK-NREF-AUDIO","subject":"continuous IC1-pin10/pin12/Q4-base/Q1-source/R18/R41/R44 net","schematic":"confirmed","bom":"not_applicable","layout_artwork":"not_applicable","note":"primary reread correction to prior narrative simplification"},
+    {"id":"CHK-MODE","subject":"six mode contacts and Boost/Distortion closures","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"ambiguous","assumption_id":"A-MODE-CONTACTS"},
+    {"id":"CHK-POT-ELECTRICAL","subject":"P1-P5 electrical endpoints and wipers","schematic":"confirmed","bom":"not_applicable","layout_artwork":"not_applicable"},
+    {"id":"CHK-POT-SERVICE","subject":"P1-P5 values, functions and LOG/LIN/NEG.LOG classes","schematic":"not_applicable","bom":"confirmed","layout_artwork":"not_applicable"},
+    {"id":"CHK-POT-NUMERIC-LAWS","subject":"generic numeric laws, shaft sense, residual/wiper assumptions","schematic":"not_applicable","bom":"ambiguous","layout_artwork":"not_applicable","assumption_id":"A-P1-TAPER","note":"BOM gives classes only; assumptions A-P1 through A-P5 own the profiles"},
+    {"id":"CHK-DIODE-AUDIO","subject":"D4/DG1, D5/D6 and D14/D15 endpoints/polarity","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"ambiguous","assumption_id":"A-D14-D15-NUMBERING","note":"opposed electrical pairs clear; D14/D15 ref identity medium"},
+    {"id":"CHK-DIODE-CONTROL","subject":"D7-D13 endpoints and individual A/K identity","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"ambiguous","assumption_id":"A-CONTROL-DIODE-POLARITY"},
+    {"id":"CHK-D17-POPULATION","subject":"D17 service population and layout location","schematic":"unreadable","bom":"confirmed","layout_artwork":"confirmed","assumption_id":"A-D17-IC2","note":"does not claim polarity or endpoints"},
+    {"id":"CHK-Q1-Q2-ELECTRICAL","subject":"Q1/Q2 gate and functional D/S channel endpoints","schematic":"confirmed","bom":"not_applicable","layout_artwork":"ambiguous","assumption_id":"A-JFET-DS-IDENTITY","note":"layout independently labels only each gate pad"},
+    {"id":"CHK-Q3-Q6-ELECTRICAL","subject":"Q3-Q6 C/B/E connected networks","schematic":"confirmed","bom":"not_applicable","layout_artwork":"not_applicable"},
+    {"id":"CHK-Q3-Q6-IDENTITY","subject":"Q3-Q6 service part identities and physical placement/orientation dots","schematic":"not_applicable","bom":"confirmed","layout_artwork":"confirmed"},
+    {"id":"CHK-CAP-ENDPOINTS","subject":"all coupling/filter capacitor electrical endpoints","schematic":"confirmed","bom":"not_applicable","layout_artwork":"not_applicable"},
+    {"id":"CHK-CAP-VALUES","subject":"all capacitor values/ratings/dielectric descriptions","schematic":"not_applicable","bom":"confirmed","layout_artwork":"not_applicable"},
+    {"id":"CHK-CAP-POLARITY","subject":"physical plates of C11/C12/C13/C15/C16/C24","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"ambiguous","assumption_id":"A-CAP-POLARITY-SIGNAL"},
+    {"id":"CHK-C17","subject":"C17 OG-to-NRETURN crossing","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"not_applicable","assumption_id":"A-C17-RETURN"},
+    {"id":"CHK-TONE","subject":"P2/P3/C27-C30/R41-R46 coupled active electrical network","schematic":"confirmed","bom":"confirmed","layout_artwork":"not_applicable","note":"BOM confirms only values"},
+    {"id":"CHK-SUPPRESSOR","subject":"detector/P5/Q5/Q6/D7-D12/Q2/NRETURN electrical network","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"ambiguous","assumption_id":"A-Q2-STATE"},
+    {"id":"CHK-BYPASS","subject":"Q1 dry path, latch/remote electrical control and Q2 override","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"ambiguous","assumption_id":"A-Q1-STATE"},
+    {"id":"CHK-OUTPUT","subject":"OUT14/C25/R39/R40 and shared output-jack electrical path","schematic":"confirmed","bom":"not_applicable","layout_artwork":"not_applicable"},
+    {"id":"CHK-XLR","subject":"XLR pin 2 hot, pin 1 return, pin 3 NC","schematic":"ambiguous","bom":"not_applicable","layout_artwork":"unreadable","assumption_id":"A-XLR-PINOUT"},
+    {"id":"CHK-REVISIONS","subject":"distinct schematic/BOM/layout/artwork identifiers and dates","schematic":"confirmed","bom":"conflict","layout_artwork":"confirmed","assumption_id":"A-DOCUMENT-COMPOUND","note":"compound documentary profile, never one production revision"},
+    {"id":"CHK-R33-R36","subject":"R33-R36 topology, legible later-entered BOM values, and placement","schematic":"confirmed","bom":"ambiguous","layout_artwork":"confirmed","assumption_id":"A-R33-R36-REVISION","note":"each source proves only the named facet"},
+    {"id":"CHK-R13-TOPOLOGY","subject":"R13 from N_INPUT_BIAS to VREF","schematic":"confirmed","bom":"not_applicable","layout_artwork":"not_applicable"},
+    {"id":"CHK-R13-VALUE","subject":"R13 service nominal 1 MOhm","schematic":"not_applicable","bom":"confirmed","layout_artwork":"not_applicable"},
+    {"id":"CHK-INPUT-MANUAL-CLAIM","subject":"P-UM 3-3.3 MOhm input-boundary claim conflicts with the service profile","schematic":"not_applicable","bom":"not_applicable","layout_artwork":"not_applicable","supporting_source":"P-UM","supporting_status":"conflict","assumption_id":"A-R13-BOUNDARY"}
+  ],
+  "preserved_unreadable_annotations": [
+    {"source":"P-SM page 3","mark":"handwritten note above P1","status":"unreadable","assumption_id":"A-LAYOUT-READABILITY"},
+    {"source":"P-SM page 4","mark":"BLD 6","status":"confirmed_as_handwriting_only","assumption_id":"A-DOCUMENT-COMPOUND"},
+    {"source":"P-SM page 4","mark":"A callouts and handwritten P arrow","status":"undefined_not_promoted_to_nodes","assumption_id":"A-LAYOUT-READABILITY"}
+  ],
+  "authoring_reviews":[{"id":"AUTHORING-PRIMARY-REREAD-2026-09-02","kind":"same-session authoring cross-check","scope":["all four exact P-SM pages","schematic trace","BOM values/source-form caveats","layout/artwork readability","IR semantic checks"],"source_hash_verified":true,"is_independent_freeze_audit":false}],
+  "independent_freeze_audits":[],
+  "freeze_gate_status":"pending_fresh_session_audit",
+  "freeze_audit_contract":"A passing record must bind a distinct auditor/session identity to the exact P-SM hash, profile ID, canonical normative-bundle SHA-256, resolved first-oracle SHA-256, validator SHA-256, audited file hashes and explicit coverage result.",
+  "known_audit_inputs":["Exact P-SM bytes identified by manifest hash, obtained outside the repository","All package files","tools/validate_m0a.py --print-audit-template and --gate freeze","All ambiguity classes, especially D17/IC2, C17, mode/power contacts and diode polarity"]
+}

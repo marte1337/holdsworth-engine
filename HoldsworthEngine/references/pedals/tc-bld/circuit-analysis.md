@@ -1,5 +1,15 @@
 # Circuit analysis of the original BLD
 
+> **M0a primary-reread note:** the machine-readable documentary freeze in
+> [`m0a/`](m0a/) supersedes this narrative wherever they differ. In particular,
+> it resolves `NREF_AUDIO` as the continuous IC1-pin-10/pin-12/Q4-base/Q1-source
+> node biased through R18, selects C17 from `OG` to the suppressor return bus,
+> and records C3 as a POR/latch coupling capacitor. D17 and four IC2 pin
+> relationships remain explicitly unresolved rather than inferred. It also
+> resolves schematic callout A as BAT+, the input ring as the switched BAT-
+> return, and treats the faint dual-normalling external-power contacts as a
+> named medium-confidence variant rather than an adapter-series D1 assumption.
+
 This analysis is derived from the TC service schematic 1501-3 and parts list
 1501-06 (**P-SM**), checked against the TC user manual (**P-UM**), period review
 (**C-EEM82**), and the limited hardware evidence in `sources.md`. It is a design
@@ -20,7 +30,8 @@ The service drawing uses three electrical references:
 - `VREF`: half-supply audio reference made by R2 = R3 = 47 kOhm and C1 =
   22 uF.
 
-IC1 (4741) uses pin 4 at V+ and pin 11 at 0 V. IC2 (4007) uses pins 14/7.
+IC1 (4741) uses pin 4 at V+ and pin 11 at 0 V. IC2 (4007) uses pins 2 and
+14 at V+ and pin 7 at 0 V.
 There is no charge pump, analog regulator, or true split supply in P-SM.
 Signals inside the AC-coupled analog circuit are biased around VREF. **High**.
 
@@ -113,9 +124,10 @@ O1
 ```
 
 Q4 is a BC548-B. Its collector connects to V+, its emitter uses R17 = 33 kOhm
-to 0 V and C12 to P4, and its base shares the IC1-pin-10/VREF reference. R18 =
-10 kOhm biases that reference. Q4's base-emitter behavior is therefore part of
-the coupled P4 feedback/drive mechanism. **Medium-high**; the long reference
+to 0 V and C12 to P4, and its base shares `NREF_AUDIO` with IC1 pins 10/12,
+Q1 source, R41, and R44. R18 = 10 kOhm biases that distinct node toward VREF;
+`NREF_AUDIO` is not a VREF alias. Q4's base-emitter behavior is therefore part
+of the coupled P4 feedback/drive mechanism. **Medium-high**; the long reference
 wire is awkward in the scan but is consistent with the PCB placement and stage
 operation.
 
@@ -141,7 +153,7 @@ vintage behavior.
 
 ```text
 E -> R23 1.5 kOhm -> C15 10 uF -> IC1 pin 9 (-)
-IC1 pin 10 (+) -> VREF / Q4-base reference
+IC1 pin 10 (+) -> NREF_AUDIO / Q4-base reference, biased to VREF by R18
 IC1 pin 8 (OG) -> P1 47 kOhm LOG rheostat feedback -> pin 9
 ```
 
@@ -336,11 +348,14 @@ states and final-stage reconfiguration.
 
 ## Power-supply topology and headroom
 
-P-SM shows an unregulated single-supply design. R2/R3/C1 make VREF, while D1,
-D2/D3, C2/C3, the external-power jack, and battery contacts provide
-selection/protection/control/decoupling. No voltage doubler, inverter, charge
-pump, or analog regulator is present. **High for architecture; Medium for exact
-voltage drop by battery versus adapter path because the jack drawing is unclear**.
+P-SM shows an unregulated single-supply design. R2/R3/C1 make VREF; C2 bypasses
+VPLUS; D1/D3 and the external-power/battery contacts provide isolation,
+selection, and protection; D2/R10/C3 participate in POR/latch control. The M0a
+selection reads no-adapter contacts as A-VPLUS and PWR_SENSE-0V, with adapter
+power applied directly at VPLUS/0V after those contacts open. An alternate
+battery-through-D1 spring reading remains explicit. No voltage doubler,
+inverter, charge pump, or analog regulator is present. **High for architecture;
+Medium for the faint mechanical-contact interpretation**.
 
 Consequences:
 

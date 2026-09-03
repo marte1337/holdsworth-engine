@@ -1,0 +1,63 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://local.invalid/tc-bld-documentary-ir-v1.schema.json",
+  "title":"TC BLD M0a layered documentary IR document",
+  "description":"Editor-facing shape contract. tools/validate_m0a.py is the authoritative cross-file semantic validator.",
+  "oneOf":[
+    {"$ref":"#/$defs/manifest"},
+    {"$ref":"#/$defs/layer"}
+  ],
+  "$defs": {
+    "profile_id":{"const":"TC-BLD-DOC-NOMINAL__S1501-3__B1501-06__L1501-6__AS-M0A-001"},
+    "manifest": {
+      "type":"object",
+      "required":["format","documentary_profile_id","claim_level","source_profile","files","selected"],
+      "properties": {
+        "format":{"const":"tc-bld-m0a-manifest-v1"},
+        "documentary_profile_id":{"$ref":"#/$defs/profile_id"},
+        "claim_level":{"const":"documentary_nominal_not_hardware_calibrated"}
+      },
+      "additionalProperties":true
+    },
+    "layer": {
+      "type":"object",
+      "required":["format","profile_id"],
+      "properties": {
+        "format":{"enum":["tc-bld-source-evidence-v1","tc-bld-service-components-v1","tc-bld-documentary-circuit-v1","tc-bld-assumptions-v1","tc-bld-configurations-v1","tc-bld-generic-profiles-v1","tc-bld-documentary-cross-check-v1"]},
+        "profile_id":{"$ref":"#/$defs/profile_id"}
+      },
+      "allOf":[
+        {
+          "if":{"properties":{"format":{"const":"tc-bld-service-components-v1"}}},
+          "then":{
+            "required":["normative_source","rules","components"],
+            "properties":{"components":{"type":"array","minItems":111,"maxItems":111,"items":{"type":"object","required":["ref","kind","population","normalized_service_text"]}}}
+          }
+        },
+        {"if":{"properties":{"format":{"const":"tc-bld-documentary-circuit-v1"}}},"then":{"required":["nodes","component_terminals","connectors","switches","known_unresolved_sites"]}},
+        {"if":{"properties":{"format":{"const":"tc-bld-assumptions-v1"}}},"then":{"required":["operation_types","impact_axes","impact_values","assumptions","variant_classification"],"properties":{"assumptions":{"type":"array","items":{"$ref":"#/$defs/assumption"}}}}},
+        {"if":{"properties":{"format":{"const":"tc-bld-configurations-v1"}}},"then":{"required":["state_axes","mode_contacts","truth_table","supply_bindings"]}},
+        {"if":{"properties":{"format":{"const":"tc-bld-generic-profiles-v1"}}},"then":{"required":["tapers","pot_assignments","active_devices","supply_profiles","boundary_profiles"]}},
+        {"if":{"properties":{"format":{"const":"tc-bld-documentary-cross-check-v1"}}},"then":{"required":["designator_dimensions","designator_observation_groups","material_checks","authoring_reviews","independent_freeze_audits"]}}
+      ],
+      "additionalProperties":true
+    },
+    "operation": {
+      "type":"object",
+      "required":["type","entity"],
+      "properties":{"type":{"enum":["bind_terminal","link_nodes","set_contact_table","set_orientation","select_profile","select_boundary_profile","set_device_state","annotation_only"]},"entity":{"type":"string"}},
+      "additionalProperties":true
+    },
+    "confidence":{"type":"object","required":["level","note"],"properties":{"level":{"enum":["high","medium","low"]},"note":{"type":"string","minLength":1}},"additionalProperties":false},
+    "evidence":{"type":"object","required":["anchor"],"oneOf":[{"required":["source","support"]},{"required":["evidence_status","rationale"],"properties":{"evidence_status":{"const":"none"}}}],"additionalProperties":true},
+    "variant":{"type":"object","required":["id","interpretation","evidence","operations"],"properties":{"id":{"type":"string","minLength":1},"interpretation":{"type":"string","minLength":1},"evidence":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/evidence"}},"operations":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/operation"}}},"additionalProperties":true},
+    "assumption":{"type":"object","required":["id","topic","affected","selected_variant","confidence","expected_electrical_consequence","impacts","variants"],"properties":{"confidence":{"$ref":"#/$defs/confidence"},"impacts":{"$ref":"#/$defs/impact_matrix"},"variants":{"type":"array","minItems":2,"items":{"$ref":"#/$defs/variant"}}},"additionalProperties":true},
+    "impact_matrix": {
+      "type":"object",
+      "required":["boost_small_signal","boost_large_signal","distortion","suppressor","bypass"],
+      "properties":{"boost_small_signal":{"enum":["material","possible","control_only","nonmaterial","unknown"]},"boost_large_signal":{"enum":["material","possible","control_only","nonmaterial","unknown"]},"distortion":{"enum":["material","possible","control_only","nonmaterial","unknown"]},"suppressor":{"enum":["material","possible","control_only","nonmaterial","unknown"]},"bypass":{"enum":["material","possible","control_only","nonmaterial","unknown"]}},
+      "additionalProperties":false
+    },
+    "documentary_status":{"enum":["confirmed","ambiguous","conflict","unreadable","not_depicted","not_applicable"]}
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "format": "tc-bld-m0a-manifest-v1",
+  "documentary_profile_id": "TC-BLD-DOC-NOMINAL__S1501-3__B1501-06__L1501-6__AS-M0A-001",
+  "milestone": "M0a documentary nominal-netlist freeze",
+  "claim_level": "documentary_nominal_not_hardware_calibrated",
+  "created_from_primary_source_reread": true,
+  "not_a_production_revision": true,
+  "source_profile": {
+    "normative_topology_and_values":"P-SM",
+    "service_packet":{"sha256":"6d794b2ce05a93f53c579303a5b42682604e1c7922e14c064e30ea9175c0ac62","bytes":203201,"pages":4,"reviewed_mirror":"https://www.aronnelson.com/DIYFiles/up/TC_DRIVER.PDF"},
+    "drawings":[
+      {"role":"schematic","number":"1501-3","date_iso":"1984-02-22","packet_page":2},
+      {"role":"parts_list","number":"1501-06","date_iso":null,"date_note":"printed field appears 841026/1F with later handwriting; not safe to freeze as one revision date","packet_page":3},
+      {"role":"parts_layout","number":"1501-6","dates_iso":["1982-07-29","1984-02-27","1985-10-23"],"packet_page":4},
+      {"role":"pcb_artwork_visible_in_layout","number":"1501-2","date_iso":null,"packet_page":4}
+    ],
+    "supporting_behavior_source":{"id":"P-UM","sha256":"71c9fa4f719d9b22d8897c1a429f1de206aa1de8beaa58180c2088b087d88b4c","bytes":133416,"allowed_use":"behavior, published boundaries and conflicts only; never topology/value resolution"},
+    "generic_component_sources":["P-XR4741","P-HA4741"],
+    "excluded_topology_sources":["TC Integrated Preamp schematics","later Classic Booster schematics","PastFX","TC Native","NAM captures","community redraws"]
+  },
+  "files": {
+    "service_values":"service-components.json",
+    "topology":"circuit.json",
+    "assumptions":"assumptions.json",
+    "configurations":"configurations.json",
+    "generic_profiles":"generic-profiles.json",
+    "source_evidence":"source-evidence.json",
+    "cross_check":"documentary-cross-check.json",
+    "schema":"schema/tc-bld-documentary-ir-v1.schema.json",
+    "validator":"tools/validate_m0a.py",
+    "validator_tests":"tests/test_validate_m0a.py",
+    "human_readme":"README.md"
+  },
+  "selected": {
+    "configuration":"STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY",
+    "assumption_set":"all assumptions.json selected_variant fields",
+    "op_amp_profile":"OPAMP-4741-FAMILY-GENERIC-V1",
+    "supply_profile":"SUPPLY-9V-EFFECTIVE-V1",
+    "source_load_profile":"BOUNDARY-STUDIO-GENERIC-V1",
+    "input_boundary_profile":"INPUT-BOUNDARY-SERVICE-INTERNAL-V1"
+  },
+  "inventory_contract":{"service_designators":111,"populated":110,"not_used":["R26"]},
+  "authoring_gate":"must pass tools/validate_m0a.py --gate authoring",
+  "freeze_gate":"intentionally pending a distinct fresh-session independent audit record bound to the exact package/file/validator/resolved digests printed by --print-audit-template",
+  "m1_handoff":"M1 consumes this manifest plus immutable service values, operation-resolved topology/nets, selected typed assumptions, the selected configuration/device states and named profiles; the validator emits canonical resolved JSON plus exact digests.",
+  "known_non_first_oracle_blocker":"D17 endpoints and IC2 pins 4/5/9/11 are unreadable in the registered P-SM. Full dynamic latch/bypass simulation needs clearer primary evidence or continuity; the static engaged-Boost first oracle does not.",
+  "scope_exclusions":["M1 SPICE/MNA oracle implementation","realtime DSP","existing NAM","delay","integration","UI","production parameter code"]
+}

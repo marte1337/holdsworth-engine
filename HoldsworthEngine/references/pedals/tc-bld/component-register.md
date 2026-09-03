@@ -1,9 +1,13 @@
 # Service component register
 
-This is a literal engineering transcription of the TC service-packet parts list
-(P-SM), normalized to `.` decimals and SI suffixes. It is **not** a claim that
-every production BLD contains every nominal value. The service packet contains
-several revision dates, and the layout must be checked against the target unit.
+This is an electrical service-value transcription of the TC service-packet
+parts list (P-SM), normalized to `.` decimals, expanded dielectric words, and SI
+suffixes; it is not a typographic facsimile. Source-form strings and editorial
+caveats used for the M0a freeze are preserved separately in
+[`m0a/service-components.json`](m0a/service-components.json). It is **not** a
+claim that every production BLD contains every nominal value. The service
+packet contains several revision dates, and the layout must be checked against
+the target unit.
 
 `R26 NOT USED`, the selection notes, and taper descriptions are preserved
 because they are circuit evidence.
