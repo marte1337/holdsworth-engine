@@ -149,6 +149,7 @@ REQUIRED_MATERIAL_CHECKS = {
     "CHK-XLR",
     "CHK-REVISIONS",
     "CHK-R33-R36",
+    "CHK-R35-PRESET",
     "CHK-R13-TOPOLOGY",
     "CHK-R13-VALUE",
     "CHK-INPUT-MANUAL-CLAIM",
@@ -255,8 +256,8 @@ EXPECTED_ACTIVE_TERMINALS = {
     "D8": {"A": "N_Q5_BASE", "K": "N_Q6_COLLECTOR"},
     "D9": {"A": "NRETURN", "K": "N_Q5_COLLECTOR"},
     "D10": {"A": "N_CTL2", "K": "NRETURN"},
-    "D11": {"A": "N_Q2_GATE", "K": "N_CTL1"},
-    "D12": {"A": "N_BYPASS_CONTROL", "K": "N_CTL1"},
+    "D11": {"A": "N_Q2_GATE", "K": "OUT14"},
+    "D12": {"A": "N_BYPASS_CONTROL", "K": "OUT14"},
     "D13": {"A": "N_Q1_GATE", "K": "N_BYPASS_CONTROL"},
     "D14": {"A": "N_IC1_5", "K": "N_IC1_6_SENSE"},
     "D15": {"A": "N_IC1_6_SENSE", "K": "N_IC1_5"},
@@ -275,7 +276,7 @@ EXPECTED_ACTIVE_TERMINALS = {
         "4": "N_IC2_PIN4_UNRESOLVED", "5": "N_IC2_PIN5_UNRESOLVED",
         "6": "N_IC2_TIED_GATE", "7": "0V", "8": "N_LATCH",
         "9": "N_IC2_PIN9_UNRESOLVED", "10": "N_IC2_PIN10_INPUT",
-        "11": "N_IC2_PIN11_UNRESOLVED", "12": "N_IC2_TIED_GATE",
+        "11": "N_IC2_TIMING", "12": "N_IC2_TIED_GATE",
         "13": "N_LATCH", "14": "VPLUS",
     },
 }
@@ -369,6 +370,7 @@ def check_manifest(bundle: dict[str, dict[str, Any]], root: Path, errors: list[s
         "configuration": "STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY",
         "assumption_set": "all assumptions.json selected_variant fields",
         "op_amp_profile": "OPAMP-4741-FAMILY-GENERIC-V1",
+        "r35_profile": "R35-PRESET-SERVICE-NOMINAL-MAXIMUM-V1",
         "supply_profile": "SUPPLY-9V-EFFECTIVE-V1",
         "source_load_profile": "BOUNDARY-STUDIO-GENERIC-V1",
         "input_boundary_profile": "INPUT-BOUNDARY-SERVICE-INTERNAL-V1",
@@ -485,6 +487,11 @@ def check_service(bundle: dict[str, dict[str, Any]], errors: list[str]) -> None:
         errors.append("service: DG1 source-form AA/119 must be preserved")
     if by_ref.get("P5", {}).get("service_function_source_form") != "TRESHOLD":
         errors.append("service: P5 source-form TRESHOLD must be preserved")
+    r35 = by_ref.get("R35", {})
+    if r35.get("adjustable_form") != "two-terminal preset/rheostat; 2.2 MOhm is the service nominal, not a measured setting":
+        errors.append("service: R35 adjustable-preset form and undocumented-setting caveat changed")
+    if "three-pad layout" not in r35.get("editorial_note", ""):
+        errors.append("service: R35 must preserve schematic/layout adjustable-form evidence")
     if by_ref.get("R11", {}).get("power") != {
         "rational": {"numerator": "1", "denominator": "3"}, "unit": "W"
     }:
@@ -627,6 +634,9 @@ def check_circuit(bundle: dict[str, dict[str, Any]], errors: list[str]) -> None:
         "C17": {"1": "OG", "2": "NRETURN"},
         "R13": {"1": "N_INPUT_BIAS", "2": "VREF"},
         "R18": {"1": "NREF_AUDIO", "2": "VREF"},
+        "R19": {"1": "N_Q1_DRAIN", "2": "NREF_AUDIO"},
+        "R35": {"1": "OUT14", "2": "N_R35_R34"},
+        "R36": {"1": "OUT14", "2": "N_CTL2"},
         "R48": {"1": "N_MODE_R48", "2": "N_P4_R48"},
         "C25": {"1": "OUT14", "2": "N_OUTPUT_COUPLED"},
         "R39": {"1": "N_OUTPUT_COUPLED", "2": "0V"},
@@ -648,7 +658,7 @@ def check_circuit(bundle: dict[str, dict[str, Any]], errors: list[str]) -> None:
         errors.append("circuit: IC2 supply pins must remain 14=VPLUS and 7=0V")
     if terminals.get("IC1", {}).get("10") != "NREF_AUDIO" or terminals.get("IC1", {}).get("12") != "NREF_AUDIO":
         errors.append("circuit: corrected IC1 pin10/pin12 NREF_AUDIO junction missing")
-    nref_required = {"IC1.10", "IC1.12", "Q4.B", "Q1.S", "R18.1", "R41.2", "R44.2"}
+    nref_required = {"IC1.10", "IC1.12", "Q4.B", "Q1.S", "R18.1", "R19.2", "R41.2", "R44.2"}
     actual_nref = {
         f"{ref}.{terminal}"
         for ref, mapping in terminals.items()
@@ -663,7 +673,6 @@ def check_circuit(bundle: dict[str, dict[str, Any]], errors: list[str]) -> None:
             "4": "N_IC2_PIN4_UNRESOLVED",
             "5": "N_IC2_PIN5_UNRESOLVED",
             "9": "N_IC2_PIN9_UNRESOLVED",
-            "11": "N_IC2_PIN11_UNRESOLVED",
         },
     }
     for ref, partial in unresolved_expected.items():
@@ -706,7 +715,7 @@ def check_circuit(bundle: dict[str, dict[str, Any]], errors: list[str]) -> None:
 def profile_catalog(bundle: dict[str, dict[str, Any]]) -> dict[str, tuple[str, dict[str, Any]]]:
     profiles = bundle["generic-profiles.json"]
     result: dict[str, tuple[str, dict[str, Any]]] = {}
-    for group in ("tapers", "active_devices", "supply_profiles", "boundary_profiles"):
+    for group in ("tapers", "passive_device_profiles", "active_devices", "supply_profiles", "boundary_profiles"):
         for name, record in profiles.get(group, {}).items():
             result[name] = (group, record)
     return result
@@ -947,6 +956,25 @@ def check_profiles(bundle: dict[str, dict[str, Any]], errors: list[str]) -> None
     for ref, record in assignments.items():
         if set(record.get("terminal_map", {})) != {"1", "2", "3"}:
             errors.append(f"profiles: {ref} terminal map incomplete")
+
+    passive = profiles.get("passive_device_profiles", {})
+    expected_passive = {
+        "R35-PRESET-SERVICE-NOMINAL-MAXIMUM-V1": ("2.2", "generic_maximum"),
+        "R35-PRESET-MIDPOINT-SENSITIVITY-V1": ("1.1", "generic_midpoint_sensitivity"),
+    }
+    if set(passive) != set(expected_passive):
+        errors.append("profiles: exact R35 preset profile set changed")
+    for name, (resistance, setting) in expected_passive.items():
+        profile = passive.get(name, {})
+        if (
+            profile.get("measured") is not False
+            or profile.get("service_nominal") != {"decimal": "2.2", "unit": "MOhm"}
+            or profile.get("selected_effective_resistance") != {"decimal": resistance, "unit": "MOhm"}
+            or profile.get("setting") != setting
+            or not profile.get("evidence")
+            or not profile.get("limitations")
+        ):
+            errors.append(f"profiles: {name} setting/evidence contract changed")
 
     active = profiles.get("active_devices", {})
     if set(active) != {
@@ -1322,6 +1350,7 @@ def materialized_payload(
     explicit_links: list[list[str]] = []
     selected_profiles = {
         "IC1": manifest["selected"]["op_amp_profile"],
+        "R35": manifest["selected"]["r35_profile"],
         "POWER": configs["supply_bindings"][configuration["supply"]]["profile"],
         "AUDIO_IO": manifest["selected"]["source_load_profile"],
         "INPUT": manifest["selected"]["input_boundary_profile"],
@@ -1482,7 +1511,7 @@ def materialized_payload(
         "oracle_readiness": {
             "static_engaged_boost_first_oracle": config_id == "STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY" and not dynamic,
             "dynamic_latch_or_suppressor_runnable": not (dynamic and unresolved_control),
-            "note": "D17/IC2 unresolved pins block a complete dynamic control oracle, not the named static first oracle.",
+            "note": "D17 endpoints and IC2 pins 4/5/9 block a complete dynamic control oracle; visible IC2 pin 11 is bound to R4/C4 and the named static first oracle remains runnable.",
         },
     }
 

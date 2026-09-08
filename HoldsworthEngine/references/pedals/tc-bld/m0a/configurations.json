@@ -28,7 +28,7 @@
       "mode_closures":[["P1_COMMON","P1_BOOST"],["P2_COMMON","P2_BOOST"]],
       "Q1_state":"channel_off_branch_retained","Q2_state":"channel_off_full_level","selected_for_first_oracle":true,
       "audio_path":"INPUT_TIP -> C8/R14/IC1(5,6,7) -> O1=E -> R23/C15/IC1(8,9,10) -> OG -> C16/coupled P2-P3 tone network/IC1(12,13,14) -> C25/R40 -> OUTPUT_HOT",
-      "retained_loading":["O1-R21-D4/DG1-R22-C14-R20-E Distortion branch","Q1 dry branch in off state","Q2/R38 full final feedback path","C17 and complete frozen suppressor control graph"]
+      "retained_loading":["O1-R21-D4/DG1-R22-C14-R20-E Distortion branch","Q1 dry branch in off state, including R19 return to NREF_AUDIO","Q2/R38 full final feedback path","C17 and complete frozen suppressor control graph","OUT14-referenced D11/D12/R35/R36/C26 network with selected generic R35 maximum-setting profile"]
     },
     {
       "id":"STATE-ENGAGED-DISTORTION-DOCUMENTARY",

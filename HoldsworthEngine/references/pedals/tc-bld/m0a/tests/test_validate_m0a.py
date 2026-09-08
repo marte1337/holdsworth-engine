@@ -48,9 +48,9 @@ class ValidateM0aTests(unittest.TestCase):
         errors, _ = VALIDATOR.validate(ROOT, "authoring")
         self.assertEqual([], errors)
 
-    def test_freeze_gate_requires_distinct_audit(self):
+    def test_frozen_bundle_passes_freeze_gate(self):
         errors, _ = VALIDATOR.validate(ROOT, "freeze")
-        self.assertTrue(any("fresh-session audit" in error for error in errors))
+        self.assertEqual([], errors)
 
     def test_r13_mutation_is_rejected(self):
         with TemporaryBundle() as root:
@@ -84,6 +84,56 @@ class ValidateM0aTests(unittest.TestCase):
             path.write_text(json.dumps(document), encoding="utf-8")
             errors, _ = VALIDATOR.validate(root, "authoring")
             self.assertTrue(any("active-device/polarity map for D8" in error for error in errors))
+
+    def test_fresh_audit_r19_nref_binding_mutation_is_rejected(self):
+        with TemporaryBundle() as root:
+            path = root / "circuit.json"
+            document = json.loads(path.read_text(encoding="utf-8"))
+            document["component_terminals"]["R19"]["2"] = "VREF"
+            path.write_text(json.dumps(document), encoding="utf-8")
+            errors, _ = VALIDATOR.validate(root, "authoring")
+            self.assertTrue(any("primary binding for R19" in error for error in errors))
+
+    def test_fresh_audit_out14_control_junction_mutations_are_rejected(self):
+        for ref, terminal in (("D11", "K"), ("D12", "K"), ("R36", "1")):
+            with self.subTest(ref=ref), TemporaryBundle() as root:
+                path = root / "circuit.json"
+                document = json.loads(path.read_text(encoding="utf-8"))
+                document["component_terminals"][ref][terminal] = "N_CTL2"
+                path.write_text(json.dumps(document), encoding="utf-8")
+                errors, _ = VALIDATOR.validate(root, "authoring")
+                expected = "active-device/polarity map" if ref.startswith("D") else "primary binding"
+                self.assertTrue(any(expected in error and ref in error for error in errors))
+
+    def test_fresh_audit_ic2_pin11_timing_binding_mutation_is_rejected(self):
+        with TemporaryBundle() as root:
+            path = root / "circuit.json"
+            document = json.loads(path.read_text(encoding="utf-8"))
+            document["component_terminals"]["IC2"]["11"] = "N_IC2_PIN4_UNRESOLVED"
+            path.write_text(json.dumps(document), encoding="utf-8")
+            errors, _ = VALIDATOR.validate(root, "authoring")
+            self.assertTrue(any("active-device/polarity map for IC2" in error for error in errors))
+
+    def test_fresh_audit_r35_adjustable_metadata_mutation_is_rejected(self):
+        with TemporaryBundle() as root:
+            path = root / "service-components.json"
+            document = json.loads(path.read_text(encoding="utf-8"))
+            r35 = next(item for item in document["components"] if item["ref"] == "R35")
+            r35["adjustable_form"] = "fixed resistor"
+            path.write_text(json.dumps(document), encoding="utf-8")
+            errors, _ = VALIDATOR.validate(root, "authoring")
+            self.assertTrue(any("R35 adjustable-preset form" in error for error in errors))
+
+    def test_fresh_audit_r35_profile_mutation_is_rejected(self):
+        with TemporaryBundle() as root:
+            path = root / "generic-profiles.json"
+            document = json.loads(path.read_text(encoding="utf-8"))
+            document["passive_device_profiles"]["R35-PRESET-SERVICE-NOMINAL-MAXIMUM-V1"][
+                "selected_effective_resistance"
+            ]["decimal"] = "1.1"
+            path.write_text(json.dumps(document), encoding="utf-8")
+            errors, _ = VALIDATOR.validate(root, "authoring")
+            self.assertTrue(any("R35-PRESET-SERVICE-NOMINAL-MAXIMUM-V1" in error for error in errors))
 
     def test_same_node_resistor_short_is_rejected(self):
         with TemporaryBundle() as root:
@@ -150,6 +200,23 @@ class ValidateM0aTests(unittest.TestCase):
             "P2-REVERSED-SHAFT-SENSE",
             alternate["selected_assumptions"]["A-P2-TAPER"]["variant"],
         )
+
+    def test_r35_midpoint_sensitivity_changes_selected_profile_and_digest(self):
+        bundle = load_bundle()
+        default = VALIDATOR.materialized_payload(bundle)
+        alternate = VALIDATOR.materialized_payload(
+            bundle,
+            {"A-R35-SYMBOL": "R35-PRESET-MIDPOINT-SENSITIVITY-V1"},
+        )
+        self.assertEqual(
+            "R35-PRESET-SERVICE-NOMINAL-MAXIMUM-V1",
+            default["selected_profiles"]["R35"],
+        )
+        self.assertEqual(
+            "R35-PRESET-MIDPOINT-SENSITIVITY-V1",
+            alternate["selected_profiles"]["R35"],
+        )
+        self.assertNotEqual(digest(default), digest(alternate))
 
     def test_evidence_acquisition_variant_refuses_materialization(self):
         bundle = load_bundle()

@@ -37,7 +37,7 @@
         {"if":{"properties":{"format":{"const":"tc-bld-documentary-circuit-v1"}}},"then":{"required":["nodes","component_terminals","connectors","switches","known_unresolved_sites"]}},
         {"if":{"properties":{"format":{"const":"tc-bld-assumptions-v1"}}},"then":{"required":["operation_types","impact_axes","impact_values","assumptions","variant_classification"],"properties":{"assumptions":{"type":"array","items":{"$ref":"#/$defs/assumption"}}}}},
         {"if":{"properties":{"format":{"const":"tc-bld-configurations-v1"}}},"then":{"required":["state_axes","mode_contacts","truth_table","supply_bindings"]}},
-        {"if":{"properties":{"format":{"const":"tc-bld-generic-profiles-v1"}}},"then":{"required":["tapers","pot_assignments","active_devices","supply_profiles","boundary_profiles"]}},
+        {"if":{"properties":{"format":{"const":"tc-bld-generic-profiles-v1"}}},"then":{"required":["tapers","pot_assignments","passive_device_profiles","active_devices","supply_profiles","boundary_profiles"]}},
         {"if":{"properties":{"format":{"const":"tc-bld-documentary-cross-check-v1"}}},"then":{"required":["designator_dimensions","designator_observation_groups","material_checks","authoring_reviews","independent_freeze_audits"]}}
       ],
       "additionalProperties":true

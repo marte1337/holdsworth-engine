@@ -1,7 +1,6 @@
 # TC BLD M0a documentary nominal-netlist freeze
 
-Status: **authoring-complete documentary package; fresh-session independent
-freeze audit pending**.
+Status: **frozen after a passing fresh-session independent documentary audit**.
 
 This package is a reproducible, node-resolved reading of the exact TC service
 packet registered as P-SM. It is not a hardware-calibrated circuit, a claim
@@ -36,7 +35,7 @@ bytes, SHA-256
 | `circuit.json` | Nodes, all component terminals/pins, connectors, switch terminals and contact table |
 | `assumptions.json` | Typed selected interpretations and alternatives with evidence and impact matrices |
 | `configurations.json` | Mode/bypass/suppressor/supply axes, four-state truth table and named oracle states |
-| `generic-profiles.json` | Provisional tapers, 4741, JFET static states, supply and I/O boundaries |
+| `generic-profiles.json` | Provisional tapers, R35 setting, 4741, JFET static states, supply and I/O boundaries |
 | `documentary-cross-check.json` | Per-designator derived matrix, material check subjects and audit status |
 | `schema/tc-bld-documentary-ir-v1.schema.json` | Editor-facing format/enumeration schema |
 | `tools/validate_m0a.py` | Dependency-free semantic validator and deterministic M1 materializer |
@@ -59,21 +58,31 @@ JFETs D/G/S, pots 1/wiper-2/3, and both IC packages expose pins 1-14. Rails,
 0V, the real R2/R3/C1 VREF, connector terminals and switch contacts are named.
 No global “NC” net shorts unrelated unused terminals together.
 
-The primary reread corrected three material simplifications in the earlier
-research narrative:
+The authoring and independent primary rereads corrected these material
+simplifications in the earlier research narrative/package:
 
 1. `NREF_AUDIO` is one continuous node joining IC1 pins 10 and 12, Q4 base,
-   Q1 source, R18, R41, and R44. It is biased toward VREF through R18; it is not
-   an ideal VREF alias.
+   Q1 source, R18, R19, R41, and R44. It is biased toward VREF through R18; it
+   is not an ideal VREF alias. The independent audit corrected R19's lower
+   terminal from VREF to this continuous bus.
 2. C17 is selected from `OG` to `NRETURN`, the long bus shared by D9 and the
    R33/R34/D10 returns.
 3. C3 is the POR/latch coupling capacitor from `POR` to `N_LATCH`, not ordinary
    supply decoupling.
+4. `OUT14` is also the common reference junction for D11/D12 cathodes, the top
+   of R35/R36, and C26; those control branches are not a separate `N_CTL1` net.
+5. IC2 pin 11 visibly joins the R4/C4 timing node. Only pins 4/5/9 and D17's
+   endpoints remain unresolved in this portion of the scan.
+6. R35 is the depicted two-terminal adjustable preset/rheostat with a 2.2 MOhm
+   service nominal and a three-pad physical footprint—not an ordinary fixed
+   resistor. Its installed setting is absent from P-SM, so the first oracle
+   uses an explicit generic maximum-setting profile and retains a midpoint
+   sensitivity profile.
 
-D17 and four unreadable IC2 pin relationships are not guessed. Their distinct
-`*_UNRESOLVED` nodes keep the complete population and terminal inventory
-machine-visible. The first engaged-Boost oracle freezes Q1/Q2 explicitly, so
-it need not invent the unreadable latch wiring.
+D17 and the three unreadable IC2 pin relationships (4/5/9) are not guessed.
+Their distinct `*_UNRESOLVED` nodes keep the complete population and terminal
+inventory machine-visible. The first engaged-Boost oracle freezes Q1/Q2
+explicitly, so it need not invent the unreadable latch wiring.
 
 The supply connectors are also explicit. Schematic callout `A` is the battery
 positive net; battery negative reaches 0V through the input-jack ring/sleeve
@@ -140,8 +149,8 @@ layers were changed together.
 
 The first configuration ID is
 `STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY`. It uses the explicit post-protection
-9 V rail profile, the service R13 input boundary, and the generic studio I/O
-boundary.
+9 V rail profile, the service R13 input boundary, the generic R35 maximum
+setting, and the generic studio I/O boundary.
 
 Boost's O1-to-E closure bypasses the intended Distortion transfer but does not
 delete the fixed O1-R21-D4/DG1-R22-C14-R20-E branch. That branch remains a
@@ -171,12 +180,12 @@ Distortion, Suppressor, and bypass.
 | `A-SUPPLY-VREF` | Protection drop, supply conflicts and reference | Explicit effective 9 V first-oracle rail; solve R2/R3/C1 VREF |
 | `A-SOURCE-LOAD` | Undocumented test termination | 1 kOhm source and 1 MOhm || 100 pF output load |
 | `A-XLR-PINOUT` | Faint connector pin numbers | Pin 2 hot, pin 1 return, pin 3 NC; quarter-inch path is authoritative for first oracle |
-| `A-D17-IC2` | D17 endpoints and IC2 pins 4/5/9/11 | Preserve separate unresolved nodes; static oracle state avoids guessing |
+| `A-D17-IC2` | D17 endpoints and IC2 pins 4/5/9 | Preserve separate unresolved nodes; bind visible pin 11 to R4/C4; static oracle state avoids guessing |
 | `A-CAP-POLARITY-SIGNAL` | C11/C12/C13/C15/C16/C24 physical plates | Preserve endpoints but leave +/- plate identity unresolved |
 | `A-D14-D15-NUMBERING` | Crowded clamp labels | Opposed pair fixed; selected individual numbering can be swapped with no electrical change |
 | `A-CONTROL-DIODE-POLARITY` | Dense D7-D13 cathode bars | Use visible-bar A/K reading, retain verification variant |
 | `A-R33-R36-REVISION` | Later/hand-entered BOM values | Populate the literal legible values with revision warning |
-| `A-R35-SYMBOL` | Side/strap-like drawing mark | Fixed 2.2 MOhm as the BOM specifies |
+| `A-R35-SYMBOL` | Adjustable preset form and undocumented setting | Two-terminal 2.2 MOhm preset; explicit generic maximum first-oracle setting plus midpoint sensitivity |
 | `A-JFET-DS-IDENTITY` | Layout labels only Q1/Q2 gate pads | Use schematic functional D/S identity; keep swap variant |
 | `A-POWER-JACK-CONTACTS` | Faint input/power-jack normalling contacts | Battery A-VPLUS and sense-return normally closed without adapter; input ring switches BAT- |
 | `A-LAYOUT-READABILITY` | R25/D16 legends and undefined handwritten/callout marks | Preserve unreadable/undefined status; never promote the marks to values or nets |
@@ -190,6 +199,8 @@ All profiles say `measured: false` and carry evidence and limitations.
 | `TAPER-LIN-IDEAL-V1` | `f(x)=x`; P2/P3 |
 | `TAPER-LOG-10PCT-MID-V1` | `f(x)=x^3.321928094887362...`; P1/P5; 10% at midpoint |
 | `TAPER-NEGLOG-10PCT-MID-V1` | `f(x)=1-(1-x)^3.321928094887362...`; P4; 90% at midpoint |
+| `R35-PRESET-SERVICE-NOMINAL-MAXIMUM-V1` | Selected generic 2.2 MOhm effective maximum; service form/value are documentary but setting is not |
+| `R35-PRESET-MIDPOINT-SENSITIVITY-V1` | Non-default generic 1.1 MOhm effective midpoint sensitivity |
 | `OPAMP-4741-FAMILY-GENERIC-V1` | Standard quad pinout and condition-tagged family typicals; no TC maker/GR1 inference |
 | `JFET-BF245A-DOCUMENTARY-STATIC-V1` | Generic on/off R/C envelope for Q1/Q2 state reduction, not a device fit |
 | `SUPPLY-9V-EFFECTIVE-V1` | Selected explicit post-protection VPLUS source; VREF remains dynamic |
@@ -219,13 +230,15 @@ The following can materially change the first or later Boost oracle:
   P1/P2/P3 laws, and source/load boundaries change linear response;
 - Q1 off-state loading and C17/NRETURN coupling may change small signal and can
   matter more at large signal;
+- R19's NREF_AUDIO return and R35's unmeasured preset setting are retained in
+  the first-oracle graph and may change its loading;
 - P4 orientation and the still-connected Distortion branch chiefly affect
   large-signal Boost loading;
 - supply voltage/protection interpretation and 4741 swing/slew/current limits
   are directly material to large-signal headroom;
 - signal-electrolytic plate orientation is immaterial to ideal linear C but may
   matter once leakage/nonlinearity is modeled;
-- D17/IC2 and D7-D13 affect Boost only through correct control-state selection.
+- D17/IC2 pins 4/5/9 and D7-D13 affect Boost only through correct control-state selection.
   The first oracle makes that dependency explicit by freezing Q1/Q2 instead of
   solving the unreadable latch.
 
@@ -235,8 +248,9 @@ has no electrical effect.
 
 ## 9. Documentary consistency checks
 
-The authoring pass directly re-read all four pages of the exact hashed
-P-SM rather than transforming `circuit-analysis.md`. It then cross-checked:
+The authoring pass and a distinct fresh-session audit directly re-read all four
+pages of the exact hashed P-SM rather than treating prior conclusions as
+evidence. They cross-checked:
 
 - every BOM designator/value and the 111/110/R26 inventory contract;
 - every audio/control component endpoint readable on schematic 1501-3;
@@ -256,27 +270,22 @@ schematic establishes electrical endpoints, and layout establishes placement
 only. It prevents R25/D16 legends, D7-D15 identity/polarity, D17 endpoints, and
 R26 population from being overstated.
 
-The regression suite covers service-value and terminal mutations, duplicate
-JSON keys, accidental shorts, observation overlaps, variant-classification
-gaps, deterministic resolution, executable alternatives, refused
-evidence-acquisition variants, power-contact alternatives, dynamic-state
-readiness, and stale audit digests. The `freeze` gate deliberately fails until
-a distinct fresh-session audit record for the exact source and package is
-added.
+The regression suite covers service-value and terminal mutations—including the
+independently corrected R19, OUT14-control, IC2-pin-11 and R35 contracts—plus
+duplicate JSON keys, accidental shorts, observation overlaps,
+variant-classification gaps, deterministic resolution, executable alternatives,
+refused evidence-acquisition variants, power-contact alternatives,
+dynamic-state readiness, R35 setting sensitivity, and stale audit digests. The
+package contains a passing distinct-session record bound to the exact source,
+normative bundle, resolved handoff, validator and audited files.
 
-## 10. What prevents an independent M0a audit
+## 10. Independent M0a audit and freeze
 
-Nothing in the repository prevents the requested fresh-session audit. The
-auditor needs access to the exact P-SM bytes identified by hash; the PDF is not
-vendored here. Scan-limited items are already isolated as variants rather than
-hidden blockers.
-
-M0a should be called frozen only after an auditor who is not this authoring
-session reviews the source and package. The auditor can generate the exact
-record skeleton and source/package/resolved/validator/file digests with
-`--print-audit-template`, replace its identity fields, append it under
-`independent_freeze_audits`, and set `freeze_gate_status` to
-`passed_fresh_session_audit`. The final check is:
+The 2026-09-03 fresh-session audit authenticated the exact external P-SM bytes,
+reviewed the complete packet and all package layers, required the four
+documentary corrections described above, and passed after correction. The PDF
+remains unvendored. Scan-limited topology remains isolated as typed variants
+rather than hidden first-oracle claims. The final check is:
 
 ```sh
 python3 HoldsworthEngine/references/pedals/tc-bld/m0a/tools/validate_m0a.py --gate freeze
@@ -292,8 +301,8 @@ M1 consumes:
    full-circuit control topology;
 4. the selected typed assumptions (or one explicitly named alternative set);
 5. `STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY`;
-6. the selected generic taper, op-amp, Q1/Q2 state, supply, source, load and
-   input-boundary profiles;
+6. the selected generic taper, R35 setting, op-amp, Q1/Q2 state, supply, source,
+   load and input-boundary profiles;
 7. every unresolved site and the resolved-handoff SHA-256 emitted by the
    validator.
 

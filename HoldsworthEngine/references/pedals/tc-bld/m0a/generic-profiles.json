@@ -33,6 +33,26 @@
     "P4":{"taper":"TAPER-NEGLOG-10PCT-MID-V1","orientation_assumption":"A-P4-TAPER","function":"Distortion feedback/drive","terminal_map":{"1":"R48 side","2":"mode-switch wiper","3":"C12 side"}},
     "P5":{"taper":"TAPER-LOG-10PCT-MID-V1","orientation_assumption":"A-P5-TAPER","function":"Suppressor threshold","terminal_map":{"1":"R25/C18 side","2":"R24 wiper","3":"detector-output side"}}
   },
+  "passive_device_profiles": {
+    "R35-PRESET-SERVICE-NOMINAL-MAXIMUM-V1": {
+      "scope":"R35 two-terminal adjustable preset/rheostat only",
+      "measured":false,
+      "service_nominal":{"decimal":"2.2","unit":"MOhm"},
+      "selected_effective_resistance":{"decimal":"2.2","unit":"MOhm"},
+      "setting":"generic_maximum",
+      "evidence":["P-SM schematic adjustment mark, 2.2 MOhm BOM entry, and three-pad layout footprint","maximum setting is a declared generic first-oracle assumption"],
+      "limitations":"installed setting, adjustment law, end residual, contact resistance, tolerance, aging and parasitics are undocumented and unmeasured"
+    },
+    "R35-PRESET-MIDPOINT-SENSITIVITY-V1": {
+      "scope":"R35 two-terminal adjustable preset/rheostat sensitivity only",
+      "measured":false,
+      "service_nominal":{"decimal":"2.2","unit":"MOhm"},
+      "selected_effective_resistance":{"decimal":"1.1","unit":"MOhm"},
+      "setting":"generic_midpoint_sensitivity",
+      "evidence":["P-SM establishes adjustable form and 2.2 MOhm service nominal","midpoint is an explicit generic sensitivity assumption only"],
+      "limitations":"not the installed setting; adjustment law, end residual, contact resistance, tolerance, aging and parasitics are undocumented and unmeasured"
+    }
+  },
   "active_devices": {
     "OPAMP-4741-FAMILY-GENERIC-V1": {
       "scope":"family-generic quad 741-like op amp; selected for IC1 only",

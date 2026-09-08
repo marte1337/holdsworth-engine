@@ -43,7 +43,7 @@
     {"ref":"R32","kind":"resistor","value":{"decimal":"1","unit":"MOhm"},"normalized_service_text":"1 MOhm","population":"populated"},
     {"ref":"R33","kind":"resistor","value":{"decimal":"6.8","unit":"MOhm"},"normalized_service_text":"6.8 MOhm","editorial_note":"entry is visibly later/hand-entered","population":"populated"},
     {"ref":"R34","kind":"resistor","value":{"decimal":"680","unit":"kOhm"},"normalized_service_text":"680 kOhm","editorial_note":"entry is visibly later/hand-entered","population":"populated"},
-    {"ref":"R35","kind":"resistor","value":{"decimal":"2.2","unit":"MOhm"},"normalized_service_text":"2.2 MOhm","editorial_note":"entry is visibly later/hand-entered","population":"populated"},
+    {"ref":"R35","kind":"resistor","value":{"decimal":"2.2","unit":"MOhm"},"normalized_service_text":"2.2 MOhm","editorial_note":"entry is visibly later/hand-entered; schematic and three-pad layout depict an adjustable preset, whose effective setting is not documented","adjustable_form":"two-terminal preset/rheostat; 2.2 MOhm is the service nominal, not a measured setting","population":"populated"},
     {"ref":"R36","kind":"resistor","value":{"decimal":"6.8","unit":"MOhm"},"normalized_service_text":"6.8 MOhm","editorial_note":"entry is visibly later/hand-entered","population":"populated"},
     {"ref":"R37","kind":"resistor","value":{"decimal":"1","unit":"MOhm"},"normalized_service_text":"1 MOhm","population":"populated"},
     {"ref":"R38","kind":"resistor","value":{"decimal":"1","unit":"MOhm"},"normalized_service_text":"1 MOhm","population":"populated"},

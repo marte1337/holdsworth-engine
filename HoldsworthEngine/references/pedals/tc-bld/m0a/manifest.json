@@ -35,14 +35,15 @@
     "configuration":"STATE-ENGAGED-BOOST-HOLDSWORTH-M1-PRIMARY",
     "assumption_set":"all assumptions.json selected_variant fields",
     "op_amp_profile":"OPAMP-4741-FAMILY-GENERIC-V1",
+    "r35_profile":"R35-PRESET-SERVICE-NOMINAL-MAXIMUM-V1",
     "supply_profile":"SUPPLY-9V-EFFECTIVE-V1",
     "source_load_profile":"BOUNDARY-STUDIO-GENERIC-V1",
     "input_boundary_profile":"INPUT-BOUNDARY-SERVICE-INTERNAL-V1"
   },
   "inventory_contract":{"service_designators":111,"populated":110,"not_used":["R26"]},
   "authoring_gate":"must pass tools/validate_m0a.py --gate authoring",
-  "freeze_gate":"intentionally pending a distinct fresh-session independent audit record bound to the exact package/file/validator/resolved digests printed by --print-audit-template",
-  "m1_handoff":"M1 consumes this manifest plus immutable service values, operation-resolved topology/nets, selected typed assumptions, the selected configuration/device states and named profiles; the validator emits canonical resolved JSON plus exact digests.",
-  "known_non_first_oracle_blocker":"D17 endpoints and IC2 pins 4/5/9/11 are unreadable in the registered P-SM. Full dynamic latch/bypass simulation needs clearer primary evidence or continuity; the static engaged-Boost first oracle does not.",
+  "freeze_gate":"passed by a distinct fresh-session independent audit record bound to the exact package/file/validator/resolved digests printed by --print-audit-template",
+  "m1_handoff":"M1 consumes this manifest plus immutable service values, operation-resolved topology/nets, selected typed assumptions, the selected configuration/device states and named profiles including the explicit R35 setting profile; the validator emits canonical resolved JSON plus exact digests.",
+  "known_non_first_oracle_blocker":"D17 endpoints and IC2 pins 4/5/9 are unreadable in the registered P-SM. Full dynamic latch/bypass simulation needs clearer primary evidence or continuity; IC2 pin 11 is visibly bound to the R4/C4 timing node, and the static engaged-Boost first oracle does not depend on the remaining unknowns.",
   "scope_exclusions":["M1 SPICE/MNA oracle implementation","realtime DSP","existing NAM","delay","integration","UI","production parameter code"]
 }
