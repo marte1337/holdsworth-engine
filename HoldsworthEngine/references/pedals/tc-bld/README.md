@@ -6,9 +6,10 @@ parameter, preset, or UI, and it does not alter the existing Holdsworth delay.
 
 ## Status
 
-**M0a documentary IR authored and internally checked; fresh-session independent
-freeze audit pending; not sufficient to claim a hardware-calibrated vintage
-BLD.**
+**M0a documentary IR frozen after a passing fresh-session independent audit;
+the intentionally narrow M1 offline engaged-CLEAN-BOOST oracle and M2 golden
+references are present under `m1/`; neither is sufficient to claim a
+hardware-calibrated vintage BLD.**
 
 The original TC user manual and a four-page TC service packet have been found.
 They establish the major topology, nominal parts, controls, published operating
@@ -155,6 +156,9 @@ Confidence labels mean:
   gates.
 - [m0a/README.md](m0a/README.md) — layered documentary IR, assumption variants,
   named profiles, four-state truth table, static checks, and the M1 handoff.
+- [m1/README.md](m1/README.md) — dependency-free offline MNA oracle, declared
+  small-signal reductions, DC/AC/impedance/control/sensitivity/headroom results,
+  reproducible M2 golden data, and focused tests for the frozen primary state.
 
 ## Coding and claim gates
 

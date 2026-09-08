@@ -229,7 +229,10 @@ documentary neutral-center interpretation as an assumption.
 ### 6. Final active stage, suppressor control, and line output
 
 IC1 pins 12 (+), 13 (-), and 14 (OUT14) form the final tone/summing/line-driver
-stage. Its feedback/control path includes:
+stage. Here and in the tone-network paths above, `pin 12` names a physical
+terminal, not a separate electrical net: frozen M0a binds IC1.12, IC1.10,
+R41.2, R44.2, Q1.S, and Q4.B to the same `NREF_AUDIO` node. That node is
+distinct from `VREF`, with R18 between them. Its feedback/control path includes:
 
 ```text
 pin 13 -> C24 1 uF -> (R38 1 MOhm in parallel with Q2 drain-source) -> OUT14
