@@ -2,14 +2,17 @@
 
 ## Project goal
 
-HoldsworthEngine extends the official NeuralAmpModelerPlugin with an
-algorithmic stereo multi-delay inspired by Allan Holdsworth's Yamaha
-UD-Stomp / Magicstomp usage.
+HoldsworthEngine extends the official NeuralAmpModelerPlugin with DSP for an
+Allan Holdsworth-inspired guitar signal chain. Current work includes a
+documentary-nominal TC BLD Clean Boost before NAM and an algorithmic stereo
+multi-delay inspired by Holdsworth's Yamaha UD-Stomp / Magicstomp usage after
+NAM.
 
 NAM remains responsible for nonlinear amp/preamp modeling.
-The Yamaha-style multi-delay is implemented algorithmically in C++.
+The TC BLD Clean Boost and Yamaha-style multi-delay are implemented
+algorithmically in C++.
 
-Physical Magicstomp calibration is planned later but is currently postponed.
+Physical TC BLD and Magicstomp calibration is deferred.
 
 ## Repository / ownership boundaries
 
@@ -26,7 +29,9 @@ audition HoldsworthEngine DSP.
 
 Conceptually:
 
-    NAM
+    host input
+    -> optional TC BLD Clean Boost
+    -> NAM
     -> tone stack
     -> cabinet / IR
     -> DC blocker
@@ -34,8 +39,8 @@ Conceptually:
     -> dry + stereo wet
     -> host output
 
-The Holdsworth delay receives the fully processed mono NAM signal and produces
-stereo wet output.
+The TC BLD path processes mono input before NAM. The Holdsworth delay receives
+the fully processed mono NAM signal and produces stereo wet output.
 
 Temporary development controls are nonserialized and nonpermanent.
 
@@ -59,6 +64,10 @@ The engine currently supports:
 - per-band Low Cut / High Cut loop filters
 - delay-signal polarity: Normal / Reverse
 - engine-level modulation SYNC
+- inter-band CONNECT audio routing
+- contiguous-band GROUP shared delay circuits
+- transactional validation of SYNC, CONNECT, GROUP and their composition
+- realtime TC BLD Clean Boost with Gain, Bass and Treble controls
 
 Important components include:
 
@@ -68,6 +77,10 @@ Important components include:
     DelayBand
     HoldsworthDelayEngine
     ModulationSync
+    AudioRouting
+    DelayGrouping
+    GroupedDelayCircuit
+    TCBLDCleanBoostProcessor
 
 ## Important DSP semantics
 
@@ -161,6 +174,51 @@ Graph configuration is applied with:
 
 Rejected graph applications must leave the previous engine state untouched.
 
+### CONNECT
+
+CONNECT is engine-level mono audio routing. Each band receives either direct
+engine input or one upstream band's routed output. Chains in either numerical
+direction and source fan-out are supported; self references, invalid references
+and cycles are rejected transactionally.
+
+The current routed output is the band's direct input plus its signed, audible
+delayed signal scaled by per-band output level. It is pre-pan and excludes the
+engine global wet gain. A disabled band bypasses its input for routing while its
+local delay state continues to advance. Each band's stereo wet contribution is
+still summed exactly once.
+
+This send composition is a provisional Yamaha CONNECT interpretation pending
+hardware measurement.
+
+### GROUP
+
+GROUP replaces an ascending, contiguous, non-singleton band range with one
+shared delay history, feedback recurrence and loop filter. Ranges must be
+disjoint and fit both documented limits where available and the separately
+prepared physical capacity.
+
+The group head supplies input, base delay, feedback and loop-filter settings.
+Member band identities retain per-output enable, TAP observation, modulation
+waveform/depth/clock, polarity, level and pan. Feedback remains at the
+unmodulated group base delay; the current modulation/TAP observation timing is
+provisional pending hardware measurement.
+
+CONNECT may compose with GROUP, but a grouped non-head cannot be a CONNECT
+destination. Invalid composed topology and collapsed cycles are rejected
+transactionally. A changed GROUP topology clears affected delay/filter
+histories while preserving modulation clocks; an unchanged topology preserves
+history.
+
+### TC BLD Clean Boost
+
+`TCBLDCleanBoostProcessor` is a realtime engaged-Clean-Boost reduction of the
+frozen M1 documentary-nominal circuit. It uses a precomputed stable 24-state
+recurrence and block-boundary coefficient handoff for Gain, Bass and Treble.
+
+It is not hardware calibrated and does not implement Distortion, dynamic Noise
+Suppressor behavior, bypass electronics, component tolerances, clipping or slew
+behavior.
+
 ## Yamaha source data versus DSP data
 
 This distinction is fundamental.
@@ -196,18 +254,32 @@ Important existing presets include:
     lead121UnmodulatedProvisional()
     chorus011ProvisionalV1()
     chorus031ProvisionalV1()
+    holdsworth111ProvisionalV1()
+    holdsworth122ProvisionalV1()
+    holdsworth223ProvisionalV1()
+    holdsworth231ProvisionalV1()
 
-These are established reference renders and must remain bit-for-bit unchanged
-unless a task explicitly changes them.
+Lead 121, Chorus 011 and Chorus 031 are established bit-exact reference renders
+and must remain unchanged unless a task explicitly changes them. The additional
+Holdsworth preset definitions are also covered by focused source/DSP and render
+regressions.
 
 Yamaha 922 diagnostic configurations also exist:
 
     sync922IndependentDiagnosticV1()
     sync922BaselineProvisionalV1()
+    sync922Band1ReverseDiagnosticV1()
     sync922HalfCycleDiagnosticV1()
 
 The 922 configurations are diagnostic/reference configurations rather than
 Holdsworth presets.
+
+CONNECT and GROUP diagnostic definitions also exist:
+
+    connect913ParallelDiagnosticV1()
+    connect913SerialDiagnosticV1()
+    group12Rhythm1200DiagnosticV1()
+    group12Rhythm900DiagnosticV1()
 
 ## Current audition observations
 
@@ -238,14 +310,23 @@ Chorus 031:
 Do not retune established provisional presets merely because another
 configuration sounds different.
 
-## Not implemented yet
+## Implemented and deferred status
 
-Do not assume these exist:
+Implemented:
 
-- CONNECT routing
-- GROUP behavior
-- calibrated Yamaha control mappings
-- Magicstomp measurement system
+- modulation SYNC
+- CONNECT routing, including chains and fan-out
+- GROUP shared-history processing and CONNECT/GROUP composition
+- provisional physical-DSP presets and diagnostics
+- realtime TC BLD Clean Boost reduction
+
+Deferred or intentionally incomplete:
+
+- calibrated Yamaha control-to-DSP mappings
+- physical Magicstomp measurement and calibration
+- hardware-calibrated TC BLD behavior
+- the TC BLD features explicitly excluded from the Clean Boost reduction
+- production parameter serialization and a permanent product UI
 
 SYNC, CONNECT and GROUP are separate concepts:
 
@@ -331,16 +412,19 @@ when the task materially changes realtime DSP behavior.
 
 ## Development UI
 
-The current Holdsworth development controls inside the NAM Settings overlay are
-temporary.
+The macOS development build uses the dedicated Development UI v2. It presents
+separate Boost / Drive and Delay cards beside the existing NAM control module in
+an enlarged, resizable editor.
 
-The layout is already cramped and partially overlaps existing NAM Settings
-content.
+The Boost / Drive card exposes TC BLD bypass, Gain, Bass and Treble. The Delay
+card exposes bypass, a separate Wet control and the five live audition presets:
+Lead 121, Holdsworth 122, Chorus 011, Chorus 031 and Holdsworth 223. Their visual
+grouping does not change preset indices or DSP identity.
 
-Do not keep expanding this area indefinitely.
-
-Prefer removing obsolete audition-only choices or later creating a dedicated
-HoldsworthEngine development panel rather than continually adding buttons.
+NAM Settings remains the existing calibration, model-info and about utility;
+it is not the Holdsworth development-control container. Development controls
+remain temporary and nonserialized. Keep them in the dedicated panel and avoid
+turning audition-only controls into permanent product parameters implicitly.
 
 ### Visual UI validation on macOS
 
