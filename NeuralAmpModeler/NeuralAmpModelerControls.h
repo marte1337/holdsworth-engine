@@ -921,11 +921,23 @@ public:
       const auto developmentInnerArea = developmentArea.GetPadded(-8.0f);
       const auto developmentTitleArea = developmentInnerArea.GetFromTop(20.0f);
       const auto controlsArea = developmentInnerArea.GetReducedFromTop(24.0f);
-      const auto utilityArea = controlsArea.GetFromTop(38.0f);
-      const auto enabledArea = utilityArea.GetFromLeft(0.32f * utilityArea.W()).GetReducedFromRight(4.0f);
-      const auto wetArea = utilityArea.GetFromRight(0.62f * utilityArea.W()).GetReducedFromLeft(4.0f);
-      const auto presetArea =
-        controlsArea.GetReducedFromTop(44.0f).GetFromTop(70.0f);
+      const auto utilityArea = controlsArea.GetFromTop(34.0f);
+      const auto bldEnabledArea =
+        utilityArea.GetFromLeft(0.24f * utilityArea.W()).GetReducedFromRight(3.0f);
+      const auto delayEnabledArea =
+        utilityArea.GetFromLeft(0.50f * utilityArea.W())
+          .GetFromRight(0.52f * utilityArea.W())
+          .GetPadded(-3.0f, 0.0f, -3.0f, 0.0f);
+      const auto wetArea = utilityArea.GetFromRight(0.48f * utilityArea.W()).GetReducedFromLeft(3.0f);
+      const auto presetArea = controlsArea.GetReducedFromTop(38.0f).GetFromTop(48.0f);
+      const auto bldControlsArea = controlsArea.GetReducedFromTop(90.0f).GetFromTop(44.0f);
+      const float bldControlWidth = bldControlsArea.W() / 3.0f;
+      const auto bldGainArea = bldControlsArea.GetFromLeft(bldControlWidth).GetReducedFromRight(3.0f);
+      const auto bldBassArea =
+        bldControlsArea.GetFromLeft(2.0f * bldControlWidth)
+          .GetFromRight(bldControlWidth)
+          .GetPadded(-3.0f, 0.0f, -3.0f, 0.0f);
+      const auto bldTrebleArea = bldControlsArea.GetFromRight(bldControlWidth).GetReducedFromLeft(3.0f);
       const IVStyle delayStyle = mRadioButtonStyle.WithDrawFrame(false);
 
       mDevelopmentSettingsControls.push_back(
@@ -938,56 +950,37 @@ public:
                                                      PluginColors::HELP_TEXT))),
         mControlNames.holdsworthTitle));
 
-      auto sendEnabled = [](IControl* pCaller) {
-        const double normalizedValue = pCaller->GetValue();
-        auto* pDelegate = pCaller->GetDelegate();
+      const auto makeDevelopmentMessageAction = [](const int messageTag) {
+        return [messageTag](IControl* pCaller) {
+          const double normalizedValue = pCaller->GetValue();
+          auto* pDelegate = pCaller->GetDelegate();
 
-        // Keep the editor/controller-side copy current as well as forwarding
-        // the value to the processor. In distributed VST3 these are separate
-        // NeuralAmpModeler instances, and OnUIOpen() reads the local copy when
-        // rebuilding the temporary controls.
-        pDelegate->OnMessage(
-          kMsgTagHoldsworthDelayEnabled,
-          pCaller->GetTag(),
-          static_cast<int>(sizeof(normalizedValue)),
-          &normalizedValue);
-        pDelegate->SendArbitraryMsgFromUI(
-          kMsgTagHoldsworthDelayEnabled,
-          pCaller->GetTag(),
-          static_cast<int>(sizeof(normalizedValue)),
-          &normalizedValue);
+          // Keep the editor/controller-side copy current as well as forwarding
+          // the value to the processor. In distributed VST3 these are separate
+          // NeuralAmpModeler instances, and OnUIOpen() reads the local copy when
+          // rebuilding the temporary controls.
+          pDelegate->OnMessage(
+            messageTag,
+            pCaller->GetTag(),
+            static_cast<int>(sizeof(normalizedValue)),
+            &normalizedValue);
+          pDelegate->SendArbitraryMsgFromUI(
+            messageTag,
+            pCaller->GetTag(),
+            static_cast<int>(sizeof(normalizedValue)),
+            &normalizedValue);
+        };
       };
-      auto sendWetLevel = [](IControl* pCaller) {
-        const double normalizedValue = pCaller->GetValue();
-        auto* pDelegate = pCaller->GetDelegate();
-        pDelegate->OnMessage(
-          kMsgTagHoldsworthDelayWetLevel,
-          pCaller->GetTag(),
-          static_cast<int>(sizeof(normalizedValue)),
-          &normalizedValue);
-        pDelegate->SendArbitraryMsgFromUI(
-          kMsgTagHoldsworthDelayWetLevel,
-          pCaller->GetTag(),
-          static_cast<int>(sizeof(normalizedValue)),
-          &normalizedValue);
-      };
-      auto sendPreset = [](IControl* pCaller) {
-        const double normalizedValue = pCaller->GetValue();
-        auto* pDelegate = pCaller->GetDelegate();
-        pDelegate->OnMessage(
-          kMsgTagHoldsworthDelayPreset,
-          pCaller->GetTag(),
-          static_cast<int>(sizeof(normalizedValue)),
-          &normalizedValue);
-        pDelegate->SendArbitraryMsgFromUI(
-          kMsgTagHoldsworthDelayPreset,
-          pCaller->GetTag(),
-          static_cast<int>(sizeof(normalizedValue)),
-          &normalizedValue);
-      };
+      const auto sendTCBldEnabled = makeDevelopmentMessageAction(kMsgTagTCBldEnabled);
+      const auto sendTCBldGain = makeDevelopmentMessageAction(kMsgTagTCBldGain);
+      const auto sendTCBldBass = makeDevelopmentMessageAction(kMsgTagTCBldBass);
+      const auto sendTCBldTreble = makeDevelopmentMessageAction(kMsgTagTCBldTreble);
+      const auto sendEnabled = makeDevelopmentMessageAction(kMsgTagHoldsworthDelayEnabled);
+      const auto sendWetLevel = makeDevelopmentMessageAction(kMsgTagHoldsworthDelayWetLevel);
+      const auto sendPreset = makeDevelopmentMessageAction(kMsgTagHoldsworthDelayPreset);
 
       auto* enabledControl = AddNamedChildControl(
-        new IVToggleControl(enabledArea,
+        new IVToggleControl(delayEnabledArea,
                             sendEnabled,
                             "Delay",
                             delayStyle,
@@ -1025,6 +1018,47 @@ public:
       mDevelopmentSettingsControls.push_back(wetControl);
       wetControl->SetTooltip(
         "Integration wet multiplier applied after the preset's own DSP wet level. Start around 10%.");
+
+      auto* bldEnabledControl = AddNamedChildControl(
+        new IVToggleControl(bldEnabledArea,
+                            sendTCBldEnabled,
+                            "BLD Boost",
+                            delayStyle,
+                            "OFF",
+                            "ON",
+                            false),
+        mControlNames.tcBldEnabled,
+        kCtrlTagTCBldEnabled);
+      mDevelopmentSettingsControls.push_back(bldEnabledControl);
+      bldEnabledControl->SetTooltip(
+        "Temporary documentary-nominal TC BLD CLEAN BOOST inserted immediately before NAM.");
+
+      auto* bldGainControl = AddNamedChildControl(
+        new NAMDevelopmentPositionSliderControl(bldGainArea, sendTCBldGain, "Gain", delayStyle),
+        mControlNames.tcBldGain,
+        kCtrlTagTCBldGain);
+      mDevelopmentSettingsControls.push_back(bldGainControl);
+      bldGainControl->SetTooltip(
+        "M1 P1 mechanical position, 0.000 to 1.000, with the frozen log taper. The response is intentionally "
+        "non-monotonic.");
+
+      auto* bldBassControl = AddNamedChildControl(
+        new NAMDevelopmentPositionSliderControl(bldBassArea, sendTCBldBass, "Bass", delayStyle),
+        mControlNames.tcBldBass,
+        kCtrlTagTCBldBass);
+      mDevelopmentSettingsControls.push_back(bldBassControl);
+      bldBassControl->SetTooltip(
+        "Bass audition position: 0.000=cut, 1.000=boost. The wrapper reverses this into M1 P2's electrical "
+        "coordinate.");
+
+      auto* bldTrebleControl = AddNamedChildControl(
+        new NAMDevelopmentPositionSliderControl(bldTrebleArea, sendTCBldTreble, "Treble", delayStyle),
+        mControlNames.tcBldTreble,
+        kCtrlTagTCBldTreble);
+      mDevelopmentSettingsControls.push_back(bldTrebleControl);
+      bldTrebleControl->SetTooltip(
+        "Treble audition position: 0.000=cut, 1.000=boost. The wrapper reverses this into M1 P3's electrical "
+        "coordinate.");
 
       auto showSelectedPage = [](IControl* pCaller) {
         static_cast<NAMSettingsPageControl*>(pCaller->GetParent())
@@ -1127,6 +1161,10 @@ private:
     const std::string holdsworthDelayEnabled = "HoldsworthDelayEnabled";
     const std::string holdsworthDelayWetLevel = "HoldsworthDelayWetLevel";
     const std::string holdsworthDelayPreset = "HoldsworthDelayPreset";
+    const std::string tcBldEnabled = "TCBldEnabled";
+    const std::string tcBldGain = "TCBldGain";
+    const std::string tcBldBass = "TCBldBass";
+    const std::string tcBldTreble = "TCBldTreble";
     const std::string settingsPageSwitch = "SettingsPageSwitch";
 #endif
     const std::string title = "Title";
@@ -1166,6 +1204,42 @@ private:
     {
       const double normalizedValue = std::clamp(GetValue(), 0.0, 1.0);
       mValueStr.SetFormatted(8, "%.0f%%", std::round(100.0 * normalizedValue));
+    }
+  };
+
+  class NAMDevelopmentPositionSliderControl : public IVSliderControl
+  {
+  public:
+    NAMDevelopmentPositionSliderControl(const IRECT& bounds,
+                                        IActionFunction actionFunction,
+                                        const char* label,
+                                        const IVStyle& style)
+    : IVSliderControl(bounds,
+                      actionFunction,
+                      label,
+                      style,
+                      false,
+                      EDirection::Horizontal)
+    {
+    }
+
+    void OnInit() override
+    {
+      IVSliderControl::OnInit();
+      UpdateValueDisplay();
+    }
+
+    void SetDirty(bool push, int valIdx = kNoValIdx) override
+    {
+      IVSliderControl::SetDirty(push, valIdx);
+      UpdateValueDisplay();
+    }
+
+  private:
+    void UpdateValueDisplay()
+    {
+      const double normalizedValue = std::clamp(GetValue(), 0.0, 1.0);
+      mValueStr.SetFormatted(8, "%.3f", normalizedValue);
     }
   };
 #endif

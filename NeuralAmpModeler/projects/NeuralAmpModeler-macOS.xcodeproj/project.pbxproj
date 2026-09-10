@@ -488,6 +488,16 @@
 		D1A700012F00000300000006 /* HoldsworthDelayEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */; };
 		D1A700012F00000300000007 /* HoldsworthDelayPresets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000004 /* HoldsworthDelayPresets.cpp */; };
 		D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */; };
+		D1A700012F00002000000004 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
+		D1A700012F00002000000005 /* TCBLDCleanBoostProcessorTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000003 /* TCBLDCleanBoostProcessorTests.cpp */; };
+		D1A700012F00002000000101 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
+		D1A700012F00002000000201 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
+		D1A700012F00002000000301 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
+		D1A700012F00002000000401 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
+		D1A700012F00002000000501 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
+		D1A700012F00002000000601 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
+		D1A700012F00002000000701 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
+		D1A700012F00002000000801 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00000400000101 /* FractionalDelayLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000100000002 /* FractionalDelayLine.cpp */; };
 		D1A700012F00000400000102 /* DelayBand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000200000002 /* DelayBand.cpp */; };
 		D1A700012F00000400000103 /* HoldsworthDelayEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */; };
@@ -1144,6 +1154,10 @@
 		D1A700012F00000300000003 /* HoldsworthDelayPresets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HoldsworthDelayPresets.h; sourceTree = "<group>"; };
 		D1A700012F00000300000004 /* HoldsworthDelayPresets.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayPresets.cpp; sourceTree = "<group>"; };
 		D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayEngineTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00002000000001 /* TCBLDCleanBoostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCBLDCleanBoostProcessor.h; sourceTree = "<group>"; };
+		D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TCBLDCleanBoostProcessor.cpp; sourceTree = "<group>"; };
+		D1A700012F00002000000003 /* TCBLDCleanBoostProcessorTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TCBLDCleanBoostProcessorTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00002000000006 /* DevelopmentTCBLDControlMapping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DevelopmentTCBLDControlMapping.h; sourceTree = "<group>"; };
 		D1A700012F00000500000001 /* MonoDryStereoWetMixer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonoDryStereoWetMixer.h; sourceTree = "<group>"; };
 		D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayLiveIntegrationTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00000700000001 /* DevelopmentDelayPresetSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DevelopmentDelayPresetSelector.h; sourceTree = "<group>"; };
@@ -2158,6 +2172,8 @@
 				D1A700012F00000200000002 /* DelayBand.cpp */,
 				D1A700012F00000300000001 /* HoldsworthDelayEngine.h */,
 				D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */,
+				D1A700012F00002000000001 /* TCBLDCleanBoostProcessor.h */,
+				D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */,
 				D1A700012F00000D00000001 /* DelayBandIdentity.h */,
 				D1A700012F00000B00000001 /* ModulationSync.h */,
 				D1A700012F00000D00000002 /* AudioRouting.h */,
@@ -2174,6 +2190,7 @@
 			isa = PBXGroup;
 			children = (
 				D1A700012F00000700000001 /* DevelopmentDelayPresetSelector.h */,
+				D1A700012F00002000000006 /* DevelopmentTCBLDControlMapping.h */,
 				D1A700012F00000500000001 /* MonoDryStereoWetMixer.h */,
 			);
 			path = integration;
@@ -2205,6 +2222,7 @@
 				D1A700012F00000900000002 /* DelayBandTapTests.cpp */,
 				D1A700012F00000A00000001 /* DelayBandSignalPolarityTests.cpp */,
 				D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */,
+				D1A700012F00002000000003 /* TCBLDCleanBoostProcessorTests.cpp */,
 				D1A700012F00000B00000002 /* ModulationSyncTests.cpp */,
 				D1A700012F00000D00000003 /* AudioRoutingTests.cpp */,
 				D1A700012F00000F00000005 /* DelayGroupingTests.cpp */,
@@ -2882,6 +2900,7 @@
 				D1A700012F00000800000101 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000400000102 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000103 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000101 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000101 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000400000104 /* HoldsworthDelayPresets.cpp in Sources */,
 			);
@@ -2937,6 +2956,7 @@
 				D1A700012F00000800000201 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000400000202 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000203 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000201 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000201 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000400000204 /* HoldsworthDelayPresets.cpp in Sources */,
 				4F2FB1A42A0047430027AB66 /* convnet.cpp in Sources */,
@@ -2968,6 +2988,7 @@
 				D1A700012F00000800000301 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000400000302 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000303 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000301 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000301 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000400000304 /* HoldsworthDelayPresets.cpp in Sources */,
 				4F78BE1622E7406D00AD537E /* IGraphicsMac_view.mm in Sources */,
@@ -3021,6 +3042,7 @@
 				D1A700012F00000800000401 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000400000402 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000403 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000401 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000401 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000400000404 /* HoldsworthDelayPresets.cpp in Sources */,
 				4F81591F205D50EB00393585 /* pluginfactory.cpp in Sources */,
@@ -3117,6 +3139,7 @@
 				D1A700012F00000800000501 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000400000502 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000503 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000501 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000501 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000400000504 /* HoldsworthDelayPresets.cpp in Sources */,
 				4F2FB1952A0047430027AB66 /* dsp.cpp in Sources */,
@@ -3165,6 +3188,7 @@
 				D1A700012F00000800000601 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000400000602 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000603 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000601 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000601 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000400000604 /* HoldsworthDelayPresets.cpp in Sources */,
 			);
@@ -3220,6 +3244,7 @@
 				D1A700012F00000800000701 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000400000702 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000703 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000701 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000701 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000400000704 /* HoldsworthDelayPresets.cpp in Sources */,
 				4F2FB19C2A0047430027AB66 /* convnet.cpp in Sources */,
@@ -3250,6 +3275,7 @@
 				D1A700012F00000800000801 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000400000802 /* DelayBand.cpp in Sources */,
 				D1A700012F00000400000803 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000801 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000801 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000400000804 /* HoldsworthDelayPresets.cpp in Sources */,
 				4F2FB1A12A0047430027AB66 /* convnet.cpp in Sources */,
@@ -3315,6 +3341,7 @@
 				D1A700012F00000800000007 /* DelayLoopFilter.cpp in Sources */,
 				D1A700012F00000200000006 /* DelayBand.cpp in Sources */,
 				D1A700012F00000300000006 /* HoldsworthDelayEngine.cpp in Sources */,
+				D1A700012F00002000000004 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00000F00000004 /* GroupedDelayCircuit.cpp in Sources */,
 				D1A700012F00000300000007 /* HoldsworthDelayPresets.cpp in Sources */,
 				D1A700012F00000200000007 /* TestMain.cpp in Sources */,
@@ -3327,6 +3354,7 @@
 				D1A700012F00000900000003 /* DelayBandTapTests.cpp in Sources */,
 				D1A700012F00000A00000002 /* DelayBandSignalPolarityTests.cpp in Sources */,
 				D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */,
+				D1A700012F00002000000005 /* TCBLDCleanBoostProcessorTests.cpp in Sources */,
 				D1A700012F00000B00000003 /* ModulationSyncTests.cpp in Sources */,
 				D1A700012F00000D00000004 /* AudioRoutingTests.cpp in Sources */,
 				D1A700012F00000F00000006 /* DelayGroupingTests.cpp in Sources */,

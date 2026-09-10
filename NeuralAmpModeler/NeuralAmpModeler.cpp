@@ -22,6 +22,7 @@
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   #include "../HoldsworthEngine/integration/DevelopmentDelayPresetSelector.h"
+  #include "../HoldsworthEngine/integration/DevelopmentTCBLDControlMapping.h"
   #include "../HoldsworthEngine/integration/MonoDryStereoWetMixer.h"
 #endif
 
@@ -362,8 +363,37 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
   disable_denormals();
 
   _PrepareBuffers(numChannelsInternal, numFrames);
+
+  double selectedInputGain = mInputGain;
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  const bool tcBldReady = mTCBldCleanBoostProcessor.isPrepared()
+                          && numFrames <= mTCBldCleanBoostProcessor.maximumBlockSize();
+  const bool tcBldEnabled =
+    tcBldReady && mTCBldEnabled.load(std::memory_order_relaxed) != 0;
+
+  if (tcBldReady && tcBldEnabled != mTCBldAppliedEnabled)
+  {
+    // A disabled pedal does not accumulate a hidden tail. Start each newly
+    // engaged audition from the documentary circuit's zero-energy state.
+    mTCBldCleanBoostProcessor.reset();
+    mTCBldAppliedEnabled = tcBldEnabled;
+  }
+
+  if (tcBldEnabled)
+    selectedInputGain = mTCBldHostToVoltsGain;
+#endif
+
   // Input is collapsed to mono in preparation for the NAM.
-  _ProcessInput(inputs, numFrames, numChannelsExternalIn, numChannelsInternal);
+  _ProcessInput(inputs, numFrames, numChannelsExternalIn, numChannelsInternal, selectedInputGain);
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  if (tcBldEnabled)
+  {
+    auto input = std::span<sample>{mInputPointers[0], numFrames};
+    mTCBldCleanBoostProcessor.processBlock(input, input);
+    for (auto& value : input)
+      value *= mTCBldVoltsToNamGain;
+  }
+#endif
   _ApplyDSPStaging();
   const bool noiseGateActive = GetParam(kNoiseGateActive)->Value();
   const bool toneStackActive = GetParam(kEQActive)->Value();
@@ -527,6 +557,16 @@ void NeuralAmpModeler::OnReset()
   const int maxBlockSize = GetBlockSize();
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+  const auto tcBldControls =
+    holdsworth::integration::tcBldControlsFromDevelopmentUI(
+      decodeNormalizedControlValue(mTCBldGain.load(std::memory_order_relaxed)),
+      decodeNormalizedControlValue(mTCBldBass.load(std::memory_order_relaxed)),
+      decodeNormalizedControlValue(mTCBldTreble.load(std::memory_order_relaxed)));
+  (void)mTCBldCleanBoostProcessor.setControls(tcBldControls);
+  mTCBldCleanBoostProcessor.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
+  mTCBldCleanBoostProcessor.reset();
+  mTCBldAppliedEnabled = false;
+
   const bool holdsworthDelayNeedsPrepare =
     !mHoldsworthDelayEngine.isPrepared() || sampleRate != mHoldsworthDelayPreparedSampleRate
     || maxBlockSize != mHoldsworthDelayPreparedMaximumBlockSize;
@@ -643,6 +683,18 @@ void NeuralAmpModeler::OnUIOpen()
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   SendControlValueFromDelegate(
+    kCtrlTagTCBldEnabled,
+    mTCBldEnabled.load(std::memory_order_relaxed) == 0 ? 0.0 : 1.0);
+  SendControlValueFromDelegate(
+    kCtrlTagTCBldGain,
+    decodeNormalizedControlValue(mTCBldGain.load(std::memory_order_relaxed)));
+  SendControlValueFromDelegate(
+    kCtrlTagTCBldBass,
+    decodeNormalizedControlValue(mTCBldBass.load(std::memory_order_relaxed)));
+  SendControlValueFromDelegate(
+    kCtrlTagTCBldTreble,
+    decodeNormalizedControlValue(mTCBldTreble.load(std::memory_order_relaxed)));
+  SendControlValueFromDelegate(
     kCtrlTagHoldsworthDelayEnabled,
     mHoldsworthDelayEnabled.load(std::memory_order_relaxed) == 0 ? 0.0 : 1.0);
   SendControlValueFromDelegate(
@@ -722,6 +774,44 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
     case kMsgTagClearModel: mShouldRemoveModel = true; return true;
     case kMsgTagClearIR: mShouldRemoveIR = true; return true;
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+    case kMsgTagTCBldEnabled:
+    {
+      if (ctrlTag != kCtrlTagTCBldEnabled
+          || dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
+        return false;
+
+      double normalizedValue = 0.0;
+      std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
+      const bool enabled = std::isfinite(normalizedValue) && normalizedValue >= 0.5;
+      mTCBldEnabled.store(enabled ? 1U : 0U, std::memory_order_relaxed);
+      return true;
+    }
+    case kMsgTagTCBldGain:
+    case kMsgTagTCBldBass:
+    case kMsgTagTCBldTreble:
+    {
+      const bool matchingControl =
+        (msgTag == kMsgTagTCBldGain && ctrlTag == kCtrlTagTCBldGain)
+        || (msgTag == kMsgTagTCBldBass && ctrlTag == kCtrlTagTCBldBass)
+        || (msgTag == kMsgTagTCBldTreble && ctrlTag == kCtrlTagTCBldTreble);
+      if (!matchingControl || dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
+        return false;
+
+      double normalizedValue = 0.0;
+      std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
+      const std::uint32_t encodedValue = encodeNormalizedControlValue(normalizedValue);
+      if (msgTag == kMsgTagTCBldGain)
+        mTCBldGain.store(encodedValue, std::memory_order_relaxed);
+      else if (msgTag == kMsgTagTCBldBass)
+        mTCBldBass.store(encodedValue, std::memory_order_relaxed);
+      else
+        mTCBldTreble.store(encodedValue, std::memory_order_relaxed);
+      return mTCBldCleanBoostProcessor.setControls(
+        holdsworth::integration::tcBldControlsFromDevelopmentUI(
+          decodeNormalizedControlValue(mTCBldGain.load(std::memory_order_relaxed)),
+          decodeNormalizedControlValue(mTCBldBass.load(std::memory_order_relaxed)),
+          decodeNormalizedControlValue(mTCBldTreble.load(std::memory_order_relaxed))));
+    }
     case kMsgTagHoldsworthDelayEnabled:
     {
       if (ctrlTag != kCtrlTagHoldsworthDelayEnabled
@@ -899,11 +989,26 @@ void NeuralAmpModeler::_ResetModelAndIR(const double sampleRate, const int maxBl
 
 void NeuralAmpModeler::_SetInputGain()
 {
-  iplug::sample inputGainDB = GetParam(kInputLevel)->Value();
+  const double inputTrimDB = GetParam(kInputLevel)->Value();
+  iplug::sample inputGainDB = inputTrimDB;
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  mTCBldHostToVoltsGain = DBToAmp(inputTrimDB);
+  mTCBldVoltsToNamGain = 1.0;
+#endif
   // Input calibration
   if ((mModel != nullptr) && (mModel->HasInputLevel()) && GetParam(kCalibrateInput)->Bool())
   {
-    inputGainDB += GetParam(kInputCalibrationLevel)->Value() - mModel->GetInputLevel();
+    const double hostCalibrationDbu = GetParam(kInputCalibrationLevel)->Value();
+    const double modelCalibrationDbu = mModel->GetInputLevel();
+    inputGainDB += hostCalibrationDbu - modelCalibrationDbu;
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+    // Run the pedal in its documented volts domain while retaining the exact
+    // stock calibrated gain when its transfer is replaced by an ideal wire.
+    mTCBldHostToVoltsGain *=
+      holdsworth::dsp::TCBLDCleanBoostProcessor::fullScalePeakVolts(hostCalibrationDbu);
+    mTCBldVoltsToNamGain =
+      1.0 / holdsworth::dsp::TCBLDCleanBoostProcessor::fullScalePeakVolts(modelCalibrationDbu);
+#endif
   }
   mInputGain = DBToAmp(inputGainDB);
 }
@@ -1092,7 +1197,7 @@ void NeuralAmpModeler::_PrepareIOPointers(const size_t numChannels)
 }
 
 void NeuralAmpModeler::_ProcessInput(iplug::sample** inputs, const size_t nFrames, const size_t nChansIn,
-                                     const size_t nChansOut)
+                                     const size_t nChansOut, const double inputGain)
 {
   // We'll assume that the main processing is mono for now. We'll handle dual amps later.
   if (nChansOut != 1)
@@ -1106,7 +1211,7 @@ void NeuralAmpModeler::_ProcessInput(iplug::sample** inputs, const size_t nFrame
   // carried straight through. Don't apply any division over nChansIn because we're just "catching anything out there."
   // However, in a DAW, it's probably something providing stereo, and we want to take the average in order to avoid
   // doubling the loudness. (This would change w/ double mono processing)
-  double gain = mInputGain;
+  double gain = inputGain;
 #ifndef APP_API
   gain /= (float)nChansIn;
 #endif

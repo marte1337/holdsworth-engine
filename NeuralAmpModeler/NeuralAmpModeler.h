@@ -10,6 +10,7 @@
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   #include "../HoldsworthEngine/dsp/HoldsworthDelayEngine.h"
+  #include "../HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.h"
 #endif
 
 #include "Colors.h"
@@ -82,6 +83,10 @@ enum ECtrlTags
   kCtrlTagHoldsworthDelayEnabled,
   kCtrlTagHoldsworthDelayWetLevel,
   kCtrlTagHoldsworthDelayPreset,
+  kCtrlTagTCBldEnabled,
+  kCtrlTagTCBldGain,
+  kCtrlTagTCBldBass,
+  kCtrlTagTCBldTreble,
 #endif
   kNumCtrlTags
 };
@@ -96,6 +101,10 @@ enum EMsgTags
   kMsgTagHoldsworthDelayEnabled,
   kMsgTagHoldsworthDelayWetLevel,
   kMsgTagHoldsworthDelayPreset,
+  kMsgTagTCBldEnabled,
+  kMsgTagTCBldGain,
+  kMsgTagTCBldBass,
+  kMsgTagTCBldTreble,
 #endif
   // The following tags are from DSP -> UI
   kMsgTagLoadFailed,
@@ -267,7 +276,11 @@ private:
   // Copy the input buffer to the object, applying input level.
   // :param nChansIn: In from external
   // :param nChansOut: Out to the internal of the DSP routine
-  void _ProcessInput(iplug::sample** inputs, const size_t nFrames, const size_t nChansIn, const size_t nChansOut);
+  void _ProcessInput(iplug::sample** inputs,
+                     size_t nFrames,
+                     size_t nChansIn,
+                     size_t nChansOut,
+                     double inputGain);
   // Copy the output to the output buffer, applying output level.
   // :param nChansIn: In from internal
   // :param nChansOut: Out to external
@@ -312,6 +325,13 @@ private:
   // Input and output gain
   double mInputGain = 1.0;
   double mOutputGain = 1.0;
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  // Split form of mInputGain used only while the temporary BLD path is on.
+  // The first factor maps host-normalized input to volts at the BLD port; the
+  // second maps BLD output volts to the loaded NAM's normalized input.
+  double mTCBldHostToVoltsGain = 1.0;
+  double mTCBldVoltsToNamGain = 1.0;
+#endif
 
   // Noise gates
   dsp::noise_gate::Trigger mNoiseGateTrigger;
@@ -338,6 +358,14 @@ private:
   //  recursive_linear_filter::LowPass mLowPass;
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+  // Temporary pre-NAM documentary-nominal CLEAN BOOST audition path.
+  holdsworth::dsp::TCBLDCleanBoostProcessor mTCBldCleanBoostProcessor;
+  std::atomic<std::uint32_t> mTCBldEnabled{0};
+  std::atomic<std::uint32_t> mTCBldGain{132'431};
+  std::atomic<std::uint32_t> mTCBldBass{500'000};
+  std::atomic<std::uint32_t> mTCBldTreble{500'000};
+  bool mTCBldAppliedEnabled = false;
+
   // Temporary macOS-only development integration. The delay remains an
   // independent wet-only processor; these buffers and controls belong to the
   // plugin wrapper and can be removed when GuitarEngine replaces this bridge.

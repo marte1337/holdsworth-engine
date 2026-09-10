@@ -96,7 +96,8 @@ int main()
                           holdsworth122PresetTests(),
                           holdsworth223PresetTests(),
                           holdsworth231PresetTests(),
-                          holdsworthDelayLiveIntegrationTests()};
+                          holdsworthDelayLiveIntegrationTests(),
+                          tcBldCleanBoostProcessorTests()};
   std::size_t totalTests = 0;
   int failures = 0;
 
