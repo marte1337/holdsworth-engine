@@ -27,8 +27,13 @@
 #define PLUG_DOES_MPE 0
 #define PLUG_DOES_STATE_CHUNKS 0
 #define PLUG_HAS_UI 1
+#ifndef NAM_HOLDSWORTH_DELAY_DEV
 #define PLUG_WIDTH 600
 #define PLUG_HEIGHT 400
+#else
+#define PLUG_WIDTH 1100
+#define PLUG_HEIGHT 660
+#endif
 #define PLUG_FPS 60
 #define PLUG_SHARED_RESOURCES 0
 #define PLUG_HOST_RESIZE 0

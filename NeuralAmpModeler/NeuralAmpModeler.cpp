@@ -21,6 +21,7 @@
 #include "NeuralAmpModelerControls.h"
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+  #include "../HoldsworthEngine/ui/DevelopmentPanel.h"
   #include "../HoldsworthEngine/integration/DevelopmentDelayPresetSelector.h"
   #include "../HoldsworthEngine/integration/DevelopmentTCBLDControlMapping.h"
   #include "../HoldsworthEngine/integration/MonoDryStereoWetMixer.h"
@@ -148,7 +149,9 @@ NeuralAmpModeler::NeuralAmpModeler(const InstanceInfo& info)
     pGraphics->LoadFont("Roboto-Regular", ROBOTO_FN);
     pGraphics->LoadFont("Michroma-Regular", MICHROMA_FN);
 
+#ifndef NAM_HOLDSWORTH_DELAY_DEV
     const auto gearSVG = pGraphics->LoadSVG(GEAR_FN);
+#endif
     const auto fileSVG = pGraphics->LoadSVG(FILE_FN);
     const auto globeSVG = pGraphics->LoadSVG(GLOBE_ICON_FN);
     const auto crossSVG = pGraphics->LoadSVG(CLOSE_BUTTON_FN);
@@ -167,7 +170,15 @@ NeuralAmpModeler::NeuralAmpModeler(const InstanceInfo& info)
     const auto switchHandleBitmap = pGraphics->LoadBitmap(SLIDESWITCHHANDLE_FN);
     const auto meterBackgroundBitmap = pGraphics->LoadBitmap(METERBACKGROUND_FN);
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+    // Preserve the existing 600 x 400 NAM controls as a utility module beside
+    // the dedicated development cards. All coordinates below remain local
+    // to that original-sized rectangle; the host scales the complete editor.
+    holdsworth::ui::attachDevelopmentPanel(*pGraphics);
+    const auto b = IRECT(480.f, 144.f, 1080.f, 544.f);
+#else
     const auto b = pGraphics->GetBounds();
+#endif
     const auto mainArea = b.GetPadded(-20);
     const auto contentArea = mainArea.GetPadded(-10);
     const auto titleHeight = 50.0f;
@@ -209,7 +220,11 @@ NeuralAmpModeler::NeuralAmpModeler(const InstanceInfo& info)
     const auto outputMeterArea = contentArea.GetFromRight(30).GetHShifted(20).GetMidVPadded(100).GetVShifted(-25);
 
     // Misc Areas
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+    const auto settingsButtonArea = IRECT(884.f, 588.f, 1056.f, 624.f);
+#else
     const auto settingsButtonArea = CornerButtonArea(b);
+#endif
 
     // Model loader button
     auto loadModelCompletionHandler = [&](const WDL_String& fileName, const WDL_String& path) {
@@ -245,9 +260,14 @@ NeuralAmpModeler::NeuralAmpModeler(const InstanceInfo& info)
       }
     };
 
+#ifndef NAM_HOLDSWORTH_DELAY_DEV
     pGraphics->AttachBackground(BACKGROUND_FN);
     pGraphics->AttachControl(new IBitmapControl(b, linesBitmap));
     pGraphics->AttachControl(new IVLabelControl(titleArea, "NEURAL AMP MODELER", titleStyle));
+#else
+    pGraphics->AttachControl(new IVLabelControl(titleArea, "AMP / CAB",
+      holdsworth::ui::developmentStyle().WithValueText(IText(22, COLOR_WHITE, "Roboto-Regular"))));
+#endif
     pGraphics->AttachControl(new ISVGControl(modelIconArea, modelIconSVG));
 
 #ifdef NAM_PICK_DIRECTORY
@@ -314,12 +334,19 @@ NeuralAmpModeler::NeuralAmpModeler(const InstanceInfo& info)
     pGraphics->AttachControl(new NAMMeterControl(outputMeterArea, meterBackgroundBitmap, style), kCtrlTagOutputMeter);
 
     // Settings/help/about box
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+    pGraphics->AttachControl(new IVButtonControl(settingsButtonArea,
+      [pGraphics](IControl*) {
+        pGraphics->GetControlWithTag(kCtrlTagSettingsBox)->As<NAMSettingsPageControl>()->HideAnimated(false);
+      }, "NAM Settings", holdsworth::ui::developmentStyle()));
+#else
     pGraphics->AttachControl(new NAMCircleButtonControl(
       settingsButtonArea,
       [pGraphics](IControl* pCaller) {
         pGraphics->GetControlWithTag(kCtrlTagSettingsBox)->As<NAMSettingsPageControl>()->HideAnimated(false);
       },
       gearSVG));
+#endif
 
     pGraphics
       ->AttachControl(new NAMSettingsPageControl(b, backgroundBitmap, inputLevelBackgroundBitmap, switchHandleBitmap,
@@ -559,7 +586,7 @@ void NeuralAmpModeler::OnReset()
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   const auto tcBldControls =
     holdsworth::integration::tcBldControlsFromDevelopmentUI(
-      decodeNormalizedControlValue(mTCBldGain.load(std::memory_order_relaxed)),
+      mTCBldGain.load(std::memory_order_relaxed),
       decodeNormalizedControlValue(mTCBldBass.load(std::memory_order_relaxed)),
       decodeNormalizedControlValue(mTCBldTreble.load(std::memory_order_relaxed)));
   (void)mTCBldCleanBoostProcessor.setControls(tcBldControls);
@@ -687,7 +714,7 @@ void NeuralAmpModeler::OnUIOpen()
     mTCBldEnabled.load(std::memory_order_relaxed) == 0 ? 0.0 : 1.0);
   SendControlValueFromDelegate(
     kCtrlTagTCBldGain,
-    decodeNormalizedControlValue(mTCBldGain.load(std::memory_order_relaxed)));
+    mTCBldGain.load(std::memory_order_relaxed));
   SendControlValueFromDelegate(
     kCtrlTagTCBldBass,
     decodeNormalizedControlValue(mTCBldBass.load(std::memory_order_relaxed)));
@@ -801,14 +828,16 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
       std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
       const std::uint32_t encodedValue = encodeNormalizedControlValue(normalizedValue);
       if (msgTag == kMsgTagTCBldGain)
-        mTCBldGain.store(encodedValue, std::memory_order_relaxed);
+        mTCBldGain.store(
+          std::isfinite(normalizedValue) ? std::clamp(normalizedValue, 0.0, 1.0) : 0.0,
+          std::memory_order_relaxed);
       else if (msgTag == kMsgTagTCBldBass)
         mTCBldBass.store(encodedValue, std::memory_order_relaxed);
       else
         mTCBldTreble.store(encodedValue, std::memory_order_relaxed);
       return mTCBldCleanBoostProcessor.setControls(
         holdsworth::integration::tcBldControlsFromDevelopmentUI(
-          decodeNormalizedControlValue(mTCBldGain.load(std::memory_order_relaxed)),
+          mTCBldGain.load(std::memory_order_relaxed),
           decodeNormalizedControlValue(mTCBldBass.load(std::memory_order_relaxed)),
           decodeNormalizedControlValue(mTCBldTreble.load(std::memory_order_relaxed))));
     }

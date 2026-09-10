@@ -1,5 +1,6 @@
 #include "../dsp/TCBLDCleanBoostProcessor.h"
 #include "../integration/DevelopmentTCBLDControlMapping.h"
+#include "../integration/DevelopmentControlDefaults.h"
 #include "TestHarness.h"
 
 #include <algorithm>
@@ -504,7 +505,69 @@ bool testDevelopmentUiToneEndpointsAreCutToBoost()
          && bassMinimumDb < bassMaximumDb && trebleMinimumDb < trebleMaximumDb;
 }
 
-constexpr std::array<TestCase, 12> kTests{{
+bool testDevelopmentResetDefaults()
+{
+  using namespace integration;
+  DevelopmentGainRange range;
+  range.setFocus(false);
+  range.setPosition(0.9);
+  range.reset();
+  return range.focus && range.value == 0.132430924210101
+         && kDevelopmentToneDefault == 0.5
+         && kDevelopmentWetDefaultEncoded == 100'000 && kDevelopmentWetDefault == 0.1
+         && tcBldControlsFromDevelopmentUI(range.value, 0.5, 0.5).gain == range.value;
+}
+
+bool testDevelopmentGainRangeMappingAndPreservation()
+{
+  using namespace integration;
+  DevelopmentGainRange range;
+  for (const double position : {0.0, 0.25, 0.5, 0.75, 1.0})
+  {
+    range.setPosition(position);
+    if (!nearlyEqual(range.value, 0.10 + 0.20 * position)
+        || !nearlyEqual(range.position(), position))
+      return false;
+  }
+  for (const double value : {0.10, kDevelopmentGainDefault, 0.15, 0.23, 0.30})
+  {
+    range.value = value;
+    for (int iteration = 0; iteration < 20; ++iteration)
+    {
+      if (range.setFocus(false) || range.value != value || range.position() != value)
+        return false;
+      if (range.setFocus(true) || range.value != value)
+        return false;
+    }
+  }
+  range.setFocus(false);
+  range.setPosition(0.0);
+  if (range.value != 0.0)
+    return false;
+  range.setPosition(1.0);
+  return range.value == 1.0;
+}
+
+bool testDevelopmentGainFocusClampsOnlyOutsideRange()
+{
+  integration::DevelopmentGainRange range;
+  range.setFocus(false);
+  range.setPosition(0.0);
+  if (!range.setFocus(true) || range.value != 0.10)
+    return false;
+  range.setFocus(false);
+  range.setPosition(1.0);
+  if (!range.setFocus(true) || range.value != 0.30)
+    return false;
+  range.setFocus(false);
+  range.setPosition(0.23);
+  return !range.setFocus(true) && range.value == 0.23;
+}
+
+constexpr std::array<TestCase, 15> kTests{{
+  {"Development controls: exact reset defaults", testDevelopmentResetDefaults},
+  {"Development Gain: Focus/Full mapping and exact preservation", testDevelopmentGainRangeMappingAndPreservation},
+  {"Development Gain: explicit Focus selection clamps only outside range", testDevelopmentGainFocusClampsOnlyOutsideRange},
   {"TC BLD M1 golden response at 192 kHz", testM1GoldenResponseAt192k},
   {"TC BLD M1 golden 48 kHz guitar audition band", testM1GoldenAuditionBandAt48k},
   {"TC BLD reviewed Gain behavior is not made monotonic", testGainRetainsReviewedNonMonotonicOracleBehavior},

@@ -732,53 +732,6 @@ public:
   };
 };
 
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-// Development-only geometry adapter. IVTabSwitchControl continues to own the
-// selected value, highlighting, hit testing, and action callback; only its
-// one-dimensional button layout is replaced by a readable 2 x 3 grid.
-class NAMDevelopmentPresetGridControl final : public IVTabSwitchControl
-{
-public:
-  NAMDevelopmentPresetGridControl(const IRECT& bounds,
-                                  IActionFunction actionFunction,
-                                  const std::vector<const char*>& options,
-                                  const char* label,
-                                  const IVStyle& style)
-  : IVTabSwitchControl(bounds, actionFunction, options, label, style)
-  {
-  }
-
-  void OnResize() override
-  {
-    SetTargetRECT(MakeRects(mRECT));
-    mButtons.Resize(0);
-
-    constexpr int rows = 2;
-    constexpr int columns = 3;
-    for (int buttonIndex = 0; buttonIndex < mNumStates; ++buttonIndex)
-      mButtons.Add(mWidgetBounds.GetGridCell(buttonIndex, rows, columns).GetPadded(-2.0f));
-
-    SetDirty(false);
-  }
-};
-
-class NAMDevelopmentPanelControl final : public IControl
-{
-public:
-  explicit NAMDevelopmentPanelControl(const IRECT& bounds)
-  : IControl(bounds)
-  {
-    mIgnoreMouse = true;
-  }
-
-  void Draw(IGraphics& g) override
-  {
-    g.FillRoundRect(COLOR_BLACK.WithOpacity(0.35f), mRECT, 6.0f);
-    g.DrawRoundRect(PluginColors::NAM_THEMECOLOR.WithOpacity(0.55f), mRECT, 6.0f);
-  }
-};
-#endif
-
 class NAMSettingsPageControl : public IContainerBaseWithNamedChildren
 {
 public:
@@ -841,8 +794,6 @@ public:
         {
           pCaller->OnEndAnimation();
           IContainerBase::Hide(mWillHide);
-          if (!mWillHide)
-            UpdateSettingsPageVisibility();
           GetUI()->SetAllControlsDirty();
           return;
         }
@@ -883,13 +834,12 @@ public:
       auto* inputLevelControl = AddNamedChildControl(
         new InputLevelControl(inputLevelArea, kInputCalibrationLevel, mInputLevelBackgroundBitmap, text),
         mControlNames.inputCalibrationLevel, kCtrlTagInputCalibrationLevel);
-      TrackStandardSettingsControl(inputLevelControl);
       inputLevelControl->SetTooltip(
         "The analog level, in dBu RMS, that corresponds to digital level of 0 dBFS peak in the host as its signal "
         "enters this plugin.");
-      TrackStandardSettingsControl(AddNamedChildControl(
+      AddNamedChildControl(
         new NAMSwitchControl(inputSwitchArea, kCalibrateInput, "Calibrate Input", mStyle, mSwitchBitmap),
-        mControlNames.calibrateInput, kCtrlTagCalibrateInput));
+        mControlNames.calibrateInput, kCtrlTagCalibrateInput);
 
       // Same-ish height & width as input controls
       const auto outputRadioArea = outputArea.GetFromBottom(
@@ -898,185 +848,12 @@ public:
       auto* outputModeControl =
         AddNamedChildControl(new OutputModeControl(outputRadioArea, kOutputMode, mRadioButtonStyle, buttonSize),
                              mControlNames.outputMode, kCtrlTagOutputMode);
-      TrackStandardSettingsControl(outputModeControl);
       outputModeControl->SetTooltip(
         "How to adjust the level of the output.\nRaw=No adjustment.\nNormalized=Adjust the level so that all models "
         "are about the same loudness.\nCalibrated=Match the input's digital-analog calibration.");
     }
 
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-    // Temporary, non-parameter development controls. Values travel through
-    // iPlug's UI-to-DSP message path and are deliberately not serialized or
-    // exposed as host automation parameters yet.
-    {
-      // The stock calibration controls need the full 180 px below the title,
-      // and the footer owns the bottom 78 px. A page switch in the narrow gap
-      // between them makes the two content areas mutually exclusive instead
-      // of trying to fit both into the same space.
-      const auto settingsBounds = GetRECT().GetPadded(-pad);
-      const auto pageSwitchArea =
-        settingsBounds.GetFromBottom(116.0f).GetFromTop(32.0f).GetMidHPadded(190.0f);
-      const auto developmentArea =
-        IRECT(titleArea.L, titleArea.B, titleArea.R, pageSwitchArea.T - 6.0f);
-      const auto developmentInnerArea = developmentArea.GetPadded(-8.0f);
-      const auto developmentTitleArea = developmentInnerArea.GetFromTop(20.0f);
-      const auto controlsArea = developmentInnerArea.GetReducedFromTop(24.0f);
-      const auto utilityArea = controlsArea.GetFromTop(34.0f);
-      const auto bldEnabledArea =
-        utilityArea.GetFromLeft(0.24f * utilityArea.W()).GetReducedFromRight(3.0f);
-      const auto delayEnabledArea =
-        utilityArea.GetFromLeft(0.50f * utilityArea.W())
-          .GetFromRight(0.52f * utilityArea.W())
-          .GetPadded(-3.0f, 0.0f, -3.0f, 0.0f);
-      const auto wetArea = utilityArea.GetFromRight(0.48f * utilityArea.W()).GetReducedFromLeft(3.0f);
-      const auto presetArea = controlsArea.GetReducedFromTop(38.0f).GetFromTop(48.0f);
-      const auto bldControlsArea = controlsArea.GetReducedFromTop(90.0f).GetFromTop(44.0f);
-      const float bldControlWidth = bldControlsArea.W() / 3.0f;
-      const auto bldGainArea = bldControlsArea.GetFromLeft(bldControlWidth).GetReducedFromRight(3.0f);
-      const auto bldBassArea =
-        bldControlsArea.GetFromLeft(2.0f * bldControlWidth)
-          .GetFromRight(bldControlWidth)
-          .GetPadded(-3.0f, 0.0f, -3.0f, 0.0f);
-      const auto bldTrebleArea = bldControlsArea.GetFromRight(bldControlWidth).GetReducedFromLeft(3.0f);
-      const IVStyle delayStyle = mRadioButtonStyle.WithDrawFrame(false);
-
-      mDevelopmentSettingsControls.push_back(
-        AddNamedChildControl(new NAMDevelopmentPanelControl(developmentArea), mControlNames.holdsworthPanel));
-      mDevelopmentSettingsControls.push_back(AddNamedChildControl(
-        new IVLabelControl(developmentTitleArea,
-                           "HoldsworthEngine Dev",
-                           style.WithValueText(IText(DEFAULT_TEXT_SIZE + 3.0f,
-                                                     EAlign::Near,
-                                                     PluginColors::HELP_TEXT))),
-        mControlNames.holdsworthTitle));
-
-      const auto makeDevelopmentMessageAction = [](const int messageTag) {
-        return [messageTag](IControl* pCaller) {
-          const double normalizedValue = pCaller->GetValue();
-          auto* pDelegate = pCaller->GetDelegate();
-
-          // Keep the editor/controller-side copy current as well as forwarding
-          // the value to the processor. In distributed VST3 these are separate
-          // NeuralAmpModeler instances, and OnUIOpen() reads the local copy when
-          // rebuilding the temporary controls.
-          pDelegate->OnMessage(
-            messageTag,
-            pCaller->GetTag(),
-            static_cast<int>(sizeof(normalizedValue)),
-            &normalizedValue);
-          pDelegate->SendArbitraryMsgFromUI(
-            messageTag,
-            pCaller->GetTag(),
-            static_cast<int>(sizeof(normalizedValue)),
-            &normalizedValue);
-        };
-      };
-      const auto sendTCBldEnabled = makeDevelopmentMessageAction(kMsgTagTCBldEnabled);
-      const auto sendTCBldGain = makeDevelopmentMessageAction(kMsgTagTCBldGain);
-      const auto sendTCBldBass = makeDevelopmentMessageAction(kMsgTagTCBldBass);
-      const auto sendTCBldTreble = makeDevelopmentMessageAction(kMsgTagTCBldTreble);
-      const auto sendEnabled = makeDevelopmentMessageAction(kMsgTagHoldsworthDelayEnabled);
-      const auto sendWetLevel = makeDevelopmentMessageAction(kMsgTagHoldsworthDelayWetLevel);
-      const auto sendPreset = makeDevelopmentMessageAction(kMsgTagHoldsworthDelayPreset);
-
-      auto* enabledControl = AddNamedChildControl(
-        new IVToggleControl(delayEnabledArea,
-                            sendEnabled,
-                            "Delay",
-                            delayStyle,
-                            "OFF",
-                            "ON",
-                            false),
-        mControlNames.holdsworthDelayEnabled,
-        kCtrlTagHoldsworthDelayEnabled);
-      mDevelopmentSettingsControls.push_back(enabledControl);
-      enabledControl->SetTooltip(
-        "Development-only delay bypass. Disabled blocks advance existing tails with silence.");
-
-      auto* presetControl = AddNamedChildControl(
-        new NAMDevelopmentPresetGridControl(presetArea,
-                                            sendPreset,
-                                            {"Lead 121",
-                                             "Chorus 011",
-                                             "Chorus 031",
-                                             "Holdsworth 223",
-                                             "Holdsworth 122"},
-                                            "Preset",
-                                            delayStyle),
-        mControlNames.holdsworthDelayPreset,
-        kCtrlTagHoldsworthDelayPreset);
-      mDevelopmentSettingsControls.push_back(presetControl);
-      presetControl->SetTooltip(
-        "Development-only preset selector. Switching preserves unaffected delay memory; GROUP topology changes "
-        "clear affected histories. For a clean A/B, disable the delay, wait for its tail, select a preset, then "
-        "re-enable it.");
-
-      auto* wetControl = AddNamedChildControl(
-        new NAMDevelopmentWetSliderControl(wetArea, sendWetLevel, "Delay Wet", delayStyle),
-        mControlNames.holdsworthDelayWetLevel,
-        kCtrlTagHoldsworthDelayWetLevel);
-      mDevelopmentSettingsControls.push_back(wetControl);
-      wetControl->SetTooltip(
-        "Integration wet multiplier applied after the preset's own DSP wet level. Start around 10%.");
-
-      auto* bldEnabledControl = AddNamedChildControl(
-        new IVToggleControl(bldEnabledArea,
-                            sendTCBldEnabled,
-                            "BLD Boost",
-                            delayStyle,
-                            "OFF",
-                            "ON",
-                            false),
-        mControlNames.tcBldEnabled,
-        kCtrlTagTCBldEnabled);
-      mDevelopmentSettingsControls.push_back(bldEnabledControl);
-      bldEnabledControl->SetTooltip(
-        "Temporary documentary-nominal TC BLD CLEAN BOOST inserted immediately before NAM.");
-
-      auto* bldGainControl = AddNamedChildControl(
-        new NAMDevelopmentPositionSliderControl(bldGainArea, sendTCBldGain, "Gain", delayStyle),
-        mControlNames.tcBldGain,
-        kCtrlTagTCBldGain);
-      mDevelopmentSettingsControls.push_back(bldGainControl);
-      bldGainControl->SetTooltip(
-        "M1 P1 mechanical position, 0.000 to 1.000, with the frozen log taper. The response is intentionally "
-        "non-monotonic.");
-
-      auto* bldBassControl = AddNamedChildControl(
-        new NAMDevelopmentPositionSliderControl(bldBassArea, sendTCBldBass, "Bass", delayStyle),
-        mControlNames.tcBldBass,
-        kCtrlTagTCBldBass);
-      mDevelopmentSettingsControls.push_back(bldBassControl);
-      bldBassControl->SetTooltip(
-        "Bass audition position: 0.000=cut, 1.000=boost. The wrapper reverses this into M1 P2's electrical "
-        "coordinate.");
-
-      auto* bldTrebleControl = AddNamedChildControl(
-        new NAMDevelopmentPositionSliderControl(bldTrebleArea, sendTCBldTreble, "Treble", delayStyle),
-        mControlNames.tcBldTreble,
-        kCtrlTagTCBldTreble);
-      mDevelopmentSettingsControls.push_back(bldTrebleControl);
-      bldTrebleControl->SetTooltip(
-        "Treble audition position: 0.000=cut, 1.000=boost. The wrapper reverses this into M1 P3's electrical "
-        "coordinate.");
-
-      auto showSelectedPage = [](IControl* pCaller) {
-        static_cast<NAMSettingsPageControl*>(pCaller->GetParent())
-          ->ShowDevelopmentPage(pCaller->GetValue() > 0.5);
-      };
-      AddNamedChildControl(
-        new IVTabSwitchControl(pageSwitchArea,
-                               showSelectedPage,
-                               {"NAM Settings", "HoldsworthEngine Dev"},
-                               "",
-                               mRadioButtonStyle.WithShowLabel(false).WithDrawFrame(false)),
-        mControlNames.settingsPageSwitch);
-
-      UpdateSettingsPageVisibility();
-    }
-#endif
-
-    const float halfWidth = PLUG_WIDTH / 2.0f - pad;
+    const float halfWidth = GetRECT().W() / 2.0f - pad;
     const auto bottomArea = GetRECT().GetPadded(-pad).GetFromBottom(78.0f);
     const float lineHeight = 15.0f;
     const auto modelInfoArea = bottomArea.GetFromLeft(halfWidth).GetFromTop(4 * lineHeight);
@@ -1101,35 +878,6 @@ public:
   };
 
 private:
-  void TrackStandardSettingsControl(IControl* control)
-  {
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-    mStandardSettingsControls.push_back(control);
-#else
-    static_cast<void>(control);
-#endif
-  }
-
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-  void ShowDevelopmentPage(const bool show)
-  {
-    mDevelopmentPageVisible = show;
-    UpdateSettingsPageVisibility();
-    GetUI()->SetAllControlsDirty();
-  }
-#endif
-
-  void UpdateSettingsPageVisibility()
-  {
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-    for (auto* control : mStandardSettingsControls)
-      control->Hide(mDevelopmentPageVisible);
-
-    for (auto* control : mDevelopmentSettingsControls)
-      control->Hide(!mDevelopmentPageVisible);
-#endif
-  }
-
   IBitmap mBitmap;
   IBitmap mInputLevelBackgroundBitmap;
   IBitmap mSwitchBitmap;
@@ -1138,11 +886,6 @@ private:
   ISVG mCloseSVG;
   int mAnimationTime = 200;
   bool mWillHide = false;
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-  bool mDevelopmentPageVisible = false;
-  std::vector<IControl*> mStandardSettingsControls;
-  std::vector<IControl*> mDevelopmentSettingsControls;
-#endif
 
   // Names for controls
   // Make sure that these are all unique and that you use them with AddNamedChildControl
@@ -1155,94 +898,9 @@ private:
     const std::string inputCalibrationLevel = "InputCalibrationLevel";
     const std::string modelInfo = "ModelInfo";
     const std::string outputMode = "OutputMode";
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-    const std::string holdsworthPanel = "HoldsworthPanel";
-    const std::string holdsworthTitle = "HoldsworthTitle";
-    const std::string holdsworthDelayEnabled = "HoldsworthDelayEnabled";
-    const std::string holdsworthDelayWetLevel = "HoldsworthDelayWetLevel";
-    const std::string holdsworthDelayPreset = "HoldsworthDelayPreset";
-    const std::string tcBldEnabled = "TCBldEnabled";
-    const std::string tcBldGain = "TCBldGain";
-    const std::string tcBldBass = "TCBldBass";
-    const std::string tcBldTreble = "TCBldTreble";
-    const std::string settingsPageSwitch = "SettingsPageSwitch";
-#endif
+
     const std::string title = "Title";
   } mControlNames;
-
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-  class NAMDevelopmentWetSliderControl : public IVSliderControl
-  {
-  public:
-    NAMDevelopmentWetSliderControl(const IRECT& bounds,
-                                   IActionFunction actionFunction,
-                                   const char* label,
-                                   const IVStyle& style)
-    : IVSliderControl(bounds,
-                      actionFunction,
-                      label,
-                      style,
-                      false,
-                      EDirection::Horizontal)
-    {
-    }
-
-    void OnInit() override
-    {
-      IVSliderControl::OnInit();
-      UpdateValueDisplay();
-    }
-
-    void SetDirty(bool push, int valIdx = kNoValIdx) override
-    {
-      IVSliderControl::SetDirty(push, valIdx);
-      UpdateValueDisplay();
-    }
-
-  private:
-    void UpdateValueDisplay()
-    {
-      const double normalizedValue = std::clamp(GetValue(), 0.0, 1.0);
-      mValueStr.SetFormatted(8, "%.0f%%", std::round(100.0 * normalizedValue));
-    }
-  };
-
-  class NAMDevelopmentPositionSliderControl : public IVSliderControl
-  {
-  public:
-    NAMDevelopmentPositionSliderControl(const IRECT& bounds,
-                                        IActionFunction actionFunction,
-                                        const char* label,
-                                        const IVStyle& style)
-    : IVSliderControl(bounds,
-                      actionFunction,
-                      label,
-                      style,
-                      false,
-                      EDirection::Horizontal)
-    {
-    }
-
-    void OnInit() override
-    {
-      IVSliderControl::OnInit();
-      UpdateValueDisplay();
-    }
-
-    void SetDirty(bool push, int valIdx = kNoValIdx) override
-    {
-      IVSliderControl::SetDirty(push, valIdx);
-      UpdateValueDisplay();
-    }
-
-  private:
-    void UpdateValueDisplay()
-    {
-      const double normalizedValue = std::clamp(GetValue(), 0.0, 1.0);
-      mValueStr.SetFormatted(8, "%.3f", normalizedValue);
-    }
-  };
-#endif
 
   class InputLevelControl : public IEditableTextControl
   {

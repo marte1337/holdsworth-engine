@@ -11,6 +11,7 @@
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   #include "../HoldsworthEngine/dsp/HoldsworthDelayEngine.h"
   #include "../HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.h"
+  #include "../HoldsworthEngine/integration/DevelopmentControlDefaults.h"
 #endif
 
 #include "Colors.h"
@@ -361,7 +362,8 @@ private:
   // Temporary pre-NAM documentary-nominal CLEAN BOOST audition path.
   holdsworth::dsp::TCBLDCleanBoostProcessor mTCBldCleanBoostProcessor;
   std::atomic<std::uint32_t> mTCBldEnabled{0};
-  std::atomic<std::uint32_t> mTCBldGain{132'431};
+  static_assert(std::atomic<double>::is_always_lock_free);
+  std::atomic<double> mTCBldGain{holdsworth::integration::kDevelopmentGainDefault};
   std::atomic<std::uint32_t> mTCBldBass{500'000};
   std::atomic<std::uint32_t> mTCBldTreble{500'000};
   bool mTCBldAppliedEnabled = false;
@@ -376,7 +378,8 @@ private:
   std::vector<iplug::sample> mHoldsworthDelayWetRight;
   std::atomic<std::uint32_t> mHoldsworthDelayEnabled{0};
   // Fixed-point normalized value: 100'000 / 1'000'000 = 10%.
-  std::atomic<std::uint32_t> mHoldsworthDelayMixLevel{100'000};
+  std::atomic<std::uint32_t> mHoldsworthDelayMixLevel{
+    holdsworth::integration::kDevelopmentWetDefaultEncoded};
   // Temporary preset index. Zero is the proven Lead 121 default.
   std::atomic<std::uint32_t> mHoldsworthDelayRequestedPreset{0};
   // Audio-thread-owned index of the configuration currently applied to the
