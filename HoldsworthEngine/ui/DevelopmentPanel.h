@@ -2,6 +2,7 @@
 
 #include "IControls.h"
 #include "../integration/DevelopmentControlDefaults.h"
+#include "../integration/DevelopmentPreNAMSelector.h"
 
 #include <algorithm>
 #include <array>
@@ -98,8 +99,8 @@ public:
     IVSliderControl::SetDirty(push, valIdx);
     UpdateValue();
   }
-private:
-  void UpdateValue()
+protected:
+  virtual void UpdateValue()
   {
     const double value = std::clamp(underlyingValue(), 0.0, 1.0);
     if (mPercent)
@@ -107,8 +108,44 @@ private:
     else
       mValueStr.SetFormatted(16, "%.3f", value);
   }
+private:
   bool mPercent;
   double mDefault;
+};
+
+class BoostSlider final : public PositionSlider
+{
+public:
+  BoostSlider(const IRECT& bounds, IActionFunction action)
+  : PositionSlider(bounds, action, "Boost", 0.0) {}
+protected:
+  void UpdateValue() override
+  {
+    mValueStr.SetFormatted(24, "+%.1f dB", 20.0 * std::clamp(GetValue(), 0.0, 1.0));
+  }
+};
+
+class ProcessorSelector final : public IVTabSwitchControl
+{
+public:
+  ProcessorSelector(const IRECT& bounds, IActionFunction action, const IVStyle& style)
+  : IVTabSwitchControl(bounds, action, {"OFF", "TC BLD", "MC402"}, "", style) {}
+  void SetControls(std::array<IControl*, 4> tcControls, IControl* mcControl)
+  { mTCControls = tcControls; mMCControl = mcControl; Refresh(); }
+  void SetValue(double value, int valIdx = 0) override
+  { IControl::SetValue(value, valIdx); Refresh(); }
+  void SetValueFromDelegate(double value, int valIdx = 0) override
+  { IVTabSwitchControl::SetValueFromDelegate(value, valIdx); Refresh(); }
+private:
+  void Refresh()
+  {
+    const auto choice = integration::preNAMProcessorFromNormalized(GetValue());
+    for (auto* control : mTCControls)
+      if (control) control->Hide(choice != integration::DevelopmentPreNAMProcessor::tcBld);
+    if (mMCControl) mMCControl->Hide(choice != integration::DevelopmentPreNAMProcessor::mc402Boost);
+  }
+  std::array<IControl*, 4> mTCControls{};
+  IControl* mMCControl = nullptr;
 };
 
 class GainSlider final : public PositionSlider
@@ -218,14 +255,14 @@ inline void attachDevelopmentPanel(IGraphics& g)
 
   g.AttachControl(new Card(IRECT(24, 116, 464, 326)));
   label(IRECT(44, 132, 294, 155), "BOOST / DRIVE", 14, mutedText());
-  label(IRECT(44, 161, 272, 190), "TC BLD  /  Clean Boost", 19, COLOR_WHITE);
+  label(IRECT(44, 161, 182, 190), "Clean Boost", 19, COLOR_WHITE);
   // iPlug's pressable controls use FG/PR for neutral/pressed, not OFF/ON.
   const auto toggleStyle = developmentStyle().WithShowLabel(false)
     .WithColor(EVColor::kFG, IColor(255, 40, 49, 61))
     .WithColor(EVColor::kPR, IColor(255, 45, 100, 147));
-  g.AttachControl(new IVToggleControl(IRECT(332, 150, 444, 190),
-    developmentMessage(kMsgTagTCBldEnabled), "", toggleStyle, "BYPASS", "ACTIVE", false),
-    kCtrlTagTCBldEnabled);
+  auto* selector = new ProcessorSelector(IRECT(194, 150, 444, 190),
+    developmentMessage(kMsgTagPreNAMProcessor), toggleStyle);
+  g.AttachControl(selector, kCtrlTagPreNAMProcessor);
   auto* gain = new GainSlider(IRECT(44, 210, 164, 302), [](IControl* caller) {
     sendDevelopmentValue(caller, kMsgTagTCBldGain, static_cast<GainSlider*>(caller)->underlyingValue());
   });
@@ -238,12 +275,17 @@ inline void attachDevelopmentPanel(IGraphics& g)
   g.AttachControl(range)->SetTooltip(
     "Focus: 0.10-0.30. Full: 0-1. Switching to Focus clamps Gain only if outside its range.");
   gain->SetRangeControl(range);
-  g.AttachControl(new PositionSlider(IRECT(184, 210, 304, 302),
-    developmentMessage(kMsgTagTCBldBass), "Bass", integration::kDevelopmentToneDefault), kCtrlTagTCBldBass)
+  auto* bass = new PositionSlider(IRECT(184, 210, 304, 302),
+    developmentMessage(kMsgTagTCBldBass), "Bass", integration::kDevelopmentToneDefault);
+  g.AttachControl(bass, kCtrlTagTCBldBass)
     ->SetTooltip("Left: cut. Right: boost. Double-click: 0.500.");
-  g.AttachControl(new PositionSlider(IRECT(324, 210, 444, 302),
-    developmentMessage(kMsgTagTCBldTreble), "Treble", integration::kDevelopmentToneDefault), kCtrlTagTCBldTreble)
+  auto* treble = new PositionSlider(IRECT(324, 210, 444, 302),
+    developmentMessage(kMsgTagTCBldTreble), "Treble", integration::kDevelopmentToneDefault);
+  g.AttachControl(treble, kCtrlTagTCBldTreble)
     ->SetTooltip("Left: cut. Right: boost. Double-click: 0.500.");
+  auto* boost = new BoostSlider(IRECT(44, 210, 444, 302), developmentMessage(kMsgTagMC402Boost));
+  g.AttachControl(boost, kCtrlTagMC402Boost)->SetTooltip("MC402 flat clean Boost: 0 to +20 dB. Double-click: 0 dB.");
+  selector->SetControls({gain, range, bass, treble}, boost);
 
   g.AttachControl(new Card(IRECT(24, 346, 464, 636)));
   label(IRECT(44, 361, 212, 385), "DELAY", 14, mutedText());

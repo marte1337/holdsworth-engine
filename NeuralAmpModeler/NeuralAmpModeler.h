@@ -11,6 +11,8 @@
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   #include "../HoldsworthEngine/dsp/HoldsworthDelayEngine.h"
   #include "../HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.h"
+  #include "../HoldsworthEngine/dsp/MC402CleanBoostProcessor.h"
+  #include "../HoldsworthEngine/integration/DevelopmentPreNAMSelector.h"
   #include "../HoldsworthEngine/integration/DevelopmentControlDefaults.h"
 #endif
 
@@ -84,10 +86,11 @@ enum ECtrlTags
   kCtrlTagHoldsworthDelayEnabled,
   kCtrlTagHoldsworthDelayWetLevel,
   kCtrlTagHoldsworthDelayPreset,
-  kCtrlTagTCBldEnabled,
+  kCtrlTagPreNAMProcessor,
   kCtrlTagTCBldGain,
   kCtrlTagTCBldBass,
   kCtrlTagTCBldTreble,
+  kCtrlTagMC402Boost,
 #endif
   kNumCtrlTags
 };
@@ -102,7 +105,7 @@ enum EMsgTags
   kMsgTagHoldsworthDelayEnabled,
   kMsgTagHoldsworthDelayWetLevel,
   kMsgTagHoldsworthDelayPreset,
-  kMsgTagTCBldEnabled,
+  kMsgTagPreNAMProcessor,
   kMsgTagTCBldGain,
   kMsgTagTCBldBass,
   kMsgTagTCBldTreble,
@@ -111,6 +114,9 @@ enum EMsgTags
   kMsgTagLoadFailed,
   kMsgTagLoadedModel,
   kMsgTagLoadedIR,
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  kMsgTagMC402Boost,
+#endif
   kNumMsgTags
 };
 
@@ -327,11 +333,11 @@ private:
   double mInputGain = 1.0;
   double mOutputGain = 1.0;
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
-  // Split form of mInputGain used only while the temporary BLD path is on.
-  // The first factor maps host-normalized input to volts at the BLD port; the
-  // second maps BLD output volts to the loaded NAM's normalized input.
-  double mTCBldHostToVoltsGain = 1.0;
-  double mTCBldVoltsToNamGain = 1.0;
+  // Split form of mInputGain used only while the selected pre-NAM pedal path is on.
+  // The first factor maps host-normalized input to volts at the pedal port; the
+  // second maps pedal output volts to the loaded NAM's normalized input.
+  double mPedalHostToVoltsGain = 1.0;
+  double mPedalVoltsToNamGain = 1.0;
 #endif
 
   // Noise gates
@@ -361,12 +367,14 @@ private:
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   // Temporary pre-NAM documentary-nominal CLEAN BOOST audition path.
   holdsworth::dsp::TCBLDCleanBoostProcessor mTCBldCleanBoostProcessor;
-  std::atomic<std::uint32_t> mTCBldEnabled{0};
+  holdsworth::dsp::MC402CleanBoostProcessor mMC402CleanBoostProcessor;
+  holdsworth::integration::DevelopmentPreNAMSelector mPreNAMSelector;
+  std::atomic<std::uint32_t> mPreNAMRequestedProcessor{0};
+  std::atomic<double> mMC402BoostDb{0.0};
   static_assert(std::atomic<double>::is_always_lock_free);
   std::atomic<double> mTCBldGain{holdsworth::integration::kDevelopmentGainDefault};
   std::atomic<std::uint32_t> mTCBldBass{500'000};
   std::atomic<std::uint32_t> mTCBldTreble{500'000};
-  bool mTCBldAppliedEnabled = false;
 
   // Temporary macOS-only development integration. The delay remains an
   // independent wet-only processor; these buffers and controls belong to the

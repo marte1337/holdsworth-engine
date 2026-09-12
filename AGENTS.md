@@ -4,13 +4,13 @@
 
 HoldsworthEngine extends the official NeuralAmpModelerPlugin with DSP for an
 Allan Holdsworth-inspired guitar signal chain. Current work includes a
-documentary-nominal TC BLD Clean Boost before NAM and an algorithmic stereo
-multi-delay inspired by Holdsworth's Yamaha UD-Stomp / Magicstomp usage after
-NAM.
+documentary-nominal TC BLD Clean Boost or MC402 Clean Boost before NAM and an
+algorithmic stereo multi-delay inspired by Holdsworth's Yamaha UD-Stomp /
+Magicstomp usage after NAM.
 
 NAM remains responsible for nonlinear amp/preamp modeling.
-The TC BLD Clean Boost and Yamaha-style multi-delay are implemented
-algorithmically in C++.
+The TC BLD / MC402 Clean Boost processors and Yamaha-style multi-delay are
+implemented algorithmically in C++.
 
 Physical TC BLD and Magicstomp calibration is deferred.
 
@@ -30,7 +30,7 @@ audition HoldsworthEngine DSP.
 Conceptually:
 
     host input
-    -> optional TC BLD Clean Boost
+    -> selected pre-NAM processor: Off / TC BLD / MC402 Clean Boost
     -> NAM
     -> tone stack
     -> cabinet / IR
@@ -39,8 +39,10 @@ Conceptually:
     -> dry + stereo wet
     -> host output
 
-The TC BLD path processes mono input before NAM. The Holdsworth delay receives
-the fully processed mono NAM signal and produces stereo wet output.
+The selector processes mono input through at most one pedal before NAM.
+The existing input trim and volts/calibration bridge apply to either pedal.
+The Holdsworth delay receives the fully processed mono NAM signal and produces
+stereo wet output.
 
 Temporary development controls are nonserialized and nonpermanent.
 
@@ -68,6 +70,7 @@ The engine currently supports:
 - contiguous-band GROUP shared delay circuits
 - transactional validation of SYNC, CONNECT, GROUP and their composition
 - realtime TC BLD Clean Boost with Gain, Bass and Treble controls
+- realtime MC402 Clean Boost V1 with a 0 to +20 dB Boost control and zero latency
 
 Important components include:
 
@@ -81,6 +84,8 @@ Important components include:
     DelayGrouping
     GroupedDelayCircuit
     TCBLDCleanBoostProcessor
+    MC402CleanBoostProcessor
+    DevelopmentPreNAMSelector
 
 ## Important DSP semantics
 
@@ -219,6 +224,16 @@ It is not hardware calibrated and does not implement Distortion, dynamic Noise
 Suppressor behavior, bypass electronics, component tolerances, clipping or slew
 behavior.
 
+### MC402 Clean Boost
+
+`MC402CleanBoostProcessor` implements `MC402-CLEAN-BOOST-V1`: flat scalar gain,
+0 to +20 dB (default 0 dB), with 10 ms gain smoothing and zero added latency.
+It uses the existing pre-NAM calibration convention without modeled clipping,
+EQ, FIR or oversampling. The provisional Overdrive profiles were rejected and
+archived under `HoldsworthEngine/references/pedals/mc402/rejected-overdrive`;
+they are not enrolled in production targets. Overdrive remains deferred pending
+stronger circuit evidence or hardware measurement.
+
 ## Yamaha source data versus DSP data
 
 This distinction is fundamental.
@@ -319,6 +334,7 @@ Implemented:
 - GROUP shared-history processing and CONNECT/GROUP composition
 - provisional physical-DSP presets and diagnostics
 - realtime TC BLD Clean Boost reduction
+- MC402 Clean Boost V1 and the exclusive Off / TC BLD / MC402 development selector
 
 Deferred or intentionally incomplete:
 
@@ -416,7 +432,8 @@ The macOS development build uses the dedicated Development UI v2. It presents
 separate Boost / Drive and Delay cards beside the existing NAM control module in
 an enlarged, resizable editor.
 
-The Boost / Drive card exposes TC BLD bypass, Gain, Bass and Treble. The Delay
+The Boost / Drive card selects Off, TC BLD or MC402. TC BLD exposes its existing
+Gain, Bass and Treble controls; MC402 exposes only Boost (0 to +20 dB). The Delay
 card exposes bypass, a separate Wet control and the five live audition presets:
 Lead 121, Holdsworth 122, Chorus 011, Chorus 031 and Holdsworth 223. Their visual
 grouping does not change preset indices or DSP identity.

@@ -1,0 +1,5 @@
+PASS: pre-NAM selector exclusive routing before gate/NAM
+PASS: pre-NAM selector unavailable/invalid/oversize fallback
+PASS: pre-NAM selector calibrated bridge and TC preservation
+PASS: pre-NAM selector realtime allocations
+All 4 HoldsworthEngine tests passed.

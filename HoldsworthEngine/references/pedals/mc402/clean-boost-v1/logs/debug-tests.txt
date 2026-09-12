@@ -1,0 +1,247 @@
+PASS: FractionalDelayLine: 0 ms returns the current sample
+PASS: FractionalDelayLine: 1 sample returns the previous sample
+PASS: FractionalDelayLine: fractional delay interpolates history
+PASS: FractionalDelayLine: split history API matches block processing
+PASS: FractionalDelayLine: explicit integer read matches configured read
+PASS: FractionalDelayLine: explicit fractional read matches configured read
+PASS: FractionalDelayLine: explicit read is stateless and safely clamped
+PASS: FractionalDelayLine: explicit read performs no allocations
+PASS: FractionalDelayLine: current-aware read supports zero and sub-one positions
+PASS: FractionalDelayLine: reset clears history
+PASS: FractionalDelayLine: exact in-place processing
+PASS: FractionalDelayLine: block partitioning is invariant
+PASS: FractionalDelayLine: delay time is clamped
+PASS: FractionalDelayLine: processing performs no allocations
+PASS: DelayModulator: phase convention and known sine sequence
+PASS: DelayModulator: explicit sine is bit-exact with legacy default
+PASS: DelayModulator: clock snapshot advances root exactly like independent path
+PASS: DelayModulator: external clock evaluation does not advance dormant clock
+PASS: DelayModulator: triangle has quarter-cycle landmarks
+PASS: DelayModulator: saw directions and discontinuities are explicit
+PASS: DelayModulator: waveforms share one bounded authoritative clock
+PASS: DelayModulator: waveform changes preserve parameters, phase, and reset
+PASS: DelayModulator: setPhase wrapping and reset
+PASS: DelayModulator: zero rate holds phase
+PASS: DelayModulator: rate changes preserve logical time
+PASS: DelayModulator: parameters sanitize and rate has a separate technical limit
+PASS: DelayModulator: prepare validation and reprepare reset
+PASS: DelayModulator: long-run cache follows authoritative phase
+PASS: DelayModulator: hot path performs no allocations
+PASS: DelayLoopFilter: bypass returns input bit-for-bit
+PASS: DelayLoopFilter: invalid enabled cutoffs sanitize to OFF
+PASS: DelayLoopFilter: requested and effective cutoffs remain distinct
+PASS: DelayLoopFilter: cutoffs clamp independently without reordering
+PASS: DelayLoopFilter: Low Cut precedes High Cut
+PASS: DelayLoopFilter: individual sections have expected frequency response
+PASS: DelayLoopFilter: both sections form the expected band-pass
+PASS: DelayLoopFilter: identical configuration is state-idempotent
+PASS: DelayLoopFilter: active cutoff changes retain state
+PASS: DelayLoopFilter: OFF clears only its section and ON starts fresh
+PASS: DelayLoopFilter: reset is deterministic and retains configuration
+PASS: DelayLoopFilter: prepare validates sample rate
+PASS: DelayLoopFilter: configuration and hot path perform no allocations
+PASS: DelayBand: sub-sample requests clamp to one sample
+PASS: DelayBand: minimum-delay feedback remains stable
+PASS: DelayBand: integer feedback has no extra loop sample
+PASS: DelayBand: fractional delay works with feedback
+PASS: DelayBand: output level is outside the feedback loop
+PASS: DelayBand: equal-power pan convention
+PASS: DelayBand: disabled state gates input and advances tails
+PASS: DelayBand: reset clears history and preserves parameters
+PASS: DelayBand: block partitioning is invariant
+PASS: DelayBand: exact input/output aliasing
+PASS: DelayBand: outputs are overwritten with wet-only signal
+PASS: DelayBand: parameters clamp and sanitize non-finite values
+PASS: DelayBand: reprepare recomputes one-sample minimum
+PASS: DelayBand: prepare rejects an insufficient maximum
+PASS: DelayBand: processing performs no allocations
+PASS: DelayBand modulation: zero depth is bit-exact with legacy feedback
+PASS: DelayBand modulation: zero depth is bit-exact across waveforms
+PASS: DelayBand modulation: zero rate and fixed phase produce a static offset
+PASS: DelayBand modulation: delay advances at sample rate
+PASS: DelayBand modulation: moving read has the expected feedback recurrence
+PASS: DelayBand modulation: depth is symmetric at delay boundaries
+PASS: DelayBand modulation: block partitioning is invariant
+PASS: DelayBand modulation: reset restores history and LFO phase
+PASS: DelayBand modulation: disabled state advances LFO and tail
+PASS: DelayBand modulation: processing performs no allocations
+PASS: DelayBand loop filter: OFF static path is bit-exact legacy processing
+PASS: DelayBand loop filter: OFF moving path is bit-exact legacy processing
+PASS: DelayBand loop filter: first echo and feedback use filtered delay
+PASS: DelayBand loop filter: feedback repeats accumulate filtering
+PASS: DelayBand loop filter: output level and pan remain outside recurrence
+PASS: DelayBand loop filter: reset and partitioning are deterministic
+PASS: DelayBand loop filter: processing performs no allocations
+PASS: DelayBand TAP: 100 percent is bit-exact legacy processing
+PASS: DelayBand TAP: 66.6 percent interpolates at 240 ms and repeats at 360 ms
+PASS: DelayBand TAP: sub-one read observes pending input before one write
+PASS: DelayBand TAP: audible position does not alter feedback recurrence
+PASS: DelayBand TAP: output uses an independent identically configured filter
+PASS: DelayBand TAP: modulation follows the proportional moving-loop reference
+PASS: DelayBand TAP: output level and pan remain outside recurrence
+PASS: DelayBand TAP: reset and block partitioning are deterministic
+PASS: DelayBand TAP: values sanitize safely and processing does not allocate
+PASS: DelayBand polarity: Normal is bit-exact across established paths
+PASS: DelayBand polarity: Reverse only inverts early-TAP output and preserves corresponding state
+PASS: DelayBand polarity: Reverse preserves full-TAP feedback timing and amplitude
+PASS: DelayBand polarity: disabled semantics and history are unchanged
+PASS: DelayBand polarity: processing performs no allocations
+PASS: HoldsworthDelayEngine: configuration preserves requested loop-filter values
+PASS: HoldsworthDelayEngine: configuration preserves requested modulation and TAP values
+PASS: HoldsworthDelayEngine: one modulated band matches DelayBand
+PASS: HoldsworthDelayEngine: one filtered band matches DelayBand
+PASS: HoldsworthDelayEngine: eight bands have independent tap positions
+PASS: HoldsworthDelayEngine: eight bands sum without hidden normalization
+PASS: HoldsworthDelayEngine: global wet is post-sum and outside feedback
+PASS: HoldsworthDelayEngine: outputs are overwritten with wet-only signal
+PASS: HoldsworthDelayEngine: reset clears histories and preserves configuration
+PASS: HoldsworthDelayEngine: reset restores deterministic modulation phases
+PASS: HoldsworthDelayEngine: eight modulated/filtered bands are block-partition invariant
+PASS: HoldsworthDelayEngine: exact input/output aliasing
+PASS: HoldsworthDelayEngine: global wet clamps and sanitizes non-finite values
+PASS: HoldsworthDelayEngine: processing performs no allocations
+PASS: Yamaha filter reference points remain typed source metadata
+PASS: HoldsworthDelayEngine: Lead 121 source and DSP values remain separate
+PASS: HoldsworthDelayEngine: Lead 121 output is bit-exact with legacy static topology
+PASS: HoldsworthDelayEngine: Chorus 011 source and provisional DSP values remain separate
+PASS: HoldsworthDelayEngine: Chorus 011 output is bit-exact with legacy moving topology
+PASS: HoldsworthDelayEngine: Chorus 031 source and provisional DSP values remain separate
+PASS: HoldsworthDelayEngine: Chorus 031 output is bit-exact with legacy Sine/Normal topology
+PASS: HoldsworthDelayEngine: Chorus 031 renders 25.4% TAP at exact fractional positions
+PASS: HoldsworthDelayEngine: Chorus 031 configuration and processing perform no allocations
+PASS: Yamaha SYNC: source metadata is exact and strongly separated
+PASS: HoldsworthDelayEngine SYNC: offsets canonicalize and invalid graphs roll back
+PASS: HoldsworthDelayEngine SYNC: rejected whole configuration preserves continuation
+PASS: HoldsworthDelayEngine SYNC: rejected graph-only configuration preserves continuation
+PASS: HoldsworthDelayEngine SYNC: root audio advances exactly once across long render
+PASS: HoldsworthDelayEngine SYNC: zero-depth and disabled roots still clock slaves
+PASS: HoldsworthDelayEngine SYNC: equal-depth Sine half-cycle is exact with lower master
+PASS: HoldsworthDelayEngine SYNC: half-cycle slave retains waveform and depth
+PASS: HoldsworthDelayEngine SYNC: fan-out is ordered, partition invariant, and reset deterministic
+PASS: HoldsworthDelayEngine SYNC: configuration and processing do not allocate
+PASS: Yamaha CONNECT: source metadata remains strongly separated
+PASS: CONNECT: independent path matches standalone bands bit-exactly
+PASS: CONNECT: serial input is original plus upstream delay and output stays wet-only
+PASS: CONNECT: fan-out does not duplicate source wet or zero-latency dry
+PASS: CONNECT: higher-to-lower chains and mixed parallel roots are deterministic
+PASS: CONNECT: a disabled intermediate band bypasses while its local tail advances
+PASS: CONNECT: LEVEL zero removes routed delay but preserves direct input
+PASS: CONNECT: each band's feedback recurrence remains local
+PASS: CONNECT: an early TAP feeds the downstream band
+PASS: CONNECT: filtered TAP audio is not filtered twice
+PASS: CONNECT: NOR and REV polarity feed signed audio downstream
+PASS: CONNECT: PAN is excluded from mono routing
+PASS: CONNECT: global wet remains post-sum and outside routing
+PASS: CONNECT: SYNC prepass is independent of audio topological order
+PASS: CONNECT: processing is partition invariant and reset deterministic
+PASS: CONNECT: graph validation rejects invalid, self, and cyclic inputs transactionally
+PASS: CONNECT: routing-only rejection preserves history and continuation
+PASS: CONNECT: whole cross-domain rejection is fully transactional
+PASS: CONNECT: exact input/output aliasing is supported
+PASS: CONNECT: configuration and processing perform no allocations
+PASS: GROUP: source/DSP types and documented capacities stay separate
+PASS: GROUP: sizes 2-8, non-Band-1 heads, and multiple ranges round-trip
+PASS: GROUP: invalid ranges, overlap, nesting, and duplicates are rejected
+PASS: GROUP: documented and physical capacities validate independently
+PASS: GROUP: shared history supports independent TAPs above band capacity
+PASS: GROUP: changing total delay preserves proportional TAP timing
+PASS: GROUP: one feedback recurrence ignores member output controls
+PASS: GROUP: one authoritative loop filter feeds output and feedback
+PASS: GROUP: LEVEL, PAN, and PHASE remain per-output
+PASS: GROUP: disabled non-head mutes delay and preserves CONNECT bypass
+PASS: GROUP: disabled head gates input, keeps tail, and bypasses CONNECT
+PASS: GROUP: disabled head and member modulation clocks keep advancing
+PASS: GROUP: modulation uses group depth and not feedback-loop timing
+PASS: GROUP: provisional modulation/TAP helper clamps then applies TAP
+PASS: GROUP: SYNC retains per-output depth and half-cycle timing
+PASS: GROUP: grouped output feeds another group and fans out once
+PASS: GROUP: non-head destination and collapsed cycles are rejected
+PASS: GROUP: standalone topology validates active CONNECT
+PASS: GROUP: member count cannot advance shared history more than once
+PASS: GROUP: block partition, reset, and input aliasing are deterministic
+PASS: GROUP: unchanged topology preserves history and changed topology clears
+PASS: GROUP: full and standalone rejection preserve state transactionally
+PASS: GROUP: configuration and processing allocate nothing
+PASS: GROUP: physical capacity getter is distinct
+PASS: GROUP: singleton source metadata remains non-DSP
+PASS: GROUP rhythm diagnostics: documented capacities and physical values remain separate
+PASS: GROUP rhythm diagnostics: exact shared GROUP configuration
+PASS: GROUP rhythm diagnostics: proportional taps have no dry leak or repeats
+PASS: GROUP rhythm diagnostics: configuration application is allocation-free
+PASS: Yamaha 9.13 CONNECT: manual identity and original parallel source state remain exact
+PASS: Yamaha 9.13 CONNECT: physical diagnostics differ only by Band 2 routing
+PASS: Yamaha 9.13 CONNECT: parallel and serial impulse timings are exact
+PASS: Yamaha 9.13 CONNECT: diagnostic configuration application performs no allocations
+PASS: Yamaha 922: factory source and DSP variants remain exact and separate
+PASS: Yamaha 922: Band 1 Reverse changes only DSP polarity and keeps NOR/NOR source
+PASS: Yamaha 922: configurations apply transactionally and round-trip
+PASS: Yamaha 922: baseline locks root/slave rates across long render
+PASS: Yamaha 922: half-cycle diagnostic has exact opposite Sine offsets
+PASS: Yamaha 922: removing SYNC restores dormant zero-rate slave
+PASS: Yamaha 922: independent diagnostic has dormant zero-rate modulation
+PASS: Yamaha 922: diagnostic is partition invariant and reset deterministic
+PASS: Yamaha 922: all existing diagnostic renders remain bit-exact
+PASS: Yamaha 922: configuration and processing perform no allocations
+PASS: Holdsworth 111: exact identity, attribution, and Yamaha source metadata
+PASS: Holdsworth 111: source and DSP types remain strongly separated
+PASS: Holdsworth 111: exact physical configuration, capacity, and relationships
+PASS: Holdsworth 111: configuration round-trip and application are allocation-free
+PASS: Holdsworth 111: render has early TAPs, long echoes, and feedback tail
+PASS: Holdsworth 111: render is partition invariant and reset deterministic
+PASS: Holdsworth 122: exact identity, attribution, and Yamaha source metadata
+PASS: Holdsworth 122: source and DSP types remain strongly separated
+PASS: Holdsworth 122: exact physical configuration, capacity, and relationships
+PASS: Holdsworth 122: configuration round-trip and application are allocation-free
+PASS: Holdsworth 122: render preserves timing, stereo placement, and feedback recurrence
+PASS: Holdsworth 122: render is partition invariant and reset deterministic
+PASS: Holdsworth 223: exact identity, attribution, and Yamaha source metadata
+PASS: Holdsworth 223: source and DSP types remain strongly separated
+PASS: Holdsworth 223: exact physical configuration, capacity, and relationships
+PASS: Holdsworth 223: configuration round-trip and application are allocation-free
+PASS: Holdsworth 223: impulse render preserves timing, polarity, and recurrence
+PASS: Holdsworth 223: documented REV changes only Band 3 audible output
+PASS: Holdsworth 231: exact identity, attribution, and Yamaha source metadata
+PASS: Holdsworth 231: source and DSP types remain strongly separated
+PASS: Holdsworth 231: exact physical configuration, capacity, and relationships
+PASS: Holdsworth 231: configuration round-trip and application are allocation-free
+PASS: Holdsworth 231: render preserves stereo placement and feedback tail
+PASS: Holdsworth 231: render is partition invariant and reset deterministic
+PASS: Live integration: stereo mix is direct and unclipped
+PASS: Live integration: mono output uses explicit 0.5 wet fold-down
+PASS: Live integration: wet mix is separate from engine global wet
+PASS: Live integration: development preset selection applies existing configurations exactly
+PASS: Live integration: rejected development configuration remains transactional
+PASS: Live integration: preset switching allocates nothing and preserves unchanged GROUP history
+PASS: Live integration: preset switching leaves temporary wet mix independent
+PASS: Live integration: bypass advances tails without capturing input
+PASS: Live integration: processing helpers perform no allocations
+PASS: Development controls: exact reset defaults
+PASS: Development Gain: Focus/Full mapping and exact preservation
+PASS: Development Gain: explicit Focus selection clamps only outside range
+M1 192 kHz response: maximum magnitude error 0.317483 dB at p2_0_p3_1/17673.4 Hz; maximum phase error 2.26725 deg at p2_0_p3_1/17673.4 Hz; reviewed unstable-Gain phase departure 179.834 deg
+PASS: TC BLD M1 golden response at 192 kHz
+M1 48 kHz audition band: maximum magnitude error 0.322209 dB at p2_0_p3_1/5124.97 Hz; maximum phase error 1.77565 deg at p2_1_p3_1/5124.97 Hz; reviewed unstable-Gain phase departure 179.925 deg
+PASS: TC BLD M1 golden 48 kHz guitar audition band
+PASS: TC BLD reviewed Gain behavior is not made monotonic
+PASS: TC BLD Bass/Treble network remains coupled
+PASS: TC BLD block partition and in-place processing
+PASS: TC BLD realtime calls allocate nothing
+PASS: TC BLD latest staged controls win at a block boundary
+PASS: TC BLD common rates and control extremes remain stable
+PASS: TC BLD controls and non-finite samples are sanitized
+PASS: TC BLD volts bridge preserves ideal-wire identity
+PASS: TC BLD development tone controls run from cut to boost
+PASS: TC BLD M1 identity is embedded
+PASS: MC402 Boost identity and zero latency
+PASS: MC402 Boost levels and in-place
+PASS: MC402 Boost smoothing and reset
+PASS: MC402 Boost block partitions
+PASS: MC402 Boost finite/extreme input and controls
+PASS: MC402 Boost realtime allocations
+PASS: MC402 Boost concurrent control handoff
+PASS: MC402 Boost lifecycle validation
+PASS: pre-NAM selector exclusive routing before gate/NAM
+PASS: pre-NAM selector unavailable/invalid/oversize fallback
+PASS: pre-NAM selector calibrated bridge and TC preservation
+PASS: pre-NAM selector realtime allocations
+All 244 HoldsworthEngine tests passed.

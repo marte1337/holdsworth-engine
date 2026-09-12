@@ -1,0 +1,15 @@
+M1 192 kHz response: maximum magnitude error 0.317483 dB at p2_0_p3_1/17673.4 Hz; maximum phase error 2.26725 deg at p2_0_p3_1/17673.4 Hz; reviewed unstable-Gain phase departure 179.834 deg
+PASS: TC BLD M1 golden response at 192 kHz
+M1 48 kHz audition band: maximum magnitude error 0.322209 dB at p2_0_p3_1/5124.97 Hz; maximum phase error 1.77565 deg at p2_1_p3_1/5124.97 Hz; reviewed unstable-Gain phase departure 179.925 deg
+PASS: TC BLD M1 golden 48 kHz guitar audition band
+PASS: TC BLD reviewed Gain behavior is not made monotonic
+PASS: TC BLD Bass/Treble network remains coupled
+PASS: TC BLD block partition and in-place processing
+PASS: TC BLD realtime calls allocate nothing
+PASS: TC BLD latest staged controls win at a block boundary
+PASS: TC BLD common rates and control extremes remain stable
+PASS: TC BLD controls and non-finite samples are sanitized
+PASS: TC BLD volts bridge preserves ideal-wire identity
+PASS: TC BLD development tone controls run from cut to boost
+PASS: TC BLD M1 identity is embedded
+All 12 HoldsworthEngine tests passed.

@@ -6,7 +6,9 @@ owns the development cards; the NAM wrapper attaches its original 600 x 400
 control module beside them. No audio routing or parameters are implemented here.
 
 - The header states the input / boost / amp / cab / delay / output signal chain.
-- The Boost / Drive card contains TC BLD bypass and Gain, Bass, Treble sliders.
+- The Boost / Drive card has a compact `OFF | TC BLD | MC402` selector.
+  TC BLD shows its unchanged Gain/Bass/Treble controls and Focus/Full range.
+  MC402 shows only a 0–20 dB Boost slider; Off hides both sets of controls.
 - The Delay card contains bypass, a separate Wet slider and three preset rows.
 - Lead: Lead 121 and Holdsworth 122. Chorus: Chorus 011 and Chorus 031.
   Other: Holdsworth 223. This is presentation grouping only.
@@ -16,9 +18,10 @@ control module beside them. No audio routing or parameters are implemented here.
 
 The preset control retains its original five indices and normalized values:
 Lead 121=0, Chorus 011=0.25, Chorus 031=0.5, Holdsworth 223=0.75,
-Holdsworth 122=1. Only their rectangles are rearranged. All seven development
-control tags and message payloads are unchanged; UI Bass/Treble still run from
-cut to boost through the existing wrapper mapping.
+Holdsworth 122=1. The MC402 extension leaves these indices and all Delay
+rectangles unchanged. The previous BLD-enabled tag now carries the processor
+selection (0/.5/1); MC402 has one new normalized Boost message (0–1 maps to
+0–20 dB). UI Bass/Treble still run from cut to boost through the existing mapping.
 
 ## Wet collision
 
@@ -55,8 +58,12 @@ that change. Double-click always returns to Focus and the exact default.
 When an editor reopens with an out-of-Focus delegate value it reveals Full
 without changing audio. Range state is local to the editor and not serialized.
 
-BLD and Delay toggles show blue `ACTIVE` when enabled and neutral `BYPASS`
-when disabled, using iPlug's actual FG/PR pressable-state colors.
+The Delay toggle still shows blue `ACTIVE` and neutral `BYPASS`. The pedal
+selector indicates the single selected processor. MC402 Boost starts at 0 dB
+and double-click resets to 0 dB using the same slider interaction and visual
+language. Processor selection and control values survive editor reopening but
+remain temporary, nonserialized development controls. No Overdrive controls,
+oversampling or host-latency settings are exposed.
 
 ## Manual audition checks
 
@@ -65,3 +72,10 @@ label readability, Wet dragging from its track/label/value, each preset's
 selected state, BLD cut-to-boost direction, and opening/closing NAM Settings.
 Model/IR loading, Slim visibility, and meters should behave as before.
 Visual inspection is manual; do not automate screenshots or UI interaction.
+
+For the Boost-only M2 integration, verify switching OFF/TC BLD/MC402 shows
+only the applicable controls, the MC402 slider reads 0 to +20 dB and resets
+to zero, and TC values/Focus behavior survive switching away and back.
+Check editor reopening, calibrated versus fallback input, and the boost into
+your chosen NAM. This is manual audition, not tuning the accepted scalar law.
+The 1100 x 660 panel, card dimensions, Amp/Cab module and Delay module are unchanged.

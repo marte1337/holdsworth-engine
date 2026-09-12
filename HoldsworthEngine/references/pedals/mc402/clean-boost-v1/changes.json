@@ -1,0 +1,94 @@
+{
+  "changed_preexisting_files": [
+    "HoldsworthEngine/references/pedals/mc402/README.md",
+    "HoldsworthEngine/references/pedals/mc402/dsp-design.md",
+    "HoldsworthEngine/references/pedals/mc402/m1/README.md",
+    "HoldsworthEngine/references/pedals/mc402/m1/m1a/README.md",
+    "HoldsworthEngine/references/pedals/mc402/m1/m1b/README.md",
+    "HoldsworthEngine/references/pedals/mc402/m1/m1c/README.md",
+    "HoldsworthEngine/references/pedals/mc402/m1/m1c/derivation.md",
+    "HoldsworthEngine/references/pedals/mc402/milestones.md",
+    "HoldsworthEngine/tests/TestHarness.h",
+    "HoldsworthEngine/tests/TestMain.cpp",
+    "HoldsworthEngine/ui/DevelopmentPanel.h",
+    "HoldsworthEngine/ui/README.md",
+    "NeuralAmpModeler/NeuralAmpModeler.cpp",
+    "NeuralAmpModeler/NeuralAmpModeler.h",
+    "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj"
+  ],
+  "moved_byte_for_byte": [
+    {
+      "from": "HoldsworthEngine/tests/MC402BoostOverdriveProcessorTests.cpp",
+      "to": "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/tests/MC402BoostOverdriveProcessorTests.cpp",
+      "sha256": "a1780a985601fc608ab8d4127456ef995e214337908a81bd997a3590eabbd3c7"
+    },
+    {
+      "from": "HoldsworthEngine/tests/MC402TestAccess.h",
+      "to": "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/tests/MC402TestAccess.h",
+      "sha256": "e18ffb6a733123d7f775f5ea05dc375b4523c946edcdc0f24f0e66df379a1d14"
+    },
+    {
+      "from": "HoldsworthEngine/dsp/MC402BoostOverdriveProcessor.h",
+      "to": "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/dsp/MC402BoostOverdriveProcessor.h",
+      "sha256": "b87c3163eee0d15d1aa4c73add632b483c0e7018be32926c7ed77350e4e89d4f"
+    },
+    {
+      "from": "HoldsworthEngine/dsp/MC402BoostOverdriveProcessor.cpp",
+      "to": "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/dsp/MC402BoostOverdriveProcessor.cpp",
+      "sha256": "a6a41c95549951e4b47ea27406532e419044219d9974ad26276eac694feaeb12"
+    },
+    {
+      "from": "HoldsworthEngine/dsp/MC402HalfBandCoefficients.h",
+      "to": "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/dsp/MC402HalfBandCoefficients.h",
+      "sha256": "c2edea74c9ccb716bc25b65f5cf0d639e34b2d514260b6a17b1d5bfde7334074"
+    },
+    {
+      "from": "HoldsworthEngine/dsp/MC402ProvisionalProfile.h",
+      "to": "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/dsp/MC402ProvisionalProfile.h",
+      "sha256": "b0ecfa790d5aaf1effb3a26adbce1436ef587bbca125c937c24a4e8b47663bf0"
+    }
+  ],
+  "added_files": [
+    "HoldsworthEngine/dsp/MC402CleanBoostProcessor.cpp",
+    "HoldsworthEngine/dsp/MC402CleanBoostProcessor.h",
+    "HoldsworthEngine/integration/DevelopmentPreNAMSelector.h",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/README.md",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/audit.py",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/changes.json",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/README.md",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/debug-build.log.gz",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/debug-tests.txt",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/focused.txt",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/plugin-build-final.log.gz",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/release-build.log.gz",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/release-tests.txt",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/routing.txt",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/sanitizer-tests.txt",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/tc-regressions.txt",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/logs/tsan-tests.txt",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/preserved-sha256.json",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/validate.sh",
+    "HoldsworthEngine/references/pedals/mc402/clean-boost-v1/validation.json",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/README.md",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/dsp/MC402BoostOverdriveProcessor.cpp",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/dsp/MC402BoostOverdriveProcessor.h",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/dsp/MC402HalfBandCoefficients.h",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/dsp/MC402ProvisionalProfile.h",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/export_research.py",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/source-sha256.json",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/tests/MC402BoostOverdriveProcessorTests.cpp",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/tests/MC402TestAccess.h",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/tests/TestHarness.h",
+    "HoldsworthEngine/references/pedals/mc402/rejected-overdrive/tests/TestMain.cpp",
+    "HoldsworthEngine/tests/DevelopmentPreNAMSelectorTests.cpp",
+    "HoldsworthEngine/tests/MC402CleanBoostProcessorTests.cpp"
+  ],
+  "production_no_longer_enrolled": [
+    "MC402BoostOverdriveProcessor.cpp",
+    "MC402BoostOverdriveProcessorTests.cpp"
+  ],
+  "archive_test_snapshots": [
+    "TestMain.cpp",
+    "TestHarness.h"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "profile": "MC402-CLEAN-BOOST-V1",
+  "status": "Boost-only production processor and development M2 integrated; manual inspection/audition pending",
+  "boost": {
+    "default_db": 0.0,
+    "range_db": [
+      0.0,
+      20.0
+    ],
+    "settled_gain": "10^(boostDb/20)",
+    "smoothing_seconds": 0.01,
+    "latency_samples": 0,
+    "sample_rates_tested": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ]
+  },
+  "debug_tests": 244,
+  "release_tests": 244,
+  "asan_ubsan_tests": 244,
+  "mc402_focused_tests": 8,
+  "selector_tests": 4,
+  "tc_bld_regressions": 12,
+  "zero_allocations": "passes for Boost setters/reset/process and selector/reset/process; no locks or I/O in processing",
+  "concurrent_control_handoff": "ThreadSanitizer pass; single atomic target, block-boundary adoption",
+  "strict_warnings": "pass for new DSP and tests; legacy DSP has pre-existing strict-warning findings, left unchanged",
+  "clang_static_analysis": "pass on MC402CleanBoostProcessor.cpp",
+  "builds": {
+    "configuration": "Debug",
+    "architecture": "arm64",
+    "APP": "pass",
+    "VST3": "pass",
+    "AU": "pass",
+    "code_signing_allowed": false,
+    "installed_plugins_modified": false,
+    "AU_cache_cleanup": "no-op script override for this build invocation only"
+  },
+  "standalone": {
+    "path": "/tmp/mc402-boost-v1/products/NeuralAmpModeler.app",
+    "launched": true,
+    "running_executable_path_verified": true,
+    "manual_visual_inspection": false,
+    "automated_UI_or_screenshot": false
+  },
+  "research": {
+    "overdrive_profiles": "rejected for product integration; deferred pending stronger circuit evidence or hardware measurement",
+    "moved_source_files": 6,
+    "additional_test_harness_snapshots": 2,
+    "source_hashes_preserved": true,
+    "historical_numerical_and_data_files_unchanged": 303,
+    "V1_bridge_export_compile": "pass",
+    "R2_export_compile": "pass",
+    "alias_experiments_run": false
+  },
+  "preserved_preexisting_files": 538,
+  "NAM_cab_downstream_processing": "unchanged source; checked against original ProcessBlock tail",
+  "TC_BLD_DSP": "unchanged SHA256",
+  "Yamaha_DSP": "unchanged SHA256",
+  "Delay_and_Amp_Cab_UI": "unchanged source suffix",
+  "git_diff_check": "pass",
+  "project_plist": "pass",
+  "source_enrollment": "clean Boost class in all existing TC build targets; no rejected Overdrive source/tests enrolled",
+  "scope_audit": "pass; all 538 protected files and 8 archived snapshots match; downstream ProcessBlock and Delay/Amp/Cab UI byte comparisons pass",
+  "reproduction_wrapper": "syntax checked; components executed individually",
+  "commit_created": false,
+  "platform": "macOS-26.3.1-arm64-arm-64bit"
+}

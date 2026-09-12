@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <new>
+#include <string_view>
 
 namespace
 {
@@ -73,9 +74,14 @@ void operator delete[](void* memory, std::size_t) noexcept
   std::free(memory);
 }
 
-int main()
+int main(int argc, char** argv)
 {
   using namespace holdsworth::test;
+  if (argc > 2)
+  {
+    std::cerr << "Usage: HoldsworthEngineTests [test-name substring]\n";
+    return EXIT_FAILURE;
+  }
 
   const std::array suites{fractionalDelayLineTests(),
                           delayModulatorTests(),
@@ -97,7 +103,9 @@ int main()
                           holdsworth223PresetTests(),
                           holdsworth231PresetTests(),
                           holdsworthDelayLiveIntegrationTests(),
-                          tcBldCleanBoostProcessorTests()};
+                          tcBldCleanBoostProcessorTests(),
+                          mc402CleanBoostProcessorTests(),
+                          developmentPreNAMSelectorTests()};
   std::size_t totalTests = 0;
   int failures = 0;
 
@@ -105,6 +113,8 @@ int main()
   {
     for (const TestCase& test : suite)
     {
+      if (argc == 2 && std::string_view(test.name).find(argv[1]) == std::string_view::npos)
+        continue;
       const bool passed = test.run();
       std::cout << (passed ? "PASS: " : "FAIL: ") << test.name << '\n';
       failures += passed ? 0 : 1;
@@ -112,6 +122,11 @@ int main()
     }
   }
 
+  if (totalTests == 0)
+  {
+    std::cerr << "No matching tests.\n";
+    return EXIT_FAILURE;
+  }
   if (failures == 0)
   {
     std::cout << "All " << totalTests << " HoldsworthEngine tests passed.\n";
