@@ -1,0 +1,10 @@
+{
+  "dsp/MC402BoostOverdriveProcessor.h": "b87c3163eee0d15d1aa4c73add632b483c0e7018be32926c7ed77350e4e89d4f",
+  "dsp/MC402BoostOverdriveProcessor.cpp": "a6a41c95549951e4b47ea27406532e419044219d9974ad26276eac694feaeb12",
+  "dsp/MC402ProvisionalProfile.h": "b0ecfa790d5aaf1effb3a26adbce1436ef587bbca125c937c24a4e8b47663bf0",
+  "dsp/MC402HalfBandCoefficients.h": "c2edea74c9ccb716bc25b65f5cf0d639e34b2d514260b6a17b1d5bfde7334074",
+  "tests/MC402BoostOverdriveProcessorTests.cpp": "a1780a985601fc608ab8d4127456ef995e214337908a81bd997a3590eabbd3c7",
+  "tests/MC402TestAccess.h": "e18ffb6a733123d7f775f5ea05dc375b4523c946edcdc0f24f0e66df379a1d14",
+  "tests/TestMain.cpp": "1c9cc6721ad5ed34f2f1147d4cdad0d24b125d0e12331069643dd67c061444af",
+  "tests/TestHarness.h": "5a608e4685e32554fff2b2cb1f0b49608db854294dd4a11f4b8ef32da98d64a3"
+}

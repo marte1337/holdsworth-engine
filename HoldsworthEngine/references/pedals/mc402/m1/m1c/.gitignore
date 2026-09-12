@@ -1,0 +1,7 @@
+# Reproducible bulk outputs; keep reports, summaries and reproduction tools.
+/data/product-[0-9]*-*.json.gz
+/data/torture-[0-9]*-*.json.gz
+/renders/isolated-[1-6].npz
+/renders/isolated-[1-6].wav
+/level-sweeps.json.gz
+/files.json

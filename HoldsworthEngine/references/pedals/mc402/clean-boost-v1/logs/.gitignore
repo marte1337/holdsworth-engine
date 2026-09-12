@@ -1,0 +1,4 @@
+# Reproducible bulk outputs; keep reports, summaries and reproduction tools.
+/debug-build.log.gz
+/release-build.log.gz
+/plugin-build-final.log.gz

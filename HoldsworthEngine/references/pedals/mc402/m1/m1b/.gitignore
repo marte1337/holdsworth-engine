@@ -1,0 +1,5 @@
+# Reproducible bulk outputs; keep reports, summaries and reproduction tools.
+/product-[0-9]*-*.json.gz
+/dense-[0-9]*-*.json.gz
+/torture-[0-9]*-*.json.gz
+/tails-[0-9]*-*.json.gz

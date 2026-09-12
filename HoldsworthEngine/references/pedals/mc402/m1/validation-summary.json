@@ -1,0 +1,74 @@
+{
+  "profile": "MC402-BOUNDED-V1-PROVISIONAL",
+  "date": "2026-09-10",
+  "base_commit": "fa6c0f8293fc832cac98338f3b05dd8ac2065e53",
+  "environment": {
+    "architecture": "arm64",
+    "macos": "26.3.1",
+    "compiler": "Apple Clang 21.0.0 (clang-2100.1.1.101)",
+    "python": "3.9.6",
+    "numpy": "2.0.2",
+    "scipy": "1.13.1"
+  },
+  "full_debug": {
+    "passed": 245,
+    "failed": 0
+  },
+  "full_release": {
+    "passed": 245,
+    "failed": 0
+  },
+  "asan_ubsan": {
+    "passed": 245,
+    "failed": 0,
+    "diagnostics": 0,
+    "leak_sanitizer": "unsupported on this platform; detect_leaks=0"
+  },
+  "focused_mc402_tests": 13,
+  "tsan_concurrent_snapshot": {
+    "passed": 1,
+    "race_diagnostics": 0
+  },
+  "strict_warnings": "pass: new DSP, tests and offline C++",
+  "clang_static_analyzer": "pass: new DSP and tests, zero diagnostics",
+  "plugin_builds": {
+    "APP": "Debug arm64 pass",
+    "VST3": "Debug arm64 pass",
+    "AU": "Debug arm64 pass",
+    "installed_or_launched": false,
+    "au_cache_cleanup": "temporary invocation-only no-op; no project modification"
+  },
+  "project_plist_lint": "pass",
+  "mc402_source_enrollment": "HoldsworthEngineTests only",
+  "generated_coefficients": "bit-exact to pinned generator",
+  "offline_numerical_exit_code": 1,
+  "alias_gate_passed": false,
+  "m1_acceptance": "not met; measured alias tradeoff requires review",
+  "m2_started": false,
+  "commit_created": false,
+  "initial_experiments": {
+    "global_ffp_contract_off": "one legacy Yamaha 922 fingerprint differed; standard Xcode and sanitizer flags pass; no legacy code/expectations changed",
+    "short_warmup": "replaced with at least 0.5 seconds before recording final results"
+  },
+  "source_sha256": {
+    "HoldsworthEngine/dsp/MC402BoostOverdriveProcessor.cpp": "a6a41c95549951e4b47ea27406532e419044219d9974ad26276eac694feaeb12",
+    "HoldsworthEngine/dsp/MC402BoostOverdriveProcessor.h": "b87c3163eee0d15d1aa4c73add632b483c0e7018be32926c7ed77350e4e89d4f",
+    "HoldsworthEngine/dsp/MC402HalfBandCoefficients.h": "c2edea74c9ccb716bc25b65f5cf0d639e34b2d514260b6a17b1d5bfde7334074",
+    "HoldsworthEngine/dsp/MC402ProvisionalProfile.h": "b0ecfa790d5aaf1effb3a26adbce1436ef587bbca125c937c24a4e8b47663bf0",
+    "HoldsworthEngine/references/pedals/mc402/m1/tools/MC402Benchmark.cpp": "23bfd46b761a49eb0af2c4cc26312823649a6458752999b168dfe56617ebe970",
+    "HoldsworthEngine/references/pedals/mc402/m1/tools/MC402OfflineBridge.cpp": "ae2daec115d30ea7b65867eaf1cc539d35b48cc6b6dfab71c2fdd09aa49a5921",
+    "HoldsworthEngine/references/pedals/mc402/m1/tools/generate_fir.py": "27e21768b4a752b836f253507841a5ff92fa9a82e84dc29239a4268c3073af47",
+    "HoldsworthEngine/references/pedals/mc402/m1/tools/measure_behavior.py": "5ab45f2f7e3cc73aa2dafd5e720399912a426295133c638d1de05f11b26e58d4",
+    "HoldsworthEngine/references/pedals/mc402/m1/tools/plot_results.py": "ad51ea727567909bf7d8b5764fae789ea9e2d7cc9317f2f0caa5760b1ae42af6",
+    "HoldsworthEngine/references/pedals/mc402/m1/tools/requirements.txt": "59fe68ef7ca2c5c7da507f1f20579bd4855236be91e331d1a3b35f9600473b81",
+    "HoldsworthEngine/references/pedals/mc402/m1/tools/validate_numerics.py": "6e38060239499c98111ffd63fc45e490994084301be4034212cfd57253dad86e",
+    "HoldsworthEngine/tests/MC402BoostOverdriveProcessorTests.cpp": "a1780a985601fc608ab8d4127456ef995e214337908a81bd997a3590eabbd3c7",
+    "HoldsworthEngine/tests/MC402TestAccess.h": "e18ffb6a733123d7f775f5ea05dc375b4523c946edcdc0f24f0e66df379a1d14"
+  },
+  "artifact_sha256": {
+    "numerical-report.json": "3db5b2be002c0bb8a48fa53c448b3483d5c905e453948ce1b793d1601c651865",
+    "behavior-report.json": "55a929e6121e6fe43603ddaf79253c212b8155dc050058bc29de4cef14262be2",
+    "benchmark-report.json": "725389b9628d0c9327624571fd74449c020df278996788e1da3334ece563bbdc",
+    "measurements.png": "3627e23e06081c29af55f1dec649818811ed1bc48026e25872e19e4e10e058e9"
+  }
+}

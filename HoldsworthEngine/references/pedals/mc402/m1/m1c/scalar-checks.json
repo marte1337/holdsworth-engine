@@ -1,0 +1,2526 @@
+{
+  "rows": [
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 6.133173666733497e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.734723475976807e-18
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7755575615628914e-17
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 4.84869951806108e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.5636586103463756e-18
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-18
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 6.206335383118183e-17
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.965068306494546e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 8.673617379884035e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.551115123125783e-17
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.5700924586837752e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.440892098500626e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 8.673617379884035e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 3.1031676915590914e-17
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.5700924586837752e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.710505431213761e-20
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 6.133173666733497e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7755575615628914e-17
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.965068306494546e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 6.06087439757635e-20
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.6263032587282567e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.802027509264653e-18
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.1275702593849246e-17
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.1739862079479962e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.2412670766236366e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 3.8332335417084355e-20
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.939479807224432e-18
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.551115123125783e-17
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.482534153247273e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.440892098500626e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7939250479261703e-20
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.370558682921689e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.594315114139762e-17
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.2247786310271853e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.577566798522237e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.2351400383409363e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.939479807224432e-18
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 9.087270115126198e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 6.938893903907228e-18
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.440892098500626e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.6263032587282567e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 8.673617379884035e-19
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7755575615628914e-17
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.2412670766236366e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.42434975903054e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 6.133173666733497e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 2.4532694666933987e-18
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 6.206335383118183e-17
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.482534153247273e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.965068306494546e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.3010426069826053e-18
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 3.576224061345498e-18
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 6.206335383118183e-17
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.2412670766236366e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 9.930136612989092e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.168404344971009e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.734723475976807e-18
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7755575615628914e-17
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.440892098500626e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7755575615628914e-17
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.3877787807814457e-17
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.965068306494546e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.42434975903054e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.939479807224432e-18
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7755575615628914e-17
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 3.469446951953614e-17
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.965068306494546e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.734723475976807e-18
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.7381083054899885e-18
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.2412670766236366e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 5.551115123125783e-17
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.42434975903054e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 6.133173666733497e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.734723475976807e-18
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 3.925231146709438e-17
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.5700924586837752e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 4.4702800766818725e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 8.940560153363745e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 3.469446951953614e-18
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.721958498152797e-17
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.965068306494546e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.421010862427522e-20
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.168404344971009e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 8.673617379884035e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.721958498152797e-17
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.2887833992611187e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.1631705747361534e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.5152185993940876e-20
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 5.421010862427522e-20
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 6.206335383118183e-17
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.482534153247273e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.965068306494546e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 4.370558682921689e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 8.741117365843378e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 3.496446946337351e-18
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.594315114139762e-17
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.577566798522237e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.710505431213761e-20
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.939479807224432e-18
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 9.813077866773595e-18
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.5700924586837752e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 5.721958498152797e-17
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.3552527156068805e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 4.336808689942018e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-18
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 3.469446951953614e-17
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.4752290795525882e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 3.885780586188048e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.421010862427522e-20
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.2351400383409363e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 6.505213034913027e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 6.938893903907228e-18
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.1188630228279524e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 3.0665868333667484e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 9.69739903612216e-19
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 3.127317220692751e-18
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 6.206335383118183e-17
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 6.280369834735101e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 3.030437198788175e-20
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 3.428548309156935e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.551115123125783e-17
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.482534153247273e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 4.440892098500626e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.710505431213761e-20
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.0842021724855044e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.7482234731686756e-18
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 5.594315114139762e-17
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.42434975903054e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 6.133173666733497e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 2.4532694666933987e-18
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7755575615628914e-17
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.5700924586837752e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.5332934166833742e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 6.133173666733497e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.734723475976807e-18
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.7755575615628914e-17
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 1.5700924586837752e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 2.42434975903054e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 9.263427422397553e-19
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.1,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 3.705370968959021e-18
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 1.4304896245381992e-17
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 2.2591401799415137e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 0.5,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 1.6653345369377348e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 0.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 10.0,
+      "max_coefficient_difference_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "output": 1.0,
+      "boost_db": 20.0,
+      "max_coefficient_difference_volts": 0.0
+    }
+  ],
+  "gain_zero_mute_cases": 30,
+  "note": "Gain zero is a provisional profile endpoint, not a hardware fact. Boost applied externally as the unchanged scalar; no production path modified."
+}

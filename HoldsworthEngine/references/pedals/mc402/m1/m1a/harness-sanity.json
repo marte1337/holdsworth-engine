@@ -1,0 +1,194 @@
+{
+  "cases": [
+    {
+      "case": "identity",
+      "sample_rate": 48000,
+      "input_hz": 1001.953125,
+      "fundamental_peak": 0.5000000000000002,
+      "fundamental_dbfs": -6.02059991327962,
+      "alias_hz": 16634.765625,
+      "alias_peak": 4.168403001486207e-15,
+      "alias_dbfs": -287.6006060011723,
+      "alias_dbc": -281.5800060878927
+    },
+    {
+      "case": "boost20",
+      "sample_rate": 48000,
+      "input_hz": 1001.953125,
+      "fundamental_peak": 5.0000000000000036,
+      "fundamental_dbfs": 13.979400086720382,
+      "alias_hz": 16634.765625,
+      "alias_peak": 4.168217904067728e-14,
+      "alias_dbfs": -267.60099170558846,
+      "alias_dbc": -281.58039179230883
+    },
+    {
+      "case": "cubic_no_fold",
+      "sample_rate": 48000,
+      "input_hz": 1001.953125,
+      "fundamental_peak": 0.5187500000000004,
+      "fundamental_dbfs": -5.700837805597011,
+      "alias_hz": 16634.765625,
+      "alias_peak": 4.34923242982687e-15,
+      "alias_dbfs": -287.2317476466753,
+      "alias_dbc": -281.53090984107826
+    },
+    {
+      "case": "linear_filters",
+      "sample_rate": 48000,
+      "input_hz": 1001.953125,
+      "fundamental_peak": 221.5134546939539,
+      "fundamental_dbfs": 46.90800220683646,
+      "alias_hz": 996.09375,
+      "alias_peak": 1.769409603211299e-12,
+      "alias_dbfs": -235.0434323997702,
+      "alias_dbc": -281.95143460660665
+    },
+    {
+      "case": "cubic_known_fold",
+      "sample_rate": 48000,
+      "input_hz": 19001.953125,
+      "expected_alias_peak": 0.00625,
+      "expected_alias_hz": 9005.859375,
+      "fundamental_peak": 0.5187499999999998,
+      "fundamental_dbfs": -5.700837805597021,
+      "alias_hz": 9005.859375,
+      "alias_peak": 0.0062500000000002675,
+      "alias_dbfs": -44.08239965311813,
+      "alias_dbc": -38.3815618475211
+    },
+    {
+      "case": "frozen_saturator_low_frequency",
+      "sample_rate": 48000,
+      "input_hz": 87.890625,
+      "fundamental_peak": 2.649647893098104,
+      "fundamental_dbfs": 8.463763303305312,
+      "alias_hz": 19787.109375,
+      "alias_peak": 1.8424060637305294e-07,
+      "alias_dbfs": -134.69229291381208,
+      "alias_dbc": -143.1560562171174
+    }
+  ],
+  "production_equivalence": [
+    {
+      "sample_rate": 44100,
+      "factor": 1,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 2,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 4,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 8,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 1,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 2,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 4,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 8,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 1,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 2,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 4,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 8,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 1,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 2,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 4,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 8,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 1,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 2,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 4,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 8,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 1,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 2,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 4,
+      "max_sample_error": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 8,
+      "max_sample_error": 0.0
+    }
+  ]
+}

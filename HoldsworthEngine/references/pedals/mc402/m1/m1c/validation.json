@@ -1,0 +1,96 @@
+{
+  "candidate_profile": "MC402-BOUNDED-V1-PROVISIONAL-R2",
+  "production_profile_unchanged": "MC402-BOUNDED-V1-PROVISIONAL",
+  "decision": "D; no production implementation or M2",
+  "scope_audit": "pass; all 1957 protected hashes match; copied Filter/Core/FIR/Experiment suffix byte-identical after namespace substitution; HEAD unchanged",
+  "strict_compile": {
+    "status": "pass",
+    "sources": [
+      "R2Experiment.cpp",
+      "LegacyPeriodic.cpp",
+      "Benchmark.cpp",
+      "OfflineChecks.cpp",
+      "Robustness.cpp"
+    ],
+    "flags": "-std=c++20 -fno-fast-math -ffp-contract=off -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror; -O3 for release; assertions active in checks/stress"
+  },
+  "native_optimized_checks": "pass; repeated/near/repeated-knee nodes, denormals, finite-output and whole vs 7-sample partitions; 96 rate/factor/mode configurations",
+  "asan_ubsan": "pass; same 96 configurations, -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer",
+  "clang_static_analyzer": "pass; R2Experiment.cpp; no diagnostics",
+  "kernel_checks": {
+    "triples": 1294,
+    "quadrature_max_abs_error": 3.3306690738754696e-16,
+    "decimal_cases": 1252,
+    "decimal_max_abs_error": 3.3306690738754696e-16,
+    "static_points": 40001,
+    "huge_and_repeated_cases": 10
+  },
+  "periodic_renderer_checks": {
+    "count": 315,
+    "max_sample_error_volts": 2.9176661087149114e-13,
+    "max_ideal_coefficient_error_volts": 1.4986204702474887e-14
+  },
+  "continuous_reference": {
+    "cases": 76,
+    "max_order_doubling_coefficient_difference_volts": 1.7342238036525468e-15,
+    "highrate_128_256_witnesses": 6,
+    "window_phase_witnesses": 12
+  },
+  "sweeps": {
+    "primary_product_evaluations": 803880,
+    "historical_evaluations": 12600,
+    "unique_product_evaluations_including_historical_supplement": 805860,
+    "outside_product_torture_evaluations": 6840,
+    "method_count": 5,
+    "resampler_count": 2
+  },
+  "static": {
+    "transfer_points": 40001,
+    "single_stage_drive_peaks": 11,
+    "odd_harmonics_through": 31,
+    "continuous_time_level_comparisons": 1296,
+    "paired_isolated_renders": 6,
+    "full_cascade_render_spectra": 6
+  },
+  "scalar_checks": {
+    "output_boost_combinations": 360,
+    "gain_zero_provisional_mute": 30
+  },
+  "performance": {
+    "native_configurations": 30,
+    "workloads_each": 2,
+    "repetitions_each": 5,
+    "max_adaa_delay_measurement_error_samples": 3.86138343522191e-11,
+    "max_old_r2_small_signal_sample_difference_volts": 0.0
+  },
+  "native_stress": {
+    "runs": 60,
+    "seconds_each": 30,
+    "all_finite": true,
+    "recovery_seconds_each": 2,
+    "max_output_volts": 3.266564184581533,
+    "max_observed_state_mixed_units": 155.42863789439076,
+    "max_recovery_peak_volts_after_one_second": 1.1932197535542682e-29
+  },
+  "visual_qa": "pass; inspected static-comparison.png, harmonics.png and render-spectra.png",
+  "python": "black --check and AST syntax checks pass",
+  "reproduction_wrapper": "bash -n pass; components run individually, full wrapper not redundantly rerun",
+  "production_plugin_tests": "not rerun: this task changes only offline experiment and review documentation; previous M1 evidence retained",
+  "environment": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "python": "3.9.6 (default, Jan  9 2026, 11:03:41) \n[Clang 17.0.0 (clang-1700.6.4.2)]",
+    "numpy": "2.0.2",
+    "scipy": "1.13.1",
+    "matplotlib": "3.9.4"
+  },
+  "protected_preexisting_files": 1957,
+  "preexisting_documents_updated": [
+    "../../README.md",
+    "../../milestones.md",
+    "../README.md",
+    "../m1b/README.md"
+  ],
+  "production_and_integration_changed": false,
+  "commit_created": false,
+  "data_and_links": "pass; 120 compressed sweep files audited for finite metrics, criteria consistency and counts; JSON and local report links checked; git diff --check pass"
+}

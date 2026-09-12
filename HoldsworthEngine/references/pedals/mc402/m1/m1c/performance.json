@@ -1,0 +1,2829 @@
+{
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "timestamp_utc": "2026-09-11T15:02:56Z",
+  "measurements": [
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 40.0,
+      "total_delay_ms": 0.9070294784580499,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 2.2906072737702953e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.05853337712962113,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.7443357882213602e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.05853337712962113
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.05207785504728743,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.7169428545684857e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.05207785504728743
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.010318765728782826,
+          "worst_hz": 5085.8734130859375,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.716304988201062e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 6.236382508122429e-05
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            102.78659108087679,
+            100.60783068783068,
+            97.41622826908541,
+            96.88901738473167,
+            106.0222978080121
+          ],
+          "median_ns_per_sample": 100.60783068783068,
+          "median_realtime_one_core_percent": 0.4436805333333333
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7628.13720703125,
+          "amplitude": 2.0,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            97.79037792894935,
+            98.52167044595616,
+            95.83679516250945,
+            100.31966742252456,
+            102.27260770975057
+          ],
+          "median_ns_per_sample": 98.52167044595616,
+          "median_realtime_one_core_percent": 0.4344805666666667
+        }
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary8",
+      "factor": 8,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 44.0,
+      "total_delay_ms": 0.9977324263038548,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 2.664091877160411e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.014426887441218986,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.9020126183017146e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.014426887441218986
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.012812717334392387,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.8333992942711565e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.012812717334392387
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.002797881597205583,
+          "worst_hz": 4714.762115478516,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.829698481010065e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.00016939383183911712
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            195.95049130763417,
+            195.86987150415723,
+            196.00151171579742,
+            195.947656840514,
+            195.93694633408919
+          ],
+          "median_ns_per_sample": 195.947656840514,
+          "median_realtime_one_core_percent": 0.8641291666666666
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7498.93798828125,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            192.15325018896448,
+            198.77046863189722,
+            195.43115646258502,
+            195.10298563869992,
+            193.7266969009826
+          ],
+          "median_ns_per_sample": 195.10298563869992,
+          "median_realtime_one_core_percent": 0.8604041666666665
+        }
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa1_4",
+      "factor": 4,
+      "mode": 1,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 40.25,
+      "total_delay_ms": 0.9126984126984127,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 3.225392175565389e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.23545123739301888,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.507517257367524e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.23545123739301888
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.22899571531068424,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.4801243236541295e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.22899571531068424
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.17685549643833037,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.479486455799009e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.17685549643833037
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            207.75226757369614,
+            207.3167044595616,
+            207.3406424792139,
+            207.30536659108088,
+            207.2124565381708
+          ],
+          "median_ns_per_sample": 207.3167044595616,
+          "median_realtime_one_core_percent": 0.9142666666666666
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7628.13720703125,
+          "amplitude": 2.0,
+          "gain": 0.75,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            228.5383597883598,
+            228.72260015117158,
+            229.82458049886623,
+            229.36098261526834,
+            231.14575207860923
+          ],
+          "median_ns_per_sample": 229.36098261526834,
+          "median_realtime_one_core_percent": 1.0114819333333334
+        }
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.5,
+      "total_delay_host_samples": 40.5,
+      "total_delay_ms": 0.9183673469387755,
+      "ideal_experiment_adaa_delay_host_samples": 0.5,
+      "max_adaa_delay_measurement_error_samples": 3.068179044163344e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.5319342385582139,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -6.446154616719649e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.5319342385582139
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.5254787164758747,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -6.418761684448525e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.5254787164758747
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.47333849760352287,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -6.418123817424784e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.47333849760352287
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            304.9184278155707,
+            304.39373393801964,
+            304.7187603930461,
+            304.35185185185185,
+            305.13291005291006
+          ],
+          "median_ns_per_sample": 304.7187603930461,
+          "median_realtime_one_core_percent": 1.3438097333333334
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7628.13720703125,
+          "amplitude": 2.0,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            337.16710506424795,
+            337.771164021164,
+            336.9280650037793,
+            336.4030612244898,
+            337.87666666666667
+          ],
+          "median_ns_per_sample": 337.16710506424795,
+          "median_realtime_one_core_percent": 1.4869069333333333
+        }
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 44.25,
+      "total_delay_ms": 1.0034013605442176,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 3.86138343522191e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.13217170512507276,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.4656553722588572e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.13217170512507276
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.1305575350182749,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.4587940372242827e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.1305575350182749
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.11757542385219534,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.4584239551080466e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.11757542385219534
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            606.5488737717309,
+            605.8582161753591,
+            605.0037792894935,
+            604.985827664399,
+            606.4789644746787
+          ],
+          "median_ns_per_sample": 605.8582161753591,
+          "median_realtime_one_core_percent": 2.6718347333333337
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7498.93798828125,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            635.4635903250189,
+            631.5803703703704,
+            632.4048904006047,
+            632.0861678004535,
+            631.8080801209372
+          ],
+          "median_ns_per_sample": 632.0861678004535,
+          "median_realtime_one_core_percent": 2.7875
+        }
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 40.0,
+      "total_delay_ms": 0.8333333333333334,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 2.8071500304008942e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.04924800859339813,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.472325312707855e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.04924800859339813
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.04379868693204467,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.4491937011050057e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.04379868693204467
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.008821839125927182,
+          "worst_hz": 5032.1044921875,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.4485071568561435e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.00017566751899302123
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            96.09375,
+            95.81973611111111,
+            95.67881944444444,
+            95.06423611111111,
+            95.84027777777777
+          ],
+          "median_ns_per_sample": 95.81973611111111,
+          "median_realtime_one_core_percent": 0.4599347333333333
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 6626.953125,
+          "amplitude": 2.0,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            95.2748888888889,
+            95.29513888888889,
+            95.42447916666667,
+            95.11313194444445,
+            95.26678472222223
+          ],
+          "median_ns_per_sample": 95.2748888888889,
+          "median_realtime_one_core_percent": 0.4573194666666667
+        }
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary8",
+      "factor": 8,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 44.0,
+      "total_delay_ms": 0.9166666666666666,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 2.9000185744766405e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.01203841759366147,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.4488928904716066e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.01203841759366147
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.010675881558177915,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.3909705595205505e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.010675881558177915
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.0024868620256077705,
+          "worst_hz": 4798.828125,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.3877545699296594e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.0002800270114310693
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            195.95688194444443,
+            195.66869444444444,
+            195.1400486111111,
+            194.15104166666666,
+            195.1053263888889
+          ],
+          "median_ns_per_sample": 195.1400486111111,
+          "median_realtime_one_core_percent": 0.9366722333333332
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7248.046875,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            193.19270833333334,
+            193.98611111111111,
+            192.7902222222222,
+            193.19097222222223,
+            193.26475694444446
+          ],
+          "median_ns_per_sample": 193.19270833333334,
+          "median_realtime_one_core_percent": 0.927325
+        }
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa1_4",
+      "factor": 4,
+      "mode": 1,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 40.25,
+      "total_delay_ms": 0.8385416666666666,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 3.091449318759487e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.19850536138808317,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.9606294661059398e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.19850536138808317
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.19305603973256685,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.937497853730182e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.19305603973256685
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.14908168530907998,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.9368113093657077e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.14908168530907998
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            206.63425694444445,
+            206.06076388888889,
+            207.01736111111111,
+            206.21904166666667,
+            208.41493055555554
+          ],
+          "median_ns_per_sample": 206.63425694444445,
+          "median_realtime_one_core_percent": 0.9918444333333334
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 6626.953125,
+          "amplitude": 2.0,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            221.90017361111111,
+            221.0083888888889,
+            221.71701388888886,
+            221.43576388888889,
+            221.16290972222222
+          ],
+          "median_ns_per_sample": 221.43576388888889,
+          "median_realtime_one_core_percent": 1.0628916666666666
+        }
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.5,
+      "total_delay_host_samples": 40.5,
+      "total_delay_ms": 0.84375,
+      "ideal_experiment_adaa_delay_host_samples": 0.5,
+      "max_adaa_delay_measurement_error_samples": 2.834377177407532e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.44841852305329694,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -5.441137515122421e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.44841852305329694
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.4429692013929503,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -5.418005902937243e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.4429692013929503
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.3989948469521639,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -5.4173193606623386e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.3989948469521639
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            303.3735555555556,
+            303.19329166666665,
+            304.38859722222224,
+            304.7204861111111,
+            304.16088194444444
+          ],
+          "median_ns_per_sample": 304.16088194444444,
+          "median_realtime_one_core_percent": 1.4599722333333334
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 6626.953125,
+          "amplitude": 2.0,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            326.69502083333333,
+            327.6472847222222,
+            327.6171875,
+            327.5535347222222,
+            326.63772916666665
+          ],
+          "median_ns_per_sample": 327.5535347222222,
+          "median_realtime_one_core_percent": 1.5722569666666666
+        }
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 44.25,
+      "total_delay_ms": 0.921875,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 3.725753039418578e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.11140069361279117,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.2370919123484745e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.11140069361279117
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.11003815758514107,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.2312996805443041e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.11003815758514107
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.09908224905188888,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.2309780794820553e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.09908224905188888
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            605.1137152777778,
+            604.3422986111111,
+            603.3990138888889,
+            605.3235,
+            605.0807291666666
+          ],
+          "median_ns_per_sample": 605.0807291666666,
+          "median_realtime_one_core_percent": 2.9043875
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7248.046875,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            626.8857083333334,
+            625.3634236111111,
+            627.6556666666667,
+            627.6756388888889,
+            628.2141180555556
+          ],
+          "median_ns_per_sample": 627.6556666666667,
+          "median_realtime_one_core_percent": 3.0127471999999997
+        }
+      ]
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 40.0,
+      "total_delay_ms": 0.45351473922902497,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 4.163560456587213e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.014241120464094297,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -4.359823549042782e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.014241120464094297
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.012626950356447505,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -4.291210253033836e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.012626950356447505
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.002624119559242374,
+          "worst_hz": 5142.3980712890625,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -4.287509418900725e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.0003551608167372967
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            95.85978835978835,
+            94.39688586545729,
+            95.68247921390778,
+            118.86920634920635,
+            100.3242328042328
+          ],
+          "median_ns_per_sample": 95.85978835978835,
+          "median_realtime_one_core_percent": 0.8454833333333331
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7504.3212890625,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            125.51225245653818,
+            93.19523053665911,
+            95.21164021164022,
+            94.51231292517006,
+            92.7686470143613
+          ],
+          "median_ns_per_sample": 94.51231292517006,
+          "median_realtime_one_core_percent": 0.8335986
+        }
+      ]
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary8",
+      "factor": 8,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 44.0,
+      "total_delay_ms": 0.4988662131519274,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 4.002573630020724e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.003240322334976686,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.245044304187261e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.003240322334976686
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.0028367620081917594,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.073429025369186e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0028367620081917594
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.000752924760223529,
+          "worst_hz": 5814.637756347656,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.0628646724643e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.0004054747386323686
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            194.75922524565382,
+            197.72754724111866,
+            194.41657218442933,
+            193.98038170823884,
+            199.57404006046863
+          ],
+          "median_ns_per_sample": 194.75922524565382,
+          "median_realtime_one_core_percent": 1.7177763666666668
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 8494.8486328125,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            194.28035903250188,
+            194.1542252456538,
+            193.70590702947845,
+            199.30256613756615,
+            194.7927702191988
+          ],
+          "median_ns_per_sample": 194.28035903250188,
+          "median_realtime_one_core_percent": 1.7135527666666663
+        }
+      ]
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa1_4",
+      "factor": 4,
+      "mode": 1,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 40.25,
+      "total_delay_ms": 0.45634920634920634,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 1.930222648383051e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.058357975415283043,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -8.767776095222623e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.058357975415283043
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.05674380531558229,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -8.69916277596544e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.05674380531558229
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.043761694177728426,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -8.695461955383469e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.043761694177728426
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            206.6824149659864,
+            208.59379062736207,
+            205.25998488284202,
+            209.45609977324264,
+            204.92646258503402
+          ],
+          "median_ns_per_sample": 206.6824149659864,
+          "median_realtime_one_core_percent": 1.8229388999999998
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7504.3212890625,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            216.47518140589568,
+            215.1223544973545,
+            218.11193121693123,
+            213.26955782312925,
+            214.91984882842027
+          ],
+          "median_ns_per_sample": 215.1223544973545,
+          "median_realtime_one_core_percent": 1.8973791666666666
+        }
+      ]
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.5,
+      "total_delay_host_samples": 40.5,
+      "total_delay_ms": 0.45918367346938777,
+      "ideal_experiment_adaa_delay_host_samples": 0.5,
+      "max_adaa_delay_measurement_error_samples": 1.539823824003861e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.13198593808321882,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.6114364642549085e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.13198593808321882
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.13037176797654024,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.604575136940579e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.13037176797654024
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.11738965681174146,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.604205052930004e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.11738965681174146
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            303.7090589569161,
+            301.31755479969763,
+            300.1839266817838,
+            299.4553099017385,
+            299.6790740740741
+          ],
+          "median_ns_per_sample": 300.1839266817838,
+          "median_realtime_one_core_percent": 2.6476222333333332
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7504.3212890625,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            313.2511337868481,
+            312.9456424792139,
+            325.27415721844295,
+            313.40545351473924,
+            312.5703892668178
+          ],
+          "median_ns_per_sample": 313.2511337868481,
+          "median_realtime_one_core_percent": 2.7628749999999997
+        }
+      ]
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 44.25,
+      "total_delay_ms": 0.5017006802721088,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 2.5085267196800487e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.032639106778747595,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.6631393919464754e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.032639106778747595
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.03223554646338893,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.6459778457222674e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.03223554646338893
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.02899330976729271,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.644921435146887e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.02899330976729271
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            600.3881670445957,
+            600.6687755102041,
+            600.9646636432351,
+            604.1548563869992,
+            600.2654950869237
+          ],
+          "median_ns_per_sample": 600.6687755102041,
+          "median_realtime_one_core_percent": 5.2978986
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 8494.8486328125,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            613.9973885109599,
+            613.0577588813303,
+            613.2024754346182,
+            613.9380196523053,
+            612.214349962207
+          ],
+          "median_ns_per_sample": 613.2024754346182,
+          "median_realtime_one_core_percent": 5.4084458333333325
+        }
+      ]
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 40.0,
+      "total_delay_ms": 0.4166666666666667,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 4.52766237896496e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.012002700448545992,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.6800892981301628e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.012002700448545992
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.010640164413539864,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.6221669271459855e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.010640164413539864
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.0022448475976439633,
+          "worst_hz": 5011.962890625,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.6189509583144514e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.00031574414976769246
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            94.09837847222222,
+            94.1195,
+            94.78038194444444,
+            94.19762847222222,
+            94.21252777777778
+          ],
+          "median_ns_per_sample": 94.19762847222222,
+          "median_realtime_one_core_percent": 0.9042972333333333
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7253.90625,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            93.109375,
+            93.24319791666667,
+            93.08810763888889,
+            93.10329861111111,
+            93.36588541666667
+          ],
+          "median_ns_per_sample": 93.109375,
+          "median_realtime_one_core_percent": 0.8938499999999999
+        }
+      ]
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary8",
+      "factor": 8,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 44.0,
+      "total_delay_ms": 0.4583333333333333,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 5.8228783179291226e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.00271780454641975,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -6.11511445354622e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.00271780454641975
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.0023771578662857475,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -5.970250384536166e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0023771578662857475
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.0006799253631087239,
+          "worst_hz": 4350.5859375,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -5.96127553283765e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.00035947503851520665
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            194.18069791666667,
+            193.7967326388889,
+            193.2254027777778,
+            193.8488159722222,
+            193.83391319444445
+          ],
+          "median_ns_per_sample": 193.83391319444445,
+          "median_realtime_one_core_percent": 1.8608055666666667
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 6246.09375,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            194.17881944444446,
+            193.6796875,
+            193.76186458333333,
+            193.51808333333332,
+            192.93098958333334
+          ],
+          "median_ns_per_sample": 193.6796875,
+          "median_realtime_one_core_percent": 1.859325
+        }
+      ]
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa1_4",
+      "factor": 4,
+      "mode": 1,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 40.25,
+      "total_delay_ms": 0.4192708333333333,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 1.4071521725611547e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.0492368881937853,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.4008488648421826e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0492368881937853
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.047874352163709596,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.342926494118429e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.047874352163709596
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.03691844362229344,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.339710488229129e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.03691844362229344
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            204.56553819444446,
+            205.53891666666667,
+            204.40494791666666,
+            204.28125,
+            204.61675347222223
+          ],
+          "median_ns_per_sample": 204.56553819444446,
+          "median_realtime_one_core_percent": 1.9638291666666667
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7253.90625,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            212.07248263888889,
+            212.98654513888889,
+            211.38961458333333,
+            212.47858680555555,
+            211.66623263888889
+          ],
+          "median_ns_per_sample": 212.07248263888889,
+          "median_realtime_one_core_percent": 2.035895833333333
+        }
+      ]
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.5,
+      "total_delay_host_samples": 40.5,
+      "total_delay_ms": 0.421875,
+      "ideal_experiment_adaa_delay_host_samples": 0.5,
+      "max_adaa_delay_measurement_error_samples": 1.3044010316320964e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.11136497646677375,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.3602115500708752e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.11136497646677375
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.11000244043231813,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.3544193151312852e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.11000244043231813
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.09904653187391839,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.3540977138305849e-05
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.09904653187391839
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            300.296875,
+            299.8295729166667,
+            299.38208680555556,
+            299.6306423611111,
+            300.12890625
+          ],
+          "median_ns_per_sample": 299.8295729166667,
+          "median_realtime_one_core_percent": 2.8783639
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7253.90625,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            311.15133333333335,
+            310.5010138888889,
+            310.66044791666667,
+            310.6303506944444,
+            311.7962986111111
+          ],
+          "median_ns_per_sample": 310.66044791666667,
+          "median_realtime_one_core_percent": 2.9823402999999997
+        }
+      ]
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 44.25,
+      "total_delay_ms": 0.4609375,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 1.7538581698062217e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.027531726833593284,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.0920177658973706e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.027531726833593284
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.027191080160652248,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.0775313249651914e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.027191080160652248
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.02445444728760451,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.0766338482179876e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.02445444728760451
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            600.5,
+            600.1423611111111,
+            601.3166979166666,
+            599.2180277777778,
+            600.8676215277778
+          ],
+          "median_ns_per_sample": 600.5,
+          "median_realtime_one_core_percent": 5.7648
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 9996.09375,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            614.8815104166666,
+            614.98828125,
+            614.5166388888889,
+            614.0253159722222,
+            614.6529201388889
+          ],
+          "median_ns_per_sample": 614.6529201388889,
+          "median_realtime_one_core_percent": 5.900668033333333
+        }
+      ]
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 40.0,
+      "total_delay_ms": 0.22675736961451248,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 8.858162447233795e-15,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.0034806488359417046,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.0898923510908149e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0034806488359417046
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.003077088510202378,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.0727308668461451e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.003077088510202378
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.000864485692733365,
+          "worst_hz": 5248.71826171875,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.0716744527264224e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.0001651482270924818
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            93.49726001511716,
+            93.83621504157219,
+            93.55851473922903,
+            93.61559901738474,
+            94.05139833711262
+          ],
+          "median_ns_per_sample": 93.61559901738474,
+          "median_realtime_one_core_percent": 1.6513791666666666
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 8505.615234375,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            93.17979969765685,
+            93.62481103552533,
+            93.10689153439154,
+            92.87352040816326,
+            92.99870937263795
+          ],
+          "median_ns_per_sample": 93.10689153439154,
+          "median_realtime_one_core_percent": 1.6424055666666668
+        }
+      ]
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary8",
+      "factor": 8,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 44.0,
+      "total_delay_ms": 0.2494331065759637,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 1.2497103874336051e-14,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.0007316529034337156,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.8106355324756754e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0007316529034337156
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.000630761714183093,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.7677267298505826e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.000630761714183093
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.0003985759493419545,
+          "worst_hz": 5434.442138671875,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.7650040958425217e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.000179592057881928
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            193.01059712774,
+            193.07634164777022,
+            193.23877173091458,
+            193.84503401360544,
+            193.3214455782313
+          ],
+          "median_ns_per_sample": 193.23877173091458,
+          "median_realtime_one_core_percent": 3.408731933333333
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7385.888671875,
+          "amplitude": 2.0,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            193.48946523053667,
+            193.74590702947845,
+            193.75110166288738,
+            193.2171976568405,
+            191.6909164777022
+          ],
+          "median_ns_per_sample": 193.48946523053667,
+          "median_realtime_one_core_percent": 3.413154166666667
+        }
+      ]
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa1_4",
+      "factor": 4,
+      "mode": 1,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 40.25,
+      "total_delay_ms": 0.22817460317460317,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 1.034733410065769e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.01450286021967914,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.1918804341837055e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.01450286021967914
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.014099299894602013,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.1747189091886313e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.014099299894602013
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.01085706316014327,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -2.1736624795056367e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.01085706316014327
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            201.81571239606953,
+            202.01601473922904,
+            202.26410997732427,
+            202.7084126984127,
+            202.10608843537415
+          ],
+          "median_ns_per_sample": 202.10608843537415,
+          "median_realtime_one_core_percent": 3.5651514
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 8505.615234375,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            207.39378684807255,
+            207.29276832955404,
+            207.0055442176871,
+            207.4502380952381,
+            206.9488529856387
+          ],
+          "median_ns_per_sample": 207.29276832955404,
+          "median_realtime_one_core_percent": 3.6566444333333328
+        }
+      ]
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.5,
+      "total_delay_host_samples": 40.5,
+      "total_delay_ms": 0.22959183673469388,
+      "ideal_experiment_adaa_delay_host_samples": 0.5,
+      "max_adaa_delay_measurement_error_samples": 7.21656068236598e-12,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.032879433340422475,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -4.028527194191365e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.032879433340422475
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.03247587301473185,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -4.011365720534146e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.03247587301473185
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.029233636277833343,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -4.010309280020161e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.029233636277833343
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            297.4770086923658,
+            296.91452569916856,
+            298.0895691609977,
+            297.9575302343159,
+            296.97767006802724
+          ],
+          "median_ns_per_sample": 297.4770086923658,
+          "median_realtime_one_core_percent": 5.247494433333332
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 8505.615234375,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            303.62819727891156,
+            303.3262471655329,
+            303.52001322751323,
+            304.516171579743,
+            303.2986111111111
+          ],
+          "median_ns_per_sample": 303.52001322751323,
+          "median_realtime_one_core_percent": 5.354093033333333
+        }
+      ]
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 44.25,
+      "total_delay_ms": 0.2508503401360544,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 1.3697487588615331e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.008079016716364271,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -9.157223082682053e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.008079016716364271
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.007978125528126885,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -9.114314488579768e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.007978125528126885
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.007167771760336702,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -9.111591449323845e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.007167771760336702
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            598.292469765684,
+            598.0217781557068,
+            598.0779157218443,
+            597.4096900982615,
+            598.6799263038549
+          ],
+          "median_ns_per_sample": 598.0779157218443,
+          "median_realtime_one_core_percent": 10.550094433333332
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 8979.345703125,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            601.7005234315949,
+            600.9356897203326,
+            601.7189474678761,
+            601.8316969009826,
+            601.0479648526077
+          ],
+          "median_ns_per_sample": 601.7005234315949,
+          "median_realtime_one_core_percent": 10.613997233333334
+        }
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 40.0,
+      "total_delay_ms": 0.20833333333333334,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 1.3711824666269368e-14,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.0028823994924858185,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -9.199770034680723e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0028823994924858185
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.0025417528129464163,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -9.054905671227783e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0025417528129464163
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.0007577589738842473,
+          "worst_hz": 5345.21484375,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -9.045930896356745e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.0001948800864759338
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            93.60373263888889,
+            93.17259722222222,
+            93.28472222222223,
+            93.27864583333333,
+            93.44900173611111
+          ],
+          "median_ns_per_sample": 93.28472222222223,
+          "median_realtime_one_core_percent": 1.7910666666666668
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7757.8125,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            93.12688194444445,
+            93.18605381944444,
+            93.43409895833334,
+            93.10329861111111,
+            93.03371006944444
+          ],
+          "median_ns_per_sample": 93.12688194444445,
+          "median_realtime_one_core_percent": 1.7880361333333334
+        }
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary8",
+      "factor": 8,
+      "mode": 0,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.0,
+      "total_delay_host_samples": 44.0,
+      "total_delay_ms": 0.22916666666666666,
+      "ideal_experiment_adaa_delay_host_samples": 0.0,
+      "max_adaa_delay_measurement_error_samples": 1.4555053196771998e-14,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.000562016272288985,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.5283314095494146e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.000562016272288985
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.0004768538132056003,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.4921119057320504e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0004768538132056003
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.0003682123832503899,
+          "worst_hz": 5677.734375,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.4898101138895244e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": 0.00020715806448893786
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            193.14453125,
+            192.93988715277777,
+            192.88136458333332,
+            193.06546527777778,
+            193.28132118055555
+          ],
+          "median_ns_per_sample": 193.06546527777778,
+          "median_realtime_one_core_percent": 3.7068569333333334
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 6023.4375,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            191.8273298611111,
+            191.77155555555555,
+            192.05989583333334,
+            192.21925694444445,
+            192.74522569444446
+          ],
+          "median_ns_per_sample": 192.05989583333334,
+          "median_realtime_one_core_percent": 3.68755
+        }
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa1_4",
+      "factor": 4,
+      "mode": 1,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 40.25,
+      "total_delay_ms": 0.20963541666666666,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 9.93466420240452e-12,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.012185958512863778,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.8501668638326618e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.012185958512863778
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.01184531183445126,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.8356804818669902e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.01184531183445126
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.009108678939714841,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -1.8347829608890284e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.009108678939714841
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            204.10836284722222,
+            203.0767517361111,
+            203.03797743055554,
+            203.99254861111112,
+            203.3254496527778
+          ],
+          "median_ns_per_sample": 203.3254496527778,
+          "median_realtime_one_core_percent": 3.9038486333333333
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7757.8125,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            205.58304340277778,
+            205.28942361111112,
+            205.90436979166665,
+            206.51200868055557,
+            205.46122743055557
+          ],
+          "median_ns_per_sample": 205.58304340277778,
+          "median_realtime_one_core_percent": 3.9471944333333333
+        }
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 40.0,
+      "adaa_extra_host_samples": 0.5,
+      "total_delay_host_samples": 40.5,
+      "total_delay_ms": 0.2109375,
+      "ideal_experiment_adaa_delay_host_samples": 0.5,
+      "max_adaa_delay_measurement_error_samples": 6.637135285814111e-12,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.02769632181415158,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.4004832896324364e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.02769632181415158
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.027355675134704393,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.3859968636150395e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.027355675134704393
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.0246190422358879,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -3.3850993974435694e-06
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.0246190422358879
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            297.37514409722223,
+            297.4205,
+            297.2581736111111,
+            297.00253125,
+            297.43055555555554
+          ],
+          "median_ns_per_sample": 297.37514409722223,
+          "median_realtime_one_core_percent": 5.709602766666667
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 7757.8125,
+          "amplitude": 4.5,
+          "gain": 0.5,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            301.4948645833333,
+            301.4822760416667,
+            301.96788194444446,
+            355.8260989583333,
+            301.43916493055553
+          ],
+          "median_ns_per_sample": 301.4948645833333,
+          "median_realtime_one_core_percent": 5.788701399999999
+        }
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "measured_fir_delay_host_samples": 44.0,
+      "adaa_extra_host_samples": 0.25,
+      "total_delay_host_samples": 44.25,
+      "total_delay_ms": 0.23046875,
+      "ideal_experiment_adaa_delay_host_samples": 0.25,
+      "max_adaa_delay_measurement_error_samples": 1.324507170608058e-11,
+      "small_signal": [
+        {
+          "tone": 0.0,
+          "max_abs_error_db": 0.006763835297575095,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.729599302765281e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.006763835297575095
+            }
+          ]
+        },
+        {
+          "tone": 0.5,
+          "max_abs_error_db": 0.006678672840159437,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.693379015256717e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.006678672840159437
+            }
+          ]
+        },
+        {
+          "tone": 1.0,
+          "max_abs_error_db": 0.005994660969541151,
+          "worst_hz": 8000.0,
+          "endpoints": [
+            {
+              "frequency_hz": 80.0,
+              "error_db": -7.691077078600723e-07
+            },
+            {
+              "frequency_hz": 8000.0,
+              "error_db": -0.005994660969541151
+            }
+          ]
+        }
+      ],
+      "old_r2_max_small_signal_sample_difference_volts": 0.0,
+      "cpu": [
+        {
+          "workload": "typical",
+          "input_hz": 997.0,
+          "amplitude": 0.5,
+          "gain": 1.0,
+          "tone": 1.0,
+          "nanoseconds_per_host_sample": [
+            598.6875,
+            598.0415225694444,
+            598.3926510416667,
+            598.4130503472222,
+            598.3980034722222
+          ],
+          "median_ns_per_sample": 598.3980034722222,
+          "median_realtime_one_core_percent": 11.489241666666665
+        },
+        {
+          "workload": "worst_product",
+          "input_hz": 6023.4375,
+          "amplitude": 4.5,
+          "gain": 1.0,
+          "tone": 0.0,
+          "nanoseconds_per_host_sample": [
+            594.9295434027778,
+            595.4448784722222,
+            594.9438663194444,
+            595.6580590277778,
+            594.9898732638889
+          ],
+          "median_ns_per_sample": 594.9898732638889,
+          "median_realtime_one_core_percent": 11.423805566666665
+        }
+      ]
+    }
+  ],
+  "antialias_struct_bytes": 24,
+  "note": "Serial native benchmark, not Python sweep timing; 5 runs of 3 s audio per workload, warmed up. Offline ideal projection has no finite causal FIR latency or realtime CPU estimate."
+}

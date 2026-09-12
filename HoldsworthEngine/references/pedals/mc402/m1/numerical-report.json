@@ -1,0 +1,2558 @@
+{
+  "profile": "MC402-BOUNDED-V1-PROVISIONAL",
+  "method": {
+    "fft_samples": 8192,
+    "window": "rectangular, coherent",
+    "minimum_warmup_seconds": 0.5,
+    "warmup": "ceil(0.5 * host_rate / 8192) whole periods",
+    "analysis_band_hz": [
+      20,
+      20000
+    ],
+    "rates": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ],
+    "factors": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "requested_sine_hz": [
+      100,
+      1000,
+      5000,
+      9500,
+      19000
+    ],
+    "amplitude_volts": [
+      0.005,
+      0.02,
+      0.12,
+      0.5,
+      10.0
+    ],
+    "gain": [
+      0.1,
+      0.5,
+      1.0
+    ],
+    "tone": [
+      0.0,
+      1.0
+    ],
+    "output": 1.0,
+    "boost_db": 0.0,
+    "note": "Gate failure is retained; reference mismatch is not called aliasing."
+  },
+  "alias": [
+    {
+      "sample_rate": 44100,
+      "factor": 1,
+      "cases": 150,
+      "latency_samples": 0,
+      "latency_ms": 0.0,
+      "passes_alias": false,
+      "alias_dbc": 20.594376289297998,
+      "input_hz": 18997.66845703125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 683.67919921875,
+      "fundamental_volts": 0.025059118034405893
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 2,
+      "cases": 150,
+      "latency_samples": 32,
+      "latency_ms": 0.7256235827664399,
+      "passes_alias": false,
+      "alias_dbc": -3.322457784737068,
+      "input_hz": 18997.66845703125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 48.44970703125,
+      "fundamental_volts": 0.06996311875746451
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 4,
+      "cases": 150,
+      "latency_samples": 40,
+      "latency_ms": 0.9070294784580499,
+      "passes_alias": false,
+      "alias_dbc": -5.18913702350299,
+      "input_hz": 18997.66845703125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 48.44970703125,
+      "fundamental_volts": 0.07983361405802165
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 8,
+      "cases": 150,
+      "latency_samples": 44,
+      "latency_ms": 0.9977324263038548,
+      "passes_alias": false,
+      "alias_dbc": -14.32071878854641,
+      "input_hz": 9501.52587890625,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 1243.54248046875,
+      "fundamental_volts": 0.1668791560536487
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 16,
+      "cases": 150,
+      "latency_samples": 46,
+      "latency_ms": 1.0430839002267573,
+      "passes_alias": false,
+      "alias_dbc": -14.647922217937989,
+      "input_hz": 18997.66845703125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2686.26708984375,
+      "fundamental_volts": 0.08282468279787793
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 32,
+      "cases": 150,
+      "latency_samples": 47,
+      "latency_ms": 1.0657596371882085,
+      "passes_alias": false,
+      "alias_dbc": -26.455733470343368,
+      "input_hz": 9501.52587890625,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 446.81396484375,
+      "fundamental_volts": 0.16725245626907673
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 64,
+      "cases": 150,
+      "latency_samples": 48,
+      "latency_ms": 1.08843537414966,
+      "passes_alias": false,
+      "alias_dbc": -26.456715331021975,
+      "input_hz": 9501.52587890625,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 446.81396484375,
+      "fundamental_volts": 0.16727129393298165
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 1,
+      "cases": 150,
+      "latency_samples": 0,
+      "latency_ms": 0.0,
+      "passes_alias": false,
+      "alias_dbc": 18.179160251591412,
+      "input_hz": 19001.953125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 990.234375,
+      "fundamental_volts": 0.03535540801342097
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 2,
+      "cases": 150,
+      "latency_samples": 32,
+      "latency_ms": 0.6666666666666666,
+      "passes_alias": false,
+      "alias_dbc": 11.927776905372609,
+      "input_hz": 19001.953125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 990.234375,
+      "fundamental_volts": 0.07266079021396975
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 4,
+      "cases": 150,
+      "latency_samples": 40,
+      "latency_ms": 0.8333333333333334,
+      "passes_alias": false,
+      "alias_dbc": -13.742165605785432,
+      "input_hz": 19001.953125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 802.734375,
+      "fundamental_volts": 0.08101714165398786
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 8,
+      "cases": 150,
+      "latency_samples": 44,
+      "latency_ms": 0.9166666666666666,
+      "passes_alias": false,
+      "alias_dbc": -13.957664328114095,
+      "input_hz": 19001.953125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 802.734375,
+      "fundamental_volts": 0.0830544729786399
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 16,
+      "cases": 150,
+      "latency_samples": 46,
+      "latency_ms": 0.9583333333333334,
+      "passes_alias": false,
+      "alias_dbc": -21.722316614558828,
+      "input_hz": 9498.046875,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 1341.796875,
+      "fundamental_volts": 0.16725372311251097
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 32,
+      "cases": 150,
+      "latency_samples": 47,
+      "latency_ms": 0.9791666666666666,
+      "passes_alias": false,
+      "alias_dbc": -22.41572112461271,
+      "input_hz": 19001.953125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 52.734375,
+      "fundamental_volts": 0.08368806600201883
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 64,
+      "cases": 150,
+      "latency_samples": 48,
+      "latency_ms": 1.0,
+      "passes_alias": false,
+      "alias_dbc": -22.419054045433036,
+      "input_hz": 19001.953125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 52.734375,
+      "fundamental_volts": 0.08371999638819069
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 1,
+      "cases": 150,
+      "latency_samples": 0,
+      "latency_ms": 0.0,
+      "passes_alias": false,
+      "alias_dbc": -3.776294338188056,
+      "input_hz": 19003.0517578125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 6815.2587890625,
+      "fundamental_volts": 0.070543478838232
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 2,
+      "cases": 150,
+      "latency_samples": 32,
+      "latency_ms": 0.36281179138321995,
+      "passes_alias": false,
+      "alias_dbc": -6.456997468261159,
+      "input_hz": 19003.0517578125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 398.3642578125,
+      "fundamental_volts": 0.08050723973046442
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 4,
+      "cases": 150,
+      "latency_samples": 40,
+      "latency_ms": 0.45351473922902497,
+      "passes_alias": false,
+      "alias_dbc": -13.045096568715408,
+      "input_hz": 9506.9091796875,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 1044.3603515625,
+      "fundamental_volts": 0.1667834234155499
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 8,
+      "cases": 150,
+      "latency_samples": 44,
+      "latency_ms": 0.4988662131519274,
+      "passes_alias": false,
+      "alias_dbc": -13.850761715047549,
+      "input_hz": 19003.0517578125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2487.0849609375,
+      "fundamental_volts": 0.08352533060093201
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 16,
+      "cases": 150,
+      "latency_samples": 46,
+      "latency_ms": 0.5215419501133787,
+      "passes_alias": false,
+      "alias_dbc": -24.11595042156774,
+      "input_hz": 19003.0517578125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 893.6279296875,
+      "fundamental_volts": 0.08367542369747843
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 32,
+      "cases": 150,
+      "latency_samples": 47,
+      "latency_ms": 0.5328798185941043,
+      "passes_alias": false,
+      "alias_dbc": -24.119819282147596,
+      "input_hz": 19003.0517578125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 893.6279296875,
+      "fundamental_volts": 0.08371294760833123
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 64,
+      "cases": 150,
+      "latency_samples": 48,
+      "latency_ms": 0.54421768707483,
+      "passes_alias": false,
+      "alias_dbc": -24.120799997544143,
+      "input_hz": 19003.0517578125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 893.6279296875,
+      "fundamental_volts": 0.08372241497927002
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 1,
+      "cases": 150,
+      "latency_samples": 0,
+      "latency_ms": 0.0,
+      "passes_alias": false,
+      "alias_dbc": 11.721160640746472,
+      "input_hz": 18996.09375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 1019.53125,
+      "fundamental_volts": 0.07268935198668186
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 2,
+      "cases": 150,
+      "latency_samples": 32,
+      "latency_ms": 0.3333333333333333,
+      "passes_alias": false,
+      "alias_dbc": -11.554835615503656,
+      "input_hz": 18996.09375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 644.53125,
+      "fundamental_volts": 0.08104344612895475
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 4,
+      "cases": 150,
+      "latency_samples": 40,
+      "latency_ms": 0.4166666666666667,
+      "passes_alias": false,
+      "alias_dbc": -17.631973241473084,
+      "input_hz": 18996.09375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 105.46875,
+      "fundamental_volts": 0.08308012840022423
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 8,
+      "cases": 150,
+      "latency_samples": 44,
+      "latency_ms": 0.4583333333333333,
+      "passes_alias": false,
+      "alias_dbc": -17.684529201771806,
+      "input_hz": 18996.09375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 105.46875,
+      "fundamental_volts": 0.08358687587055309
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 16,
+      "cases": 150,
+      "latency_samples": 46,
+      "latency_ms": 0.4791666666666667,
+      "passes_alias": false,
+      "alias_dbc": -21.3146561467775,
+      "input_hz": 18996.09375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2683.59375,
+      "fundamental_volts": 0.08371352237008994
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 32,
+      "cases": 150,
+      "latency_samples": 47,
+      "latency_ms": 0.4895833333333333,
+      "passes_alias": false,
+      "alias_dbc": -37.60031445385873,
+      "input_hz": 18996.09375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2894.53125,
+      "fundamental_volts": 0.08374518467334115
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 64,
+      "cases": 150,
+      "latency_samples": 48,
+      "latency_ms": 0.5,
+      "passes_alias": false,
+      "alias_dbc": -38.86349926932504,
+      "input_hz": 18996.09375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2472.65625,
+      "fundamental_volts": 0.08375317370038089
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 1,
+      "cases": 150,
+      "latency_samples": 0,
+      "latency_ms": 0.0,
+      "passes_alias": false,
+      "alias_dbc": -7.669272339688788,
+      "input_hz": 19013.818359375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 5275.634765625,
+      "fundamental_volts": 0.08045713698295603
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 2,
+      "cases": 150,
+      "latency_samples": 32,
+      "latency_ms": 0.18140589569160998,
+      "passes_alias": false,
+      "alias_dbc": -12.337411029059966,
+      "input_hz": 19013.818359375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2088.720703125,
+      "fundamental_volts": 0.08287631901201355
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 4,
+      "cases": 150,
+      "latency_samples": 40,
+      "latency_ms": 0.22675736961451248,
+      "passes_alias": false,
+      "alias_dbc": -12.399494996405934,
+      "input_hz": 19013.818359375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2088.720703125,
+      "fundamental_volts": 0.083477317282403
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 8,
+      "cases": 150,
+      "latency_samples": 44,
+      "latency_ms": 0.2494331065759637,
+      "passes_alias": false,
+      "alias_dbc": -31.354132104466863,
+      "input_hz": 19013.818359375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2304.052734375,
+      "fundamental_volts": 0.08362749481440347
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 16,
+      "cases": 150,
+      "latency_samples": 46,
+      "latency_ms": 0.26077097505668934,
+      "passes_alias": false,
+      "alias_dbc": -31.358092852300462,
+      "input_hz": 19013.818359375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2304.052734375,
+      "fundamental_volts": 0.08366503980822952
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 32,
+      "cases": 150,
+      "latency_samples": 47,
+      "latency_ms": 0.26643990929705214,
+      "passes_alias": false,
+      "alias_dbc": -31.359054469153158,
+      "input_hz": 19013.818359375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2304.052734375,
+      "fundamental_volts": 0.0836744261953928
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 64,
+      "cases": 150,
+      "latency_samples": 48,
+      "latency_ms": 0.272108843537415,
+      "passes_alias": false,
+      "alias_dbc": -42.254005460547894,
+      "input_hz": 19013.818359375,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 581.396484375,
+      "fundamental_volts": 0.08367679519502709
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 1,
+      "cases": 150,
+      "latency_samples": 0,
+      "latency_ms": 0.0,
+      "passes_alias": false,
+      "alias_dbc": -8.923531733276905,
+      "input_hz": 19007.8125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 210.9375,
+      "fundamental_volts": 0.0809895438596308
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 2,
+      "cases": 150,
+      "latency_samples": 32,
+      "latency_ms": 0.16666666666666666,
+      "passes_alias": false,
+      "alias_dbc": -9.139841390903127,
+      "input_hz": 19007.8125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 210.9375,
+      "fundamental_volts": 0.08302829710973982
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 4,
+      "cases": 150,
+      "latency_samples": 40,
+      "latency_ms": 0.20833333333333334,
+      "passes_alias": false,
+      "alias_dbc": -18.618249676934738,
+      "input_hz": 9492.1875,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 867.1875,
+      "fundamental_volts": 0.16735472887141237
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 8,
+      "cases": 150,
+      "latency_samples": 44,
+      "latency_ms": 0.22916666666666666,
+      "passes_alias": false,
+      "alias_dbc": -23.87321109578451,
+      "input_hz": 19007.8125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 3632.8125,
+      "fundamental_volts": 0.08366208537474924
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 16,
+      "cases": 150,
+      "latency_samples": 46,
+      "latency_ms": 0.23958333333333334,
+      "passes_alias": false,
+      "alias_dbc": -37.28232727258566,
+      "input_hz": 19007.8125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 2789.0625,
+      "fundamental_volts": 0.08369376733384601
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 32,
+      "cases": 150,
+      "latency_samples": 47,
+      "latency_ms": 0.24479166666666666,
+      "passes_alias": false,
+      "alias_dbc": -37.72083416885423,
+      "input_hz": 19007.8125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 4476.5625,
+      "fundamental_volts": 0.08370168792686809
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 64,
+      "cases": 150,
+      "latency_samples": 48,
+      "latency_ms": 0.25,
+      "passes_alias": false,
+      "alias_dbc": -39.05074044645838,
+      "input_hz": 19007.8125,
+      "amplitude_volts": 10.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "alias_hz": 1101.5625,
+      "fundamental_volts": 0.08370368701475307
+    }
+  ],
+  "fir": {
+    "banks": [
+      {
+        "length": 65,
+        "pass_edge": 0.2,
+        "stop_edge": 0.3,
+        "pass_error_db": 0.00010236600723828636,
+        "stop_db": -98.57311967498242,
+        "passes": true
+      },
+      {
+        "length": 33,
+        "pass_edge": 0.15,
+        "stop_edge": 0.35,
+        "pass_error_db": 7.251055602559817e-05,
+        "stop_db": -101.56822517598025,
+        "passes": true
+      }
+    ],
+    "round_trip": [
+      {
+        "sample_rate": 44100,
+        "factor": 1,
+        "declared_samples": 0,
+        "measured_peak_samples": 0,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0,
+        "passes": true
+      },
+      {
+        "sample_rate": 44100,
+        "factor": 2,
+        "declared_samples": 32,
+        "measured_peak_samples": 32,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00020465282396889256,
+        "passes": true
+      },
+      {
+        "sample_rate": 44100,
+        "factor": 4,
+        "declared_samples": 40,
+        "measured_peak_samples": 40,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0003447225670130127,
+        "passes": true
+      },
+      {
+        "sample_rate": 44100,
+        "factor": 8,
+        "declared_samples": 44,
+        "measured_peak_samples": 44,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00040596159921604173,
+        "passes": true
+      },
+      {
+        "sample_rate": 44100,
+        "factor": 16,
+        "declared_samples": 46,
+        "measured_peak_samples": 46,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004480197591901653,
+        "passes": true
+      },
+      {
+        "sample_rate": 44100,
+        "factor": 32,
+        "declared_samples": 47,
+        "measured_peak_samples": 47,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004594687859559687,
+        "passes": true
+      },
+      {
+        "sample_rate": 44100,
+        "factor": 64,
+        "declared_samples": 48,
+        "measured_peak_samples": 48,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004713365343725148,
+        "passes": true
+      },
+      {
+        "sample_rate": 48000,
+        "factor": 1,
+        "declared_samples": 0,
+        "measured_peak_samples": 0,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0,
+        "passes": true
+      },
+      {
+        "sample_rate": 48000,
+        "factor": 2,
+        "declared_samples": 32,
+        "measured_peak_samples": 32,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00020464613022435374,
+        "passes": true
+      },
+      {
+        "sample_rate": 48000,
+        "factor": 4,
+        "declared_samples": 40,
+        "measured_peak_samples": 40,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0003447225670130127,
+        "passes": true
+      },
+      {
+        "sample_rate": 48000,
+        "factor": 8,
+        "declared_samples": 44,
+        "measured_peak_samples": 44,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00040596159921604173,
+        "passes": true
+      },
+      {
+        "sample_rate": 48000,
+        "factor": 16,
+        "declared_samples": 46,
+        "measured_peak_samples": 46,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004480197591901653,
+        "passes": true
+      },
+      {
+        "sample_rate": 48000,
+        "factor": 32,
+        "declared_samples": 47,
+        "measured_peak_samples": 47,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004594687859559687,
+        "passes": true
+      },
+      {
+        "sample_rate": 48000,
+        "factor": 64,
+        "declared_samples": 48,
+        "measured_peak_samples": 48,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004713365343725148,
+        "passes": true
+      },
+      {
+        "sample_rate": 88200,
+        "factor": 1,
+        "declared_samples": 0,
+        "measured_peak_samples": 0,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0,
+        "passes": true
+      },
+      {
+        "sample_rate": 88200,
+        "factor": 2,
+        "declared_samples": 32,
+        "measured_peak_samples": 32,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00020464613022435374,
+        "passes": true
+      },
+      {
+        "sample_rate": 88200,
+        "factor": 4,
+        "declared_samples": 40,
+        "measured_peak_samples": 40,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0003447225670130127,
+        "passes": true
+      },
+      {
+        "sample_rate": 88200,
+        "factor": 8,
+        "declared_samples": 44,
+        "measured_peak_samples": 44,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004046630194358265,
+        "passes": true
+      },
+      {
+        "sample_rate": 88200,
+        "factor": 16,
+        "declared_samples": 46,
+        "measured_peak_samples": 46,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004218419799194373,
+        "passes": true
+      },
+      {
+        "sample_rate": 88200,
+        "factor": 32,
+        "declared_samples": 47,
+        "measured_peak_samples": 47,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.000426291749509677,
+        "passes": true
+      },
+      {
+        "sample_rate": 88200,
+        "factor": 64,
+        "declared_samples": 48,
+        "measured_peak_samples": 48,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004308823931691645,
+        "passes": true
+      },
+      {
+        "sample_rate": 96000,
+        "factor": 1,
+        "declared_samples": 0,
+        "measured_peak_samples": 0,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0,
+        "passes": true
+      },
+      {
+        "sample_rate": 96000,
+        "factor": 2,
+        "declared_samples": 32,
+        "measured_peak_samples": 32,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00020464613022435374,
+        "passes": true
+      },
+      {
+        "sample_rate": 96000,
+        "factor": 4,
+        "declared_samples": 40,
+        "measured_peak_samples": 40,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0003447225670130127,
+        "passes": true
+      },
+      {
+        "sample_rate": 96000,
+        "factor": 8,
+        "declared_samples": 44,
+        "measured_peak_samples": 44,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004046630194358265,
+        "passes": true
+      },
+      {
+        "sample_rate": 96000,
+        "factor": 16,
+        "declared_samples": 46,
+        "measured_peak_samples": 46,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004218419799194373,
+        "passes": true
+      },
+      {
+        "sample_rate": 96000,
+        "factor": 32,
+        "declared_samples": 47,
+        "measured_peak_samples": 47,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.000426291749509677,
+        "passes": true
+      },
+      {
+        "sample_rate": 96000,
+        "factor": 64,
+        "declared_samples": 48,
+        "measured_peak_samples": 48,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0004308823931691645,
+        "passes": true
+      },
+      {
+        "sample_rate": 176400,
+        "factor": 1,
+        "declared_samples": 0,
+        "measured_peak_samples": 0,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0,
+        "passes": true
+      },
+      {
+        "sample_rate": 176400,
+        "factor": 2,
+        "declared_samples": 32,
+        "measured_peak_samples": 32,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00020464613022435374,
+        "passes": true
+      },
+      {
+        "sample_rate": 176400,
+        "factor": 4,
+        "declared_samples": 40,
+        "measured_peak_samples": 40,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00023471081808706988,
+        "passes": true
+      },
+      {
+        "sample_rate": 176400,
+        "factor": 8,
+        "declared_samples": 44,
+        "measured_peak_samples": 44,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00024321459509544507,
+        "passes": true
+      },
+      {
+        "sample_rate": 176400,
+        "factor": 16,
+        "declared_samples": 46,
+        "measured_peak_samples": 46,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00024541466869683917,
+        "passes": true
+      },
+      {
+        "sample_rate": 176400,
+        "factor": 32,
+        "declared_samples": 47,
+        "measured_peak_samples": 47,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00024596994728146547,
+        "passes": true
+      },
+      {
+        "sample_rate": 176400,
+        "factor": 64,
+        "declared_samples": 48,
+        "measured_peak_samples": 48,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0002465423919325433,
+        "passes": true
+      },
+      {
+        "sample_rate": 192000,
+        "factor": 1,
+        "declared_samples": 0,
+        "measured_peak_samples": 0,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0,
+        "passes": true
+      },
+      {
+        "sample_rate": 192000,
+        "factor": 2,
+        "declared_samples": 32,
+        "measured_peak_samples": 32,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00020464613022435374,
+        "passes": true
+      },
+      {
+        "sample_rate": 192000,
+        "factor": 4,
+        "declared_samples": 40,
+        "measured_peak_samples": 40,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00023471081808706988,
+        "passes": true
+      },
+      {
+        "sample_rate": 192000,
+        "factor": 8,
+        "declared_samples": 44,
+        "measured_peak_samples": 44,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00024321459509544507,
+        "passes": true
+      },
+      {
+        "sample_rate": 192000,
+        "factor": 16,
+        "declared_samples": 46,
+        "measured_peak_samples": 46,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00024541466869683917,
+        "passes": true
+      },
+      {
+        "sample_rate": 192000,
+        "factor": 32,
+        "declared_samples": 47,
+        "measured_peak_samples": 47,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.00024596994728146547,
+        "passes": true
+      },
+      {
+        "sample_rate": 192000,
+        "factor": 64,
+        "declared_samples": 48,
+        "measured_peak_samples": 48,
+        "symmetry_error": 0.0,
+        "ripple_db": 0.0002465423919325433,
+        "passes": true
+      }
+    ]
+  },
+  "small_signal": [
+    {
+      "sample_rate": 44100,
+      "factor": 4,
+      "max_magnitude_error_db": 0.05852721473344056,
+      "passes": true
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 4,
+      "max_magnitude_error_db": 0.04924177332608762,
+      "passes": true
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 2,
+      "max_magnitude_error_db": 0.058341454873359386,
+      "passes": true
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 2,
+      "max_magnitude_error_db": 0.04918802950273028,
+      "passes": true
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 1,
+      "max_magnitude_error_db": 0.058546070501035705,
+      "passes": true
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 1,
+      "max_magnitude_error_db": 0.049362505965982836,
+      "passes": true
+    }
+  ],
+  "reference": [
+    {
+      "sample_rate": 44100,
+      "stimulus": {
+        "sample_rate": 44100,
+        "factor": 8,
+        "cases": 150,
+        "latency_samples": 44,
+        "latency_ms": 0.9977324263038548,
+        "passes_alias": false,
+        "alias_dbc": -14.32071878854641,
+        "input_hz": 9501.52587890625,
+        "amplitude_volts": 10.0,
+        "gain": 1.0,
+        "tone": 0.0,
+        "output": 1.0,
+        "boost_db": 0.0,
+        "alias_hz": 1243.54248046875,
+        "fundamental_volts": 0.1668791560536487
+      },
+      "production_vs_direct_reference": [
+        {
+          "factor": 1,
+          "reference_factor": 32,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": -1.017989469838505,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 1,
+          "reference_factor": 64,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": -1.0173908093483068,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 32,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -5.133440240333722,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 64,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -5.130416980932879,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 32,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -11.752078775795296,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 64,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -11.734338851041954,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 32,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -13.99045210723245,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 64,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -13.960238090287397,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        }
+      ],
+      "core_alias_dbc": {
+        "16": -26.4516617243969,
+        "32": -26.455530226459366,
+        "64": -26.456497237412968
+      },
+      "residual_16_to_32_db": -29.249133052958914,
+      "residual_32_to_64_db": -35.55260140872257,
+      "reference_32_passes_alias": false,
+      "reference_64_passes_alias": false
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": {
+        "sample_rate": 48000,
+        "factor": 8,
+        "cases": 150,
+        "latency_samples": 44,
+        "latency_ms": 0.9166666666666666,
+        "passes_alias": false,
+        "alias_dbc": -13.957664328114095,
+        "input_hz": 19001.953125,
+        "amplitude_volts": 10.0,
+        "gain": 1.0,
+        "tone": 0.0,
+        "output": 1.0,
+        "boost_db": 0.0,
+        "alias_hz": 802.734375,
+        "fundamental_volts": 0.0830544729786399
+      },
+      "production_vs_direct_reference": [
+        {
+          "factor": 1,
+          "reference_factor": 32,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": 11.19758703586674,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 1,
+          "reference_factor": 64,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": 11.219766871452741,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 32,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": 10.789235371468454,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 64,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": 10.8118222951088,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 32,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -9.382502745601784,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 64,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -9.159596382995796,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 32,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -12.808002804441852,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 64,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -12.353632856900582,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        }
+      ],
+      "core_alias_dbc": {
+        "16": -22.402369596986734,
+        "32": -22.41548083563249,
+        "64": -22.41875444117326
+      },
+      "residual_16_to_32_db": -23.01348898578652,
+      "residual_32_to_64_db": -22.574523852373538,
+      "reference_32_passes_alias": false,
+      "reference_64_passes_alias": false
+    },
+    {
+      "sample_rate": 88200,
+      "stimulus": {
+        "sample_rate": 88200,
+        "factor": 8,
+        "cases": 150,
+        "latency_samples": 44,
+        "latency_ms": 0.4988662131519274,
+        "passes_alias": false,
+        "alias_dbc": -13.850761715047549,
+        "input_hz": 19003.0517578125,
+        "amplitude_volts": 10.0,
+        "gain": 1.0,
+        "tone": 0.0,
+        "output": 1.0,
+        "boost_db": 0.0,
+        "alias_hz": 2487.0849609375,
+        "fundamental_volts": 0.08352533060093201
+      },
+      "production_vs_direct_reference": [
+        {
+          "factor": 1,
+          "reference_factor": 32,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": 0.020983876988554084,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 1,
+          "reference_factor": 64,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": 0.021527446769815793,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 32,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -3.414559390741117,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 64,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -3.4118256818399124,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 32,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -11.119309796638358,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 64,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -11.10291063266944,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 32,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -13.490358709681773,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 64,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -13.461910892299173,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        }
+      ],
+      "core_alias_dbc": {
+        "16": -24.115740241747538,
+        "32": -24.11961255813565,
+        "64": -24.120581713938527
+      },
+      "residual_16_to_32_db": -28.96652603644506,
+      "residual_32_to_64_db": -35.34321784812258,
+      "reference_32_passes_alias": false,
+      "reference_64_passes_alias": false
+    },
+    {
+      "sample_rate": 96000,
+      "stimulus": {
+        "sample_rate": 96000,
+        "factor": 8,
+        "cases": 150,
+        "latency_samples": 44,
+        "latency_ms": 0.4583333333333333,
+        "passes_alias": false,
+        "alias_dbc": -17.684529201771806,
+        "input_hz": 18996.09375,
+        "amplitude_volts": 10.0,
+        "gain": 1.0,
+        "tone": 0.0,
+        "output": 1.0,
+        "boost_db": 0.0,
+        "alias_hz": 105.46875,
+        "fundamental_volts": 0.08358687587055309
+      },
+      "production_vs_direct_reference": [
+        {
+          "factor": 1,
+          "reference_factor": 32,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": 10.647639225873567,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 1,
+          "reference_factor": 64,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": 10.648069126718811,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 32,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -8.290245524098003,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 64,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -8.281771544415498,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 32,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -12.674607030653553,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 64,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -12.651468987057239,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 32,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -15.358973875769165,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 64,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -15.316459682891384,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        }
+      ],
+      "core_alias_dbc": {
+        "16": -21.3145988404786,
+        "32": -37.60021783122828,
+        "64": -38.86333443590385
+      },
+      "residual_16_to_32_db": -21.194841758490384,
+      "residual_32_to_64_db": -35.482456959835204,
+      "reference_32_passes_alias": false,
+      "reference_64_passes_alias": false
+    },
+    {
+      "sample_rate": 176400,
+      "stimulus": {
+        "sample_rate": 176400,
+        "factor": 8,
+        "cases": 150,
+        "latency_samples": 44,
+        "latency_ms": 0.2494331065759637,
+        "passes_alias": false,
+        "alias_dbc": -31.354132104466863,
+        "input_hz": 19013.818359375,
+        "amplitude_volts": 10.0,
+        "gain": 1.0,
+        "tone": 0.0,
+        "output": 1.0,
+        "boost_db": 0.0,
+        "alias_hz": 2304.052734375,
+        "fundamental_volts": 0.08362749481440347
+      },
+      "production_vs_direct_reference": [
+        {
+          "factor": 1,
+          "reference_factor": 32,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": -4.325196394809241,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 1,
+          "reference_factor": 64,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": -4.313694711620592,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 32,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -8.76828647241555,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 64,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -8.740983397120308,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 32,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -12.177680005831132,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 64,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -12.121870062079127,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 32,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -27.660898695327386,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 64,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -26.09643114351114,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        }
+      ],
+      "core_alias_dbc": {
+        "16": -31.357982320410617,
+        "32": -31.358934406927695,
+        "64": -42.25402467827007
+      },
+      "residual_16_to_32_db": -34.54249962562343,
+      "residual_32_to_64_db": -31.296534066691628,
+      "reference_32_passes_alias": false,
+      "reference_64_passes_alias": false
+    },
+    {
+      "sample_rate": 192000,
+      "stimulus": {
+        "sample_rate": 192000,
+        "factor": 8,
+        "cases": 150,
+        "latency_samples": 44,
+        "latency_ms": 0.22916666666666666,
+        "passes_alias": false,
+        "alias_dbc": -23.87321109578451,
+        "input_hz": 19007.8125,
+        "amplitude_volts": 10.0,
+        "gain": 1.0,
+        "tone": 0.0,
+        "output": 1.0,
+        "boost_db": 0.0,
+        "alias_hz": 3632.8125,
+        "fundamental_volts": 0.08366208537474924
+      },
+      "production_vs_direct_reference": [
+        {
+          "factor": 1,
+          "reference_factor": 32,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": -7.217440643458107,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 1,
+          "reference_factor": 64,
+          "latency_samples": 0,
+          "wire_compensated_residual_db": -7.214150118825547,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 32,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -8.44759135312678,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 2,
+          "reference_factor": 64,
+          "latency_samples": 32,
+          "wire_compensated_residual_db": -8.443367366287093,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 32,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -20.244231955030507,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 4,
+          "reference_factor": 64,
+          "latency_samples": 40,
+          "wire_compensated_residual_db": -20.163582055456878,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 32,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -23.01197477264571,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        },
+        {
+          "factor": 8,
+          "reference_factor": 64,
+          "latency_samples": 44,
+          "wire_compensated_residual_db": -22.8614544443236,
+          "interpretation": "Linear resampler magnitude/phase removed; BLT and nonlinear input-filter interaction remain. Reference is not alias-qualified."
+        }
+      ],
+      "core_alias_dbc": {
+        "16": -37.28217383645618,
+        "32": -37.72071975039967,
+        "64": -39.05038546321166
+      },
+      "residual_16_to_32_db": -34.1270597977754,
+      "residual_32_to_64_db": -37.555658687540216,
+      "reference_32_passes_alias": false,
+      "reference_64_passes_alias": false
+    }
+  ],
+  "multitone_alias": [
+    {
+      "sample_rate": 44100,
+      "factor": 1,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -17.498797282557742,
+      "input_hz": [
+        995.91064453125,
+        4581.18896484375
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 479.11376953125
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 2,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -20.64216793168012,
+      "input_hz": [
+        995.91064453125,
+        4581.18896484375
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 37.68310546875
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 4,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -29.94672968781974,
+      "input_hz": [
+        995.91064453125,
+        4581.18896484375
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 274.54833984375
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 8,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -42.18936984375855,
+      "input_hz": [
+        995.91064453125,
+        4581.18896484375
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 296.08154296875
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 16,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -42.1853332974118,
+      "input_hz": [
+        995.91064453125,
+        4581.18896484375
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 296.08154296875
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 32,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -49.45200543789477,
+      "input_hz": [
+        995.91064453125,
+        4581.18896484375
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 403.74755859375
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 64,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -61.89468883739569,
+      "input_hz": [
+        995.91064453125,
+        4581.18896484375
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 188.41552734375
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 1,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -24.142526021585514,
+      "input_hz": [
+        1025.390625,
+        4716.796875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 1.0,
+      "alias_hz": 2654.296875
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 2,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -24.418621567533577,
+      "input_hz": [
+        1025.390625,
+        4716.796875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 591.796875
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 4,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -36.092073120217,
+      "input_hz": [
+        1025.390625,
+        4716.796875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 298.828125
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 8,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -36.0492904365242,
+      "input_hz": [
+        1025.390625,
+        4716.796875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 298.828125
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 16,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -48.54107173955788,
+      "input_hz": [
+        1025.390625,
+        4716.796875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 169.921875
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 32,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -48.55065095321048,
+      "input_hz": [
+        1025.390625,
+        4716.796875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 169.921875
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 64,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -63.307950783520866,
+      "input_hz": [
+        1025.390625,
+        4716.796875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 275.390625
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 1,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -24.828028087562966,
+      "input_hz": [
+        1022.8271484375,
+        4705.0048828125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 139.9658203125
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 2,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -25.10978328897692,
+      "input_hz": [
+        1022.8271484375,
+        4705.0048828125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 139.9658203125
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 4,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -41.85002238383699,
+      "input_hz": [
+        1022.8271484375,
+        4705.0048828125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 75.3662109375
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 8,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -46.58385622581939,
+      "input_hz": [
+        1022.8271484375,
+        4705.0048828125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 764.4287109375
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 16,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -49.41895379980457,
+      "input_hz": [
+        1022.8271484375,
+        4705.0048828125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 506.0302734375
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 32,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -66.8195914835161,
+      "input_hz": [
+        1022.8271484375,
+        4705.0048828125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 1.0,
+      "alias_hz": 1625.7568359375
+    },
+    {
+      "sample_rate": 88200,
+      "factor": 64,
+      "cases": 18,
+      "passes_alias": true,
+      "alias_db_relative_total_rms": -72.25895246537638,
+      "input_hz": [
+        1022.8271484375,
+        4705.0048828125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 1001.2939453125
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 1,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -26.506595953341403,
+      "input_hz": [
+        996.09375,
+        4582.03125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 0.5,
+      "tone": 0.0,
+      "alias_hz": 175.78125
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 2,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -34.00565995442624,
+      "input_hz": [
+        996.09375,
+        4582.03125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 105.46875
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 4,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -34.18310806115298,
+      "input_hz": [
+        996.09375,
+        4582.03125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 105.46875
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 8,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -45.06457874716407,
+      "input_hz": [
+        996.09375,
+        4582.03125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 1207.03125
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 16,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -50.72847894802958,
+      "input_hz": [
+        996.09375,
+        4582.03125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 175.78125
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 32,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -58.90362337977943,
+      "input_hz": [
+        996.09375,
+        4582.03125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 246.09375
+    },
+    {
+      "sample_rate": 96000,
+      "factor": 64,
+      "cases": 18,
+      "passes_alias": true,
+      "alias_db_relative_total_rms": -70.17784030247132,
+      "input_hz": [
+        996.09375,
+        4582.03125
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 691.40625
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 1,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -36.691353706781825,
+      "input_hz": [
+        968.994140625,
+        4457.373046875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 1.0,
+      "alias_hz": 3725.244140625
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 2,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -43.2586671748148,
+      "input_hz": [
+        968.994140625,
+        4457.373046875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 1.0,
+      "alias_hz": 6481.494140625
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 4,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -49.92719096259481,
+      "input_hz": [
+        968.994140625,
+        4457.373046875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 21.533203125
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 8,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -50.422631579796786,
+      "input_hz": [
+        968.994140625,
+        4457.373046875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 236.865234375
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 16,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -58.23447468318403,
+      "input_hz": [
+        968.994140625,
+        4457.373046875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 107.666015625
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 32,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -66.86700579197941,
+      "input_hz": [
+        968.994140625,
+        4457.373046875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 366.064453125
+    },
+    {
+      "sample_rate": 176400,
+      "factor": 64,
+      "cases": 18,
+      "passes_alias": true,
+      "alias_db_relative_total_rms": -82.80830836169068,
+      "input_hz": [
+        968.994140625,
+        4457.373046875
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 150.732421875
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 1,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -35.61350532313498,
+      "input_hz": [
+        1054.6875,
+        4851.5625
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 1.0,
+      "alias_hz": 1851.5625
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 2,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -37.99067174746963,
+      "input_hz": [
+        1054.6875,
+        4851.5625
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 539.0625
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 4,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -48.400855638511835,
+      "input_hz": [
+        1054.6875,
+        4851.5625
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 445.3125
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 8,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -50.71549113967622,
+      "input_hz": [
+        1054.6875,
+        4851.5625
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 257.8125
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 16,
+      "cases": 18,
+      "passes_alias": false,
+      "alias_db_relative_total_rms": -58.63268999237793,
+      "input_hz": [
+        1054.6875,
+        4851.5625
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 117.1875
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 32,
+      "cases": 18,
+      "passes_alias": true,
+      "alias_db_relative_total_rms": -72.61928959718998,
+      "input_hz": [
+        1054.6875,
+        4851.5625
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 1289.0625
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 64,
+      "cases": 18,
+      "passes_alias": true,
+      "alias_db_relative_total_rms": -82.94735732598025,
+      "input_hz": [
+        1054.6875,
+        4851.5625
+      ],
+      "each_tone_peak_volts": 5.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "alias_hz": 164.0625
+    }
+  ],
+  "complex_stimuli": [
+    {
+      "sample_rate": 44100,
+      "stimulus": "two_tone",
+      "factor": 1,
+      "residual_vs_64x_db": -13.605773780794308,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "two_tone",
+      "factor": 2,
+      "residual_vs_64x_db": -21.045533838692627,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "two_tone",
+      "factor": 4,
+      "residual_vs_64x_db": -29.292769693100176,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "two_tone",
+      "factor": 8,
+      "residual_vs_64x_db": -39.92663603167627,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "two_tone",
+      "factor": 16,
+      "residual_vs_64x_db": -55.89665271163806,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "two_tone",
+      "factor": 32,
+      "residual_vs_64x_db": -66.60989126890992,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "log_sweep",
+      "factor": 1,
+      "residual_vs_64x_db": -12.605673094953936,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "log_sweep",
+      "factor": 2,
+      "residual_vs_64x_db": -19.07135879095362,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "log_sweep",
+      "factor": 4,
+      "residual_vs_64x_db": -25.829346020605403,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "log_sweep",
+      "factor": 8,
+      "residual_vs_64x_db": -32.58179594533611,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "log_sweep",
+      "factor": 16,
+      "residual_vs_64x_db": -40.093751351471106,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 44100,
+      "stimulus": "log_sweep",
+      "factor": 32,
+      "residual_vs_64x_db": -49.30811938699159,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "two_tone",
+      "factor": 1,
+      "residual_vs_64x_db": -14.405138860302479,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "two_tone",
+      "factor": 2,
+      "residual_vs_64x_db": -21.8895272099192,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "two_tone",
+      "factor": 4,
+      "residual_vs_64x_db": -30.317255607967958,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "two_tone",
+      "factor": 8,
+      "residual_vs_64x_db": -41.65426679151856,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "two_tone",
+      "factor": 16,
+      "residual_vs_64x_db": -57.750763511656125,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "two_tone",
+      "factor": 32,
+      "residual_vs_64x_db": -70.03499674291285,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "log_sweep",
+      "factor": 1,
+      "residual_vs_64x_db": -13.177960998515681,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "log_sweep",
+      "factor": 2,
+      "residual_vs_64x_db": -19.725825636930523,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "log_sweep",
+      "factor": 4,
+      "residual_vs_64x_db": -26.33779951138851,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "log_sweep",
+      "factor": 8,
+      "residual_vs_64x_db": -33.28377640202312,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "log_sweep",
+      "factor": 16,
+      "residual_vs_64x_db": -40.91352660678224,
+      "interpretation": "convergence, not isolated alias"
+    },
+    {
+      "sample_rate": 48000,
+      "stimulus": "log_sweep",
+      "factor": 32,
+      "residual_vs_64x_db": -50.369703517964325,
+      "interpretation": "convergence, not isolated alias"
+    }
+  ],
+  "elapsed_seconds": 260.33517904200005,
+  "all_fir_checks_pass": true,
+  "all_small_signal_checks_pass": true,
+  "passing_factors_by_rate": {
+    "44100": [],
+    "48000": [],
+    "88200": [],
+    "96000": [],
+    "176400": [],
+    "192000": []
+  },
+  "alias_gate_passed": false,
+  "selected_qualified_factors": null,
+  "evaluated_default_factors": {
+    "44100": 4,
+    "48000": 4,
+    "88200": 2,
+    "96000": 2,
+    "176400": 1,
+    "192000": 1
+  },
+  "additional_reference_check_seconds": 0.9534781250000001
+}

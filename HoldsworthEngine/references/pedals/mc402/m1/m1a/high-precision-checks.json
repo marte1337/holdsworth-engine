@@ -1,0 +1,9 @@
+{
+  "decimal_digits": 80,
+  "triples": 1105,
+  "max_abs_error": {
+    "1": 2.220446049250313e-16,
+    "2": 4.440892098500626e-16
+  },
+  "passed": true
+}

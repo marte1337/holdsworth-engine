@@ -1,0 +1,59 @@
+{
+  "id": "MC402-BOUNDED-V1-PROVISIONAL-R2",
+  "status": "offline candidate only; not qualified or adopted",
+  "base_profile": "MC402-BOUNDED-V1-PROVISIONAL",
+  "base_header": "../../../../../dsp/MC402ProvisionalProfile.h",
+  "base_header_sha256": "b0ecfa790d5aaf1effb3a26adbce1436ef587bbca125c937c24a4e8b47663bf0",
+  "only_change": "normalized saturation knee",
+  "knee_start": "9/10",
+  "knee_end": "11/10",
+  "knee_width": "1/5",
+  "knee_coefficients_ascending_t": [
+    "9/10",
+    "1/5",
+    "0",
+    "-1/5",
+    "1/10",
+    "0"
+  ],
+  "primitive1_at_b": "599/1000",
+  "primitive2_at_b": "6647/30000",
+  "unchanged_stage_gains": [
+    "-470000/22000",
+    "-470000/22000"
+  ],
+  "unchanged_H_volts": [
+    2.5,
+    2.5
+  ],
+  "unchanged_input_hp_hz": "1/(2*pi*22000*47e-9)",
+  "unchanged_interstage_hp_hz": 154.0,
+  "unchanged_output_hp_hz": 10.0,
+  "unchanged_attenuation_exponent": 3.321928094887362,
+  "unchanged_tone_hz": "500*16^position",
+  "unchanged_boost_scalar": "10^(dB/20), 0..20 dB",
+  "unchanged_FIR_lengths_4x": [
+    65,
+    33
+  ],
+  "unchanged_FIR_lengths_8x": [
+    65,
+    33,
+    33
+  ],
+  "product_envelope": "../m1b/envelope.json",
+  "antialias_methods": [
+    "ordinary4",
+    "ordinary8",
+    "adaa1_4",
+    "adaa2_4",
+    "adaa2_8"
+  ],
+  "resamplers": [
+    "unchanged production FIR",
+    "ideal offline interpolation/projection"
+  ],
+  "controls_calibration_sections_architecture": "frozen; no production edits",
+  "gain_zero": "provisional profile mute, not hardware verified",
+  "decision": "D"
+}

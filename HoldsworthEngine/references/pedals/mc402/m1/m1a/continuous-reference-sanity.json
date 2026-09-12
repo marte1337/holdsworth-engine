@@ -1,0 +1,146 @@
+[
+  {
+    "case": {
+      "input_hz": 80.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 4.958627814445276e-15,
+    "largest_unexpected_harmonic": 4.2384482209160085e-19,
+    "periodic_state_error": 1.3552527156068805e-20
+  },
+  {
+    "case": {
+      "input_hz": 80.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 4.920473466027768e-15,
+    "largest_unexpected_harmonic": 4.90789338299164e-19,
+    "periodic_state_error": 1.3552527156068805e-20
+  },
+  {
+    "case": {
+      "input_hz": 80.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 4.886467988286102e-15,
+    "largest_unexpected_harmonic": 5.126971887135634e-19,
+    "periodic_state_error": 1.3552527156068805e-20
+  },
+  {
+    "case": {
+      "input_hz": 1000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 5.605385360548269e-16,
+    "largest_unexpected_harmonic": 4.0265847134207357e-19,
+    "periodic_state_error": 0.0
+  },
+  {
+    "case": {
+      "input_hz": 1000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 7.006731700685339e-16,
+    "largest_unexpected_harmonic": 1.3586138012537537e-18,
+    "periodic_state_error": 0.0
+  },
+  {
+    "case": {
+      "input_hz": 1000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 4.987186906536598e-16,
+    "largest_unexpected_harmonic": 2.293328453493743e-18,
+    "periodic_state_error": 0.0
+  },
+  {
+    "case": {
+      "input_hz": 5000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 1.5950875276256933e-16,
+    "largest_unexpected_harmonic": 8.432571637394591e-20,
+    "periodic_state_error": 8.470329472543003e-22
+  },
+  {
+    "case": {
+      "input_hz": 5000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 3.201189468942926e-16,
+    "largest_unexpected_harmonic": 3.3452970636489146e-19,
+    "periodic_state_error": 8.470329472543003e-22
+  },
+  {
+    "case": {
+      "input_hz": 5000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 1.982724578998607e-16,
+    "largest_unexpected_harmonic": 1.1911418963032996e-18,
+    "periodic_state_error": 8.470329472543003e-22
+  },
+  {
+    "case": {
+      "input_hz": 19000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 1.058287600449591e-16,
+    "largest_unexpected_harmonic": 0.0,
+    "periodic_state_error": 2.117582368135751e-22
+  },
+  {
+    "case": {
+      "input_hz": 19000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 4.346425076329648e-16,
+    "largest_unexpected_harmonic": 0.0,
+    "periodic_state_error": 2.117582368135751e-22
+  },
+  {
+    "case": {
+      "input_hz": 19000.0,
+      "amplitude": 1e-05,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0
+    },
+    "fundamental_relative_error": 3.060997515591159e-16,
+    "largest_unexpected_harmonic": 0.0,
+    "periodic_state_error": 2.117582368135751e-22
+  }
+]

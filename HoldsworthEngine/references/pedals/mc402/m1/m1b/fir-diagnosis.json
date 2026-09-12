@@ -1,0 +1,120 @@
+[
+  {
+    "sample_rate": 44100,
+    "input_hz": 4871.88720703125,
+    "amplitude": 0.5,
+    "gain": 1.0,
+    "tone": 1.0,
+    "output": 1.0,
+    "factor": 8,
+    "fifth_harmonic_hz": 24359.43603515625,
+    "folded_fifth_hz": 19740.56396484375,
+    "ideal_input_core_fifth_dbfs": -14.291085597120079,
+    "downsampler_attenuation_db": -27.697363609519904,
+    "predicted_fifth_fold_dbfs": -41.988449206639984,
+    "actual": {
+      "fundamental_peak": 2.71770552086424,
+      "fundamental_dbfs": 8.6840479324601,
+      "alias_hz": 19740.56396484375,
+      "alias_peak": 0.007954484060856555,
+      "alias_dbfs": -41.987759681226876,
+      "alias_dbc": -50.671807613686966,
+      "total_alias_rms_volts": 0.005624767960443544,
+      "total_alias_dbfs_sine_equivalent": -41.987607820856766,
+      "total_alias_dbc": -50.67165575331686,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 2.618446260168799
+    },
+    "stages": [
+      {
+        "length": 65,
+        "stage_rate": 88200,
+        "fifth_harmonic_attenuation_db": -27.69743125471162
+      },
+      {
+        "length": 33,
+        "stage_rate": 176400,
+        "fifth_harmonic_attenuation_db": 7.932669871494244e-06
+      },
+      {
+        "length": 33,
+        "stage_rate": 352800,
+        "fifth_harmonic_attenuation_db": 5.971252184369975e-05
+      }
+    ],
+    "ideal_resampler_diagnostic": {
+      "fundamental_peak": 2.7176618367903456,
+      "fundamental_dbfs": 8.683908315385546,
+      "alias_hz": 16639.78271484375,
+      "alias_peak": 3.983445193513831e-05,
+      "alias_dbfs": -87.99482307451582,
+      "alias_dbc": -96.67873138990137,
+      "total_alias_rms_volts": 3.3152356644039615e-05,
+      "total_alias_dbfs_sine_equivalent": -86.57941192783589,
+      "total_alias_dbc": -95.26332024322144,
+      "relative_pass": true,
+      "absolute_pass": true,
+      "output_peak": 2.462569349057144
+    }
+  },
+  {
+    "sample_rate": 44100,
+    "input_hz": 5001.08642578125,
+    "amplitude": 0.5,
+    "gain": 1.0,
+    "tone": 1.0,
+    "output": 1.0,
+    "factor": 8,
+    "fifth_harmonic_hz": 25005.43212890625,
+    "folded_fifth_hz": 19094.56787109375,
+    "ideal_input_core_fifth_dbfs": -14.511556250284494,
+    "downsampler_attenuation_db": -39.21684331480296,
+    "predicted_fifth_fold_dbfs": -53.72839956508745,
+    "actual": {
+      "fundamental_peak": 2.698071673773258,
+      "fundamental_dbfs": 8.621069648828689,
+      "alias_hz": 19094.56787109375,
+      "alias_peak": 0.0020590022332285835,
+      "alias_dbfs": -53.72686364677172,
+      "alias_dbc": -62.34793329560041,
+      "total_alias_rms_volts": 0.0014564205903251366,
+      "total_alias_dbfs_sine_equivalent": -53.72396383942149,
+      "total_alias_dbc": -62.34503348825018,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 2.610479565988827
+    },
+    "stages": [
+      {
+        "length": 65,
+        "stage_rate": 88200,
+        "fifth_harmonic_attenuation_db": -39.21694800159421
+      },
+      {
+        "length": 33,
+        "stage_rate": 176400,
+        "fifth_harmonic_attenuation_db": 3.912319980414581e-05
+      },
+      {
+        "length": 33,
+        "stage_rate": 352800,
+        "fifth_harmonic_attenuation_db": 6.556359144926442e-05
+      }
+    ],
+    "ideal_resampler_diagnostic": {
+      "fundamental_peak": 2.698032003923222,
+      "fundamental_dbfs": 8.62094193892541,
+      "alias_hz": 17727.20947265625,
+      "alias_peak": 4.5709980519602414e-05,
+      "alias_dbfs": -86.79977927591148,
+      "alias_dbc": -95.42072121483687,
+      "total_alias_rms_volts": 3.759153407701929e-05,
+      "total_alias_dbfs_sine_equivalent": -85.4878990584323,
+      "total_alias_dbc": -94.1088409973577,
+      "relative_pass": true,
+      "absolute_pass": true,
+      "output_peak": 2.4581241507428273
+    }
+  }
+]

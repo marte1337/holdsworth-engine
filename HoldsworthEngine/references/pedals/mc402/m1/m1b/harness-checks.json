@@ -1,0 +1,378 @@
+{
+  "known_power_case": {
+    "fundamental_peak": 0.49999999999999956,
+    "fundamental_dbfs": -6.020599913279632,
+    "alias_hz": 5021.484375,
+    "alias_peak": 0.020000000000007366,
+    "alias_dbfs": -33.97940008671718,
+    "alias_dbc": -27.958800173437545,
+    "total_alias_rms_volts": 0.01581138830085166,
+    "total_alias_dbfs_sine_equivalent": -33.01029995663445,
+    "total_alias_dbc": -26.98970004335482,
+    "relative_pass": false,
+    "absolute_pass": false,
+    "output_peak": 0.4889610483410479
+  },
+  "controls_and_warmup": [
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.0816681711721685e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.0202296150656803e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 5.551115123125783e-17
+    },
+    {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.0594729293192897e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.0816681711721685e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.0478421158213886e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.1846104206797789e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 4.440892098500626e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.0816681711721685e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.9046415744479353e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.3304631379097574e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.7755575615628914e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.1960191570649747e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.6653345369377348e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.1734476166318065e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 3.469446951953614e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.1001991996869424e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.0901729008265099e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.7755575615628914e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.8774830431185602e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.3437542583054765e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.0816681711721685e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.861750178758515e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.373414305234151e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.0816681711721685e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.919354560384992e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.3907026840572239e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.7755575615628914e-17,
+      "low_gain_linear_scaling_max_relative_error": 4.003861042731467e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.1102230246251565e-16
+    },
+    {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.942890293094024e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.5913753345886263e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.7755575615628914e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.488351105732029e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.6653345369377348e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.4454078589306765e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.7755575615628914e-17,
+      "low_gain_linear_scaling_max_relative_error": 2.9009748722764772e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.6653345369377348e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.3877787807814457e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.3945799982461296e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.7755575615628914e-17,
+      "low_gain_linear_scaling_max_relative_error": 3.791945165656305e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.900442332217321e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.0816681711721685e-17,
+      "low_gain_linear_scaling_max_relative_error": 4.2946013983219885e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.6653345369377348e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.942890293094024e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.820057770884266e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.0816681711721685e-17,
+      "low_gain_linear_scaling_max_relative_error": 3.575559105869691e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.942890293094024e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.7610858179823413e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.7755575615628914e-17,
+      "low_gain_linear_scaling_max_relative_error": 4.624398332718842e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.6653345369377348e-16
+    },
+    {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 2.278037240571268e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 3.469446951953614e-17,
+      "low_gain_linear_scaling_max_relative_error": 4.236042452340152e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.6653345369377348e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.7671487721821048e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.7755575615628914e-17,
+      "low_gain_linear_scaling_max_relative_error": 3.520981010336896e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 1.6653345369377348e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 1.9250283554705275e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "tone": 0.0,
+      "maximum_output_scalar_error": 2.0816681711721685e-17,
+      "low_gain_linear_scaling_max_relative_error": 4.626029292994184e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 2.220446049250313e-16
+    },
+    {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "tone": 1.0,
+      "maximum_output_scalar_error": 1.6653345369377348e-16,
+      "low_gain_linear_scaling_max_relative_error": 2.3865243236690145e-15,
+      "provisional_gain_zero_mute_exact": true,
+      "output_zero_mute_exact": true,
+      "half_second_vs_one_second_warmup_error": 8.881784197001252e-16
+    }
+  ]
+}

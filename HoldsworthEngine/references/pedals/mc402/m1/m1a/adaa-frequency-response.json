@@ -1,0 +1,650 @@
+[
+  {
+    "sample_rate": 44100,
+    "factor": 1,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 2.988155183585542,
+    "max_total_analog_magnitude_error_db": 3.9990311750561567,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.1012936821755277e-15
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 1,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 8.533279349399018,
+    "max_total_analog_magnitude_error_db": 9.544155340869626,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.5496004296992688e-15
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 1,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 3.747864862741597,
+    "max_total_analog_magnitude_error_db": 4.758740854212208,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 4.293061750756457e-15
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 2,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.7149534060841066,
+    "max_total_analog_magnitude_error_db": 0.9525816086919887,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.2762683505167051e-11
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 2,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 1.9339505505194574,
+    "max_total_analog_magnitude_error_db": 2.1715787531273385,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.0080023189784033e-11
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 2,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.9400765130126538,
+    "max_total_analog_magnitude_error_db": 1.1777047156205338,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.0079921933741585e-11
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 4,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.17689944122045304,
+    "max_total_analog_magnitude_error_db": 0.23542665595388151,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.0386081547083916e-11
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 4,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.4733514047708366,
+    "max_total_analog_magnitude_error_db": 0.5318786195042731,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.133168143440655e-11
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 4,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.23506349978968627,
+    "max_total_analog_magnitude_error_db": 0.2935907145231156,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.988986747819497e-11
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 8,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.04411227368774418,
+    "max_total_analog_magnitude_error_db": 0.058537630752759605,
+    "additional_linear_delay_host_samples": 0.125,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.256205991579695e-11
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 8,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.11773258007559823,
+    "max_total_analog_magnitude_error_db": 0.13215793714091245,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.6981046576972075e-11
+  },
+  {
+    "sample_rate": 44100,
+    "factor": 8,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.05876655259955631,
+    "max_total_analog_magnitude_error_db": 0.07319190966485165,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.9650955363953216e-11
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 1,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 2.4984542186621352,
+    "max_total_analog_magnitude_error_db": 3.3404937812281164,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.3956125330266032e-15
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 1,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 7.042688830585772,
+    "max_total_analog_magnitude_error_db": 7.88472839315175,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 4.587822491474727e-15
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 1,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 3.16686522286186,
+    "max_total_analog_magnitude_error_db": 4.0089047854278395,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.974599397277203e-15
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 2,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.6021745000899483,
+    "max_total_analog_magnitude_error_db": 0.8020471216099517,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.2134148481080667e-11
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 2,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 1.6250961267196404,
+    "max_total_analog_magnitude_error_db": 1.8249687482399244,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 9.582871628445871e-12
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 2,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.7935519161933046,
+    "max_total_analog_magnitude_error_db": 0.9934245377137912,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 9.582917647563669e-12
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 4,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.14923908113925918,
+    "max_total_analog_magnitude_error_db": 0.19848085443187738,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.9008167405808172e-11
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 4,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.39912150684544245,
+    "max_total_analog_magnitude_error_db": 0.44836328016026,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.991223869238962e-11
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 4,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.19841453751981275,
+    "max_total_analog_magnitude_error_db": 0.24765631083186582,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.808272114517648e-11
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 8,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.03722963949677131,
+    "max_total_analog_magnitude_error_db": 0.04926641566878902,
+    "additional_linear_delay_host_samples": 0.125,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.1564817799132753e-11
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 8,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.09935012987164149,
+    "max_total_analog_magnitude_error_db": 0.1113869060330511,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.5344129449839277e-11
+  },
+  {
+    "sample_rate": 48000,
+    "factor": 8,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.04960404145458127,
+    "max_total_analog_magnitude_error_db": 0.061640817610655915,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.789657963595426e-11
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 1,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.7149534060841076,
+    "max_total_analog_magnitude_error_db": 0.9525819031208309,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.585437273952978e-15
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 1,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 1.9339505505194552,
+    "max_total_analog_magnitude_error_db": 2.171579047556185,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.3687177425867964e-15
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 1,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.9400765130126505,
+    "max_total_analog_magnitude_error_db": 1.1777050100493789,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.9214231822125603e-15
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 2,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.17689944119692652,
+    "max_total_analog_magnitude_error_db": 0.23524089606884208,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 4.03792112609756e-12
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 2,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.47335140475007065,
+    "max_total_analog_magnitude_error_db": 0.5316928596221551,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.4442612869021706e-12
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 2,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.2350634997694813,
+    "max_total_analog_magnitude_error_db": 0.29340495464160876,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.4440832190914087e-12
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 4,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.04411227368023938,
+    "max_total_analog_magnitude_error_db": 0.05835187087208183,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.1007507817172598e-11
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 4,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.11773258002005348,
+    "max_total_analog_magnitude_error_db": 0.13197217724581792,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.0908683356436575e-11
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 4,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.05876655252881066,
+    "max_total_analog_magnitude_error_db": 0.07300614975201189,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.387845265782889e-11
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 8,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.011021067543795272,
+    "max_total_analog_magnitude_error_db": 0.014261018428307386,
+    "additional_linear_delay_host_samples": 0.125,
+    "maximum_complex_error_against_analytic_linear_kernel": 9.739139696875065e-12
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 8,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.02939573288285825,
+    "max_total_analog_magnitude_error_db": 0.03263568376085207,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.425090777123305e-11
+  },
+  {
+    "sample_rate": 88200,
+    "factor": 8,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.014691648685740384,
+    "max_total_analog_magnitude_error_db": 0.017931599552859532,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.5623356121457116e-11
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 1,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.6021745001069555,
+    "max_total_analog_magnitude_error_db": 0.8021406310378298,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.4672050893830774e-15
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 1,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 1.6250961267343687,
+    "max_total_analog_magnitude_error_db": 1.825062257665249,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 6.102180481559759e-15
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 1,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.7935519162066861,
+    "max_total_analog_magnitude_error_db": 0.9935180471375675,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.2578717215647177e-15
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 2,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.14923908112541576,
+    "max_total_analog_magnitude_error_db": 0.19844530647842692,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.4764341675924786e-12
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 2,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.3991215068677895,
+    "max_total_analog_magnitude_error_db": 0.4483277322209029,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.126494671830362e-12
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 2,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.19841453755086824,
+    "max_total_analog_magnitude_error_db": 0.24762076290399934,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.1267982756530906e-12
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 4,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.03722963947220898,
+    "max_total_analog_magnitude_error_db": 0.04923086769175472,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 6.907162430386904e-12
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 4,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.09935012983201891,
+    "max_total_analog_magnitude_error_db": 0.11135135807291063,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 6.778889387836013e-12
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 4,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.049604041400190126,
+    "max_total_analog_magnitude_error_db": 0.06160526963957406,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 8.61379819810908e-12
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 8,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.009302423189317151,
+    "max_total_analog_magnitude_error_db": 0.01201989909661083,
+    "additional_linear_delay_host_samples": 0.125,
+    "maximum_complex_error_against_analytic_linear_kernel": 6.405733182765022e-12
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 8,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.024810892293229376,
+    "max_total_analog_magnitude_error_db": 0.027528368197763612,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 9.066224038899254e-12
+  },
+  {
+    "sample_rate": 96000,
+    "factor": 8,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.012401016695191003,
+    "max_total_analog_magnitude_error_db": 0.015118492592665917,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 9.992225241915685e-12
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 1,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.17689944122064694,
+    "max_total_analog_magnitude_error_db": 0.23544551910577632,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.9207525933051653e-15
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 1,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.4733514047710036,
+    "max_total_analog_magnitude_error_db": 0.5318974826561425,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 6.063769768275147e-15
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 1,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.23506349978985075,
+    "max_total_analog_magnitude_error_db": 0.2936095776749926,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 9.632056786690949e-15
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 2,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.04411227368903425,
+    "max_total_analog_magnitude_error_db": 0.058592167617831724,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 6.158004382445894e-13
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 2,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.11773258007714558,
+    "max_total_analog_magnitude_error_db": 0.13221247400595273,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 5.443127669420062e-13
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 2,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.058766552601225236,
+    "max_total_analog_magnitude_error_db": 0.07324644653003667,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 5.443071601576477e-13
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 4,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.011021067512928511,
+    "max_total_analog_magnitude_error_db": 0.014501315133240475,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.2050228545398724e-12
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 4,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.02939573288185485,
+    "max_total_analog_magnitude_error_db": 0.0328759805052229,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.6460137022103594e-12
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 4,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.014691648673800153,
+    "max_total_analog_magnitude_error_db": 0.018171896297034036,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.116628011766049e-12
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 8,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.002754829880244964,
+    "max_total_analog_magnitude_error_db": 0.0034863692602567662,
+    "additional_linear_delay_host_samples": 0.125,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.4586095595145064e-12
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 8,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.007346601396638646,
+    "max_total_analog_magnitude_error_db": 0.008078140776376553,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.0888356777153495e-12
+  },
+  {
+    "sample_rate": 176400,
+    "factor": 8,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.0036729123364131616,
+    "max_total_analog_magnitude_error_db": 0.004404451714999375,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.632564893184061e-12
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 1,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.14918427284201427,
+    "max_total_analog_magnitude_error_db": 0.19854679784647378,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 6.694157471423609e-15
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 1,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.39897450236889376,
+    "max_total_analog_magnitude_error_db": 0.4483370273733995,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.3703484963636306e-14
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 1,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.1983418794824252,
+    "max_total_analog_magnitude_error_db": 0.2477044044869341,
+    "additional_linear_delay_host_samples": 2.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 9.410900278433179e-15
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 2,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.037215996247293937,
+    "max_total_analog_magnitude_error_db": 0.049377125088430555,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 5.842592747854109e-13
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 2,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.09931369576508293,
+    "max_total_analog_magnitude_error_db": 0.11147482460626257,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 5.160265263221484e-13
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 2,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.049585876475963526,
+    "max_total_analog_magnitude_error_db": 0.06174700531713678,
+    "additional_linear_delay_host_samples": 1.0,
+    "maximum_complex_error_against_analytic_linear_kernel": 5.156716602722191e-13
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 4,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.009299016016661249,
+    "max_total_analog_magnitude_error_db": 0.012179822922362103,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.0835724608182764e-12
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 4,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.024801803302052016,
+    "max_total_analog_magnitude_error_db": 0.02768261021284772,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 1.5606834896018106e-12
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 4,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.012396475434538642,
+    "max_total_analog_magnitude_error_db": 0.015277282345148576,
+    "additional_linear_delay_host_samples": 0.5,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.007577355100293e-12
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 8,
+    "mode": 1,
+    "max_additional_magnitude_error_80_8000_db": 0.0023244429031226,
+    "max_total_analog_magnitude_error_db": 0.002886009216968722,
+    "additional_linear_delay_host_samples": 0.125,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.32276546704451e-12
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 8,
+    "mode": 2,
+    "max_additional_magnitude_error_80_8000_db": 0.00619879090160011,
+    "max_total_analog_magnitude_error_db": 0.0067603572146109955,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 2.916215181163589e-12
+  },
+  {
+    "sample_rate": 192000,
+    "factor": 8,
+    "mode": 3,
+    "max_additional_magnitude_error_80_8000_db": 0.0030991189641370554,
+    "max_total_analog_magnitude_error_db": 0.0036606852751876638,
+    "additional_linear_delay_host_samples": 0.25,
+    "maximum_complex_error_against_analytic_linear_kernel": 3.429852960492075e-12
+  }
+]

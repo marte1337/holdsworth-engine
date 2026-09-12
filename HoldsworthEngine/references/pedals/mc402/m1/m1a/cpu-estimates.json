@@ -1,0 +1,726 @@
+{
+  "rows": [
+    {
+      "sample_rate": 44100,
+      "factor": 1,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 11.074739229024944,
+      "audio_budget_percent": 0.048839600000000004,
+      "repeats_ns": [
+        11.074739229024944,
+        11.805555555555557,
+        10.71191609977324
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 2,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 57.918548752834475,
+      "audio_budget_percent": 0.25542080000000006,
+      "repeats_ns": [
+        51.87972789115647,
+        57.918548752834475,
+        75.06
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 4,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 98.54450113378685,
+      "audio_budget_percent": 0.43458125,
+      "repeats_ns": [
+        98.54450113378685,
+        98.21334467120182,
+        99.20824263038548
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 8,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 203.23602040816326,
+      "audio_budget_percent": 0.89627085,
+      "repeats_ns": [
+        203.49726757369612,
+        203.23602040816326,
+        197.73667800453515
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 16,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 392.76266439909296,
+      "audio_budget_percent": 1.73208335,
+      "repeats_ns": [
+        392.1636507936508,
+        393.3668707482993,
+        392.76266439909296
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 1,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 33.5525283446712,
+      "audio_budget_percent": 0.14796665,
+      "repeats_ns": [
+        33.5525283446712,
+        33.51096371882086,
+        34.607902494331064
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 2,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 118.1098866213152,
+      "audio_budget_percent": 0.5208646,
+      "repeats_ns": [
+        118.09807256235828,
+        118.1098866213152,
+        118.23460317460318
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 4,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 231.00340136054422,
+      "audio_budget_percent": 1.018725,
+      "repeats_ns": [
+        231.00340136054422,
+        230.5347619047619,
+        231.2051133786848
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 8,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 467.98139455782314,
+      "audio_budget_percent": 2.06379795,
+      "repeats_ns": [
+        467.98139455782314,
+        469.0055782312925,
+        467.5623582766439
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 16,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 945.905612244898,
+      "audio_budget_percent": 4.17144375,
+      "repeats_ns": [
+        945.9396258503401,
+        945.905612244898,
+        945.8252947845805
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 1,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 61.72004535147393,
+      "audio_budget_percent": 0.2721854,
+      "repeats_ns": [
+        61.72004535147393,
+        62.26238095238096,
+        61.48242630385488
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 2,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 169.26634920634922,
+      "audio_budget_percent": 0.7464646000000001,
+      "repeats_ns": [
+        169.26634920634922,
+        168.9663605442177,
+        170.15777777777777
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 4,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 326.9316893424036,
+      "audio_budget_percent": 1.44176875,
+      "repeats_ns": [
+        326.87404761904764,
+        327.27797052154193,
+        326.9316893424036
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 8,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 657.623775510204,
+      "audio_budget_percent": 2.90012085,
+      "repeats_ns": [
+        657.6421882086169,
+        657.623775510204,
+        656.9269614512472
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 16,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 1325.4171315192743,
+      "audio_budget_percent": 5.84508955,
+      "repeats_ns": [
+        1325.4171315192743,
+        1324.7260090702948,
+        1333.9455782312925
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 1,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 46.390306122448976,
+      "audio_budget_percent": 0.20458124999999996,
+      "repeats_ns": [
+        46.390306122448976,
+        46.57596371882086,
+        46.151746031746036
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 2,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 128.658820861678,
+      "audio_budget_percent": 0.5673854,
+      "repeats_ns": [
+        128.49158730158732,
+        128.658820861678,
+        129.2842970521542
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 4,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 253.19963718820864,
+      "audio_budget_percent": 1.1166104000000001,
+      "repeats_ns": [
+        251.35581632653063,
+        253.39899092970523,
+        253.19963718820864
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 8,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 507.71731292517006,
+      "audio_budget_percent": 2.23903335,
+      "repeats_ns": [
+        507.71731292517006,
+        506.6052494331065,
+        509.3721655328798
+      ]
+    },
+    {
+      "sample_rate": 44100,
+      "factor": 16,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 1018.8492063492064,
+      "audio_budget_percent": 4.493125,
+      "repeats_ns": [
+        1024.9116553287981,
+        1018.8492063492064,
+        1017.4182766439909
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 1,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 10.242624999999999,
+      "audio_budget_percent": 0.049164599999999996,
+      "repeats_ns": [
+        10.148010416666667,
+        10.278218749999999,
+        10.242624999999999
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 2,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 48.74218750000001,
+      "audio_budget_percent": 0.23396250000000005,
+      "repeats_ns": [
+        48.7413125,
+        48.75,
+        48.74218750000001
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 4,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 95.84375000000001,
+      "audio_budget_percent": 0.46005000000000007,
+      "repeats_ns": [
+        95.84375000000001,
+        95.617625,
+        95.90104166666666
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 8,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 194.64409375,
+      "audio_budget_percent": 0.93429165,
+      "repeats_ns": [
+        194.64409375,
+        195.22743749999998,
+        193.14018750000002
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 16,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 396.9561666666667,
+      "audio_budget_percent": 1.9053896000000003,
+      "repeats_ns": [
+        398.8138020833333,
+        396.9561666666667,
+        393.3129270833333
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 1,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 33.965281250000004,
+      "audio_budget_percent": 0.16303335000000002,
+      "repeats_ns": [
+        33.28992708333333,
+        34.848958333333336,
+        33.965281250000004
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 2,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 117.79253125,
+      "audio_budget_percent": 0.56540415,
+      "repeats_ns": [
+        118.34375,
+        116.98177083333333,
+        117.79253125
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 4,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 232.19575,
+      "audio_budget_percent": 1.1145396,
+      "repeats_ns": [
+        232.55382291666666,
+        230.17621875,
+        232.19575
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 8,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 466.4865520833333,
+      "audio_budget_percent": 2.23913545,
+      "repeats_ns": [
+        466.3828125,
+        466.4865520833333,
+        466.5816041666667
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 16,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 958.374125,
+      "audio_budget_percent": 4.6001958,
+      "repeats_ns": [
+        970.0039062500001,
+        958.374125,
+        945.0212708333333
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 1,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 62.18836458333334,
+      "audio_budget_percent": 0.29850415,
+      "repeats_ns": [
+        61.310770833333336,
+        62.18836458333334,
+        63.005635416666664
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 2,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 170.69617708333334,
+      "audio_budget_percent": 0.81934165,
+      "repeats_ns": [
+        171.19575,
+        170.42752083333332,
+        170.69617708333334
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 4,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 326.05424999999997,
+      "audio_budget_percent": 1.5650604,
+      "repeats_ns": [
+        326.05424999999997,
+        326.171875,
+        325.47265625
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 8,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 657.4513854166667,
+      "audio_budget_percent": 3.15576665,
+      "repeats_ns": [
+        657.4513854166667,
+        656.4796041666666,
+        657.5069375
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 16,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 1323.2283020833333,
+      "audio_budget_percent": 6.35149585,
+      "repeats_ns": [
+        1326.7070312499998,
+        1323.2283020833333,
+        1321.9366354166668
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 1,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 46.415791666666664,
+      "audio_budget_percent": 0.2227958,
+      "repeats_ns": [
+        46.16102083333333,
+        46.522999999999996,
+        46.415791666666664
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 2,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 128.57204166666665,
+      "audio_budget_percent": 0.6171457999999999,
+      "repeats_ns": [
+        129.14236458333332,
+        128.57204166666665,
+        128.40971875
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 4,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 252.27430208333334,
+      "audio_budget_percent": 1.21091665,
+      "repeats_ns": [
+        252.27430208333334,
+        252.59375,
+        252.22526041666666
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 8,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 506.8797708333333,
+      "audio_budget_percent": 2.4330228999999997,
+      "repeats_ns": [
+        506.8203125,
+        507.0099895833334,
+        506.8797708333333
+      ]
+    },
+    {
+      "sample_rate": 48000,
+      "factor": 16,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 1017.4808958333333,
+      "audio_budget_percent": 4.8839083,
+      "repeats_ns": [
+        1018.5312500000001,
+        1016.477,
+        1017.4808958333333
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 1,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 9.8894296875,
+      "audio_budget_percent": 0.18987705,
+      "repeats_ns": [
+        10.076497395833332,
+        9.8894296875,
+        9.791776041666667
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 2,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 47.136393229166664,
+      "audio_budget_percent": 0.90501875,
+      "repeats_ns": [
+        47.136393229166664,
+        47.069119791666665,
+        47.23491927083333
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 4,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 93.86621093749999,
+      "audio_budget_percent": 1.8022312499999997,
+      "repeats_ns": [
+        93.1525625,
+        93.86621093749999,
+        94.8729375
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 8,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 194.54144791666664,
+      "audio_budget_percent": 3.735195799999999,
+      "repeats_ns": [
+        196.2371953125,
+        194.54144791666664,
+        193.03927864583335
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 16,
+      "mode": 0,
+      "median_nanoseconds_per_host_sample": 389.07454427083337,
+      "audio_budget_percent": 7.47023125,
+      "repeats_ns": [
+        388.8310546875,
+        390.3799895833333,
+        389.07454427083337
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 1,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 32.847330729166664,
+      "audio_budget_percent": 0.63066875,
+      "repeats_ns": [
+        32.770291666666665,
+        32.847330729166664,
+        33.09602864583333
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 2,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 116.07595572916665,
+      "audio_budget_percent": 2.2286583499999995,
+      "repeats_ns": [
+        116.07595572916665,
+        115.95345052083333,
+        117.13324739583334
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 4,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 229.87152604166667,
+      "audio_budget_percent": 4.4135333,
+      "repeats_ns": [
+        229.83365885416669,
+        229.87152604166667,
+        230.09646354166665
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 8,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 467.21082812500003,
+      "audio_budget_percent": 8.9704479,
+      "repeats_ns": [
+        467.21082812500003,
+        467.75824739583334,
+        465.86404166666665
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 16,
+      "mode": 1,
+      "median_nanoseconds_per_host_sample": 943.4143880208335,
+      "audio_budget_percent": 18.113556250000002,
+      "repeats_ns": [
+        945.6912994791667,
+        943.3814036458333,
+        943.4143880208335
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 1,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 59.295140624999995,
+      "audio_budget_percent": 1.1384666999999997,
+      "repeats_ns": [
+        59.58832552083334,
+        59.295140624999995,
+        59.26215364583334
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 2,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 166.10622916666668,
+      "audio_budget_percent": 3.1892396000000005,
+      "repeats_ns": [
+        165.63878125,
+        168.05859375,
+        166.10622916666668
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 4,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 321.92339583333336,
+      "audio_budget_percent": 6.1809292000000005,
+      "repeats_ns": [
+        320.958984375,
+        321.92339583333336,
+        322.7791901041667
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 8,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 653.6248932291667,
+      "audio_budget_percent": 12.54959795,
+      "repeats_ns": [
+        654.8624140625,
+        651.8222656249999,
+        653.6248932291667
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 16,
+      "mode": 2,
+      "median_nanoseconds_per_host_sample": 1320.8403880208332,
+      "audio_budget_percent": 25.360135449999998,
+      "repeats_ns": [
+        1318.0515416666667,
+        1323.6574427083333,
+        1320.8403880208332
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 1,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 44.033419270833335,
+      "audio_budget_percent": 0.84544165,
+      "repeats_ns": [
+        43.84526822916666,
+        44.033419270833335,
+        44.70073958333334
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 2,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 125.96864062499999,
+      "audio_budget_percent": 2.4185979,
+      "repeats_ns": [
+        126.36404166666668,
+        125.96864062499999,
+        125.90375520833334
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 4,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 248.86632031250002,
+      "audio_budget_percent": 4.778233350000001,
+      "repeats_ns": [
+        249.32931770833335,
+        248.86632031250002,
+        247.64952343750002
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 8,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 501.5264739583334,
+      "audio_budget_percent": 9.629308300000002,
+      "repeats_ns": [
+        501.5264739583334,
+        501.85894010416666,
+        501.52115885416663
+      ]
+    },
+    {
+      "sample_rate": 192000,
+      "factor": 16,
+      "mode": 3,
+      "median_nanoseconds_per_host_sample": 1011.2866744791667,
+      "audio_budget_percent": 19.41670415,
+      "repeats_ns": [
+        1011.2866744791667,
+        1012.0111744791666,
+        1010.7646484374999
+      ]
+    }
+  ],
+  "experiment_stage_state_bytes": 24,
+  "note": "Offline core plus existing FIR; excludes host callback, control adoption and live delay alignment. 0.5 V 997 Hz table, Gain/Tone/Output 1. No optimization."
+}

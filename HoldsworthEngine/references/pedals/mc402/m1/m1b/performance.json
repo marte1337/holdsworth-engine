@@ -1,0 +1,1934 @@
+[
+  {
+    "sample_rate": 44100,
+    "method": "ordinary4",
+    "factor": 4,
+    "mode": 0,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.0,
+    "measured_delay_error_samples": 2.2906072737702953e-15,
+    "total_linear_delay_host_samples": 40.0,
+    "total_delay_ms": 0.9070294784580499,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.05853337712962113,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.7443357882213602e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.05853337712962113
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.05207785504728743,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.7169428545684857e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.05207785504728743
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.010318765728782826,
+        "worst_hz": 5085.8734130859375,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.716304988201062e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": 6.236382508122429e-05
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 94.53420256991686,
+    "audio_budget_percent": 0.41689583333333335,
+    "repetitions_nanoseconds_per_host_sample": [
+      93.85518518518519,
+      93.94242630385487,
+      94.56191987906274,
+      95.24219198790627,
+      94.53420256991686
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 44100,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "k": 1417,
+      "fft_length": 8192,
+      "input_hz": 7628.13720703125,
+      "amplitude": 2.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.20692400903516017,
+      "fundamental_dbfs": -13.683782319449968,
+      "alias_hz": 952.84423828125,
+      "alias_peak": 0.06425742593081023,
+      "alias_dbfs": -23.84153351420099,
+      "alias_dbc": -10.157751194751016,
+      "total_alias_rms_volts": 0.04692278287107236,
+      "total_alias_dbfs_sine_equivalent": -23.562024821160943,
+      "total_alias_dbc": -9.878242501710977,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.2912309864617815
+    },
+    "worst_alias_workload_ns_median": 94.9902343159486,
+    "worst_alias_workload_audio_budget_percent": 0.4189069333333333,
+    "worst_alias_workload_repetitions_ns": [
+      95.24155706727136,
+      94.9902343159486,
+      95.15747543461829,
+      94.76032501889645,
+      94.55939531368102
+    ],
+    "stage_history_doubles": 0
+  },
+  {
+    "sample_rate": 44100,
+    "method": "adaa2_4",
+    "factor": 4,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.5,
+    "measured_delay_error_samples": 3.068179044163344e-11,
+    "total_linear_delay_host_samples": 40.5,
+    "total_delay_ms": 0.9183673469387755,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.5319342385582139,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -6.446154616719649e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.5319342385582139
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.5254787164758747,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -6.418761684448525e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.5254787164758747
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.47333849760352287,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -6.418123817424784e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.47333849760352287
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 325.0147996976568,
+    "audio_budget_percent": 1.4333152666666666,
+    "repetitions_nanoseconds_per_host_sample": [
+      325.0147996976568,
+      323.5308012093726,
+      326.2468480725624,
+      324.4501133786848,
+      325.06455782312923
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 44100,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "k": 1417,
+      "fft_length": 8192,
+      "input_hz": 7628.13720703125,
+      "amplitude": 2.0,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.20421972439948782,
+      "fundamental_dbfs": -13.798046284731104,
+      "alias_hz": 952.84423828125,
+      "alias_peak": 0.004487306079592768,
+      "alias_dbfs": -46.9602861237378,
+      "alias_dbc": -33.162239839006695,
+      "total_alias_rms_volts": 0.0031887505140108414,
+      "total_alias_dbfs_sine_equivalent": -46.91728921088061,
+      "total_alias_dbc": -33.11924292614951,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.21328634695358484
+    },
+    "worst_alias_workload_ns_median": 345.9948979591837,
+    "worst_alias_workload_audio_budget_percent": 1.5258375,
+    "worst_alias_workload_repetitions_ns": [
+      348.3610506424792,
+      345.9948979591837,
+      344.9625170068027,
+      345.0242554799698,
+      346.6707634164777
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 44100,
+    "method": "adaa2_8",
+    "factor": 8,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33,
+      33
+    ],
+    "measured_wire_delay_host_samples": 44,
+    "additional_adaa_linear_delay_host_samples": 0.25,
+    "measured_delay_error_samples": 3.86138343522191e-11,
+    "total_linear_delay_host_samples": 44.25,
+    "total_delay_ms": 1.0034013605442176,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.13217170512507276,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.4656553722588572e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.13217170512507276
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.1305575350182749,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.4587940372242827e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.1305575350182749
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.11757542385219534,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.4584239551080466e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.11757542385219534
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 658.6781934996221,
+    "audio_budget_percent": 2.9047708333333335,
+    "repetitions_nanoseconds_per_host_sample": [
+      654.435313681028,
+      657.7173091458806,
+      658.6781934996221,
+      659.1906046863189,
+      658.8199168556312
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 44100,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "k": 1393,
+      "fft_length": 8192,
+      "input_hz": 7498.93798828125,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.2107853861563275,
+      "fundamental_dbfs": -13.523190044870221,
+      "alias_hz": 349.91455078125,
+      "alias_peak": 0.004209842411262428,
+      "alias_dbfs": -47.51468321962911,
+      "alias_dbc": -33.99149317475889,
+      "total_alias_rms_volts": 0.00298177846375937,
+      "total_alias_dbfs_sine_equivalent": -47.50019256981258,
+      "total_alias_dbc": -33.977002524942364,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.2232423999211381
+    },
+    "worst_alias_workload_ns_median": 677.8410808767952,
+    "worst_alias_workload_audio_budget_percent": 2.989279166666667,
+    "worst_alias_workload_repetitions_ns": [
+      676.7498110355253,
+      677.8410808767952,
+      677.3954421768708,
+      681.4503023431595,
+      678.8681027966742
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 48000,
+    "method": "ordinary4",
+    "factor": 4,
+    "mode": 0,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.0,
+    "measured_delay_error_samples": 2.8071500304008942e-15,
+    "total_linear_delay_host_samples": 40.0,
+    "total_delay_ms": 0.8333333333333334,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.04924800859339813,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.472325312707855e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.04924800859339813
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.04379868693204467,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.4491937011050057e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.04379868693204467
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.008821839125927182,
+        "worst_hz": 5032.1044921875,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.4485071568561435e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": 0.00017566751899302123
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 95.80440277777778,
+    "audio_budget_percent": 0.4598611333333334,
+    "repetitions_nanoseconds_per_host_sample": [
+      96.75925694444445,
+      95.88657638888888,
+      95.80440277777778,
+      94.61574305555555,
+      95.5491875
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 48000,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "k": 1131,
+      "fft_length": 8192,
+      "input_hz": 6626.953125,
+      "amplitude": 2.0,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.23855624852076432,
+      "fundamental_dbfs": -12.448184068997127,
+      "alias_hz": 181.640625,
+      "alias_peak": 0.10289665902364395,
+      "alias_dbfs": -19.751974524411448,
+      "alias_dbc": -7.303790455414322,
+      "total_alias_rms_volts": 0.07563055265762612,
+      "total_alias_dbfs_sine_equivalent": -19.41575456451895,
+      "total_alias_dbc": -6.967570495521822,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.3493942228144392
+    },
+    "worst_alias_workload_ns_median": 95.92824305555555,
+    "worst_alias_workload_audio_budget_percent": 0.4604555666666667,
+    "worst_alias_workload_repetitions_ns": [
+      95.93402777777777,
+      96.92447916666667,
+      94.97743055555556,
+      95.65017361111111,
+      95.92824305555555
+    ],
+    "stage_history_doubles": 0
+  },
+  {
+    "sample_rate": 48000,
+    "method": "adaa2_4",
+    "factor": 4,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.5,
+    "measured_delay_error_samples": 2.834377177407532e-11,
+    "total_linear_delay_host_samples": 40.5,
+    "total_delay_ms": 0.84375,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.44841852305329694,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -5.441137515122421e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.44841852305329694
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.4429692013929503,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -5.418005902937243e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.4429692013929503
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.3989948469521639,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -5.4173193606623386e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.3989948469521639
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 326.62586805555554,
+    "audio_budget_percent": 1.5678041666666667,
+    "repetitions_nanoseconds_per_host_sample": [
+      326.25434027777777,
+      326.62586805555554,
+      326.6374375,
+      327.83680555555554,
+      325.9939236111111
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 48000,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "k": 1131,
+      "fft_length": 8192,
+      "input_hz": 6626.953125,
+      "amplitude": 2.0,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.23657221024210784,
+      "fundamental_dbfs": -12.520725451755823,
+      "alias_hz": 181.640625,
+      "alias_peak": 0.007126561579969229,
+      "alias_dbfs": -42.94239915619711,
+      "alias_dbc": -30.421673704441282,
+      "total_alias_rms_volts": 0.005046342186801987,
+      "total_alias_dbfs_sine_equivalent": -42.930166119327815,
+      "total_alias_dbc": -30.409440667572,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.2673648122825525
+    },
+    "worst_alias_workload_ns_median": 341.879625,
+    "worst_alias_workload_audio_budget_percent": 1.6410221999999999,
+    "worst_alias_workload_repetitions_ns": [
+      342.23755555555556,
+      341.4412638888889,
+      341.879625,
+      341.9612222222222,
+      341.42881944444446
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 48000,
+    "method": "adaa2_8",
+    "factor": 8,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33,
+      33
+    ],
+    "measured_wire_delay_host_samples": 44,
+    "additional_adaa_linear_delay_host_samples": 0.25,
+    "measured_delay_error_samples": 3.725753039418578e-11,
+    "total_linear_delay_host_samples": 44.25,
+    "total_delay_ms": 0.921875,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.11140069361279117,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.2370919123484745e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.11140069361279117
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.11003815758514107,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.2312996805443041e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.11003815758514107
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.09908224905188888,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.2309780794820553e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.09908224905188888
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 658.5352986111111,
+    "audio_budget_percent": 3.1609694333333334,
+    "repetitions_nanoseconds_per_host_sample": [
+      659.6024305555555,
+      657.9479166666666,
+      660.2638888888889,
+      658.5352986111111,
+      658.3758680555555
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 48000,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "k": 1237,
+      "fft_length": 8192,
+      "input_hz": 7248.046875,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.21826560823648086,
+      "fundamental_dbfs": -13.22029379976961,
+      "alias_hz": 146.484375,
+      "alias_peak": 0.004299065113601304,
+      "alias_dbfs": -47.33251954025772,
+      "alias_dbc": -34.112225740488114,
+      "total_alias_rms_volts": 0.0030437682225835294,
+      "total_alias_dbfs_sine_equivalent": -47.321468470912684,
+      "total_alias_dbc": -34.10117467114307,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.24446875589422046
+    },
+    "worst_alias_workload_ns_median": 674.6241319444445,
+    "worst_alias_workload_audio_budget_percent": 3.238195833333333,
+    "worst_alias_workload_repetitions_ns": [
+      674.5818888888889,
+      674.5818888888889,
+      674.7476805555556,
+      674.6241319444445,
+      675.0995347222222
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 88200,
+    "method": "ordinary4",
+    "factor": 4,
+    "mode": 0,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.0,
+    "measured_delay_error_samples": 4.163560456587213e-15,
+    "total_linear_delay_host_samples": 40.0,
+    "total_delay_ms": 0.45351473922902497,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.014241120464094297,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -4.359823549042782e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.014241120464094297
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.012626950356447505,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -4.291210253033836e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.012626950356447505
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.002624119559242374,
+        "worst_hz": 5142.3980712890625,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -4.287509418900725e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": 0.0003551608167372967
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 93.92431972789116,
+    "audio_budget_percent": 0.8284125,
+    "repetitions_nanoseconds_per_host_sample": [
+      94.16335978835978,
+      93.79362055933484,
+      93.84527210884353,
+      93.92431972789116,
+      94.17721844293273
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 88200,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "k": 697,
+      "fft_length": 8192,
+      "input_hz": 7504.3212890625,
+      "amplitude": 4.5,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.21130655692241979,
+      "fundamental_dbfs": -13.50174052832968,
+      "alias_hz": 96.8994140625,
+      "alias_peak": 0.06609941020088508,
+      "alias_dbfs": -23.59604831335643,
+      "alias_dbc": -10.09430778502675,
+      "total_alias_rms_volts": 0.04961148290896131,
+      "total_alias_dbfs_sine_equivalent": -23.07805587370926,
+      "total_alias_dbc": -9.576315345379582,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.2983936967659867
+    },
+    "worst_alias_workload_ns_median": 93.13318972033258,
+    "worst_alias_workload_audio_budget_percent": 0.8214347333333334,
+    "worst_alias_workload_repetitions_ns": [
+      92.74896069538927,
+      93.25554043839759,
+      93.07082766439909,
+      93.19349962207104,
+      93.13318972033258
+    ],
+    "stage_history_doubles": 0
+  },
+  {
+    "sample_rate": 88200,
+    "method": "adaa2_4",
+    "factor": 4,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.5,
+    "measured_delay_error_samples": 1.539823824003861e-11,
+    "total_linear_delay_host_samples": 40.5,
+    "total_delay_ms": 0.45918367346938777,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.13198593808321882,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.6114364642549085e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.13198593808321882
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.13037176797654024,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.604575136940579e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.13037176797654024
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.11738965681174146,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.604205052930004e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.11738965681174146
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 328.53316326530614,
+    "audio_budget_percent": 2.8976625,
+    "repetitions_nanoseconds_per_host_sample": [
+      343.15539304610735,
+      328.53316326530614,
+      329.76127362055934,
+      324.9009523809524,
+      324.3121693121693
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 88200,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "k": 697,
+      "fft_length": 8192,
+      "input_hz": 7504.3212890625,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.21063451404037944,
+      "fundamental_dbfs": -13.529409298417395,
+      "alias_hz": 96.8994140625,
+      "alias_peak": 0.00504544596242291,
+      "alias_dbfs": -45.942008816650045,
+      "alias_dbc": -32.41259951823265,
+      "total_alias_rms_volts": 0.0035717832696748907,
+      "total_alias_dbfs_sine_equivalent": -45.93199806948842,
+      "total_alias_dbc": -32.40258877107103,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.24545319610001612
+    },
+    "worst_alias_workload_ns_median": 338.3191609977324,
+    "worst_alias_workload_audio_budget_percent": 2.983975,
+    "worst_alias_workload_repetitions_ns": [
+      334.5797127739985,
+      335.31950869236584,
+      341.0939455782313,
+      338.3191609977324,
+      338.58119425547994
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 88200,
+    "method": "adaa2_8",
+    "factor": 8,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33,
+      33
+    ],
+    "measured_wire_delay_host_samples": 44,
+    "additional_adaa_linear_delay_host_samples": 0.25,
+    "measured_delay_error_samples": 2.5085267196800487e-11,
+    "total_linear_delay_host_samples": 44.25,
+    "total_delay_ms": 0.5017006802721088,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.032639106778747595,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.6631393919464754e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.032639106778747595
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.03223554646338893,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.6459778457222674e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.03223554646338893
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.02899330976729271,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.644921435146887e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.02899330976729271
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 661.1345767195767,
+    "audio_budget_percent": 5.831206966666667,
+    "repetitions_nanoseconds_per_host_sample": [
+      660.4565079365079,
+      661.1345767195767,
+      661.4691987906274,
+      670.0925925925926,
+      658.0728760393046
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 88200,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "k": 789,
+      "fft_length": 8192,
+      "input_hz": 8494.8486328125,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.18675762315398392,
+      "fundamental_dbfs": -14.574433238589657,
+      "alias_hz": 527.5634765625,
+      "alias_peak": 0.0016483370867258005,
+      "alias_dbfs": -55.65907939725672,
+      "alias_dbc": -41.084646158667056,
+      "total_alias_rms_volts": 0.001167731028079621,
+      "total_alias_dbfs_sine_equivalent": -55.64284364113682,
+      "total_alias_dbc": -41.06841040254716,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.21394225010049311
+    },
+    "worst_alias_workload_ns_median": 669.967403628118,
+    "worst_alias_workload_audio_budget_percent": 5.9091125,
+    "worst_alias_workload_repetitions_ns": [
+      676.6529667422525,
+      669.967403628118,
+      665.9802532123961,
+      668.3640400604686,
+      680.0061413454271
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 96000,
+    "method": "ordinary4",
+    "factor": 4,
+    "mode": 0,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.0,
+    "measured_delay_error_samples": 4.52766237896496e-15,
+    "total_linear_delay_host_samples": 40.0,
+    "total_delay_ms": 0.4166666666666667,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.012002700448545992,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.6800892981301628e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.012002700448545992
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.010640164413539864,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.6221669271459855e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.010640164413539864
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.0022448475976439633,
+        "worst_hz": 5011.962890625,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.6189509583144514e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": 0.00031574414976769246
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 93.78052777777778,
+    "audio_budget_percent": 0.9002930666666666,
+    "repetitions_nanoseconds_per_host_sample": [
+      93.74045138888889,
+      94.01605902777777,
+      93.9486388888889,
+      93.66493055555556,
+      93.78052777777778
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 96000,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "k": 619,
+      "fft_length": 8192,
+      "input_hz": 7253.90625,
+      "amplitude": 4.5,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.21863439485801106,
+      "fundamental_dbfs": -13.205630304083229,
+      "alias_hz": 457.03125,
+      "alias_peak": 0.044288016237768624,
+      "alias_dbfs": -27.07427544658991,
+      "alias_dbc": -13.868645142506681,
+      "total_alias_rms_volts": 0.03209769521638331,
+      "total_alias_dbfs_sine_equivalent": -26.860223065507462,
+      "total_alias_dbc": -13.65459276142423,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.29543875936638964
+    },
+    "worst_alias_workload_ns_median": 92.88454861111111,
+    "worst_alias_workload_audio_budget_percent": 0.8916916666666665,
+    "worst_alias_workload_repetitions_ns": [
+      92.9035,
+      92.79296875,
+      92.71238541666666,
+      93.19039583333333,
+      92.88454861111111
+    ],
+    "stage_history_doubles": 0
+  },
+  {
+    "sample_rate": 96000,
+    "method": "adaa2_4",
+    "factor": 4,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.5,
+    "measured_delay_error_samples": 1.3044010316320964e-11,
+    "total_linear_delay_host_samples": 40.5,
+    "total_delay_ms": 0.421875,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.11136497646677375,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.3602115500708752e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.11136497646677375
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.11000244043231813,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.3544193151312852e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.11000244043231813
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.09904653187391839,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.3540977138305849e-05
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.09904653187391839
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 325.10040625,
+    "audio_budget_percent": 3.1209639,
+    "repetitions_nanoseconds_per_host_sample": [
+      324.09809027777777,
+      460.7002326388889,
+      325.10040625,
+      324.5730625,
+      325.2368368055556
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 96000,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "k": 619,
+      "fft_length": 8192,
+      "input_hz": 7253.90625,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.21808651801920828,
+      "fundamental_dbfs": -13.227423628438853,
+      "alias_hz": 457.03125,
+      "alias_peak": 0.0033311282135912155,
+      "alias_dbfs": -49.54817302384947,
+      "alias_dbc": -36.32074939541062,
+      "total_alias_rms_volts": 0.0023604280657821444,
+      "total_alias_dbfs_sine_equivalent": -49.529884647103046,
+      "total_alias_dbc": -36.30246101866419,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.253392951422717
+    },
+    "worst_alias_workload_ns_median": 335.06206597222223,
+    "worst_alias_workload_audio_budget_percent": 3.2165958333333333,
+    "worst_alias_workload_repetitions_ns": [
+      334.0040520833333,
+      335.7711215277778,
+      334.6990729166667,
+      336.0490451388889,
+      335.06206597222223
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 96000,
+    "method": "adaa2_8",
+    "factor": 8,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33,
+      33
+    ],
+    "measured_wire_delay_host_samples": 44,
+    "additional_adaa_linear_delay_host_samples": 0.25,
+    "measured_delay_error_samples": 1.7538581698062217e-11,
+    "total_linear_delay_host_samples": 44.25,
+    "total_delay_ms": 0.4609375,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.027531726833593284,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.0920177658973706e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.027531726833593284
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.027191080160652248,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.0775313249651914e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.027191080160652248
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.02445444728760451,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.0766338482179876e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.02445444728760451
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 659.0370381944444,
+    "audio_budget_percent": 6.326755566666667,
+    "repetitions_nanoseconds_per_host_sample": [
+      656.4134826388889,
+      659.0370381944444,
+      655.1676770833334,
+      659.9490729166666,
+      659.8564826388889
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 96000,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "k": 853,
+      "fft_length": 8192,
+      "input_hz": 9996.09375,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.15874513009086802,
+      "fundamental_dbfs": -15.98599177830766,
+      "alias_hz": 1699.21875,
+      "alias_peak": 0.0007753846894729835,
+      "alias_dbfs": -62.209655574005765,
+      "alias_dbc": -46.22366379569811,
+      "total_alias_rms_volts": 0.0005501764585118397,
+      "total_alias_dbfs_sine_equivalent": -62.179659974672816,
+      "total_alias_dbc": -46.19366819636515,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.1783178620776851
+    },
+    "worst_alias_workload_ns_median": 669.29571875,
+    "worst_alias_workload_audio_budget_percent": 6.4252389,
+    "worst_alias_workload_repetitions_ns": [
+      669.29571875,
+      672.9376423611111,
+      670.3676215277778,
+      667.4212986111111,
+      669.0883958333334
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 176400,
+    "method": "ordinary4",
+    "factor": 4,
+    "mode": 0,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.0,
+    "measured_delay_error_samples": 8.858162447233795e-15,
+    "total_linear_delay_host_samples": 40.0,
+    "total_delay_ms": 0.22675736961451248,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.0034806488359417046,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.0898923510908149e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.0034806488359417046
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.003077088510202378,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.0727308668461451e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.003077088510202378
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.000864485692733365,
+        "worst_hz": 5248.71826171875,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -1.0716744527264224e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": 0.0001651482270924818
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 93.89376984126984,
+    "audio_budget_percent": 1.6562861,
+    "repetitions_nanoseconds_per_host_sample": [
+      93.79574452003024,
+      93.93439720332577,
+      93.94912131519274,
+      93.80976001511716,
+      93.89376984126984
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 176400,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "k": 395,
+      "fft_length": 8192,
+      "input_hz": 8505.615234375,
+      "amplitude": 4.5,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.18670765013871576,
+      "fundamental_dbfs": -14.576757739040605,
+      "alias_hz": 366.064453125,
+      "alias_peak": 0.030879008523464847,
+      "alias_dbfs": -30.20673305254268,
+      "alias_dbc": -15.629975313502076,
+      "total_alias_rms_volts": 0.022289099796353618,
+      "total_alias_dbfs_sine_equivalent": -30.027849469063597,
+      "total_alias_dbc": -15.45109173002299,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.24914102705666102
+    },
+    "worst_alias_workload_ns_median": 92.93162698412698,
+    "worst_alias_workload_audio_budget_percent": 1.6393138999999999,
+    "worst_alias_workload_repetitions_ns": [
+      93.22649092970522,
+      92.93162698412698,
+      92.92745275888133,
+      93.2400321239607,
+      92.791320861678
+    ],
+    "stage_history_doubles": 0
+  },
+  {
+    "sample_rate": 176400,
+    "method": "adaa2_4",
+    "factor": 4,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.5,
+    "measured_delay_error_samples": 7.21656068236598e-12,
+    "total_linear_delay_host_samples": 40.5,
+    "total_delay_ms": 0.22959183673469388,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.032879433340422475,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -4.028527194191365e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.032879433340422475
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.03247587301473185,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -4.011365720534146e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.03247587301473185
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.029233636277833343,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -4.010309280020161e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.029233636277833343
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 321.5385657596372,
+    "audio_budget_percent": 5.6719403,
+    "repetitions_nanoseconds_per_host_sample": [
+      321.5385657596372,
+      321.3266874527589,
+      321.7484731670446,
+      321.7354024943311,
+      321.1238662131519
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 176400,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "k": 395,
+      "fft_length": 8192,
+      "input_hz": 8505.615234375,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.18651855620202104,
+      "fundamental_dbfs": -14.58555909959883,
+      "alias_hz": 366.064453125,
+      "alias_peak": 0.0019518410015049532,
+      "alias_dbfs": -54.191111263934445,
+      "alias_dbc": -39.60555216433561,
+      "total_alias_rms_volts": 0.0013819754908886638,
+      "total_alias_dbfs_sine_equivalent": -54.17969322407554,
+      "total_alias_dbc": -39.59413412447672,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.2217702794734671
+    },
+    "worst_alias_workload_ns_median": 325.23092970521543,
+    "worst_alias_workload_audio_budget_percent": 5.7370736,
+    "worst_alias_workload_repetitions_ns": [
+      325.23092970521543,
+      325.38477891156464,
+      324.96732426303856,
+      324.68679138321994,
+      325.9194690098262
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 176400,
+    "method": "adaa2_8",
+    "factor": 8,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33,
+      33
+    ],
+    "measured_wire_delay_host_samples": 44,
+    "additional_adaa_linear_delay_host_samples": 0.25,
+    "measured_delay_error_samples": 1.3697487588615331e-11,
+    "total_linear_delay_host_samples": 44.25,
+    "total_delay_ms": 0.2508503401360544,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.008079016716364271,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -9.157223082682053e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.008079016716364271
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.007978125528126885,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -9.114314488579768e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.007978125528126885
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.007167771760336702,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -9.111591449323845e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.007167771760336702
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 667.7562055933485,
+    "audio_budget_percent": 11.779219466666667,
+    "repetitions_nanoseconds_per_host_sample": [
+      786.4820313681028,
+      659.183201058201,
+      667.7562055933485,
+      820.4661904761905,
+      656.1160714285714
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 176400,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "k": 417,
+      "fft_length": 8192,
+      "input_hz": 8979.345703125,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.17690045587444742,
+      "fundamental_dbfs": -15.045420958142241,
+      "alias_hz": 1442.724609375,
+      "alias_peak": 0.00020918949541365363,
+      "alias_dbfs": -73.58920255273264,
+      "alias_dbc": -58.5437815945904,
+      "total_alias_rms_volts": 0.00014905279861976125,
+      "total_alias_dbfs_sine_equivalent": -73.52289734793503,
+      "total_alias_dbc": -58.47747638979279,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.20902610295060842
+    },
+    "worst_alias_workload_ns_median": 667.996581632653,
+    "worst_alias_workload_audio_budget_percent": 11.7834597,
+    "worst_alias_workload_repetitions_ns": [
+      699.7945804988663,
+      672.4230763416477,
+      667.996581632653,
+      664.2074508692366,
+      657.4174074074074
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 192000,
+    "method": "ordinary4",
+    "factor": 4,
+    "mode": 0,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.0,
+    "measured_delay_error_samples": 1.3711824666269368e-14,
+    "total_linear_delay_host_samples": 40.0,
+    "total_delay_ms": 0.20833333333333334,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.0028823994924858185,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -9.199770034680723e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.0028823994924858185
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.0025417528129464163,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -9.054905671227783e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.0025417528129464163
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.0007577589738842473,
+        "worst_hz": 5345.21484375,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -9.045930896356745e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": 0.0001948800864759338
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 93.155453125,
+    "audio_budget_percent": 1.7885847,
+    "repetitions_nanoseconds_per_host_sample": [
+      93.05483159722222,
+      93.155453125,
+      93.01330902777778,
+      93.53935069444445,
+      93.315828125
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 192000,
+      "method": "ordinary4",
+      "factor": 4,
+      "mode": 0,
+      "k": 331,
+      "fft_length": 8192,
+      "input_hz": 7757.8125,
+      "amplitude": 4.5,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.20466362557535264,
+      "fundamental_dbfs": -13.77918673401181,
+      "alias_hz": 23.4375,
+      "alias_peak": 0.029467096089609537,
+      "alias_dbfs": -30.61325321404881,
+      "alias_dbc": -16.834066480037,
+      "total_alias_rms_volts": 0.022829033679117438,
+      "total_alias_dbfs_sine_equivalent": -29.819949467264543,
+      "total_alias_dbc": -16.04076273325273,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.27949510321860516
+    },
+    "worst_alias_workload_ns_median": 93.35177951388889,
+    "worst_alias_workload_audio_budget_percent": 1.7923541666666667,
+    "worst_alias_workload_repetitions_ns": [
+      93.35177951388889,
+      96.1341875,
+      98.50441319444444,
+      92.25253125,
+      92.53819444444444
+    ],
+    "stage_history_doubles": 0
+  },
+  {
+    "sample_rate": 192000,
+    "method": "adaa2_4",
+    "factor": 4,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33
+    ],
+    "measured_wire_delay_host_samples": 40,
+    "additional_adaa_linear_delay_host_samples": 0.5,
+    "measured_delay_error_samples": 6.637135285814111e-12,
+    "total_linear_delay_host_samples": 40.5,
+    "total_delay_ms": 0.2109375,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.02769632181415158,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.4004832896324364e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.02769632181415158
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.027355675134704393,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.3859968636150395e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.027355675134704393
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.0246190422358879,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -3.3850993974435694e-06
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.0246190422358879
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 323.17787847222223,
+    "audio_budget_percent": 6.205015266666667,
+    "repetitions_nanoseconds_per_host_sample": [
+      332.4997829861111,
+      323.5310329861111,
+      322.49696180555554,
+      323.17787847222223,
+      321.56532118055554
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 192000,
+      "method": "adaa2_4",
+      "factor": 4,
+      "mode": 2,
+      "k": 331,
+      "fft_length": 8192,
+      "input_hz": 7757.8125,
+      "amplitude": 4.5,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.20451879927202146,
+      "fundamental_dbfs": -13.785335313538031,
+      "alias_hz": 23.4375,
+      "alias_peak": 0.0016500041405488424,
+      "alias_dbfs": -55.65029931917329,
+      "alias_dbc": -41.864964005635265,
+      "total_alias_rms_volts": 0.0011681916880333727,
+      "total_alias_dbfs_sine_equivalent": -55.63941780727405,
+      "total_alias_dbc": -41.85408249373602,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.24432566099200517
+    },
+    "worst_alias_workload_ns_median": 328.80526736111113,
+    "worst_alias_workload_audio_budget_percent": 6.313061133333334,
+    "worst_alias_workload_repetitions_ns": [
+      333.9105190972222,
+      334.842375,
+      323.796875,
+      328.80526736111113,
+      324.83521527777776
+    ],
+    "stage_history_doubles": 2
+  },
+  {
+    "sample_rate": 192000,
+    "method": "adaa2_8",
+    "factor": 8,
+    "mode": 2,
+    "fir_lengths": [
+      65,
+      33,
+      33
+    ],
+    "measured_wire_delay_host_samples": 44,
+    "additional_adaa_linear_delay_host_samples": 0.25,
+    "measured_delay_error_samples": 1.324507170608058e-11,
+    "total_linear_delay_host_samples": 44.25,
+    "total_delay_ms": 0.23046875,
+    "small_signal": [
+      {
+        "tone": 0.0,
+        "max_error_db": 0.006763835297575095,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -7.729599302765281e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.006763835297575095
+          }
+        ]
+      },
+      {
+        "tone": 0.5,
+        "max_error_db": 0.006678672840159437,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -7.693379015256717e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.006678672840159437
+          }
+        ]
+      },
+      {
+        "tone": 1.0,
+        "max_error_db": 0.005994660969541151,
+        "worst_hz": 8000.0,
+        "exact_endpoints": [
+          {
+            "hz": 80.0,
+            "magnitude_error_db": -7.691077078600723e-07
+          },
+          {
+            "hz": 8000.0,
+            "magnitude_error_db": -0.005994660969541151
+          }
+        ]
+      }
+    ],
+    "median_nanoseconds_per_host_sample": 662.3738420138889,
+    "audio_budget_percent": 12.717577766666667,
+    "repetitions_nanoseconds_per_host_sample": [
+      665.0143958333333,
+      653.5175052083333,
+      653.1980607638889,
+      662.3738420138889,
+      720.171875
+    ],
+    "worst_alias_workload": {
+      "sample_rate": 192000,
+      "method": "adaa2_8",
+      "factor": 8,
+      "mode": 2,
+      "k": 257,
+      "fft_length": 8192,
+      "input_hz": 6023.4375,
+      "amplitude": 4.5,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "boost_db": 0.0,
+      "fundamental_peak": 0.2632940986725995,
+      "fundamental_dbfs": -11.591177496393454,
+      "alias_hz": 23.4375,
+      "alias_peak": 0.00025262293892127133,
+      "alias_dbfs": -71.95054433494755,
+      "alias_dbc": -60.359366838554095,
+      "total_alias_rms_volts": 0.00017938172405117023,
+      "total_alias_dbfs_sine_equivalent": -71.91413616864628,
+      "total_alias_dbc": -60.322958672252824,
+      "relative_pass": false,
+      "absolute_pass": false,
+      "output_peak": 0.3159419879177008
+    },
+    "worst_alias_workload_ns_median": 718.832828125,
+    "worst_alias_workload_audio_budget_percent": 13.8015903,
+    "worst_alias_workload_repetitions_ns": [
+      654.18496875,
+      733.1688368055555,
+      655.3433159722222,
+      718.832828125,
+      871.2565104166667
+    ],
+    "stage_history_doubles": 2
+  }
+]

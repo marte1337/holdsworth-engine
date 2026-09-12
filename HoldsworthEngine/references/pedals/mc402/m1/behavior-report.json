@@ -1,0 +1,3668 @@
+{
+  "profile": "MC402-BOUNDED-V1-PROVISIONAL",
+  "small_signal_points": [
+    {
+      "sample_rate": 44100,
+      "tone": 0.0,
+      "frequency_hz": 79.4036865234375,
+      "measured_db": 19.459111235774508,
+      "analog_db": 19.45912900335601
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.0,
+      "frequency_hz": 153.424072265625,
+      "measured_db": 26.72684314323234,
+      "analog_db": 26.72681834101027
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.0,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 29.3845808440054,
+      "analog_db": 29.38447789010539
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.0,
+      "frequency_hz": 999.9481201171875,
+      "measured_db": 25.99340610753287,
+      "analog_db": 25.993724940464404
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.0,
+      "frequency_hz": 1999.896240234375,
+      "measured_db": 20.82847127892752,
+      "analog_db": 20.831507583816705
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.0,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 15.031560828995064,
+      "analog_db": 15.045430154793243
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.0,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 9.02637396596284,
+      "analog_db": 9.084901180696281
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.5,
+      "frequency_hz": 79.4036865234375,
+      "measured_db": 19.560441157154603,
+      "analog_db": 19.560458658788363
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.5,
+      "frequency_hz": 153.424072265625,
+      "measured_db": 27.092156031041124,
+      "analog_db": 27.092127763960974
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.5,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 32.13675276175272,
+      "analog_db": 32.13644649215937
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.5,
+      "frequency_hz": 999.9481201171875,
+      "measured_db": 32.01483763749835,
+      "analog_db": 32.01405447296854
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.5,
+      "frequency_hz": 1999.896240234375,
+      "measured_db": 30.12570377081099,
+      "analog_db": 30.12549802701531
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.5,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 26.176338410820897,
+      "analog_db": 26.18478048039016
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 0.5,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 20.827646710537714,
+      "analog_db": 20.87971844454565
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 1.0,
+      "frequency_hz": 79.4036865234375,
+      "measured_db": 19.56685345815398,
+      "analog_db": 19.56687095376092
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 1.0,
+      "frequency_hz": 153.424072265625,
+      "measured_db": 27.116041383802553,
+      "analog_db": 27.116012920969176
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 1.0,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 32.38375322041576,
+      "analog_db": 32.38342203822736
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 1.0,
+      "frequency_hz": 999.9481201171875,
+      "measured_db": 32.916858134631774,
+      "analog_db": 32.9157375857611
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 1.0,
+      "frequency_hz": 1999.896240234375,
+      "measured_db": 32.87575312292452,
+      "analog_db": 32.872309791588314
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 1.0,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 32.21432959160577,
+      "analog_db": 32.205110012894295
+    },
+    {
+      "sample_rate": 44100,
+      "tone": 1.0,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 30.173774335767746,
+      "analog_db": 30.173708887744255
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.0,
+      "frequency_hz": 80.56640625,
+      "measured_db": 19.656769936757243,
+      "analog_db": 19.656784399322856
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.0,
+      "frequency_hz": 153.80859375,
+      "measured_db": 26.746846592673045,
+      "analog_db": 26.746825465028206
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.0,
+      "frequency_hz": 499.51171875,
+      "measured_db": 29.391004376745546,
+      "analog_db": 29.390916308870203
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.0,
+      "frequency_hz": 1000.48828125,
+      "measured_db": 25.989931917635836,
+      "analog_db": 25.9901896136494
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.0,
+      "frequency_hz": 1999.51171875,
+      "measured_db": 20.830553704768697,
+      "analog_db": 20.833059785884636
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.0,
+      "frequency_hz": 4000.48828125,
+      "measured_db": 15.032253931350152,
+      "analog_db": 15.04394701716494
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.0,
+      "frequency_hz": 7999.51171875,
+      "measured_db": 9.03573856506156,
+      "analog_db": 9.084980338387648
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.5,
+      "frequency_hz": 80.56640625,
+      "measured_db": 19.761048735242955,
+      "analog_db": 19.761062959954366
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.5,
+      "frequency_hz": 153.80859375,
+      "measured_db": 27.11390670564385,
+      "analog_db": 27.1138826248924
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.5,
+      "frequency_hz": 499.51171875,
+      "measured_db": 32.13444303578533,
+      "analog_db": 32.13418446656844
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.5,
+      "frequency_hz": 1000.48828125,
+      "measured_db": 32.01400709064927,
+      "analog_db": 32.013333599968504
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.5,
+      "frequency_hz": 1999.51171875,
+      "measured_db": 30.12654308346367,
+      "analog_db": 30.126313278669276
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.5,
+      "frequency_hz": 4000.48828125,
+      "measured_db": 26.17646437774987,
+      "analog_db": 26.183576255251864
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 0.5,
+      "frequency_hz": 7999.51171875,
+      "measured_db": 20.836000740365467,
+      "analog_db": 20.879793233204186
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 1.0,
+      "frequency_hz": 80.56640625,
+      "measured_db": 19.767650041797797,
+      "analog_db": 19.767664259332456
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 1.0,
+      "frequency_hz": 153.80859375,
+      "measured_db": 27.137911535468156,
+      "analog_db": 27.13788728217405
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 1.0,
+      "frequency_hz": 499.51171875,
+      "measured_db": 32.380355987726844,
+      "analog_db": 32.38007651806308
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 1.0,
+      "frequency_hz": 1000.48828125,
+      "measured_db": 32.91684203814201,
+      "analog_db": 32.9158829950829
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 1.0,
+      "frequency_hz": 1999.51171875,
+      "measured_db": 32.87534983367236,
+      "analog_db": 32.87238828531088
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 1.0,
+      "frequency_hz": 4000.48828125,
+      "measured_db": 32.212609680619686,
+      "analog_db": 32.20481230326115
+    },
+    {
+      "sample_rate": 48000,
+      "tone": 1.0,
+      "frequency_hz": 7999.51171875,
+      "measured_db": 30.17392744005964,
+      "analog_db": 30.17374858957357
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.0,
+      "frequency_hz": 80.74951171875,
+      "measured_db": 19.68750806254831,
+      "analog_db": 19.687526582252143
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.0,
+      "frequency_hz": 153.424072265625,
+      "measured_db": 26.72683783037951,
+      "analog_db": 26.72681834101027
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.0,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 29.384530858197756,
+      "analog_db": 29.38447789010539
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.0,
+      "frequency_hz": 1001.2939453125,
+      "measured_db": 25.98446946333631,
+      "analog_db": 25.98491819936244
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.0,
+      "frequency_hz": 1999.896240234375,
+      "measured_db": 20.828482872767697,
+      "analog_db": 20.831507583816705
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.0,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 15.031320532300667,
+      "analog_db": 15.045430154793243
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.0,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 9.026559725822922,
+      "analog_db": 9.084901180696281
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.5,
+      "frequency_hz": 80.74951171875,
+      "measured_db": 19.792254999486126,
+      "analog_db": 19.792273234978694
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.5,
+      "frequency_hz": 153.424072265625,
+      "measured_db": 27.092150718188265,
+      "analog_db": 27.092127763960974
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.5,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 32.1367027759448,
+      "analog_db": 32.13644649215937
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.5,
+      "frequency_hz": 1001.2939453125,
+      "measured_db": 32.012913419908486,
+      "analog_db": 32.01225719088608
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.5,
+      "frequency_hz": 1999.896240234375,
+      "measured_db": 30.12571536465059,
+      "analog_db": 30.12549802701531
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.5,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 26.1760981141233,
+      "analog_db": 26.18478048039016
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 0.5,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 20.827832470397965,
+      "analog_db": 20.87971844454565
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 1.0,
+      "frequency_hz": 80.74951171875,
+      "measured_db": 19.798886319723348,
+      "analog_db": 19.798904548380122
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 1.0,
+      "frequency_hz": 153.424072265625,
+      "measured_db": 27.116036070949683,
+      "analog_db": 27.116012920969176
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 1.0,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 32.38370323460618,
+      "analog_db": 32.38342203822736
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 1.0,
+      "frequency_hz": 1001.2939453125,
+      "measured_db": 32.917094403205745,
+      "analog_db": 32.91609916249441
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 1.0,
+      "frequency_hz": 1999.896240234375,
+      "measured_db": 32.875764716759214,
+      "analog_db": 32.872309791588314
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 1.0,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 32.21408929488034,
+      "analog_db": 32.205110012894295
+    },
+    {
+      "sample_rate": 88200,
+      "tone": 1.0,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 30.17396009562923,
+      "analog_db": 30.173708887744255
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.0,
+      "frequency_hz": 79.1015625,
+      "measured_db": 19.40705314095146,
+      "analog_db": 19.40706948006015
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.0,
+      "frequency_hz": 155.2734375,
+      "measured_db": 26.822029226172248,
+      "analog_db": 26.822012005222774
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.0,
+      "frequency_hz": 500.9765625,
+      "measured_db": 29.38264924376,
+      "analog_db": 29.38260456990011
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.0,
+      "frequency_hz": 999.0234375,
+      "measured_db": 25.999404179887314,
+      "analog_db": 25.99977895752842
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.0,
+      "frequency_hz": 2000.9765625,
+      "measured_db": 20.824603746052546,
+      "analog_db": 20.827148001257324
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.0,
+      "frequency_hz": 3999.0234375,
+      "measured_db": 15.035221127790559,
+      "analog_db": 15.047069701296358
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.0,
+      "frequency_hz": 8000.9765625,
+      "measured_db": 9.034172896174473,
+      "analog_db": 9.08339732096933
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.5,
+      "frequency_hz": 79.1015625,
+      "measured_db": 19.507623414607743,
+      "analog_db": 19.507639532496267
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.5,
+      "frequency_hz": 155.2734375,
+      "measured_db": 27.195780116835785,
+      "analog_db": 27.19575983404099
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.5,
+      "frequency_hz": 500.9765625,
+      "measured_db": 32.13731528922363,
+      "analog_db": 32.13709866905175
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.5,
+      "frequency_hz": 999.0234375,
+      "measured_db": 32.015840680250875,
+      "analog_db": 32.015286996713186
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.5,
+      "frequency_hz": 2000.9765625,
+      "measured_db": 30.123401368671697,
+      "analog_db": 30.123207497531283
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.5,
+      "frequency_hz": 3999.0234375,
+      "measured_db": 26.17884352251085,
+      "analog_db": 26.18611161012959
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 0.5,
+      "frequency_hz": 8000.9765625,
+      "measured_db": 20.83452255379203,
+      "analog_db": 20.87829757459962
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 1.0,
+      "frequency_hz": 79.1015625,
+      "measured_db": 19.513987052790583,
+      "analog_db": 19.514003164290692
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 1.0,
+      "frequency_hz": 155.2734375,
+      "measured_db": 27.220242898765882,
+      "analog_db": 27.220222436209763
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 1.0,
+      "frequency_hz": 500.9765625,
+      "measured_db": 32.38462694170085,
+      "analog_db": 32.38438918087319
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 1.0,
+      "frequency_hz": 999.0234375,
+      "measured_db": 32.91632551330508,
+      "analog_db": 32.91548777001144
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 1.0,
+      "frequency_hz": 2000.9765625,
+      "measured_db": 32.87502050507748,
+      "analog_db": 32.87208911182256
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 1.0,
+      "frequency_hz": 3999.0234375,
+      "measured_db": 32.21306924998821,
+      "analog_db": 32.20543902096936
+    },
+    {
+      "sample_rate": 96000,
+      "tone": 1.0,
+      "frequency_hz": 8000.9765625,
+      "measured_db": 30.173159908033213,
+      "analog_db": 30.17295455267955
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.0,
+      "frequency_hz": 80.74951171875,
+      "measured_db": 19.687507411669422,
+      "analog_db": 19.687526582252143
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.0,
+      "frequency_hz": 156.11572265625,
+      "measured_db": 26.864534123409133,
+      "analog_db": 26.86451506788891
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.0,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 29.384513699153047,
+      "analog_db": 29.38447789010539
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.0,
+      "frequency_hz": 1001.2939453125,
+      "measured_db": 25.98440657862628,
+      "analog_db": 25.98491819936244
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.0,
+      "frequency_hz": 2002.587890625,
+      "measured_db": 20.817440742985603,
+      "analog_db": 20.82064931416462
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.0,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 15.031216573693731,
+      "analog_db": 15.045430154793243
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.0,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 9.026355110195246,
+      "analog_db": 9.084901180696281
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.5,
+      "frequency_hz": 80.74951171875,
+      "measured_db": 19.792254365679106,
+      "analog_db": 19.792273234978694
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.5,
+      "frequency_hz": 156.11572265625,
+      "measured_db": 27.242156109356706,
+      "analog_db": 27.24213335080231
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.5,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 32.136685611954434,
+      "analog_db": 32.13644649215937
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.5,
+      "frequency_hz": 1001.2939453125,
+      "measured_db": 32.01285052981168,
+      "analog_db": 32.01225719088608
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.5,
+      "frequency_hz": 2002.587890625,
+      "measured_db": 30.11982929740617,
+      "analog_db": 30.119790950164255
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.5,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 26.175994149991716,
+      "analog_db": 26.18478048039016
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 0.5,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 20.82762784923865,
+      "analog_db": 20.87971844454565
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 1.0,
+      "frequency_hz": 80.74951171875,
+      "measured_db": 19.79888569011078,
+      "analog_db": 19.798904548380122
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 1.0,
+      "frequency_hz": 156.11572265625,
+      "measured_db": 27.26688418175305,
+      "analog_db": 27.266861211759323
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 1.0,
+      "frequency_hz": 500.64697265625,
+      "measured_db": 32.3836860694007,
+      "analog_db": 32.38342203822736
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 1.0,
+      "frequency_hz": 1001.2939453125,
+      "measured_db": 32.91703151178537,
+      "analog_db": 32.91609916249441
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 1.0,
+      "frequency_hz": 2002.587890625,
+      "measured_db": 32.87504807472913,
+      "analog_db": 32.871759552218236
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 1.0,
+      "frequency_hz": 3999.79248046875,
+      "measured_db": 32.213985329391164,
+      "analog_db": 32.205110012894295
+    },
+    {
+      "sample_rate": 176400,
+      "tone": 1.0,
+      "frequency_hz": 7999.5849609375,
+      "measured_db": 30.173755473109626,
+      "analog_db": 30.173708887744255
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.0,
+      "frequency_hz": 82.03125,
+      "measured_db": 19.899837481091232,
+      "analog_db": 19.899853439599312
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.0,
+      "frequency_hz": 152.34375,
+      "measured_db": 26.67001062940591,
+      "analog_db": 26.6699961320341
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.0,
+      "frequency_hz": 498.046875,
+      "measured_db": 29.39922245944155,
+      "analog_db": 29.39919128610612
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.0,
+      "frequency_hz": 1001.953125,
+      "measured_db": 25.98017388221094,
+      "analog_db": 25.98060666351585
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.0,
+      "frequency_hz": 1998.046875,
+      "measured_db": 20.836281064969896,
+      "analog_db": 20.838975276955324
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.0,
+      "frequency_hz": 4001.953125,
+      "measured_db": 15.028816628862884,
+      "analog_db": 15.04082543408595
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.0,
+      "frequency_hz": 7998.046875,
+      "measured_db": 9.037201137052971,
+      "analog_db": 9.086563643018955
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.5,
+      "frequency_hz": 82.03125,
+      "measured_db": 20.007889197593304,
+      "analog_db": 20.007904858440572
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.5,
+      "frequency_hz": 152.34375,
+      "measured_db": 27.030431723265412,
+      "analog_db": 27.03041437662204
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.5,
+      "frequency_hz": 498.046875,
+      "measured_db": 32.13142989117178,
+      "analog_db": 32.13122966803505
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.5,
+      "frequency_hz": 1001.953125,
+      "measured_db": 32.01187653660693,
+      "analog_db": 32.01137541816801
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.5,
+      "frequency_hz": 1998.046875,
+      "measured_db": 30.129458312385303,
+      "analog_db": 30.129418894679546
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.5,
+      "frequency_hz": 4001.953125,
+      "measured_db": 26.17361455980509,
+      "analog_db": 26.18104144912887
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 0.5,
+      "frequency_hz": 7998.046875,
+      "measured_db": 20.837375769710338,
+      "analog_db": 20.88128913302579
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 1.0,
+      "frequency_hz": 82.03125,
+      "measured_db": 20.01473252867946,
+      "analog_db": 20.014748171124765
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 1.0,
+      "frequency_hz": 152.34375,
+      "measured_db": 27.053982888430973,
+      "analog_db": 27.053965375731323
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 1.0,
+      "frequency_hz": 498.046875,
+      "measured_db": 32.375947724447386,
+      "analog_db": 32.37572684222132
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 1.0,
+      "frequency_hz": 1001.953125,
+      "measured_db": 32.91706355735285,
+      "analog_db": 32.91627539214334
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 1.0,
+      "frequency_hz": 1998.046875,
+      "measured_db": 32.87545243778975,
+      "analog_db": 32.87268705237779
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 1.0,
+      "frequency_hz": 4001.953125,
+      "measured_db": 32.21167873714027,
+      "analog_db": 32.204185435447975
+    },
+    {
+      "sample_rate": 192000,
+      "tone": 1.0,
+      "frequency_hz": 7998.046875,
+      "measured_db": 30.1745915678573,
+      "analog_db": 30.17454262581043
+    }
+  ],
+  "endpoints": [
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0007979723844651805,
+      "peak_volts": 0.0011294073547725892
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.007979723844651804,
+      "peak_volts": 0.011294073547725892
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.001596169304826262,
+      "peak_volts": 0.0022365540663234467
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.01596169304826262,
+      "peak_volts": 0.022365540663234464
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0017709293303418776,
+      "peak_volts": 0.0024734346778598646
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.017709293303418774,
+      "peak_volts": 0.024734346778598648
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.09719506513742428,
+      "peak_volts": 0.1447095727061438
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.9719506513742426,
+      "peak_volts": 1.4470957270614382
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.19582383284614585,
+      "peak_volts": 0.2456270205761965
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.9582383284614586,
+      "peak_volts": 2.4562702057619648
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.22053874287835498,
+      "peak_volts": 0.251108321482336
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.20538742878355,
+      "peak_volts": 2.5110832148233597
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.10149584095929781,
+      "peak_volts": 0.16102806994044588
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.0149584095929782,
+      "peak_volts": 1.610280699404459
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.20644511921705358,
+      "peak_volts": 0.2498477278528499
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.0644511921705355,
+      "peak_volts": 2.4984772785284983
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.2393929321567464,
+      "peak_volts": 0.25875482232396496
+    },
+    {
+      "sample_rate": 44100,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.393929321567464,
+      "peak_volts": 2.58754822323965
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0007979783580221302,
+      "peak_volts": 0.001129332718995635
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.007979783580221302,
+      "peak_volts": 0.011293327189956348
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0015961496809567747,
+      "peak_volts": 0.002235236243552069
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.015961496809567745,
+      "peak_volts": 0.02235236243552069
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0017708968403233444,
+      "peak_volts": 0.002473382781513993
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.017708968403233445,
+      "peak_volts": 0.024733827815139924
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.09719608556836354,
+      "peak_volts": 0.14421734613872889
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.9719608556836354,
+      "peak_volts": 1.4421734613872892
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.19582214529987077,
+      "peak_volts": 0.2453302047694353
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.9582214529987076,
+      "peak_volts": 2.4533020476943532
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.2205341450107963,
+      "peak_volts": 0.25102557668309167
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.205341450107963,
+      "peak_volts": 2.510255766830916
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.10149840148355423,
+      "peak_volts": 0.16033007390297635
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.0149840148355422,
+      "peak_volts": 1.6033007390297631
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.2064488911931903,
+      "peak_volts": 0.2494361009636429
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.0644889119319028,
+      "peak_volts": 2.4943610096364286
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.2394081005768544,
+      "peak_volts": 0.25709346577013015
+    },
+    {
+      "sample_rate": 48000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.394081005768544,
+      "peak_volts": 2.5709346577013026
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0007979618837086887,
+      "peak_volts": 0.0011293933504187281
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.007979618837086887,
+      "peak_volts": 0.011293933504187281
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0015961482946885988,
+      "peak_volts": 0.002236512791362162
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.015961482946885985,
+      "peak_volts": 0.022365127913621618
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.001770906004216788,
+      "peak_volts": 0.0024734714381697796
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.01770906004216788,
+      "peak_volts": 0.024734714381697796
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.09719429601985871,
+      "peak_volts": 0.14469082789022794
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.9719429601985871,
+      "peak_volts": 1.4469082789022796
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.1958223036527796,
+      "peak_volts": 0.24551011751118418
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.9582230365277957,
+      "peak_volts": 2.4551011751118423
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.22053717606410309,
+      "peak_volts": 0.25104533685220043
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.205371760641031,
+      "peak_volts": 2.510453368522003
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.10149557284871624,
+      "peak_volts": 0.16133473654303795
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.0149557284871624,
+      "peak_volts": 1.6133473654303794
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.20644731476923756,
+      "peak_volts": 0.24681042674092585
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.0644731476923757,
+      "peak_volts": 2.4681042674092573
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.23943804882204883,
+      "peak_volts": 0.2516104564570072
+    },
+    {
+      "sample_rate": 88200,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.3943804882204884,
+      "peak_volts": 2.5161045645700724
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0007979685773905886,
+      "peak_volts": 0.001129320442494248
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.007979685773905886,
+      "peak_volts": 0.011293204424942478
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0015961301120302393,
+      "peak_volts": 0.0022357226702740124
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.01596130112030239,
+      "peak_volts": 0.022357226702740127
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0017708751134075395,
+      "peak_volts": 0.0024733635358214316
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.017708751134075395,
+      "peak_volts": 0.02473363535821431
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.09719537209330345,
+      "peak_volts": 0.14469094756703438
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.9719537209330344,
+      "peak_volts": 1.4469094756703433
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.19582073129015282,
+      "peak_volts": 0.2454296720620236
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.9582073129015278,
+      "peak_volts": 2.4542967206202357
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.22053266758995596,
+      "peak_volts": 0.2510393453138077
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.2053266758995598,
+      "peak_volts": 2.510393453138077
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.10149806845002594,
+      "peak_volts": 0.16129968255234653
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.0149806845002594,
+      "peak_volts": 1.6129968255234655
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.206450343617514,
+      "peak_volts": 0.24648878661001067
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.06450343617514,
+      "peak_volts": 2.4648878661001064
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.23944410266529637,
+      "peak_volts": 0.2516103428643348
+    },
+    {
+      "sample_rate": 96000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.3944410266529634,
+      "peak_volts": 2.5161034286433477
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0007979567273487313,
+      "peak_volts": 0.0011293859150646385
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.007979567273487313,
+      "peak_volts": 0.011293859150646384
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.001596137977275482,
+      "peak_volts": 0.0022364995791598133
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.015961379772754816,
+      "peak_volts": 0.022364995791598133
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0017708945476781477,
+      "peak_volts": 0.0024734569233314492
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.017708945476781476,
+      "peak_volts": 0.02473456923331449
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.09719390801402622,
+      "peak_volts": 0.14468988529686033
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.9719390801402621,
+      "peak_volts": 1.4468988529686033
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.19582149277148397,
+      "peak_volts": 0.24550494409793627
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.9582149277148397,
+      "peak_volts": 2.4550494409793626
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.22053619709881392,
+      "peak_volts": 0.25104321422734216
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.205361970988139,
+      "peak_volts": 2.5104321422734213
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.10149520100157129,
+      "peak_volts": 0.16130368156994893
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.014952010015713,
+      "peak_volts": 1.6130368156994892
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.20644655506854698,
+      "peak_volts": 0.24642119305262883
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.06446555068547,
+      "peak_volts": 2.464211930526288
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.23943770566674558,
+      "peak_volts": 0.251616565114231
+    },
+    {
+      "sample_rate": 176400,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.394377056667456,
+      "peak_volts": 2.5161656511423094
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0007979641448380728,
+      "peak_volts": 0.0011293140972920745
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.007979641448380728,
+      "peak_volts": 0.011293140972920746
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0015961212429896593,
+      "peak_volts": 0.0022364566639010413
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.015961212429896593,
+      "peak_volts": 0.022364566639010413
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0017708652650202258,
+      "peak_volts": 0.0024733496089543385
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.1,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.017708652650202255,
+      "peak_volts": 0.024733496089543384
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.09719503686860421,
+      "peak_volts": 0.1446899800940159
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.9719503686860421,
+      "peak_volts": 1.446899800940159
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.19582002528736211,
+      "peak_volts": 0.24550713282223208
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.9582002528736215,
+      "peak_volts": 2.4550713282223207
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.22053180313950096,
+      "peak_volts": 0.25103896688527033
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 0.5,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.2053180313950094,
+      "peak_volts": 2.510389668852703
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.10149774370423606,
+      "peak_volts": 0.16131335414600534
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 0.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 1.0149774370423608,
+      "peak_volts": 1.6131335414600534
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.20644965739799448,
+      "peak_volts": 0.2464188107322979
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 0.5,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.0644965739799446,
+      "peak_volts": 2.464188107322979
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.0,
+      "peak_volts": 0.0
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 0.5,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 0.23944354348469962,
+      "peak_volts": 0.2516106724677869
+    },
+    {
+      "sample_rate": 192000,
+      "gain": 1.0,
+      "tone": 1.0,
+      "output": 1.0,
+      "input_hz": 1000.0,
+      "input_peak_volts": 0.12,
+      "rms_volts": 2.394435434846996,
+      "peak_volts": 2.516106724677869
+    }
+  ],
+  "level_sweep_48k_tone1_output1": [
+    {
+      "gain": 0.1,
+      "input_peak_volts": 1e-05,
+      "output_rms_volts": 1.4907073648947732e-06
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 1.4125375446227555e-05,
+      "output_rms_volts": 2.105680120959521e-06
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 1.9952623149688786e-05,
+      "output_rms_volts": 2.9743522278211018e-06
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 2.818382931264455e-05,
+      "output_rms_volts": 4.201384192729642e-06
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 3.9810717055349695e-05,
+      "output_rms_volts": 5.9346129116151744e-06
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 5.623413251903491e-05,
+      "output_rms_volts": 8.382863550459398e-06
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 7.943282347242822e-05,
+      "output_rms_volts": 1.1841109496473517e-05
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.0001122018454301963,
+      "output_rms_volts": 1.6726011733757858e-05
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.00015848931924611142,
+      "output_rms_volts": 2.3626119545733722e-05
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.00022387211385683378,
+      "output_rms_volts": 3.337278089209433e-05
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.00031622776601683794,
+      "output_rms_volts": 4.714030597855214e-05
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.00044668359215096305,
+      "output_rms_volts": 6.658745205970937e-05
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.000630957344480193,
+      "output_rms_volts": 9.405727603510722e-05
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.0008912509381337459,
+      "output_rms_volts": 0.0001328594337445351
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.0012589254117941675,
+      "output_rms_volts": 0.00018766893832147506
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.0017782794100389228,
+      "output_rms_volts": 0.00026508942133857545
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.0025118864315095794,
+      "output_rms_volts": 0.00037444876032305803
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.0035481338923357532,
+      "output_rms_volts": 0.0005289229324937666
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.005011872336272719,
+      "output_rms_volts": 0.0007471235003594116
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.00707945784384138,
+      "output_rms_volts": 0.0010553399947276418
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.01,
+      "output_rms_volts": 0.0014907073648947732
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.01412537544622754,
+      "output_rms_volts": 0.002105680120959519
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.01995262314968879,
+      "output_rms_volts": 0.0029743522278211027
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.028183829312644522,
+      "output_rms_volts": 0.0042013841927296385
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.03981071705534969,
+      "output_rms_volts": 0.0059346129116151745
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.05623413251903491,
+      "output_rms_volts": 0.0083828635504594
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.07943282347242814,
+      "output_rms_volts": 0.011841109496473504
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.1122018454301963,
+      "output_rms_volts": 0.01670456196346776
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.15848931924611143,
+      "output_rms_volts": 0.02024118091486099
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.22387211385683378,
+      "output_rms_volts": 0.021814068957179973
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.31622776601683794,
+      "output_rms_volts": 0.022743020020889185
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.4466835921509626,
+      "output_rms_volts": 0.023318932443451477
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.630957344480193,
+      "output_rms_volts": 0.023674749840007097
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 0.8912509381337459,
+      "output_rms_volts": 0.02388901494355054
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 1.2589254117941662,
+      "output_rms_volts": 0.024013282656372714
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 1.7782794100389228,
+      "output_rms_volts": 0.024081661959100432
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 2.511886431509577,
+      "output_rms_volts": 0.024122671824343894
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 3.5481338923357533,
+      "output_rms_volts": 0.024136943898125873
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 5.011872336272725,
+      "output_rms_volts": 0.02414961454807777
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 7.079457843841373,
+      "output_rms_volts": 0.02415597519223849
+    },
+    {
+      "gain": 0.1,
+      "input_peak_volts": 10.0,
+      "output_rms_volts": 0.024162118548792348
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 1e-05,
+      "output_rms_volts": 0.00031283871404306005
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 1.4125375446227555e-05,
+      "output_rms_volts": 0.00044189642899732437
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 1.9952623149688786e-05,
+      "output_rms_volts": 0.0006241952967934429
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 2.818382931264455e-05,
+      "output_rms_volts": 0.0008816992918976821
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 3.9810717055349695e-05,
+      "output_rms_volts": 0.0012454333528727716
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 5.623413251903491e-05,
+      "output_rms_volts": 0.0017592213702581903
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 7.943282347242822e-05,
+      "output_rms_volts": 0.002484966234792384
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.0001122018454301963,
+      "output_rms_volts": 0.00351010810376408
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.00015848931924611142,
+      "output_rms_volts": 0.00495815948225135
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.00022387211385683378,
+      "output_rms_volts": 0.00700358642090734
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.00031622776601683794,
+      "output_rms_volts": 0.009892828766541725
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.00044668359215096305,
+      "output_rms_volts": 0.013973992055264199
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.000630957344480193,
+      "output_rms_volts": 0.01973878842632076
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.0008912509381337459,
+      "output_rms_volts": 0.027881779737543192
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.0012589254117941675,
+      "output_rms_volts": 0.039384060690181716
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.0017782794100389228,
+      "output_rms_volts": 0.05563146438458281
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.0025118864315095794,
+      "output_rms_volts": 0.07858153210556679
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.0035481338923357532,
+      "output_rms_volts": 0.11099936441309143
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.005011872336272719,
+      "output_rms_volts": 0.15679076966275446
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.00707945784384138,
+      "output_rms_volts": 0.2214728487989392
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.01,
+      "output_rms_volts": 0.31283871404306
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.01412537544622754,
+      "output_rms_volts": 0.4418964289973239
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.01995262314968879,
+      "output_rms_volts": 0.6241952967934431
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.028183829312644522,
+      "output_rms_volts": 0.8816992918976813
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.03981071705534969,
+      "output_rms_volts": 1.2454333528727715
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.05623413251903491,
+      "output_rms_volts": 1.7451759415701698
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.07943282347242814,
+      "output_rms_volts": 2.0438759304745364
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.1122018454301963,
+      "output_rms_volts": 2.18547302406687
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.15848931924611143,
+      "output_rms_volts": 2.2705134240198386
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.22387211385683378,
+      "output_rms_volts": 2.323095118164783
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.31622776601683794,
+      "output_rms_volts": 2.35516998077911
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.4466835921509626,
+      "output_rms_volts": 2.374211648666098
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.630957344480193,
+      "output_rms_volts": 2.3851657878826398
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 0.8912509381337459,
+      "output_rms_volts": 2.390912519619133
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 1.2589254117941662,
+      "output_rms_volts": 2.394579264640256
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 1.7782794100389228,
+      "output_rms_volts": 2.3963562562589593
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 2.511886431509577,
+      "output_rms_volts": 2.3967971563858934
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 3.5481338923357533,
+      "output_rms_volts": 2.396860632193881
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 5.011872336272725,
+      "output_rms_volts": 2.3971469290308436
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 7.079457843841373,
+      "output_rms_volts": 2.3979466073464053
+    },
+    {
+      "gain": 0.5,
+      "input_peak_volts": 10.0,
+      "output_rms_volts": 2.398236536623124
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 1e-05,
+      "output_rms_volts": 0.0031283871404306
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 1.4125375446227555e-05,
+      "output_rms_volts": 0.004418964289973243
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 1.9952623149688786e-05,
+      "output_rms_volts": 0.006241952967934429
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 2.818382931264455e-05,
+      "output_rms_volts": 0.008816992918976821
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 3.9810717055349695e-05,
+      "output_rms_volts": 0.012454333528727714
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 5.623413251903491e-05,
+      "output_rms_volts": 0.0175922137025819
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 7.943282347242822e-05,
+      "output_rms_volts": 0.024849662347923837
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.0001122018454301963,
+      "output_rms_volts": 0.0351010810376408
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.00015848931924611142,
+      "output_rms_volts": 0.0495815948225135
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.00022387211385683378,
+      "output_rms_volts": 0.0700358642090734
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.00031622776601683794,
+      "output_rms_volts": 0.09892828766541727
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.00044668359215096305,
+      "output_rms_volts": 0.13973992055264198
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.000630957344480193,
+      "output_rms_volts": 0.1973878842632076
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.0008912509381337459,
+      "output_rms_volts": 0.27881779737543194
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.0012589254117941675,
+      "output_rms_volts": 0.3938406069018171
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.0017782794100389228,
+      "output_rms_volts": 0.5563146438458281
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.0025118864315095794,
+      "output_rms_volts": 0.7858153210556679
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.0035481338923357532,
+      "output_rms_volts": 1.1099936441309142
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.005011872336272719,
+      "output_rms_volts": 1.5679076966275443
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.00707945784384138,
+      "output_rms_volts": 1.9739376329828622
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.01,
+      "output_rms_volts": 2.146581735056027
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.01412537544622754,
+      "output_rms_volts": 2.246224582772126
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.01995262314968879,
+      "output_rms_volts": 2.30759392970803
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.028183829312644522,
+      "output_rms_volts": 2.3455598052151116
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.03981071705534969,
+      "output_rms_volts": 2.36851843077225
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.05623413251903491,
+      "output_rms_volts": 2.3818499810426936
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.07943282347242814,
+      "output_rms_volts": 2.389398216173931
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.1122018454301963,
+      "output_rms_volts": 2.3936405419518323
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.15848931924611143,
+      "output_rms_volts": 2.395564932628677
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.22387211385683378,
+      "output_rms_volts": 2.3969374488180453
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.31622776601683794,
+      "output_rms_volts": 2.396894441026249
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.4466835921509626,
+      "output_rms_volts": 2.398212129571993
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.630957344480193,
+      "output_rms_volts": 2.3968292637899946
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 0.8912509381337459,
+      "output_rms_volts": 2.3981522573840293
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 1.2589254117941662,
+      "output_rms_volts": 2.3981522573840293
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 1.7782794100389228,
+      "output_rms_volts": 2.3981522573840293
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 2.511886431509577,
+      "output_rms_volts": 2.396798151902149
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 3.5481338923357533,
+      "output_rms_volts": 2.398236536623124
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 5.011872336272725,
+      "output_rms_volts": 2.398236536623124
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 7.079457843841373,
+      "output_rms_volts": 2.398236536623124
+    },
+    {
+      "gain": 1.0,
+      "input_peak_volts": 10.0,
+      "output_rms_volts": 2.398236536623124
+    }
+  ],
+  "all_gain_zero_endpoints_exact_silence": true,
+  "all_output_zero_endpoints_exact_silence": true
+}
