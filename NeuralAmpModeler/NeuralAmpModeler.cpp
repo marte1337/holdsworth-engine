@@ -396,7 +396,7 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
   mPreNAMSelector.beginBlock(
     static_cast<holdsworth::integration::DevelopmentPreNAMProcessor>(
       mPreNAMRequestedProcessor.load(std::memory_order_relaxed)),
-    numFrames, mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor);
+    numFrames, mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHBoostProcessor, mAHRealtimeSupported);
   selectedInputGain = mPreNAMSelector.inputGain(mInputGain, mPedalHostToVoltsGain);
 #endif
 
@@ -405,7 +405,7 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   mPreNAMSelector.processSelected(
     std::span<sample>{mInputPointers[0], numFrames}, mPedalVoltsToNamGain,
-    mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor);
+    mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHBoostProcessor);
 #endif
   _ApplyDSPStaging();
   const bool noiseGateActive = GetParam(kNoiseGateActive)->Value();
@@ -580,6 +580,14 @@ void NeuralAmpModeler::OnReset()
   mTCBldCleanBoostProcessor.reset();
   mMC402CleanBoostProcessor.setBoostDb(mMC402BoostDb.load(std::memory_order_relaxed));
   mMC402CleanBoostProcessor.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
+  mAHRealtimeSupported = holdsworth::integration::ahRealtimeRateSupported(sampleRate);
+  if (mAHRealtimeSupported)
+  {
+    mAHBoostProcessor.setControls(holdsworth::integration::ahControlsFromDevelopmentUI(
+      mAHBoostNormalized.load(std::memory_order_relaxed), mAHTypeNormalized.load(std::memory_order_relaxed),
+      mAHEmphasisNormalized.load(std::memory_order_relaxed)));
+    mAHBoostProcessor.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
+  }
   mPreNAMSelector.reset();
 
   const bool holdsworthDelayNeedsPrepare =
@@ -699,7 +707,10 @@ void NeuralAmpModeler::OnUIOpen()
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   SendControlValueFromDelegate(
     kCtrlTagPreNAMProcessor,
-    static_cast<double>(mPreNAMRequestedProcessor.load(std::memory_order_relaxed)) / 2.0);
+    static_cast<double>(mPreNAMRequestedProcessor.load(std::memory_order_relaxed)) / 3.0);
+  SendControlValueFromDelegate(kCtrlTagAHBoost, mAHBoostNormalized.load(std::memory_order_relaxed));
+  SendControlValueFromDelegate(kCtrlTagAHType, mAHTypeNormalized.load(std::memory_order_relaxed));
+  SendControlValueFromDelegate(kCtrlTagAHEmphasis, mAHEmphasisNormalized.load(std::memory_order_relaxed));
   SendControlValueFromDelegate(kCtrlTagMC402Boost, mMC402BoostDb.load(std::memory_order_relaxed) / 20.0);
   SendControlValueFromDelegate(
     kCtrlTagTCBldGain,
@@ -800,6 +811,28 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
       std::memcpy(&normalizedValue, pData, sizeof(normalizedValue));
       const auto choice = holdsworth::integration::preNAMProcessorFromNormalized(normalizedValue);
       mPreNAMRequestedProcessor.store(static_cast<std::uint32_t>(choice), std::memory_order_relaxed);
+      return true;
+    }
+    case kMsgTagAHBoost:
+    case kMsgTagAHType:
+    case kMsgTagAHEmphasis:
+    {
+      const int expectedTag = msgTag == kMsgTagAHBoost ? kCtrlTagAHBoost
+                            : msgTag == kMsgTagAHType ? kCtrlTagAHType : kCtrlTagAHEmphasis;
+      double value = 0.0;
+      if (!holdsworth::integration::ahReadControlMessage(ctrlTag, expectedTag, dataSize, pData, value))
+        return false;
+      const double currentBoost = mAHBoostNormalized.load(std::memory_order_relaxed);
+      const double currentType = mAHTypeNormalized.load(std::memory_order_relaxed);
+      const double currentEmphasis = mAHEmphasisNormalized.load(std::memory_order_relaxed);
+      const auto controls = holdsworth::integration::ahControlsFromDevelopmentUI(
+        msgTag == kMsgTagAHBoost ? value : currentBoost,
+        msgTag == kMsgTagAHType ? value : currentType,
+        msgTag == kMsgTagAHEmphasis ? value : currentEmphasis);
+      mAHBoostNormalized.store(controls.boostDb / 20.0, std::memory_order_relaxed);
+      mAHTypeNormalized.store(static_cast<double>(controls.type) / 2.0, std::memory_order_relaxed);
+      mAHEmphasisNormalized.store(static_cast<double>(controls.emphasis), std::memory_order_relaxed);
+      mAHBoostProcessor.setControls(controls); // complete tuple, same UI producer as existing controls
       return true;
     }
     case kMsgTagMC402Boost:

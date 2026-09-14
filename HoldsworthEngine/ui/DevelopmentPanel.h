@@ -129,9 +129,21 @@ class ProcessorSelector final : public IVTabSwitchControl
 {
 public:
   ProcessorSelector(const IRECT& bounds, IActionFunction action, const IVStyle& style)
-  : IVTabSwitchControl(bounds, action, {"OFF", "TC BLD", "MC402"}, "", style) {}
-  void SetControls(std::array<IControl*, 4> tcControls, IControl* mcControl)
-  { mTCControls = tcControls; mMCControl = mcControl; Refresh(); }
+  : IVTabSwitchControl(bounds, action, {"OFF", "TC BLD", "MC402", "J. ROCKETT AH"}, "",
+      style.WithValueText(IText(11, COLOR_WHITE, "Roboto-Regular"))) {}
+  void SetControls(std::array<IControl*, 4> tcControls, IControl* mcControl,
+                   std::array<IControl*, 6> ahControls, IControl* cleanLabel)
+  { mTCControls = tcControls; mMCControl = mcControl; mAHControls = ahControls; mCleanLabel = cleanLabel; Refresh(); }
+  void OnResize() override
+  {
+    SetTargetRECT(mRECT); mWidgetBounds = mRECT; mButtons.Resize(0);
+    // Keep the existing selector rectangle; reserve room for the longer AH name.
+    constexpr std::array<float, 5> edges{0.f, .16f, .38f, .60f, 1.f};
+    for (std::size_t i = 0; i < 4; ++i)
+      mButtons.Add(IRECT(mRECT.L + edges[i]*mRECT.W(), mRECT.T,
+                        mRECT.L + edges[i+1]*mRECT.W(), mRECT.B));
+    SetDirty(false);
+  }
   void SetValue(double value, int valIdx = 0) override
   { IControl::SetValue(value, valIdx); Refresh(); }
   void SetValueFromDelegate(double value, int valIdx = 0) override
@@ -143,9 +155,14 @@ private:
     for (auto* control : mTCControls)
       if (control) control->Hide(choice != integration::DevelopmentPreNAMProcessor::tcBld);
     if (mMCControl) mMCControl->Hide(choice != integration::DevelopmentPreNAMProcessor::mc402Boost);
+    for (auto* control : mAHControls)
+      if (control) control->Hide(choice != integration::DevelopmentPreNAMProcessor::jRockettAH);
+    if (mCleanLabel) mCleanLabel->Hide(choice == integration::DevelopmentPreNAMProcessor::jRockettAH);
   }
   std::array<IControl*, 4> mTCControls{};
   IControl* mMCControl = nullptr;
+  std::array<IControl*, 6> mAHControls{};
+  IControl* mCleanLabel = nullptr;
 };
 
 class GainSlider final : public PositionSlider
@@ -246,6 +263,7 @@ inline void attachDevelopmentPanel(IGraphics& g)
       developmentStyle().WithValueText(IText(size, color, "Roboto-Regular", EAlign::Near)));
     control->SetIgnoreMouse(true);
     g.AttachControl(control);
+    return control;
   };
   g.AttachPanelBackground(panelBackground());
   label(IRECT(28, 22, 780, 58), "HOLDSWORTH ENGINE", 26, COLOR_WHITE);
@@ -255,7 +273,7 @@ inline void attachDevelopmentPanel(IGraphics& g)
 
   g.AttachControl(new Card(IRECT(24, 116, 464, 326)));
   label(IRECT(44, 132, 294, 155), "BOOST / DRIVE", 14, mutedText());
-  label(IRECT(44, 161, 182, 190), "Clean Boost", 19, COLOR_WHITE);
+  auto* cleanLabel = label(IRECT(44, 161, 182, 190), "Clean Boost", 19, COLOR_WHITE);
   // iPlug's pressable controls use FG/PR for neutral/pressed, not OFF/ON.
   const auto toggleStyle = developmentStyle().WithShowLabel(false)
     .WithColor(EVColor::kFG, IColor(255, 40, 49, 61))
@@ -285,7 +303,22 @@ inline void attachDevelopmentPanel(IGraphics& g)
     ->SetTooltip("Left: cut. Right: boost. Double-click: 0.500.");
   auto* boost = new BoostSlider(IRECT(44, 210, 444, 302), developmentMessage(kMsgTagMC402Boost));
   g.AttachControl(boost, kCtrlTagMC402Boost)->SetTooltip("MC402 flat clean Boost: 0 to +20 dB. Double-click: 0 dB.");
-  selector->SetControls({gain, range, bass, treble}, boost);
+  auto* ahLabel = label(IRECT(44, 161, 190, 190), "Behavioral Boost", 14, COLOR_WHITE);
+  auto* ahBoost = new BoostSlider(IRECT(44, 210, 190, 302), developmentMessage(kMsgTagAHBoost));
+  g.AttachControl(ahBoost, kCtrlTagAHBoost)->SetTooltip(
+    "J. Rockett AH Boost behavioral model. Unmeasured audition curves; no Drive. Double-click: 0 dB.");
+  auto* typeLabel = label(IRECT(210, 210, 330, 232), "Type", 15, COLOR_WHITE);
+  auto* emphasisLabel = label(IRECT(350, 210, 444, 232), "Emphasis", 15, COLOR_WHITE);
+  auto* ahType = new IVTabSwitchControl(IRECT(210, 246, 330, 280),
+    developmentMessage(kMsgTagAHType), {"F", "C", "T"}, "", toggleStyle);
+  ahType->SetValue(0.5);
+  g.AttachControl(ahType, kCtrlTagAHType)->SetTooltip(
+    "F: Fat/Full. C: Clean. T: Treble. Provisional EQ responses with a 10 ms crossfade.");
+  auto* ahEmphasis = new IVTabSwitchControl(IRECT(350, 246, 444, 280),
+    developmentMessage(kMsgTagAHEmphasis), {"L", "H"}, "", toggleStyle);
+  g.AttachControl(ahEmphasis, kCtrlTagAHEmphasis)->SetTooltip("L: low emphasis. H: high emphasis.");
+  selector->SetControls({gain, range, bass, treble}, boost,
+    {ahBoost, ahType, ahEmphasis, ahLabel, typeLabel, emphasisLabel}, cleanLabel);
 
   g.AttachControl(new Card(IRECT(24, 346, 464, 636)));
   label(IRECT(44, 361, 212, 385), "DELAY", 14, mutedText());

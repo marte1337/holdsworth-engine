@@ -4,7 +4,8 @@
 
 HoldsworthEngine extends the official NeuralAmpModelerPlugin with DSP for an
 Allan Holdsworth-inspired guitar signal chain. Current work includes a
-documentary-nominal TC BLD Clean Boost or MC402 Clean Boost before NAM and an
+documentary-nominal TC BLD Clean Boost, MC402 Clean Boost or provisional
+J. Rockett AH Boost before NAM and an
 algorithmic stereo multi-delay inspired by Holdsworth's Yamaha UD-Stomp /
 Magicstomp usage after NAM.
 
@@ -30,7 +31,7 @@ audition HoldsworthEngine DSP.
 Conceptually:
 
     host input
-    -> selected pre-NAM processor: Off / TC BLD / MC402 Clean Boost
+    -> selected pre-NAM processor: Off / TC BLD / MC402 Clean Boost / J. Rockett AH Boost
     -> NAM
     -> tone stack
     -> cabinet / IR
@@ -40,7 +41,7 @@ Conceptually:
     -> host output
 
 The selector processes mono input through at most one pedal before NAM.
-The existing input trim and volts/calibration bridge apply to either pedal.
+The existing input trim and volts/calibration bridge apply to the selected pedal.
 The Holdsworth delay receives the fully processed mono NAM signal and produces
 stereo wet output.
 
@@ -85,6 +86,7 @@ Important components include:
     GroupedDelayCircuit
     TCBLDCleanBoostProcessor
     MC402CleanBoostProcessor
+    JRockettAHBoostProcessor
     DevelopmentPreNAMSelector
 
 ## Important DSP semantics
@@ -233,6 +235,18 @@ EQ, FIR or oversampling. The provisional Overdrive profiles were rejected and
 archived under `HoldsworthEngine/references/pedals/mc402/rejected-overdrive`;
 they are not enrolled in production targets. Overdrive remains deferred pending
 stronger circuit evidence or hardware measurement.
+
+### J. Rockett AH Boost
+
+`JRockettAHBoostProcessor` implements `JROCKETT-AH-BOOST-BEHAVIORAL-V1`:
+provisional 0–20 dB Boost with F/C/T and L/H selections. The six frozen linear
+shelf responses are unmeasured audition choices, not hardware response claims.
+Drive remains deferred. Level uses 10 ms smoothing; mode changes crossfade two
+complete responses for about 10 ms with latest-pending coalescing (up to about
+20 ms settling). Incoming states use optimized, bounded 20 ms history replay.
+There is no added latency or pedal nonlinearity. Official realtime project rates
+are 44.1/48/88.2/96/176.4/192 kHz; the wider offline prepare range is not product
+support. See `references/pedals/jrockett-ah/m2` under HoldsworthEngine.
 
 ## Yamaha source data versus DSP data
 
@@ -432,8 +446,10 @@ The macOS development build uses the dedicated Development UI v2. It presents
 separate Boost / Drive and Delay cards beside the existing NAM control module in
 an enlarged, resizable editor.
 
-The Boost / Drive card selects Off, TC BLD or MC402. TC BLD exposes its existing
-Gain, Bass and Treble controls; MC402 exposes only Boost (0 to +20 dB). The Delay
+The Boost / Drive card selects Off, TC BLD, MC402 or J. Rockett AH. TC BLD exposes
+its existing Gain, Bass and Treble controls; MC402 exposes only Boost (0 to +20
+dB). J. Rockett AH exposes Boost (0 to +20 dB), Type F/C/T and Emphasis L/H,
+identified as Behavioral Boost. These controls are nonserialized. The Delay
 card exposes bypass, a separate Wet control and the five live audition presets:
 Lead 121, Holdsworth 122, Chorus 011, Chorus 031 and Holdsworth 223. Their visual
 grouping does not change preset indices or DSP identity.

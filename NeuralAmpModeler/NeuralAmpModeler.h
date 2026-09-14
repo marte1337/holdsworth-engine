@@ -12,6 +12,7 @@
   #include "../HoldsworthEngine/dsp/HoldsworthDelayEngine.h"
   #include "../HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.h"
   #include "../HoldsworthEngine/dsp/MC402CleanBoostProcessor.h"
+  #include "../HoldsworthEngine/integration/DevelopmentJRockettAHControls.h"
   #include "../HoldsworthEngine/integration/DevelopmentPreNAMSelector.h"
   #include "../HoldsworthEngine/integration/DevelopmentControlDefaults.h"
 #endif
@@ -91,6 +92,9 @@ enum ECtrlTags
   kCtrlTagTCBldBass,
   kCtrlTagTCBldTreble,
   kCtrlTagMC402Boost,
+  kCtrlTagAHBoost,
+  kCtrlTagAHType,
+  kCtrlTagAHEmphasis,
 #endif
   kNumCtrlTags
 };
@@ -116,6 +120,9 @@ enum EMsgTags
   kMsgTagLoadedIR,
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   kMsgTagMC402Boost,
+  kMsgTagAHBoost,
+  kMsgTagAHType,
+  kMsgTagAHEmphasis,
 #endif
   kNumMsgTags
 };
@@ -368,6 +375,9 @@ private:
   // Temporary pre-NAM documentary-nominal CLEAN BOOST audition path.
   holdsworth::dsp::TCBLDCleanBoostProcessor mTCBldCleanBoostProcessor;
   holdsworth::dsp::MC402CleanBoostProcessor mMC402CleanBoostProcessor;
+  holdsworth::dsp::JRockettAHBoostProcessor mAHBoostProcessor;
+  bool mAHRealtimeSupported = false; // lifecycle-owned, read by audio
+  std::atomic<double> mAHBoostNormalized{0.0}, mAHTypeNormalized{0.5}, mAHEmphasisNormalized{0.0};
   holdsworth::integration::DevelopmentPreNAMSelector mPreNAMSelector;
   std::atomic<std::uint32_t> mPreNAMRequestedProcessor{0};
   std::atomic<double> mMC402BoostDb{0.0};

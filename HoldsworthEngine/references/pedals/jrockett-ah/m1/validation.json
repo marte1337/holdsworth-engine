@@ -1,0 +1,61 @@
+{
+  "profile": "JROCKETT-AH-BOOST-BEHAVIORAL-V1",
+  "milestone": "M1 isolated DSP complete; M2 not started",
+  "hardware_measured": false,
+  "checks": {
+    "Debug": {
+      "passed": 255,
+      "failed": 0
+    },
+    "Release": {
+      "passed": 255,
+      "failed": 0
+    },
+    "sanitizer": {
+      "passed": 255,
+      "failed": 0
+    },
+    "thread_sanitizer": {
+      "passed": 1,
+      "scope": "AH Boost concurrent coherent handoff"
+    },
+    "asan_ubsan_options": {
+      "ASAN_OPTIONS": "detect_leaks=0:halt_on_error=1",
+      "UBSAN_OPTIONS": "halt_on_error=1",
+      "note": "Platform LeakSanitizer unsupported; ASan and UBSan enabled."
+    },
+    "strict_warnings": "pass: new processor, focused tests, measurement tool",
+    "static_analyzer": "pass: no diagnostics",
+    "plugin_builds": "pass: Debug arm64 APP/VST3/AU, AH not enrolled",
+    "project_lint": "pass",
+    "focused_test_groups": 11
+  },
+  "scope": {
+    "product_dsp_enrollment": false,
+    "selector_changed": false,
+    "development_ui_changed": false,
+    "nam_integration_changed": false,
+    "drive_implemented": false,
+    "commit_created": false
+  },
+  "toolchain": "Apple clang 21.0.0 (clang-2100.1.1.101), Xcode, arm64",
+  "initial_environment_issues": [
+    "Default xcrun toolchain lacked C++ headers; DEVELOPER_DIR selected installed Xcode.",
+    "Sandbox Xcode could not write module-session cache; approved developer-service execution passed."
+  ],
+  "reproduction": "bash HoldsworthEngine/references/pedals/jrockett-ah/m1/validate.sh",
+  "raw_logs": "/tmp/jrockett-ah-m1",
+  "sha256": {
+    "HoldsworthEngine/dsp/JRockettAHBoostProcessor.cpp": "7ae102de6dd441ca835b05a17ae287b85713537aa9bddcbf6cf49b70adafabd6",
+    "HoldsworthEngine/dsp/JRockettAHBoostProcessor.h": "049e2637c8fb766e6648019357005ef187d7eeaa896fb5c774e7f2d0b09ede59",
+    "HoldsworthEngine/dsp/JRockettAHBoostProfile.h": "e61287f766e91fc21ce595eb8df78c6fd7b5e2af5049bbe7c40e2f52cacb5a7f",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m1/measure.cpp": "928426489faa6d878a1b4e89dfe3e418c9aef960721b8193e079663909b384a7",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m1/measurements.json": "96e00039f5c000843a0e7a454f045980780668f37f617d0ae9e8895e2c43a024",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m1/responses.csv": "e7575d8b7f01aa058181074a9ae7f89a56e03d2a6ce54330cc421fc9d73db1a7",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m1/validate.sh": "4f81bbbcfb683a7a51c1d1a50f5e1be75648f65c9e686689b2e195894831d3fb",
+    "HoldsworthEngine/tests/JRockettAHBoostProcessorTests.cpp": "29432fec27b7cd596f7ac99bc15496813fa67cb72dc355bbf255f38f9117a1e4",
+    "HoldsworthEngine/tests/TestHarness.h": "07cf767a97a6e159fda616dbbe828943a08b60ad577515b53768398a00f4fce9",
+    "HoldsworthEngine/tests/TestMain.cpp": "1aa96b46db1de2325b474ea6add3dbeb771a41dd035b12aa4eccf84d658442cd",
+    "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj": "afeb23d6e29ca699596b61a78730b8ed6563b0914fea7de75566684fa8ca60c7"
+  }
+}
