@@ -1,5 +1,6 @@
 #pragma once
 #include "../dsp/JRockettAHBoostProcessor.h"
+#include "../dsp/JRockettAHDriveProcessor.h"
 #include <array>
 #include <cmath>
 #include <cstring>
@@ -21,6 +22,12 @@ inline dsp::JRockettAHBoostControls ahControlsFromDevelopmentUI(double boost, do
   const auto t = !std::isfinite(type) || type<0. || type>1. ? 1U : type<.25 ? 0U : type<.75 ? 1U : 2U;
   const auto e = !std::isfinite(emphasis) || emphasis<0. || emphasis>1. ? 0U : emphasis<.5 ? 0U : 1U;
   return {level,static_cast<dsp::JRockettAHBoostType>(t),static_cast<dsp::JRockettAHEmphasis>(e)};
+}
+inline dsp::JRockettAHDriveControls ahDriveControlsFromDevelopmentUI(double gain, double bass, double treble, double volume) noexcept
+{
+  const auto bounded = [](double value, double fallback) { return std::isfinite(value) ? std::clamp(value,0.,1.) : fallback; };
+  return {bounded(gain,.5), bounded(bass,.5), bounded(treble,.5),
+          bounded(volume,dsp::JRockettAHDriveProfile::defaultVolume)};
 }
 // Common payload validation used by the actual plugin message cases and tests.
 inline bool ahReadControlMessage(int ctrlTag,int expectedTag,int size,const void* data,double& value) noexcept

@@ -109,6 +109,9 @@ const double kDefaultInputCalibrationLevel = 12.0;
 NeuralAmpModeler::NeuralAmpModeler(const InstanceInfo& info)
 : Plugin(info, MakeConfig(kNumParams, kNumPresets))
 {
+  // Constructor-only reservation. Covers the NAM Lanczos ring's complete
+  // 131072-sample capacity plus AH; never grows in a callback or UI message.
+  PrepareLatency(131072 + 32);
   _InitToneStack();
   nam::activations::Activation::enable_fast_tanh();
   GetParam(kInputLevel)->InitGain("Input", 0.0, -20.0, 20.0, 0.1);
@@ -395,8 +398,8 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   mPreNAMSelector.beginBlock(
     static_cast<holdsworth::integration::DevelopmentPreNAMProcessor>(
-      mPreNAMRequestedProcessor.load(std::memory_order_relaxed)),
-    numFrames, mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHBoostProcessor, mAHRealtimeSupported);
+      GetLatencyConfigurationTag()),
+    numFrames, mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal, mAHRealtimeSupported);
   selectedInputGain = mPreNAMSelector.inputGain(mInputGain, mPedalHostToVoltsGain);
 #endif
 
@@ -405,7 +408,7 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   mPreNAMSelector.processSelected(
     std::span<sample>{mInputPointers[0], numFrames}, mPedalVoltsToNamGain,
-    mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHBoostProcessor);
+    mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal);
 #endif
   _ApplyDSPStaging();
   const bool noiseGateActive = GetParam(kNoiseGateActive)->Value();
@@ -583,12 +586,14 @@ void NeuralAmpModeler::OnReset()
   mAHRealtimeSupported = holdsworth::integration::ahRealtimeRateSupported(sampleRate);
   if (mAHRealtimeSupported)
   {
-    mAHBoostProcessor.setControls(holdsworth::integration::ahControlsFromDevelopmentUI(
+    mAHPedal.setBoostControls(holdsworth::integration::ahControlsFromDevelopmentUI(
       mAHBoostNormalized.load(std::memory_order_relaxed), mAHTypeNormalized.load(std::memory_order_relaxed),
       mAHEmphasisNormalized.load(std::memory_order_relaxed)));
-    mAHBoostProcessor.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
+    mAHPedal.setDriveControls({mAHDriveGain.load(), mAHDriveBass.load(), mAHDriveTreble.load(), mAHDriveVolume.load()});
+    mAHPedal.setSections(mAHBoostEnabled.load(), mAHDriveEnabled.load());
+    mAHPedal.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
   }
-  mPreNAMSelector.reset();
+  mPreNAMSelector.prepare(sampleRate);
 
   const bool holdsworthDelayNeedsPrepare =
     !mHoldsworthDelayEngine.isPrepared() || sampleRate != mHoldsworthDelayPreparedSampleRate
@@ -637,6 +642,7 @@ void NeuralAmpModeler::OnReset()
 
 void NeuralAmpModeler::OnIdle()
 {
+  ServiceLatencyUpdates(); // sole control-thread host latency coordinator
   mInputSender.TransmitData(*this);
   mOutputSender.TransmitData(*this);
 
@@ -711,6 +717,12 @@ void NeuralAmpModeler::OnUIOpen()
   SendControlValueFromDelegate(kCtrlTagAHBoost, mAHBoostNormalized.load(std::memory_order_relaxed));
   SendControlValueFromDelegate(kCtrlTagAHType, mAHTypeNormalized.load(std::memory_order_relaxed));
   SendControlValueFromDelegate(kCtrlTagAHEmphasis, mAHEmphasisNormalized.load(std::memory_order_relaxed));
+  SendControlValueFromDelegate(kCtrlTagAHBoostEnabled, mAHBoostEnabled.load());
+  SendControlValueFromDelegate(kCtrlTagAHDriveEnabled, mAHDriveEnabled.load());
+  SendControlValueFromDelegate(kCtrlTagAHDriveGain, mAHDriveGain.load());
+  SendControlValueFromDelegate(kCtrlTagAHDriveBass, mAHDriveBass.load());
+  SendControlValueFromDelegate(kCtrlTagAHDriveTreble, mAHDriveTreble.load());
+  SendControlValueFromDelegate(kCtrlTagAHDriveVolume, mAHDriveVolume.load());
   SendControlValueFromDelegate(kCtrlTagMC402Boost, mMC402BoostDb.load(std::memory_order_relaxed) / 20.0);
   SendControlValueFromDelegate(
     kCtrlTagTCBldGain,
@@ -832,7 +844,35 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
       mAHBoostNormalized.store(controls.boostDb / 20.0, std::memory_order_relaxed);
       mAHTypeNormalized.store(static_cast<double>(controls.type) / 2.0, std::memory_order_relaxed);
       mAHEmphasisNormalized.store(static_cast<double>(controls.emphasis), std::memory_order_relaxed);
-      mAHBoostProcessor.setControls(controls); // complete tuple, same UI producer as existing controls
+      mAHPedal.setBoostControls(controls); // complete tuple, same UI producer as existing controls
+      return true;
+    }
+    case kMsgTagAHBoostEnabled:
+    case kMsgTagAHDriveEnabled:
+    case kMsgTagAHDriveGain:
+    case kMsgTagAHDriveBass:
+    case kMsgTagAHDriveTreble:
+    case kMsgTagAHDriveVolume:
+    {
+      const int offset = msgTag - kMsgTagAHBoostEnabled;
+      double value = 0.;
+      if (!holdsworth::integration::ahReadControlMessage(
+            ctrlTag, kCtrlTagAHBoostEnabled + offset, dataSize, pData, value)) return false;
+      if (offset < 2)
+      {
+        const bool enabled = std::isfinite(value) && value >= .5;
+        (offset == 0 ? mAHBoostEnabled : mAHDriveEnabled).store(enabled);
+        mAHPedal.setSections(mAHBoostEnabled.load(), mAHDriveEnabled.load());
+      }
+      else
+      {
+        auto controls = holdsworth::integration::ahDriveControlsFromDevelopmentUI(
+          offset == 2 ? value : mAHDriveGain.load(), offset == 3 ? value : mAHDriveBass.load(),
+          offset == 4 ? value : mAHDriveTreble.load(), offset == 5 ? value : mAHDriveVolume.load());
+        mAHDriveGain.store(controls.gain); mAHDriveBass.store(controls.bass);
+        mAHDriveTreble.store(controls.treble); mAHDriveVolume.store(controls.volume);
+        mAHPedal.setDriveControls(controls);
+      }
       return true;
     }
     case kMsgTagMC402Boost:
@@ -1342,18 +1382,42 @@ void NeuralAmpModeler::_UpdateControlsFromModel()
 
 void NeuralAmpModeler::_UpdateLatency()
 {
-  int latency = 0;
-  if (mModel)
-  {
-    latency += mModel->GetLatency();
-  }
-  // Other things that add latency here...
+  mModelLatencyContribution = mModel ? mModel->GetLatency() : 0;
+}
 
-  // Feels weird to have to do this.
-  if (GetLatency() != latency)
+void NeuralAmpModeler::OnLatencyBypassBlock(sample** inputs, int nFrames)
+{
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  // Keep the selected pre-NAM stage's time history current during host bypass.
+  // NAM, cabinet and downstream effects remain bypassed. No scratch allocation.
+  mPreNAMSelector.beginBlock(
+    static_cast<holdsworth::integration::DevelopmentPreNAMProcessor>(GetLatencyConfigurationTag()),
+    static_cast<std::size_t>(nFrames), mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal, mAHRealtimeSupported);
+  double gain = mPreNAMSelector.inputGain(mInputGain, mPedalHostToVoltsGain);
+  const int channels = NInChansConnected();
+#ifndef APP_API
+  if (channels) gain /= static_cast<float>(channels);
+#endif
+  for (int i = 0; i < nFrames; ++i)
   {
-    SetLatency(latency);
+    double mono = channels ? gain * inputs[0][i] : 0.;
+    for (int c = 1; c < channels; ++c) mono += gain * inputs[c][i];
+    mPreNAMSelector.processSelected({&mono,1}, mPedalVoltsToNamGain,
+      mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal);
   }
+#endif
+}
+
+void NeuralAmpModeler::OnLatencyPrepareBlock(int)
+{
+  // Audio only publishes; OnIdle services the format-specific control lifecycle.
+  // This hook also runs during framework bypass, keeping its delay current.
+  std::uint32_t choice = 0;
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  choice = mPreNAMRequestedProcessor.load(std::memory_order_relaxed);
+  if (choice > 3 || (choice == 3 && !mAHRealtimeSupported)) choice = 0;
+#endif
+  RequestLatency(mModelLatencyContribution + (choice == 3 ? 32 : 0), choice);
 }
 
 void NeuralAmpModeler::_UpdateMeters(sample** inputPointer, sample** outputPointer, const size_t nFrames,

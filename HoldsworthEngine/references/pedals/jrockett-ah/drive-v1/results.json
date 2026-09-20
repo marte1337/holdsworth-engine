@@ -1,0 +1,257 @@
+{
+  "profile": {
+    "id": "JROCKETT-AH-DRIVE-BEHAVIORAL-V1",
+    "status": "proposed, offline only, unmeasured software design",
+    "topology": "A: Bass -> oversampled asinh -> Treble -> Volume",
+    "reference_volts": 1.0,
+    "gain_db_min": 0.0,
+    "gain_db_max": 24.0,
+    "gain_default": 0.5,
+    "gain_compensation_exponent": 0.35,
+    "bass_hz": 250.0,
+    "treble_hz": 2500.0,
+    "bass_db_min": -6.0,
+    "bass_db_max": 6.0,
+    "treble_db_min": -6.0,
+    "treble_db_max": 6.0,
+    "tone_default": 0.5,
+    "volume_db_min": -24.0,
+    "volume_db_max": 12.0,
+    "volume_db_default": 0.0,
+    "control_ramp_seconds_proposed": 0.01,
+    "oversampling": 4,
+    "fir_taps_per_factor": 32,
+    "fir_kaiser_beta": 8.6,
+    "fir_cutoff_relative_to_base_fs": 0.5,
+    "supported_rates_hz": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ],
+    "fidelity_band_hz": [
+      20.0,
+      10000.0
+    ],
+    "fidelity_residual_limit_dbr": -75.0,
+    "reference_factor": 32,
+    "convergence_factor": 64,
+    "periodic_samples": 8192,
+    "reference_note": "1 V is a software sensitivity anchor, not a measured hardware knee or rail"
+  },
+  "numpy": "2.0.2",
+  "scipy": "1.13.1",
+  "hardware_measurements": false,
+  "product": {
+    "2": {
+      "cases": 810,
+      "worst": {
+        "group": "fidelity",
+        "name": "product",
+        "fs": 44100,
+        "gain": 1.0,
+        "hz": 3999.79248046875,
+        "input_peak": 0.5,
+        "bass": 1.0,
+        "treble": 1.0,
+        "factor": 2,
+        "residual_dbr": -58.0621298546678
+      },
+      "failures": 10
+    },
+    "4": {
+      "cases": 810,
+      "worst": {
+        "group": "fidelity",
+        "name": "product",
+        "fs": 44100,
+        "gain": 1.0,
+        "hz": 3999.79248046875,
+        "input_peak": 0.5,
+        "bass": 1.0,
+        "treble": 1.0,
+        "factor": 4,
+        "residual_dbr": -90.9882465551581
+      },
+      "failures": 0
+    }
+  },
+  "reference_checks": {
+    "32_vs_64_dbr": -151.14928895157414,
+    "64_fir_vs_ideal_dbr": -89.24856429696695,
+    "4_fir_vs_ideal_dbr": -87.39286942626855
+  },
+  "di": {
+    "path": "REAPER/Guitar DI.wav",
+    "sha256": "0a9c16d66c095d730636c7a1a04273d23ef46b4372c3a1e5480898afb8c88c27",
+    "start_seconds": 9.0,
+    "length_seconds": 2.0,
+    "rescaled_peak_software_volts": 0.2,
+    "original_voltage_unknown": true
+  },
+  "di_worst": {
+    "group": "di_fidelity",
+    "name": "guitar_DI",
+    "gain": 1.0,
+    "input_peak": 0.5,
+    "bass": 0.0,
+    "treble": 1.0,
+    "residual_dbr": -117.24663716687147
+  },
+  "cascade_worst": {
+    "group": "cascade",
+    "name": "T/H",
+    "boost_db": 0.0,
+    "input_peak": 0.05060395231296222,
+    "residual_dbr": -116.75325055767689,
+    "rms": 0.03857735481551632
+  },
+  "boost_reference_max_db_error": 5.120348589571222e-12,
+  "checks": {
+    "volume_scalar_max_error": 0.0,
+    "odd_symmetry_max_error": 0.0,
+    "silence_peak": 0.0,
+    "unity_low_gain_slope_error": 1.1102230246251565e-16,
+    "causal_shift_32_max_error": 0.0
+  },
+  "fir": {
+    "taps_each_direction": 129,
+    "latency_base_samples": 32,
+    "passband_20_to_10000_db_max_abs": 0.00021555204874372058,
+    "stopband_from_0_625_base_fs_db_max": -88.89096297369626
+  },
+  "gain_audio_common_scale": 0.85,
+  "audio_cues": [
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "dry",
+      "start_seconds": 0.0,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "gain_0_input_0.2V",
+      "start_seconds": 2.25,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "gain_0_input_0.05V",
+      "start_seconds": 4.5,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "gain_0.5_input_0.2V",
+      "start_seconds": 6.75,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "gain_0.5_input_0.05V",
+      "start_seconds": 9.0,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "gain_1_input_0.2V",
+      "start_seconds": 11.25,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "gain_1_input_0.05V",
+      "start_seconds": 13.5,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "F_H_boost_0dB_gain_mid",
+      "start_seconds": 15.75,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "F_H_boost_6dB_gain_mid",
+      "start_seconds": 18.0,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "F_H_boost_12dB_gain_mid",
+      "start_seconds": 20.25,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "gain-cleanup-boost.wav",
+      "name": "F_H_boost_20dB_gain_mid",
+      "start_seconds": 22.5,
+      "duration_seconds": 2.0
+    },
+    {
+      "file": "tone-topology-AB.wav",
+      "name": "bass_0",
+      "start_seconds": 0.0,
+      "duration_seconds": 2.0,
+      "left": "A",
+      "right": "B",
+      "left_scale": 1.261345879456815,
+      "right_scale": 1.2796603863590879
+    },
+    {
+      "file": "tone-topology-AB.wav",
+      "name": "bass_0.5",
+      "start_seconds": 2.25,
+      "duration_seconds": 2.0,
+      "left": "A",
+      "right": "B",
+      "left_scale": 1.0400156343467402,
+      "right_scale": 1.0400156343467402
+    },
+    {
+      "file": "tone-topology-AB.wav",
+      "name": "bass_1",
+      "start_seconds": 4.5,
+      "duration_seconds": 2.0,
+      "left": "A",
+      "right": "B",
+      "left_scale": 0.8296451176254798,
+      "right_scale": 0.8095796567132723
+    },
+    {
+      "file": "tone-topology-AB.wav",
+      "name": "treble_0",
+      "start_seconds": 6.75,
+      "duration_seconds": 2.0,
+      "left": "A",
+      "right": "B",
+      "left_scale": 1.0770373812694731,
+      "right_scale": 1.0770373812694731
+    },
+    {
+      "file": "tone-topology-AB.wav",
+      "name": "treble_0.5",
+      "start_seconds": 9.0,
+      "duration_seconds": 2.0,
+      "left": "A",
+      "right": "B",
+      "left_scale": 1.0400156343467402,
+      "right_scale": 1.0400156343467402
+    },
+    {
+      "file": "tone-topology-AB.wav",
+      "name": "treble_1",
+      "start_seconds": 11.25,
+      "duration_seconds": 2.0,
+      "left": "A",
+      "right": "B",
+      "left_scale": 0.9950985137092796,
+      "right_scale": 0.9950985137092796
+    }
+  ],
+  "record_count": 2167,
+  "prototype.py_sha256": "fb8c71018c7a4a952f83543b8f1c359e3555bfec9464f591c2eca81c6a636613",
+  "profile.json_sha256": "6e04b415a78d6d6e2518dfadf7ef67ce5b546a5935cb8e8b023350036d9a8833"
+}

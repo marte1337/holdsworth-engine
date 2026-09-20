@@ -1,17 +1,24 @@
 # J. Rockett Allan Holdsworth Signature OD/Boost
 
-M0 and M1 approved by the user; M2 live integration implemented.
+Boost M0/M1 approved; M2 implemented and manual audition passed (user report,
+2026-09-14). Switching was clean and not perceptibly delayed; F/H was currently
+preferred with amp Bass at 0. Rockett and TC BLD sounded meaningfully different.
+Adjacent F/C/T differences may be conservative; no Boost retune is authorized.
 Profile: **`JROCKETT-AH-BOOST-BEHAVIORAL-V1`**. Curves remain unmeasured behavioral
-audition choices. Drive remains deferred. No commit.
+audition choices. Full Boost/Drive M2 is now implemented; manual full-pedal
+audition remains pending. No commit.
 See the [M1 report](m1/README.md) for the frozen profile and historical measurements,
 and the [M2 report](m2/README.md) for live integration, realtime checks and audition.
 
-Recommend a **linear Boost with Level, L/H emphasis and F/C/T type**. Defer Drive
-and therefore live cascaded operation. This retains useful tone shaping before
-NAM without inventing and then antialiasing an unsupported distortion circuit.
-A useful bounded v1 is possible without hardware **as an AH-inspired behavioral
-Boost**; a strong claim of pedal-response fidelity is not yet possible, even
-for Boost. Its EQ curves and level range would be explicit audition choices.
+Drive design is approved and frozen as `JROCKETT-AH-DRIVE-BEHAVIORAL-V1`.
+The [isolated Drive M1](drive-v1/m1/README.md) implements Bass → 4× asinh →
+Treble → Volume, including the approved exact-mute Volume correction. All 270
+Debug/Release/sanitizer tests passed at M1. The authorized
+[full-pedal M2](drive-v1/m2/README.md) adds live Drive, section enables and
+coordinated dynamic host latency without retuning either profile.
+The [initial offline design](drive-v1/README.md) remains the sonic reference.
+This is an educated behavioral model, not newly established hardware evidence.
+Boost stays frozen.
 
 ## Why it belongs
 
@@ -59,7 +66,7 @@ between circuits.
 | Circuit evidence | Firsthand Rev 8 component observations; a Rev 7 recreation-in-progress report. No verified complete trace retrieved |
 | Technical inference | Upstream boost/EQ can change what reaches Drive and NAM; exact Drive Gain/Volume interaction requires its nonlinear transfer and topology |
 | Assumptions | Linear Boost, two separable shelves, L/H active in all three types, no loading or level-dependent EQ; not established hardware behavior |
-| Provisional v1 choices | One fixed six-combination Boost profile, 0–20 dB level, no pedal clipping, zero added latency; Drive deferred |
+| Provisional choices | Frozen linear Boost: six combinations, 0–20 dB, zero latency. Frozen behavioral Drive: interactive Bass, smooth compression, Treble and Volume; all numerical behavior unmeasured |
 
 The TC BLD has service-document support for its coupled linear circuit and
 24-state reduction. AH does not. MC402's accepted flat 0–20 dB Boost has a

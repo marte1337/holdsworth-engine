@@ -1,0 +1,159 @@
+{
+  "profile": "JROCKETT-AH-DRIVE-BEHAVIORAL-V1",
+  "scope": "isolated M1; no live integration",
+  "commit": false,
+  "tests": {
+    "Debug": 270,
+    "Release": 270,
+    "ASan_UBSan": 270,
+    "ThreadSanitizer": 1,
+    "focused_Drive": 10,
+    "strict_warnings": "passed",
+    "static_analysis": "passed",
+    "APP_VST3_AU_Release": "passed; Drive excluded",
+    "allocation_tracking": "zero",
+    "lock_contract": "lock-free uint32 SPSC; no locks in processor",
+    "ASan_options": "detect_leaks=0:halt_on_error=1 (platform LeakSanitizer unavailable)"
+  },
+  "cpu": {
+    "cases": 84,
+    "iterations_each": 1000,
+    "worst_p99": {
+      "fs": "192000",
+      "frames": "64",
+      "case": "settled",
+      "median_us": "14.084",
+      "p99_us": "24.583",
+      "max_us": "39.5",
+      "p99_budget_percent": "7.3749"
+    },
+    "raw_maximum_deadline_outliers": [
+      {
+        "fs": "88200",
+        "frames": "1",
+        "case": "settled",
+        "median_us": "0.25",
+        "p99_us": "0.292",
+        "max_us": "16.375",
+        "p99_budget_percent": "2.57544"
+      },
+      {
+        "fs": "96000",
+        "frames": "1",
+        "case": "control_ramps",
+        "median_us": "0.292",
+        "p99_us": "0.334",
+        "max_us": "22.334",
+        "p99_budget_percent": "3.2064"
+      },
+      {
+        "fs": "192000",
+        "frames": "1",
+        "case": "control_ramps",
+        "median_us": "0.292",
+        "p99_us": "0.334",
+        "max_us": "12.792",
+        "p99_budget_percent": "6.4128"
+      },
+      {
+        "fs": "192000",
+        "frames": "2",
+        "case": "control_ramps",
+        "median_us": "0.541",
+        "p99_us": "0.583",
+        "max_us": "15.542",
+        "p99_budget_percent": "5.5968"
+      }
+    ],
+    "processor_bytes": 5424,
+    "scope": "isolated processor on this Mac, not a scheduler/whole-plugin guarantee"
+  },
+  "source_preservation": {
+    "HoldsworthEngine/dsp/AudioRouting.h": "47c1fbb824b01d6552d9fdfca5730fcacbfc9b0e185f08a47b96ff959f49a65b",
+    "HoldsworthEngine/dsp/DelayBand.cpp": "3ae9aa3cf6559122b07290c75bf1dfa65d1cbea5e78f818a60c942151746033c",
+    "HoldsworthEngine/dsp/DelayBand.h": "6d7ee8b707c99b5d4e6490aba1f1b3e10338090cbd477df225e2c5cf28327b5d",
+    "HoldsworthEngine/dsp/DelayBandIdentity.h": "029e5a0eba74ccfc23af97c95d4470dc51f69ce53977a06a15a1951458af3c67",
+    "HoldsworthEngine/dsp/DelayGrouping.h": "34eb31c206c5209a0ca4ec9c285b8ff9ab5304642bf4f89ccf7b21f31bafa460",
+    "HoldsworthEngine/dsp/DelayLoopFilter.cpp": "8642095c9edb8d9c6ec4bffd9632f0b51f5df667e57d9d01a798b27faf09ee5e",
+    "HoldsworthEngine/dsp/DelayLoopFilter.h": "d1a081b96c23bcf0b57e5fc716c7b75d457f15fd3cf82e69d607392db6823fdd",
+    "HoldsworthEngine/dsp/DelayModulator.cpp": "987dec22f33d625d92405db4b1ee81e7b1225b27d75597c7de8d6178e9ba9551",
+    "HoldsworthEngine/dsp/DelayModulator.h": "7a4a90becf98ff7f28fd4d47e7810c369ac4567528e478ffc9be017e74f5e0e7",
+    "HoldsworthEngine/dsp/FractionalDelayLine.cpp": "e5ae84950d40b9a2fa00dfd73106b5a8ba52687f45bdf93f89271b063defc842",
+    "HoldsworthEngine/dsp/FractionalDelayLine.h": "b5cd4785e8771bc4baf531556d94a4a2a46a1b30ca77f75561f5aa8f5c5ba70c",
+    "HoldsworthEngine/dsp/GroupedDelayCircuit.cpp": "25d2b1a0415d6391e11abea616edbd76857e71af0c0bb37959d0bb958b14f2b8",
+    "HoldsworthEngine/dsp/GroupedDelayCircuit.h": "8c8093fcd35a4c29a86d192a85c5782e22c12f587e435f3b1d05542713e38574",
+    "HoldsworthEngine/dsp/HoldsworthDelayEngine.cpp": "cfe30325a8355af8f7d80f99f4446f2b0484a84f312671106c44103ad30579db",
+    "HoldsworthEngine/dsp/HoldsworthDelayEngine.h": "fbeaf56861a5d9cc63add96f6fd6773fbc5dad439c059a87f670ed37e5f68da8",
+    "HoldsworthEngine/dsp/HoldsworthDelayPresets.cpp": "017a932021a93423821b1a8c4d5569378d53ca774aafd16d5e5b2929a09b5e42",
+    "HoldsworthEngine/dsp/HoldsworthDelayPresets.h": "b77145a5e8983ed6b0fab19490ad5c3f13300cd6eda0623956c3583bb0633dba",
+    "HoldsworthEngine/dsp/JRockettAHBoostProcessor.cpp": "6de0a3850e575c080e363f3fabf8b1fab63c633c80c2c404b0375575d2c732ec",
+    "HoldsworthEngine/dsp/JRockettAHBoostProcessor.h": "be6b2c0207d58b91f725ecc6f9085b84ce12e9d2a4c417048b025daf4c2f6e27",
+    "HoldsworthEngine/dsp/JRockettAHBoostProfile.h": "e61287f766e91fc21ce595eb8df78c6fd7b5e2af5049bbe7c40e2f52cacb5a7f",
+    "HoldsworthEngine/dsp/MC402CleanBoostProcessor.cpp": "af9ac0ca7e504a45bfdf5e1a9c602ee497a58c73ba2976818515e21df4bd304e",
+    "HoldsworthEngine/dsp/MC402CleanBoostProcessor.h": "e69f2305e2bf6c1363ae78f280f0d58d38dfc5509c3e408867636729ba37f6b8",
+    "HoldsworthEngine/dsp/ModulationSync.h": "8aca42b625751243216160f2c953dbf9e69d068cda76733167ee94a550c8f9f8",
+    "HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.cpp": "7e516a045245ca5df3e2190a2a6119e8325d1b81e14387cc61c99f444ea2d0bb",
+    "HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.h": "ff17605edbb8ae9d34dedb0d4e02a96ba62a2f7b4331edde4b2c38a60c0e21d2",
+    "HoldsworthEngine/integration/DevelopmentControlDefaults.h": "4a94b1c3751ea9ec62f990a864bceb0876657ffaf00709c43a085ccf0723228c",
+    "HoldsworthEngine/integration/DevelopmentDelayPresetSelector.h": "aa38dfda57ad8c6bc39c26edde47ad1d2d5ca27f8a37b78d5bdbe9d3e25b2b9d",
+    "HoldsworthEngine/integration/DevelopmentJRockettAHControls.h": "39fd7984872a0b7f03cb5cbeed667aaef962f64b9f3b35c75574af3c1321450a",
+    "HoldsworthEngine/integration/DevelopmentPreNAMSelector.h": "7927d41b00846ce0e584c451a0373d651a219413c663cc13ee27d494026a0c66",
+    "HoldsworthEngine/integration/DevelopmentTCBLDControlMapping.h": "8b184f862ecd186aea163962a7d29964b85d9649e19abdcdf0c36ea196dc17f0",
+    "HoldsworthEngine/integration/MonoDryStereoWetMixer.h": "d34188eb17365fe245919700f22e08878f6af39dc8e017f6a9cb59090c190711",
+    "HoldsworthEngine/ui/DevelopmentPanel.h": "0d7502eac93c989a3838a93126f243ef409cffa89223e8774db18ec03012381c",
+    "HoldsworthEngine/ui/README.md": "6f2d760a235c02dbeedd4e7d50753243fa0873c4035c8d64d3546b6c3c918276",
+    "NeuralAmpModeler/NeuralAmpModeler.cpp": "2424c1e1768bb4c9d7db76fbd738d6466ff1ad650db31044cf0eaf4a2e03cc6f",
+    "NeuralAmpModeler/NeuralAmpModeler.h": "034fd9507cb937c866a33e746a0a972e2d59e950ab76d9018198d90bb006f044"
+  },
+  "oracle": {
+    "profile": "JROCKETT-AH-DRIVE-BEHAVIORAL-V1",
+    "hardware_measured": false,
+    "fidelity_cases": 810,
+    "worst_fidelity": {
+      "group": "fidelity",
+      "fs": 44100,
+      "gain": 1.0,
+      "bass": 1.0,
+      "treble": 1.0,
+      "input_peak": 0.5,
+      "hz": 3999.79248046875,
+      "max_oracle_error": 5.10702591327572e-15,
+      "residual_dbr": -90.98824655514838
+    },
+    "max_oracle_absolute_error": 1.2073675392798577e-14,
+    "max_oracle_relative_error": 1.3625673812714509e-14,
+    "volume_max_oracle_error": 2.886579864025407e-15,
+    "measured_latency_samples": [
+      32,
+      32,
+      32,
+      32,
+      32,
+      32
+    ],
+    "di_source": {
+      "path": "REAPER/Guitar DI.wav",
+      "sha256": "0a9c16d66c095d730636c7a1a04273d23ef46b4372c3a1e5480898afb8c88c27",
+      "start_seconds": 9.0,
+      "length_seconds": 2.0,
+      "rescaled_peak_software_volts": 0.2,
+      "original_voltage_unknown": true
+    },
+    "volume_mapping": "10^(12/20) * normalizedVolume^3",
+    "default_volume": 0.6309573444801932,
+    "records": 861,
+    "prototype.py_sha256": "fb8c71018c7a4a952f83543b8f1c359e3555bfec9464f591c2eca81c6a636613",
+    "profile.json_sha256": "6e04b415a78d6d6e2518dfadf7ef67ce5b546a5935cb8e8b023350036d9a8833",
+    "m1/measure.py_sha256": "892bc8a39268b670a7fd2bafff9789f452e8f85702018869de6b2067f0239127"
+  },
+  "source_sha256": {
+    "HoldsworthEngine/dsp/JRockettAHDriveProcessor.cpp": "3b0cccdceafae9c3cdd1e4cd114efc9cb47da0da06f5411db72b5d1b98acb483",
+    "HoldsworthEngine/dsp/JRockettAHDriveProcessor.h": "692ea38aef8d450b48e78ce14b426e9ae4479db7c33037892285791d308e38e7",
+    "HoldsworthEngine/dsp/JRockettAHDriveProfile.h": "be745405494332263c1c0e9f8852d2477cf3a4dfdc7d52713e8280845f713693",
+    "HoldsworthEngine/tests/JRockettAHDriveProcessorTests.cpp": "90c52a9004e378b21d87d3fc43756b9551738ca5dd1193154ff7c4cea45a091a",
+    "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj": "192ad9e25393119d2d15f8bcc1bd2bfc471f4d10580a4d8040efcfd7f553a9b3",
+    "HoldsworthEngine/references/pedals/jrockett-ah/drive-v1/m1/benchmark.cpp": "f7adca0eacaf59ca8287d9f00c5fe486ac645a636853acc87674345824b9eaf4",
+    "HoldsworthEngine/references/pedals/jrockett-ah/drive-v1/m1/oracle_bridge.cpp": "aebd18cc40839fb3caf46ffe51f059e784fb9871f4dbcd4d158a6c3652d71f91",
+    "HoldsworthEngine/references/pedals/jrockett-ah/drive-v1/m1/validate.sh": "be4bab4cf7f3cf53965ce17527e8ef11d36c4fe044a4d391f7e959c29d286547"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "profile": "JROCKETT-AH-DRIVE-BEHAVIORAL-V1",
+  "hardware_measured": false,
+  "fidelity_cases": 810,
+  "worst_fidelity": {
+    "group": "fidelity",
+    "fs": 44100,
+    "gain": 1.0,
+    "bass": 1.0,
+    "treble": 1.0,
+    "input_peak": 0.5,
+    "hz": 3999.79248046875,
+    "max_oracle_error": 5.10702591327572e-15,
+    "residual_dbr": -90.98824655514838
+  },
+  "max_oracle_absolute_error": 1.2073675392798577e-14,
+  "max_oracle_relative_error": 1.3625673812714509e-14,
+  "volume_max_oracle_error": 2.886579864025407e-15,
+  "measured_latency_samples": [
+    32,
+    32,
+    32,
+    32,
+    32,
+    32
+  ],
+  "di_source": {
+    "path": "REAPER/Guitar DI.wav",
+    "sha256": "0a9c16d66c095d730636c7a1a04273d23ef46b4372c3a1e5480898afb8c88c27",
+    "start_seconds": 9.0,
+    "length_seconds": 2.0,
+    "rescaled_peak_software_volts": 0.2,
+    "original_voltage_unknown": true
+  },
+  "volume_mapping": "10^(12/20) * normalizedVolume^3",
+  "default_volume": 0.6309573444801932,
+  "records": 861,
+  "prototype.py_sha256": "fb8c71018c7a4a952f83543b8f1c359e3555bfec9464f591c2eca81c6a636613",
+  "profile.json_sha256": "6e04b415a78d6d6e2518dfadf7ef67ce5b546a5935cb8e8b023350036d9a8833",
+  "m1/measure.py_sha256": "892bc8a39268b670a7fd2bafff9789f452e8f85702018869de6b2067f0239127"
+}

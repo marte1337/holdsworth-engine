@@ -32,7 +32,7 @@
 #define PLUG_HEIGHT 400
 #else
 #define PLUG_WIDTH 1100
-#define PLUG_HEIGHT 660
+#define PLUG_HEIGHT 772
 #endif
 #define PLUG_FPS 60
 #define PLUG_SHARED_RESOURCES 0

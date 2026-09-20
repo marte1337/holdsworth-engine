@@ -1,0 +1,207 @@
+{
+  "profiles": [
+    "JROCKETT-AH-BOOST-BEHAVIORAL-V1",
+    "JROCKETT-AH-DRIVE-BEHAVIORAL-V1"
+  ],
+  "stage": "full pedal M2 implemented; manual audition pending",
+  "committed": false,
+  "tests": {
+    "full_engine": {
+      "debug": 277,
+      "release": 277,
+      "asan": 277,
+      "tsan": 277
+    },
+    "focused_full_pedal": 7,
+    "latency_framework": "Debug/Release/ASan+UBSan/TSan passed",
+    "combined_pedal_framework": "Debug/Release/ASan+UBSan/TSan passed",
+    "realtime_allocation_free_mutex_calls": 0,
+    "interposition_self_test": "passed",
+    "strict_warnings": "passed",
+    "new_sources_static_analyzer": "no diagnostics",
+    "framework_analyzer": "four pre-existing WDL/raw-pointer ownership warnings; same baseline",
+    "source_audit": "frozen DSP, calibration/NAM/downstream math, message IDs and enrollment passed",
+    "project_lint": "passed",
+    "diff_checks": "repository and vendored dependency passed",
+    "sanitizer_options": "ASan detect_leaks=0:halt_on_error=1; UBSan halt_on_error=1"
+  },
+  "rates_hz": [
+    44100,
+    48000,
+    88200,
+    96000,
+    176400,
+    192000
+  ],
+  "callback_samples": [
+    1,
+    2,
+    4,
+    8,
+    32,
+    64,
+    128
+  ],
+  "cpu": {
+    "scope": "full pedal plus real framework buffers/latency; excludes NAM/IR/delay; measured on this Mac",
+    "cases": 210,
+    "observations_per_case": 2048,
+    "routes": {
+      "0": "local bypass",
+      "1": "Boost only",
+      "2": "Drive only",
+      "3": "Boost -> Drive",
+      "4": "rapid section/mode changes"
+    },
+    "worst_p99_budget": {
+      "rate": 176400.0,
+      "block": 8.0,
+      "route": 2.0,
+      "p50_us": 2.125,
+      "p99_us": 13.25,
+      "max_us": 37.166,
+      "deadline_us": 45.3515,
+      "p99_budget_percent": 29.2162
+    },
+    "raw_maximum_deadline_outliers": [
+      {
+        "rate": 88200.0,
+        "block": 1.0,
+        "route": 0.0,
+        "p50_us": 0.042,
+        "p99_us": 0.042,
+        "max_us": 28.625,
+        "deadline_us": 11.3379,
+        "p99_budget_percent": 0.3704
+      },
+      {
+        "rate": 88200.0,
+        "block": 1.0,
+        "route": 2.0,
+        "p50_us": 0.208,
+        "p99_us": 0.25,
+        "max_us": 22.583,
+        "deadline_us": 11.3379,
+        "p99_budget_percent": 2.205
+      },
+      {
+        "rate": 88200.0,
+        "block": 4.0,
+        "route": 3.0,
+        "p50_us": 1.208,
+        "p99_us": 1.292,
+        "max_us": 77.667,
+        "deadline_us": 45.3515,
+        "p99_budget_percent": 2.8489
+      },
+      {
+        "rate": 176400.0,
+        "block": 1.0,
+        "route": 2.0,
+        "p50_us": 0.25,
+        "p99_us": 0.334,
+        "max_us": 24.458,
+        "deadline_us": 5.66893,
+        "p99_budget_percent": 5.8918
+      },
+      {
+        "rate": 176400.0,
+        "block": 1.0,
+        "route": 3.0,
+        "p50_us": 0.25,
+        "p99_us": 0.333,
+        "max_us": 18.667,
+        "deadline_us": 5.66893,
+        "p99_budget_percent": 5.8741
+      },
+      {
+        "rate": 176400.0,
+        "block": 2.0,
+        "route": 3.0,
+        "p50_us": 0.625,
+        "p99_us": 1.708,
+        "max_us": 11.458,
+        "deadline_us": 11.3379,
+        "p99_budget_percent": 15.0645
+      },
+      {
+        "rate": 176400.0,
+        "block": 2.0,
+        "route": 4.0,
+        "p50_us": 0.583,
+        "p99_us": 2.291,
+        "max_us": 259.0,
+        "deadline_us": 11.3379,
+        "p99_budget_percent": 20.2066
+      },
+      {
+        "rate": 192000.0,
+        "block": 2.0,
+        "route": 3.0,
+        "p50_us": 0.625,
+        "p99_us": 0.708,
+        "max_us": 49.416,
+        "deadline_us": 10.4167,
+        "p99_budget_percent": 6.7968
+      }
+    ],
+    "limit": "Raw wall-clock outliers retained. Not a hard scheduler/whole-plugin deadline guarantee."
+  },
+  "latency": {
+    "outer_pedal_samples": {
+      "off": 0,
+      "tc": 0,
+      "mc402": 0,
+      "ah": 32
+    },
+    "all_AH_internal_states_samples": 32,
+    "framework_capacity_samples_per_input": 131104,
+    "nominal_fade_ms": 10,
+    "outer_incoming_AH_warmup_samples": 32,
+    "settled": "NAM/model latency + selected pedal latency",
+    "AU": "No sample-timed host PDC acknowledgement; compensation may mismatch during transition",
+    "VST3": "Changed latency waits for restart/deactivate/reactivate; ignored restart leaves request pending"
+  },
+  "build": {
+    "configuration": "Release",
+    "formats": [
+      "APP",
+      "VST3",
+      "AU"
+    ],
+    "architecture": "arm64",
+    "xcode": "27.0 (27A266a)",
+    "local_deployment_override": "macOS 12.0; repository remains unchanged",
+    "app": "/private/tmp/ah-full-m2/products/NeuralAmpModeler.app",
+    "app_binary_sha256": "7f2cd6cb8542b32c48f4072779f33f885313f8a75e53a092fb55ecdbbc45c561",
+    "standalone_launch": "open -n succeeded; no automated visual inspection"
+  },
+  "iPlug2_revision": "de5a4fb14fd964247f0c70f2c90b32876a3bfc7c",
+  "vendored_files": [
+    "IPlug/Extras/LatencyState.h",
+    "IPlug/Extras/NChanDelay.h",
+    "IPlug/IPlugProcessor.h",
+    "IPlug/IPlugProcessor.cpp",
+    "IPlug/AUv2/IPlugAU.h",
+    "IPlug/AUv2/IPlugAU.cpp",
+    "IPlug/VST3/IPlugVST3.h",
+    "IPlug/VST3/IPlugVST3.cpp"
+  ],
+  "source_sha256": {
+    "HoldsworthEngine/dsp/JRockettAHPedal.h": "2468c10f315065987f0a823cb9a8ad13f564465daf18e0fa4e444fb0e4840901",
+    "HoldsworthEngine/integration/DevelopmentAHOuterTransition.h": "d34ec0982ca474d2976971eab40f11ce75700c848c8047a71d7ca699296223d5",
+    "HoldsworthEngine/integration/DevelopmentJRockettAHControls.h": "8441ff91d60778e1ffc5c484728a1e34ec7fe9763b16807c1b436e8131c7902a",
+    "HoldsworthEngine/ui/DevelopmentPanel.h": "cc81996eb45478ad71454fb9da422f8506b6aa84a7f75575ac06c7491b22a58c",
+    "NeuralAmpModeler/NeuralAmpModeler.cpp": "0e51bcfe57e29938bfb1b63cbff50112d20c011ee5305d3686078b4b23c30a6b",
+    "NeuralAmpModeler/NeuralAmpModeler.h": "e3b198d8ac8ce5214d9763c573c0271061a8bc5b72e965d163d9313a24f3b2e0",
+    "NeuralAmpModeler/config.h": "1df380935525ab8050d44a5b0c4ef4c0a3fe08aca8294f89943b771212b93732",
+    "iPlug2/IPlug/Extras/LatencyState.h": "18526ed157d4c052833be2eebb4052c913da37bde99478c13490e70eac45356b",
+    "iPlug2/IPlug/Extras/NChanDelay.h": "7a8991628503684de46cbe6552af2b1e22b6457afbcf0665b8614e1af318cbd4",
+    "iPlug2/IPlug/IPlugProcessor.h": "443c4cb26ff9a06886e0a874878732df1132e3c60018e1fc3e53025410e398e5",
+    "iPlug2/IPlug/IPlugProcessor.cpp": "a0814bef855b7da96fc132ff92cae1c1c8cd381d5d9b5f1cd9a66a8365cfd73a",
+    "iPlug2/IPlug/AUv2/IPlugAU.h": "3ea14af034f7e3f8f0efb1fc0d7c7986eec348a5ac1c1f6575d4acf2d40a7a48",
+    "iPlug2/IPlug/AUv2/IPlugAU.cpp": "bdb9da4c620a56c27b829222b40a278dc31a6d305567925f4c8cdcd11185a974",
+    "iPlug2/IPlug/VST3/IPlugVST3.h": "cc912fd51ca24b70d9d15fd80714c376bc776093ea617be7150a1b28f7f5da3c",
+    "iPlug2/IPlug/VST3/IPlugVST3.cpp": "9eb1b9e840e80cfb3a279c4919a688bac96e91342e38738128df261475e5cf66"
+  }
+}

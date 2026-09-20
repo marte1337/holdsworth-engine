@@ -1,5 +1,11 @@
 # Frozen bounded v1 design
 
+2026-09-14 scope note: the Boost profile below remains frozen. The user has now
+authorized a separately reviewed [Drive behavioral design](drive-v1/README.md)
+without a verified circuit. This supersedes the historical Drive deferral and
+evidence prerequisite below. Drive M1 and full live M2 were subsequently approved;
+see the [full-pedal M2 report](drive-v1/m2/README.md). Both profiles remain frozen.
+
 Status: M0/M1 approved by the user; M2 live integration authorized.
 M2 preserves these sonic choices and batches the same history replay recurrence
 to meet tiny-callback deadlines; see [M2](m2/README.md).

@@ -1,8 +1,19 @@
 # Milestones and stopping rules
 
+Drive update, 2026-09-15: design/audition approved; profile frozen with an
+exact-mute Volume taper. [Isolated Drive M1](drive-v1/m1/README.md) is implemented
+and validated. Full Drive M2 and the dynamic latency repair were subsequently authorized;
+see the [full-pedal M2 report](drive-v1/m2/README.md). Manual audition is pending.
+
+2026-09-14: Boost M2 manual audition passed, as recorded in the [package status](README.md).
+The user intentionally authorized [Drive Behavioral v1 design/offline prototypes](drive-v1/README.md)
+without a verified circuit. That new scope supersedes the historical Drive stop
+rule below. That historical design authorization was followed by M1 and live M2 approval.
+Both frozen profiles remain unchanged; M3 remains optional.
+
 M0 and M1 are approved. M2 live integration is implemented with the same complete-EQ
 crossfade behavior. See the [M2 report](m2/README.md) for tests, official rate
-support and the Release standalone. Actual audio/UI audition remains manual.
+support and the Release standalone. Manual Boost audition has now passed as noted above.
 
 | Milestone | Deliverable and exit condition |
 | --- | --- |
