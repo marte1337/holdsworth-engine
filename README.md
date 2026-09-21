@@ -1,38 +1,102 @@
-# Neural Amp Modeler Plug-in
+# HoldsworthEngine
 
-[![Build](https://github.com/sdatkinson/NeuralAmpModelerPlugin/actions/workflows/build-native.yml/badge.svg)](https://github.com/sdatkinson/NeuralAmpModelerPlugin/actions/workflows/build-native.yml)
+A real-time guitar DSP project built in C++ around Neural Amp Modeler, inspired by the signal-processing approaches associated with Allan Holdsworth.
 
-A VST3/AudioUnit plug-in\* for [Neural Amp Modeler](https://github.com/sdatkinson/neural-amp-modeler), built with [iPlug2](https://iplug2.github.io).
+The project combines neural amplifier modeling with custom DSP for multi-delay, modulation, tone shaping and pedal-style processing. It is being developed as a standalone application and audio plugin, with a strong focus on realtime safety, deterministic behavior and validation.
 
-- https://www.youtube.com/user/RunawayThumbtack
-- https://github.com/sdatkinson/neural-amp-modeler
+> **Status:** Active development / experimental engineering project.
 
-## Building and Installation
+## Highlights
 
-To build the app or plugin, there are build scripts in [NeuralAmpModeler/scripts/](https://github.com/sdatkinson/NeuralAmpModelerPlugin/tree/main/NeuralAmpModeler/scripts).
-The [workflows](https://github.com/sdatkinson/NeuralAmpModelerPlugin/tree/main/.github/workflows) can show you how to do this.
+- Custom **8-band stereo delay engine** with fractional delays, feedback, modulation, filtering, panning, synchronized modulation, serial routing and grouped delay behavior
+- **Neural Amp Modeler** integration for amplifier modeling
+- Cabinet IR processing and post-amp signal shaping
+- Pre-NAM pedal processing including:
+  - TC Electronic Booster + Line Driver inspired processing
+  - MC402-style clean boost
+  - J. Rockett AH-style Boost and behavioral Drive
+- Standalone, **VST3** and **Audio Unit** builds
+- Realtime-safe parameter transitions and control/audio thread handoff
+- Automated DSP, concurrency and latency testing
 
-### Pre-built installers
+## Research-driven DSP
 
-If you want a pre-built installer from this repo without having to , I've made "Gateway", a fork of this repo, availble at https://neuralampmodeler.com/users!
+A major part of the project is determining what can reasonably be recreated before implementing it.
 
-## Supported Platforms
+Research includes manuals, interviews, published equipment information, available circuit evidence and controlled listening comparisons.
 
-The Neural Amp Modeler plugin currently supports Windows 10 (64bit) or later, and macOS 10.15 (Catalina) or later.
+Where the original behavior is sufficiently documented, the implementation follows that evidence. Where it is not, I prefer to build an explicitly documented **behavioral model** rather than claim circuit accuracy.
 
-For Linux support, there is an LV2 plugin available: https://github.com/mikeoliphant/neural-amp-modeler-lv2.
+For example, the J. Rockett AH Drive combines the documented controls and Boost → Drive routing of the original pedal with a custom software Drive model:
 
-## About
+```text
+Bass shaping
+    ↓
+4× oversampled nonlinear Drive
+    ↓
+Treble shaping
+    ↓
+Volume
+```
 
-This is a cleaned up version of [the original iPlug2-based NAM plugin](https://github.com/sdatkinson/iPlug2) with some refactoring to adopt better practices recommended by the developers of iPlug2.
-(Thanks [Oli](https://github.com/olilarkin) for your generous suggestions!)
+The nonlinear stage is validated against higher-rate offline references before being integrated into the realtime processor.
 
-\*could also support AAX, CLAP, Linux, iOS soon.
+This research process has also led to features being deliberately dropped when the available evidence or technical results did not justify the complexity.
 
-## Rough edges
+## Realtime engineering
 
-### Standalone I/O
-The I/O for the standalone doesn't inherit the stability of most plugin hosts (DAWs), so it's a bit sparser on features. For complex routing, the plugin (VST3/AU) inside a plugin host is still the most reliable option.
+Audio DSP introduces constraints that differ significantly from typical application development. The project therefore puts particular emphasis on:
 
-### Graphics backend
-If you're having trouble with NAM crashing before the GUI comes up, then you might have an unsupported graphics configuration. Usually, this is when you have a dedicated graphics card (like an nVIDIA GPU) and you're using the integrated (CPU) graphics on a Windows system. To fix this, Go to the control panel, pick NAM (or your DAW), and make sure that it uses your graphics card. (If you know more and can help fix this, please make an Issue and let me know more!)
+- no allocation or locks in realtime processing
+- deterministic block processing
+- safe concurrent parameter updates
+- smooth transitions between DSP states
+- very small host callback sizes
+- multiple sample rates
+- latency and plugin-bypass handling
+
+One recent example involved extending iPlug2's latency handling after dynamic 0/32-sample pedal latency exposed unsafe buffer mutation during rendering. The resulting solution uses preallocated delay storage, atomic state handoff and format-specific AU/VST3 lifecycle handling.
+
+## Validation
+
+DSP features are developed through a staged workflow:
+
+```text
+Research
+→ Offline prototype
+→ Numerical validation
+→ Isolated realtime DSP
+→ Integration
+→ Regression tests
+→ Listening evaluation
+```
+
+The test suite covers areas including delay behavior, modulation, nonlinear processing, oversampling, block-partition determinism, concurrent control changes, allocation/lock detection, framework bypass and latency transitions.
+
+Validation currently covers:
+
+```text
+44.1 / 48 / 88.2 / 96 / 176.4 / 192 kHz
+```
+
+with callback sizes down to a single sample, using Debug, Release, AddressSanitizer, UndefinedBehaviorSanitizer and ThreadSanitizer builds.
+
+## Technologies
+
+- C++17
+- realtime audio DSP
+- Neural Amp Modeler
+- iPlug2
+- VST3 / Audio Unit
+- FIR / IIR filtering
+- fractional delay lines
+- nonlinear waveshaping and oversampling
+- Python / NumPy / SciPy for offline DSP analysis
+
+## Why I built it
+
+My professional background is primarily in web development, and this project is an opportunity to apply software-engineering principles in a very different domain.
+
+It has given me practical experience with modern C++, realtime programming, concurrency, numerical validation, native build systems and translating incomplete research into explicit technical requirements.
+
+The project is not affiliated with Allan Holdsworth's estate or the manufacturers referenced during research.
