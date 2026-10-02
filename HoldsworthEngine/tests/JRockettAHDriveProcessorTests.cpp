@@ -29,6 +29,7 @@ using A=dsp::JRockettAHDriveTestAccess;
 constexpr std::array<double,6> rates{44100.,48000.,88200.,96000.,176400.,192000.};
 constexpr double unityVolume=0.6309573444801932;
 constexpr double pi=std::numbers::pi;
+using Profile=dsp::JRockettAHDriveProfile;
 
 void render(P& p, std::span<const double> x, std::span<double> y, std::size_t block=128)
 {
@@ -76,6 +77,8 @@ bool volume()
 }
 bool toneResponses()
 {
+  static_assert(Profile::bassHz==250. && Profile::minimumBassDb==-6. && Profile::maximumBassDb==6.);
+  static_assert(Profile::trebleHz==2500. && Profile::minimumTrebleDb==-9. && Profile::maximumTrebleDb==9.);
   std::vector<double>x(8192),y(8192);x[0]=1e-8;
   for (double fs:rates) for (double bass:{0.,.5,1.}) for (double treble:{0.,.5,1.})
   {
@@ -83,8 +86,10 @@ bool toneResponses()
     for (double hz:{20.,80.,250.,1000.,2500.,8000.,10000.})
     {
       const auto measured=dft(y,hz,fs)/1e-8;
-      const auto expected=std::pow(10.,7.8/20.)*analyticShelf(hz,fs,-6.+12.*bass,false)*
-        analyticShelf(hz,fs,-6.+12.*treble,true)*std::polar(1.,-2*pi*hz*32./fs);
+      const auto expected=std::pow(10.,7.8/20.)*
+        analyticShelf(hz,fs,Profile::minimumBassDb+(Profile::maximumBassDb-Profile::minimumBassDb)*bass,false)*
+        analyticShelf(hz,fs,Profile::minimumTrebleDb+(Profile::maximumTrebleDb-Profile::minimumTrebleDb)*treble,true)*
+        std::polar(1.,-2*pi*hz*32./fs);
       if (!expectNear("AH Drive analytic small-signal EQ dB",20.*std::log10(std::abs(measured/expected)),0.,.002)) return false;
       if (!expectNear("AH Drive EQ and FIR phase",std::arg(measured/expected),0.,1e-8)) return false;
     }

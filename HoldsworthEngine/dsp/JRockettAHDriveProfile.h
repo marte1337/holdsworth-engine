@@ -13,7 +13,8 @@ struct JRockettAHDriveProfile final
   static constexpr double maximumGainDb = 24.0, compensationExponent = -0.35;
   static constexpr double defaultGain = 0.5, defaultTone = 0.5;
   static constexpr double bassHz = 250.0, trebleHz = 2500.0;
-  static constexpr double minimumToneDb = -6.0, maximumToneDb = 6.0;
+  static constexpr double minimumBassDb = -6.0, maximumBassDb = 6.0;
+  static constexpr double minimumTrebleDb = -9.0, maximumTrebleDb = 9.0;
   static constexpr double maximumVolumeDb = 12.0;
   static constexpr double maximumVolumeGain = 3.9810717055349722;
   static constexpr double volumeExponent = 3.0;

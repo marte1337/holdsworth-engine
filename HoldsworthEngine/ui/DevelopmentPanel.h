@@ -129,7 +129,7 @@ protected:
 class AHDriveSlider final : public PositionSlider
 {
 public:
-  enum Kind { gain, tone, volume };
+  enum Kind { gain, bass, treble, volume };
   AHDriveSlider(const IRECT& bounds, IActionFunction action, const char* label, Kind kind)
   : PositionSlider(bounds, action, label, kind == volume ? dsp::JRockettAHDriveProfile::defaultVolume : .5), mKind(kind) {}
 protected:
@@ -137,7 +137,12 @@ protected:
   {
     const double v = std::clamp(GetValue(), 0., 1.);
     if (mKind == gain) mValueStr.SetFormatted(24, "%.2f", v);
-    else if (mKind == tone) mValueStr.SetFormatted(24, "%+.1f dB", -6.+12.*v);
+    else if (mKind == bass) mValueStr.SetFormatted(24, "%+.1f dB",
+      dsp::JRockettAHDriveProfile::minimumBassDb+
+      (dsp::JRockettAHDriveProfile::maximumBassDb-dsp::JRockettAHDriveProfile::minimumBassDb)*v);
+    else if (mKind == treble) mValueStr.SetFormatted(24, "%+.1f dB",
+      dsp::JRockettAHDriveProfile::minimumTrebleDb+
+      (dsp::JRockettAHDriveProfile::maximumTrebleDb-dsp::JRockettAHDriveProfile::minimumTrebleDb)*v);
     else if (v == 0.) mValueStr.Set("Mute");
     else mValueStr.SetFormatted(24, "%+.1f dB", 12.+60.*std::log10(v));
   }
@@ -347,14 +352,15 @@ inline void attachDevelopmentPanel(IGraphics& g)
   auto* ahDriveGain = new AHDriveSlider(IRECT(44, 352, 132, 426),
     developmentMessage(kMsgTagAHDriveGain), "Gain", AHDriveSlider::gain);
   auto* ahDriveBass = new AHDriveSlider(IRECT(148, 352, 236, 426),
-    developmentMessage(kMsgTagAHDriveBass), "Bass", AHDriveSlider::tone);
+    developmentMessage(kMsgTagAHDriveBass), "Bass", AHDriveSlider::bass);
   auto* ahDriveTreble = new AHDriveSlider(IRECT(252, 352, 340, 426),
-    developmentMessage(kMsgTagAHDriveTreble), "Treble", AHDriveSlider::tone);
+    developmentMessage(kMsgTagAHDriveTreble), "Treble", AHDriveSlider::treble);
   auto* ahDriveVolume = new AHDriveSlider(IRECT(356, 352, 444, 426),
     developmentMessage(kMsgTagAHDriveVolume), "Volume", AHDriveSlider::volume);
   g.AttachControl(ahDriveGain, kCtrlTagAHDriveGain)->SetTooltip("Drive saturation. Double-click: 0.50.");
   g.AttachControl(ahDriveBass, kCtrlTagAHDriveBass)->SetTooltip("Pre-drive Bass. Double-click: noon / 0 dB.");
-  g.AttachControl(ahDriveTreble, kCtrlTagAHDriveTreble)->SetTooltip("Post-drive Treble. Double-click: noon / 0 dB.");
+  g.AttachControl(ahDriveTreble, kCtrlTagAHDriveTreble)->SetTooltip(
+    "Post-drive Treble: -9 to +9 dB at 2.5 kHz. Double-click: noon / 0 dB.");
   g.AttachControl(ahDriveVolume, kCtrlTagAHDriveVolume)->SetTooltip("Post-drive Volume: mute to +12 dB. Double-click: 0 dB.");
   selector->SetControls({gain, range, bass, treble}, boost,
     {ahBoost, ahType, ahEmphasis, ahLabel, typeLabel, emphasisLabel, ahBoostEnabled, ahDriveEnabled,

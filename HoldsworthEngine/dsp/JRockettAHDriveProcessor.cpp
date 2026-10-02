@@ -62,9 +62,10 @@ JRockettAHDriveProcessor::Target JRockettAHDriveProcessor::makeTarget(
   auto& v=t.values;
   v[0]=std::pow(10.,Profile::maximumGainDb*c.gain/20.);
   v[1]=std::pow(v[0],Profile::compensationExponent);
-  const double range=Profile::maximumToneDb-Profile::minimumToneDb;
-  shelf(Profile::minimumToneDb+range*c.bass,Profile::bassHz,mSampleRate,false,v.data()+2);
-  shelf(Profile::minimumToneDb+range*c.treble,Profile::trebleHz,mSampleRate,true,v.data()+5);
+  const double bassRange=Profile::maximumBassDb-Profile::minimumBassDb;
+  const double trebleRange=Profile::maximumTrebleDb-Profile::minimumTrebleDb;
+  shelf(Profile::minimumBassDb+bassRange*c.bass,Profile::bassHz,mSampleRate,false,v.data()+2);
+  shelf(Profile::minimumTrebleDb+trebleRange*c.treble,Profile::trebleHz,mSampleRate,true,v.data()+5);
   v[8]=volumeAmplitude(c.volume);
   return t;
 }

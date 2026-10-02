@@ -9,9 +9,13 @@ import subprocess
 package = Path(__file__).resolve().parent
 repo = package.parents[5]
 baseline = json.loads((package.parent / 'm1/validation.json').read_text())
+approved_drive_changes = {
+    'HoldsworthEngine/dsp/JRockettAHDriveProcessor.cpp',
+    'HoldsworthEngine/dsp/JRockettAHDriveProfile.h',
+}
 for group in ('source_sha256', 'source_preservation'):
     for name, digest in baseline[group].items():
-        if not name.startswith('HoldsworthEngine/dsp/'):
+        if not name.startswith('HoldsworthEngine/dsp/') or name in approved_drive_changes:
             continue
         assert hashlib.sha256((repo / name).read_bytes()).hexdigest() == digest, name
 
@@ -25,6 +29,15 @@ cpp = source('NeuralAmpModeler/NeuralAmpModeler.cpp')
 old = original('NeuralAmpModeler/NeuralAmpModeler.cpp')
 hdr = source('NeuralAmpModeler/NeuralAmpModeler.h')
 ui = source('HoldsworthEngine/ui/DevelopmentPanel.h')
+profile = source('HoldsworthEngine/dsp/JRockettAHDriveProfile.h')
+drive = source('HoldsworthEngine/dsp/JRockettAHDriveProcessor.cpp')
+for exact in (
+    'bassHz = 250.0, trebleHz = 2500.0',
+    'minimumBassDb = -6.0, maximumBassDb = 6.0',
+    'minimumTrebleDb = -9.0, maximumTrebleDb = 9.0'):
+    assert exact in profile
+assert 'Profile::minimumBassDb+bassRange*c.bass' in drive
+assert 'Profile::minimumTrebleDb+trebleRange*c.treble' in drive
 for suffix in ('Boost', 'Type', 'Emphasis', 'BoostEnabled', 'DriveEnabled', 'DriveGain', 'DriveBass', 'DriveTreble', 'DriveVolume'):
     assert f'case kMsgTagAH{suffix}:' in cpp
     assert f'developmentMessage(kMsgTagAH{suffix})' in ui
@@ -65,4 +78,4 @@ def phases_for(filename):
     return {key for key, value in objects.items() if set(value.get('files', [])) & builds}
 assert phases_for('JRockettAHDriveProcessor.cpp') == phases_for('JRockettAHBoostProcessor.cpp') == phases_for('MC402CleanBoostProcessor.cpp')
 assert len(phases_for('JRockettAHPedalTests.cpp')) == 1
-print('PASS: frozen Boost/Drive/TC/MC/Yamaha bytes, append-only IDs, UI wiring/defaults, calibrated pre-gate/NAM placement, downstream source, product enrollment')
+print('PASS: accepted Drive Treble profile, frozen unaffected DSP, append-only IDs, UI wiring/defaults, calibrated pre-gate/NAM placement, downstream source, product enrollment')
