@@ -34,10 +34,12 @@ struct IPlugLatencyTestAccess
 class Probe final : public IPlugProcessor
 {
 public:
-  Probe(double rate = 48000., bool vst = false)
-  : IPlugProcessor(Config(0,0,"1-1","test","test","test",0,0,0,0,false,false,false,
-                          false,0,false,0,0,false,0,0,0,0,"test"), kAPIAPP), vst3(vst)
+  enum class Host { app, queryFirstVST3, restartingVST3, au };
+  Probe(double rate = 48000., Host behavior = Host::app, int initial = 0)
+  : IPlugProcessor(Config(0,0,"1-1","test","test","test",0,0,0,initial,false,false,false,
+                          false,0,false,0,0,false,0,0,0,0,"test"), kAPIAPP), host(behavior)
   {
+    request.store(initial);
     PrepareLatency(131104);
     SetSampleRate(rate); SetBlockSize(128);
     SetChannelConnections(ERoute::kInput,0,1,true);
@@ -52,6 +54,22 @@ public:
   {
     assert(!inAudio);
     const int first = GetLatency();
+    lastAnnounced=first;
+    if(host==Host::queryFirstVST3 || host==Host::restartingVST3) ++restarts;
+    if(host==Host::restartingVST3)
+    {
+      activate(false); activate(true);
+      assert(GetLatency()==first); // reactivation cannot republish stale state
+    }
+    if(reentrantNext>=0)
+    {
+      const int next=reentrantNext;reentrantNext=-1;
+      request.store(next);assert(RequestLatency(next));
+      IPlugProcessor::OnLatencyRequest(LatencyState::Pack(next));
+      double input=.1,output=0.;
+      for(int i=0;i<3000;++i)render(&input,&output,1,true);
+      assert(GetLatency()==first); // query remains pinned despite newer requests
+    }
     // Give rendering opportunities while a synchronous host query is pending.
     for(int i=0;i<100;++i) { assert(GetLatency()==first); std::this_thread::yield(); }
     ++notifications;
@@ -59,13 +77,10 @@ public:
   void OnLatencyRequest(LatencyState::Word word) override
   {
     assert(!inAudio);
-    if(!vst3) IPlugProcessor::OnLatencyRequest(word);
-    else if(!active) PublishLatencyWhileInactive();
-    else if(LatencyState::Samples(word)==GetLatency()) IPlugProcessor::OnLatencyRequest(word);
-    else ++restarts; // host deliberately delays the inactive lifecycle
+    IPlugProcessor::OnLatencyRequest(word);
   }
   void activate(bool value)
-  { assert(!inAudio); active=value; if(value) PublishLatencyWhileInactive(); }
+  { assert(!inAudio); active=value; ++activationCalls; }
   void render(double* input, double* output, int n, bool bypass)
   {
     inAudio=true;
@@ -77,8 +92,9 @@ public:
     inAudio=false;
   }
   std::atomic<int> request{0};
-  int notifications=0, restarts=0, normalCalls=0;
-  bool vst3=false, active=false;
+  int notifications=0, restarts=0, normalCalls=0, activationCalls=0, lastAnnounced=-1, reentrantNext=-1;
+  Host host;
+  bool active=false;
 };
 
 void sequential()
@@ -131,21 +147,41 @@ void sequential()
 
 void lifecycle()
 {
-  Probe p(48000.,true); p.activate(true);
-  double input=.25,output=0.;
-  p.request.store(32); p.render(&input,&output,1,true);
-  p.ServiceLatencyUpdates();
-  assert(p.restarts==1 && p.GetLatency()==0);
-  for(int i=0;i<600;++i) p.render(&input,&output,1,true);
-  assert(p.GetLatency()==0); // no permit merely because transport is stopped
-  p.activate(false); p.activate(true);
-  assert(p.GetLatency()==32); // synchronous post-reactivation query
-  for(int i=0;i<100;++i) p.render(&input,&output,1,true);
-  p.request.store(0); p.render(&input,&output,1,true); p.ServiceLatencyUpdates();
-  assert(p.restarts==2);
-  p.activate(false); p.activate(true); assert(p.GetLatency()==0);
-  for(int i=0;i<1100;++i) { p.render(&input,&output,1,true); p.ServiceLatencyUpdates(); }
-  assert(p.GetLatency()==0 && output==input);
+  for(auto host:{Probe::Host::queryFirstVST3,Probe::Host::restartingVST3,Probe::Host::au})
+    for(double rate:{44100.,48000.,88200.,96000.,176400.,192000.})
+      for(int frames:{1,2,4,8,32,64,128})
+      {
+        // Model contribution is separate from the invariant pedal contribution.
+        Probe p(rate,host,32);p.activate(true);
+        assert(p.GetLatency()==32); // before any render or idle callback
+        std::array<double,128> input{},output{};long at=0;
+        for(int model:{29,75,0,43,0})
+        {
+          p.request.store(model+32);
+          for(int n=0;n<int(rate*.02)+256;n+=frames)
+          {
+            for(int j=0;j<frames;++j)input[j]=.2*std::sin(.013*double(at+j));
+            p.render(input.data(),output.data(),frames,true);p.ServiceLatencyUpdates();at+=frames;
+          }
+          assert(p.GetLatency()==model+32 && p.lastAnnounced==model+32);
+          assert(IPlugLatencyTestAccess::audioTarget(p)==model+32);
+          for(int j=0;j<frames;++j)input[j]=.2*std::sin(.013*double(at+j));
+          p.render(input.data(),output.data(),frames,true);
+          for(int j=0;j<frames;++j)assert(std::abs(output[j]-.2*std::sin(.013*double(at+j-model-32)))<1e-14);
+          at+=frames;
+        }
+        assert(p.notifications==5);
+        assert(p.activationCalls==(host==Probe::Host::restartingVST3?11:1));
+        assert(p.restarts==(host==Probe::Host::au?0:5));
+        Probe restored(rate,host,29+32);assert(restored.GetLatency()==61);
+      }
+  for(auto host:{Probe::Host::queryFirstVST3,Probe::Host::restartingVST3,Probe::Host::au})
+  {
+    Probe p(48000.,host,32);p.reentrantNext=107;p.request=61;
+    double input=.1,output=0.;
+    for(int i=0;i<5000;++i){p.render(&input,&output,1,true);p.ServiceLatencyUpdates();}
+    assert(p.notifications==2 && p.GetLatency()==107 && p.lastAnnounced==107);
+  }
 }
 
 void continuity()
@@ -195,7 +231,9 @@ void partitions()
 
 void concurrent()
 {
-  Probe p;
+  for(auto host:{Probe::Host::queryFirstVST3,Probe::Host::restartingVST3,Probe::Host::au})
+  {
+  Probe p(48000.,host,32);
   std::atomic<bool> done{false};
   std::thread audio([&] {
     double input=.25,output=0.;
@@ -205,7 +243,7 @@ void concurrent()
   int i=0;
   while(!done.load())
   {
-    p.request.store((i++%4)*32);
+    p.request.store(32+(i++%4)*32);
     p.ServiceLatencyUpdates();
   }
   audio.join();
@@ -213,6 +251,7 @@ void concurrent()
   double input=.25,output=0.;
   for(int n=0;n<2000;++n) { p.render(&input,&output,1,true); p.ServiceLatencyUpdates(); }
   assert(p.GetLatency()==32 && output==input);
+  }
 }
 
 void delayReadiness()
@@ -266,6 +305,6 @@ int main()
   delayReadiness(); sequential(); lifecycle(); continuity(); partitions(); concurrent();
   assert(rtViolations.load()==0);
   std::cout << "PASS: real IPlugProcessor normal/bypass, 6 rates x 7 blocks, exact settled taps, "
-               "warm history, in-place, model+pedal totals, synchronous queries, restart lifecycle, concurrency, "
+               "warm history, in-place, initial/model+32 totals, query-first/restarting VST3 and AU, pinned synchronous queries, concurrency, "
                "delay-readiness fault injection and per-render target agreement\n";
 }

@@ -34,14 +34,19 @@ for enum in ('ECtrlTags', 'EMsgTags'):
     pattern = rf'enum {enum}\s*\{{.*?\n\}};'
     before = re.search(pattern, original('NeuralAmpModeler/NeuralAmpModeler.h'), re.S).group()
     after = re.search(pattern, hdr, re.S).group()
-    after = re.sub(r'  k(?:Ctrl|Msg)TagAH(?:BoostEnabled|DriveEnabled|DriveGain|DriveBass|DriveTreble|DriveVolume),\n', '', after)
     assert before == after, enum
 assert '{"OFF", "TC BLD", "MC402", "J. ROCKETT AH"}' in ui
 assert 'Behavioral OD/Boost' in ui
 assert 'defaultVolume : .5' in ui
 assert 'OnMouseDblClick' in ui and 'ResetToDefault();' in ui
-assert 'choice == 3 ? 32 : 0' in cpp
-assert 'GetLatencyConfigurationTag()' in cpp
+assert 'RequestLatency(mModelLatencyContribution + PLUG_LATENCY)' in cpp
+assert 'GetLatencyConfigurationTag' not in cpp
+assert cpp.count('DevelopmentPreNAMProcessor>(mPreNAMRequestedProcessor.load') == 1
+assert 'mPreNAMRequestedProcessor.load(std::memory_order_relaxed))' in cpp
+assert '#define PLUG_LATENCY 32' in source('NeuralAmpModeler/config.h')
+vst = source('iPlug2/IPlug/VST3/IPlugVST3.cpp')
+assert 'void IPlugVST3::NotifyLatencyChange()' in vst and 'restartComponent(kLatencyChanged)' in vst
+assert 'PublishLatencyWhileInactive' not in vst and 'OnLatencyRequest' not in vst
 assert 'mAHPedal.setDriveControls(controls)' in cpp
 assert cpp.index('mPreNAMSelector.processSelected(') < cpp.index('// Noise gate trigger') < cpp.index('mModel->process(')
 # Actual calibration, input sum, NAM and all downstream render calculations.

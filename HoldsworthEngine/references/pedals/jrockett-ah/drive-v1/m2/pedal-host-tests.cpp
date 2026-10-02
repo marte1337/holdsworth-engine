@@ -27,7 +27,7 @@ struct Wire
 class PedalHost final: public IPlugProcessor
 {
 public:
-  PedalHost(double rate):IPlugProcessor(Config(0,0,"1-1","test","test","test",0,0,0,0,false,false,false,
+  PedalHost(double rate):IPlugProcessor(Config(0,0,"1-1","test","test","test",0,0,0,32,false,false,false,
     false,0,false,0,0,false,0,0,0,0,"test"),kAPIAPP)
   {
     PrepareLatency(131104);SetSampleRate(rate);SetBlockSize(128);
@@ -36,11 +36,11 @@ public:
   }
   bool SendMidiMsg(const IMidiMsg&)override{return false;}
   void OnLatencyPrepareBlock(int)override
-  { const auto choice=request.load();assert(RequestLatency(choice==3?32:0,choice)); }
-  void NotifyLatencyChange()override { assert(!inAudio); }
+  { assert(RequestLatency(modelLatency.load()+32)); }
+  void NotifyLatencyChange()override { assert(!inAudio); ++notifications; }
   void pre(double* input,double* output,int n)
   {
-    selector.beginBlock(static_cast<integration::DevelopmentPreNAMProcessor>(GetLatencyConfigurationTag()),n,tc,mc,pedal);
+    selector.beginBlock(static_cast<integration::DevelopmentPreNAMProcessor>(request.load()),n,tc,mc,pedal);
     if(input!=output)std::copy(input,input+n,output);
     selector.processSelected({output,static_cast<std::size_t>(n)},1.,tc,mc,pedal);
   }
@@ -55,6 +55,8 @@ public:
     inAudio=false;
   }
   std::atomic<unsigned>request{0};
+  std::atomic<int>modelLatency{0};
+  unsigned notifications=0;
   dsp::JRockettAHPedal pedal;
   integration::DevelopmentAHOuterTransition selector;
   Wire tc,mc;
@@ -63,20 +65,23 @@ void integrationChecks()
 {
   for(double rate:dsp::JRockettAHDriveProfile::supportedRates)for(int block:{1,2,4,8,32,64,128})
   {
-    PedalHost p(rate);std::array<double,128>x{},y{};long at=0;double prior=0.;
-    for(int stage=0;stage<6;++stage)
+    PedalHost p(rate);assert(p.GetLatency()==32);
+    std::array<double,128>x{},y{};long at=0;double prior=0.;
+    for(int stage=0;stage<8;++stage)
     {
-      p.request.store(stage%2?3:0);
+      p.request.store(stage%4);
       for(int n=0;n<static_cast<int>(rate*.06);n+=block)
       {
         for(int i=0;i<block;++i)x[i]=.2*std::sin(.04*(at+i));
         // Switching bypass inside the outer delay fade must also be bounded.
         const bool bypass=(n/137)%3!=0;
-        p.render(x.data(),y.data(),block,bypass);p.ServiceLatencyUpdates();
+        // No service call: selection must progress without latency permission.
+        p.render(x.data(),y.data(),block,bypass);
         for(int i=0;i<block;++i){assert(std::isfinite(y[i]));assert(std::abs(y[i]-prior)<.012);prior=y[i];}
         at+=block;
       }
-      assert(p.GetLatency()==(stage%2?32:0));assert(!p.selector.transitioning());
+      assert(p.GetLatency()==32 && p.notifications==0);assert(!p.selector.transitioning());
+      assert(p.selector.applied()==static_cast<integration::DevelopmentPreNAMProcessor>(stage%4));
     }
     // Both histories stayed current: settled local bypass equals host bypass.
     for(bool bypass:{false,true,false})
@@ -87,6 +92,16 @@ void integrationChecks()
         for(int i=0;i<block;++i)assert(std::abs(y[i]-.2*std::sin(.04*(at+i-32)))<1e-14);
         at+=block;
       }
+    // A genuinely pending MODEL request must not prevent AH from running.
+    // Deliberately never service the request, so reported latency stays at 32.
+    PedalHost pending(rate);pending.modelLatency=75;pending.request=3;
+    pending.pedal.setSections(true,false);
+    pending.pedal.setBoostControls({12.,dsp::JRockettAHBoostType::clean,dsp::JRockettAHEmphasis::low});
+    x.fill(.1);
+    for(int n=0;n<6000;n+=block)pending.render(x.data(),y.data(),block,false);
+    assert(pending.GetLatency()==32 && pending.notifications==0);
+    assert(pending.selector.applied()==integration::DevelopmentPreNAMProcessor::jRockettAH);
+    assert(!pending.selector.transitioning() && y[block-1]>.2);
   }
   PedalHost p(192000.);std::atomic<bool>done{false};
   std::thread audio([&]{std::array<double,8>x{},y{};x.fill(.1);

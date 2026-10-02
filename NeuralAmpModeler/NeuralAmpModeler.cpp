@@ -36,6 +36,9 @@ const double kDCBlockerFrequency = 5.0;
 namespace
 {
 
+static_assert(PLUG_LATENCY == holdsworth::integration::DevelopmentAHOuterTransition::latency);
+static_assert(PLUG_LATENCY == holdsworth::dsp::JRockettAHPedal::latency);
+
 constexpr std::uint32_t kHoldsworthDelayControlScale = 1'000'000;
 
 [[nodiscard]] std::uint32_t encodeNormalizedControlValue(const double value) noexcept
@@ -398,7 +401,7 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   mPreNAMSelector.beginBlock(
     static_cast<holdsworth::integration::DevelopmentPreNAMProcessor>(
-      GetLatencyConfigurationTag()),
+      mPreNAMRequestedProcessor.load(std::memory_order_relaxed)),
     numFrames, mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal, mAHRealtimeSupported);
   selectedInputGain = mPreNAMSelector.inputGain(mInputGain, mPedalHostToVoltsGain);
 #endif
@@ -1391,7 +1394,7 @@ void NeuralAmpModeler::OnLatencyBypassBlock(sample** inputs, int nFrames)
   // Keep the selected pre-NAM stage's time history current during host bypass.
   // NAM, cabinet and downstream effects remain bypassed. No scratch allocation.
   mPreNAMSelector.beginBlock(
-    static_cast<holdsworth::integration::DevelopmentPreNAMProcessor>(GetLatencyConfigurationTag()),
+    static_cast<holdsworth::integration::DevelopmentPreNAMProcessor>(mPreNAMRequestedProcessor.load(std::memory_order_relaxed)),
     static_cast<std::size_t>(nFrames), mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal, mAHRealtimeSupported);
   double gain = mPreNAMSelector.inputGain(mInputGain, mPedalHostToVoltsGain);
   const int channels = NInChansConnected();
@@ -1412,12 +1415,8 @@ void NeuralAmpModeler::OnLatencyPrepareBlock(int)
 {
   // Audio only publishes; OnIdle services the format-specific control lifecycle.
   // This hook also runs during framework bypass, keeping its delay current.
-  std::uint32_t choice = 0;
-#ifdef NAM_HOLDSWORTH_DELAY_DEV
-  choice = mPreNAMRequestedProcessor.load(std::memory_order_relaxed);
-  if (choice > 3 || (choice == 3 && !mAHRealtimeSupported)) choice = 0;
-#endif
-  RequestLatency(mModelLatencyContribution + (choice == 3 ? 32 : 0), choice);
+  // Selection is independent of model-latency adoption and never changes PDC.
+  RequestLatency(mModelLatencyContribution + PLUG_LATENCY);
 }
 
 void NeuralAmpModeler::_UpdateMeters(sample** inputPointer, sample** outputPointer, const size_t nFrames,

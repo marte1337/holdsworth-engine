@@ -116,6 +116,8 @@ bool outer()
   {
     integration::DevelopmentAHOuterTransition selector;selector.prepare(rate);
     Counter tc,mc,ah;mc.factor=3.;ah.factor=4.;
+    for(int i=0;i<32;++i)
+    {selector.beginBlock(Choice::off,1,tc,mc,ah);double x=.1;selector.processSelected({&x,1},.5,tc,mc,ah);}
     for(auto choice:{Choice::off,Choice::tcBld,Choice::mc402Boost,Choice::jRockettAH,Choice::off,Choice::jRockettAH,Choice::tcBld})
     {
       double prior=.1;
@@ -187,12 +189,18 @@ bool legacyAndCalibration()
     Pedal ahA,ahB;ahA.prepare(rate,128);ahB.prepare(rate,128);
     for(auto choice:{Choice::off,Choice::tcBld,Choice::mc402Boost,Choice::off})
     {
-      original.beginBlock(choice,128,tcA,mcA,ahA);current.beginBlock(choice,128,tcB,mcB,ahB);
-      std::array<double,128>a{},b{};
+      original.reset(); current.reset();
+      original.beginBlock(choice,128,tcA,mcA,ahA);
+      // Finish the wrapper's fade on silence before comparing settled DSP.
+      std::array<double,128> silence{};
+      for(int j=0;j<40;++j)
+      {current.beginBlock(choice,128,tcB,mcB,ahB);current.processSelected(silence,.35,tcB,mcB,ahB);}
+      std::array<double,128>a{},b{},expected{};
       for(std::size_t i=0;i<a.size();++i)
       {const double x=.13*std::sin(.04*static_cast<double>(i));a[i]=x*original.inputGain(.7,2.);b[i]=x*current.inputGain(.7,2.);}
       original.processSelected(a,.35,tcA,mcA,ahA);current.processSelected(b,.35,tcB,mcB,ahB);
-      if(!expectSamplesBitExact("AH wrapper preserves legacy",a,b))return false;
+      std::copy(a.begin(),a.end()-32,expected.begin()+32);
+      if(!expectSamplesBitExact("fixed domain preserves legacy after 32 samples",expected,b))return false;
     }
     for(bool metadata:{false,true})for(bool enabled:{false,true})for(unsigned flags=0;flags<4;++flags)
     {
@@ -217,13 +225,60 @@ bool legacyAndCalibration()
   }
   return true;
 }
+
+bool fixedDomainAlignment()
+{
+  // Actual processors, all product rates/partitions, calibrated and fallback
+  // paths. Compare exact sequences, not just an EQ-dependent impulse peak.
+  for(double rate:rates)for(auto block:blocks)for(bool calibrated:{false,true})
+    for(unsigned route=0;route<7;++route)
+    {
+      const auto choice=static_cast<Choice>(std::min(route,3U));
+      dsp::TCBLDCleanBoostProcessor tc,refTC;tc.prepare(rate,128);refTC.prepare(rate,128);
+      dsp::MC402CleanBoostProcessor mc,refMC;mc.setBoostDb(7.);refMC.setBoostDb(7.);
+      mc.prepare(rate,128);refMC.prepare(rate,128);
+      Pedal ah,refAH;const unsigned flags=route<3?0:route-3;
+      ah.setSections(flags&1,flags&2);refAH.setSections(flags&1,flags&2);
+      ah.prepare(rate,128);refAH.prepare(rate,128);
+      integration::DevelopmentAHOuterTransition selector;selector.prepare(rate);
+      integration::DevelopmentPreNAMSelector reference;
+      reference.beginBlock(choice,block,refTC,refMC,refAH);
+      const double host=calibrated?2.3:1.,post=calibrated?.37:1.,stock=host*post;
+      std::array<double,128> silence{};
+      for(int j=0;j<40;++j)
+      {selector.beginBlock(choice,128,tc,mc,ah);selector.processSelected(silence,post,tc,mc,ah);}
+      if(selector.transitioning() || selector.applied()!=choice || selector.latencySamples()!=32)return false;
+      std::array<double,512> actual{},direct{},expected{};
+      for(std::size_t i=0;i<actual.size();++i)
+      {
+        const double x=i==64?.00001:0.;
+        actual[i]=x*selector.inputGain(stock,host);direct[i]=x*reference.inputGain(stock,host);
+      }
+      for(std::size_t i=0;i<actual.size();i+=block)
+      {
+        selector.beginBlock(choice,block,tc,mc,ah);
+        selector.processSelected(std::span{actual}.subspan(i,block),post,tc,mc,ah);
+        reference.processSelected(std::span{direct}.subspan(i,block),post,refTC,refMC,refAH);
+      }
+      if(choice==Choice::jRockettAH)expected=direct;
+      else std::copy(direct.begin(),direct.end()-32,expected.begin()+32);
+      if(!expectSamplesBitExact("fixed32 actual route/calibration, no second AH delay",actual,expected))return false;
+      if(choice==Choice::off || choice==Choice::mc402Boost || (route==3))
+      {
+        const auto peak=std::max_element(actual.begin(),actual.end(),[](double a,double b){return std::abs(a)<std::abs(b);});
+        if(peak-actual.begin()!=96)return false; // input at 64 + exactly 32
+      }
+    }
+  return true;
+}
 }
 TestSuite jRockettAHPedalTests() noexcept
 {
   static const std::array tests{TestCase{"AH full four routes and six Boost modes",routes},
     TestCase{"AH full latency and post Volume",latencyAndVolume}, TestCase{"AH full section transitions",transitions},
     TestCase{"AH full outer exclusivity and coalescing",outer},TestCase{"AH full recovery realtime concurrency",recoveryAndRealtime},
-    TestCase{"AH full control mapping",controls},TestCase{"AH full legacy and calibration paths",legacyAndCalibration}};
+    TestCase{"AH full control mapping",controls},TestCase{"AH full legacy and calibration paths",legacyAndCalibration},
+    TestCase{"AH fixed32 domain exact real routes and calibration",fixedDomainAlignment}};
   return tests;
 }
 }

@@ -20,7 +20,11 @@
   #define PLUG_CHANNEL_IO "1-1 1-2 2-2"
 #endif
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+#define PLUG_LATENCY 32 // Fixed pre-NAM pedal domain, including Off.
+#else
 #define PLUG_LATENCY 0
+#endif
 #define PLUG_TYPE 0
 #define PLUG_DOES_MIDI_IN 0
 #define PLUG_DOES_MIDI_OUT 0
