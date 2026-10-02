@@ -12,7 +12,9 @@
   #include "../HoldsworthEngine/dsp/HoldsworthDelayEngine.h"
   #include "../HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.h"
   #include "../HoldsworthEngine/dsp/MC402CleanBoostProcessor.h"
-  #include "../HoldsworthEngine/integration/DevelopmentPreNAMSelector.h"
+  #include "../HoldsworthEngine/integration/DevelopmentJRockettAHControls.h"
+  #include "../HoldsworthEngine/integration/DevelopmentAHOuterTransition.h"
+  #include "../HoldsworthEngine/dsp/JRockettAHPedal.h"
   #include "../HoldsworthEngine/integration/DevelopmentControlDefaults.h"
 #endif
 
@@ -91,6 +93,15 @@ enum ECtrlTags
   kCtrlTagTCBldBass,
   kCtrlTagTCBldTreble,
   kCtrlTagMC402Boost,
+  kCtrlTagAHBoost,
+  kCtrlTagAHType,
+  kCtrlTagAHEmphasis,
+  kCtrlTagAHBoostEnabled,
+  kCtrlTagAHDriveEnabled,
+  kCtrlTagAHDriveGain,
+  kCtrlTagAHDriveBass,
+  kCtrlTagAHDriveTreble,
+  kCtrlTagAHDriveVolume,
 #endif
   kNumCtrlTags
 };
@@ -116,6 +127,15 @@ enum EMsgTags
   kMsgTagLoadedIR,
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   kMsgTagMC402Boost,
+  kMsgTagAHBoost,
+  kMsgTagAHType,
+  kMsgTagAHEmphasis,
+  kMsgTagAHBoostEnabled,
+  kMsgTagAHDriveEnabled,
+  kMsgTagAHDriveGain,
+  kMsgTagAHDriveBass,
+  kMsgTagAHDriveTreble,
+  kMsgTagAHDriveVolume,
 #endif
   kNumMsgTags
 };
@@ -241,6 +261,8 @@ public:
   void ProcessBlock(iplug::sample** inputs, iplug::sample** outputs, int nFrames) override;
   void OnReset() override;
   void OnIdle() override;
+  void OnLatencyPrepareBlock(int nFrames) override;
+  void OnLatencyBypassBlock(iplug::sample** inputs, int nFrames) override;
 
   bool SerializeState(iplug::IByteChunk& chunk) const override;
   int UnserializeState(const iplug::IByteChunk& chunk, int startPos) override;
@@ -312,6 +334,7 @@ private:
 
   // Make sure that the latency is reported correctly.
   void _UpdateLatency();
+  int mModelLatencyContribution = 0; // audio/lifecycle owner; no host calls
 
   // Update level meters
   // Called within ProcessBlock().
@@ -368,7 +391,13 @@ private:
   // Temporary pre-NAM documentary-nominal CLEAN BOOST audition path.
   holdsworth::dsp::TCBLDCleanBoostProcessor mTCBldCleanBoostProcessor;
   holdsworth::dsp::MC402CleanBoostProcessor mMC402CleanBoostProcessor;
-  holdsworth::integration::DevelopmentPreNAMSelector mPreNAMSelector;
+  holdsworth::dsp::JRockettAHPedal mAHPedal;
+  std::atomic<bool> mAHBoostEnabled{true}, mAHDriveEnabled{false};
+  std::atomic<double> mAHDriveGain{0.5}, mAHDriveBass{0.5}, mAHDriveTreble{0.5};
+  std::atomic<double> mAHDriveVolume{holdsworth::dsp::JRockettAHDriveProfile::defaultVolume};
+  bool mAHRealtimeSupported = false; // lifecycle-owned, read by audio
+  std::atomic<double> mAHBoostNormalized{0.0}, mAHTypeNormalized{0.5}, mAHEmphasisNormalized{0.0};
+  holdsworth::integration::DevelopmentAHOuterTransition mPreNAMSelector;
   std::atomic<std::uint32_t> mPreNAMRequestedProcessor{0};
   std::atomic<double> mMC402BoostDb{0.0};
   static_assert(std::atomic<double>::is_always_lock_free);

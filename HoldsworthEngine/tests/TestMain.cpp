@@ -105,6 +105,9 @@ int main(int argc, char** argv)
                           holdsworthDelayLiveIntegrationTests(),
                           tcBldCleanBoostProcessorTests(),
                           mc402CleanBoostProcessorTests(),
+                          jRockettAHBoostProcessorTests(),
+                          jRockettAHDriveProcessorTests(),
+                          jRockettAHPedalTests(),
                           developmentPreNAMSelectorTests()};
   std::size_t totalTests = 0;
   int failures = 0;

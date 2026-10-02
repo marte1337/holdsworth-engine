@@ -111,6 +111,9 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] TestSuite holdsworth231PresetTests() noexcept;
 [[nodiscard]] TestSuite holdsworthDelayLiveIntegrationTests() noexcept;
 [[nodiscard]] TestSuite tcBldCleanBoostProcessorTests() noexcept;
+[[nodiscard]] TestSuite jRockettAHBoostProcessorTests() noexcept;
+[[nodiscard]] TestSuite jRockettAHDriveProcessorTests() noexcept;
+[[nodiscard]] TestSuite jRockettAHPedalTests() noexcept;
 [[nodiscard]] TestSuite mc402CleanBoostProcessorTests() noexcept;
 [[nodiscard]] TestSuite developmentPreNAMSelectorTests() noexcept;
 

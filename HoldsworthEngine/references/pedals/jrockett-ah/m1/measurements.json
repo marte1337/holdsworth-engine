@@ -1,0 +1,19 @@
+{
+  "profile": "JROCKETT-AH-BOOST-BEHAVIORAL-V1",
+  "hardware_measured": false,
+  "response_rows": 396,
+  "maximum_db_error": 2.99316127439e-13,
+  "maximum_complex_error": 6.81931899441e-14,
+  "maximum_harmonic_dbc": -301.476836252,
+  "maximum_warm_crossfade_error": 7.19724280174e-12,
+  "processor_bytes": 123496,
+  "benchmarks": [
+    {"rate": 48000, "changing_every_block": false, "block": 64, "mean_ns_per_sample": 8.45248359375, "p99_callback_us": 0.584, "max_callback_us": 16.959, "mean_audio_budget_percent": 0.04057192125},
+    {"rate": 48000, "changing_every_block": true, "block": 64, "mean_ns_per_sample": 15.9732554688, "p99_callback_us": 4.292, "max_callback_us": 24.25, "mean_audio_budget_percent": 0.07667162625},
+    {"rate": 192000, "changing_every_block": false, "block": 64, "mean_ns_per_sample": 8.293159375, "p99_callback_us": 0.584, "max_callback_us": 18.125, "mean_audio_budget_percent": 0.15922866},
+    {"rate": 192000, "changing_every_block": true, "block": 64, "mean_ns_per_sample": 15.7638210937, "p99_callback_us": 15, "max_callback_us": 45.125, "mean_audio_budget_percent": 0.302665365},
+    {"rate": 768000, "changing_every_block": false, "block": 64, "mean_ns_per_sample": 8.24313046875, "p99_callback_us": 0.583, "max_callback_us": 16.792, "mean_audio_budget_percent": 0.63307242},
+    {"rate": 768000, "changing_every_block": true, "block": 64, "mean_ns_per_sample": 15.9366429688, "p99_callback_us": 0.625, "max_callback_us": 86.291, "mean_audio_budget_percent": 1.22393418}
+  ],
+  "benchmark_checksum": 5192.91271421
+}

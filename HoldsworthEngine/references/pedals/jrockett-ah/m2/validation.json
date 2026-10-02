@@ -1,0 +1,122 @@
+{
+  "profile": "JROCKETT-AH-BOOST-BEHAVIORAL-V1",
+  "milestone": "M2 implemented; manual inspection/audio audition pending",
+  "hardware_measured": false,
+  "files_changed_during_M2": [
+    "AGENTS.md",
+    "HoldsworthEngine/integration/DevelopmentPreNAMSelector.h",
+    "HoldsworthEngine/integration/DevelopmentJRockettAHControls.h",
+    "HoldsworthEngine/ui/DevelopmentPanel.h",
+    "NeuralAmpModeler/NeuralAmpModeler.h",
+    "NeuralAmpModeler/NeuralAmpModeler.cpp",
+    "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj",
+    "HoldsworthEngine/dsp/JRockettAHBoostProcessor.h",
+    "HoldsworthEngine/dsp/JRockettAHBoostProcessor.cpp",
+    "HoldsworthEngine/tests/DevelopmentPreNAMSelectorTests.cpp",
+    "HoldsworthEngine/tests/JRockettAHBoostProcessorTests.cpp",
+    "HoldsworthEngine/references/pedals/jrockett-ah/README.md",
+    "HoldsworthEngine/references/pedals/jrockett-ah/v1-design.md",
+    "HoldsworthEngine/references/pedals/jrockett-ah/milestones.md"
+  ],
+  "files_added_during_M2": [
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/validate.sh",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/audit.py",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/realtime.csv",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/realtime.cpp",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/README.md",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/preserved-sha256.json",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/validation.json"
+  ],
+  "checks": {
+    "Debug": 260,
+    "Release": 260,
+    "ASan_UBSan": 260,
+    "focused_AH": 16,
+    "prior_selector_regressions": 4,
+    "ThreadSanitizer_concurrent_handoff": 1,
+    "strict_warnings": "pass",
+    "static_analyzer": "pass, no diagnostics",
+    "Release_APP_VST3_AU": "pass",
+    "project_lint": "pass",
+    "source_wiring_and_preservation_audit": "pass",
+    "diff_check": "pass",
+    "ASan_options": "detect_leaks=0:halt_on_error=1 (platform LeakSanitizer unsupported)"
+  },
+  "realtime": {
+    "supported_rates_hz": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ],
+    "frames": [
+      1,
+      2,
+      4,
+      7,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "measured_cases": 108,
+    "samples_per_case": 400,
+    "worst_p99_budget_percent": 36.8064,
+    "raw_wall_time_maximum_budget_outliers": [
+      {
+        "rate_hz": "192000",
+        "frames": "2",
+        "case": "transition_onset",
+        "median_us": "1.75",
+        "p99_us": "1.917",
+        "max_us": "15.875",
+        "median_budget_percent": "16.8",
+        "p99_budget_percent": "18.4032"
+      }
+    ],
+    "scope": "AH insertion path only; not arbitrary NAM/cab/delay CPU or a scheduler guarantee",
+    "processor_bytes": 124408
+  },
+  "preservation": {
+    "maximum_M1_output_difference": 1.77635683940025e-15,
+    "M1_comparison_samples": 1290000,
+    "maximum_response_db_error": 2.99316127439e-13,
+    "maximum_warm_crossfade_error": 7.19724280174e-12,
+    "frozen_profile_unchanged": true,
+    "TC_MC402_Yamaha_DSP_unchanged": true,
+    "downstream_and_calibration_source_unchanged": true
+  },
+  "release_standalone": {
+    "path": "/tmp/jrockett-ah-m2/products/NeuralAmpModeler.app",
+    "canonical_path": "/private/tmp/jrockett-ah-m2/products/NeuralAmpModeler.app",
+    "configuration": "Release arm64, -O3, RELEASE=1, NDEBUG=1",
+    "launched_and_executable_path_verified": true,
+    "sha256": "a2844e9ea4ae18ef5f1cc00c7f3d5c2bf306e860b81cdff19f48aece75ea42e0"
+  },
+  "commit_created": false,
+  "source_sha256": {
+    "AGENTS.md": "219859a2afd5a18ac71f2c74c73219793ecd4edae4fc830c8432e4777fbe96d6",
+    "HoldsworthEngine/integration/DevelopmentPreNAMSelector.h": "7927d41b00846ce0e584c451a0373d651a219413c663cc13ee27d494026a0c66",
+    "HoldsworthEngine/integration/DevelopmentJRockettAHControls.h": "39fd7984872a0b7f03cb5cbeed667aaef962f64b9f3b35c75574af3c1321450a",
+    "HoldsworthEngine/ui/DevelopmentPanel.h": "0d7502eac93c989a3838a93126f243ef409cffa89223e8774db18ec03012381c",
+    "NeuralAmpModeler/NeuralAmpModeler.h": "034fd9507cb937c866a33e746a0a972e2d59e950ab76d9018198d90bb006f044",
+    "NeuralAmpModeler/NeuralAmpModeler.cpp": "2424c1e1768bb4c9d7db76fbd738d6466ff1ad650db31044cf0eaf4a2e03cc6f",
+    "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj": "a9117bd9c8d52b6c84feb013c9ae48072a42199c074efabaa9b44725d6ac821c",
+    "HoldsworthEngine/dsp/JRockettAHBoostProcessor.h": "be6b2c0207d58b91f725ecc6f9085b84ce12e9d2a4c417048b025daf4c2f6e27",
+    "HoldsworthEngine/dsp/JRockettAHBoostProcessor.cpp": "6de0a3850e575c080e363f3fabf8b1fab63c633c80c2c404b0375575d2c732ec",
+    "HoldsworthEngine/tests/DevelopmentPreNAMSelectorTests.cpp": "5995f18fa351ae3136767dc3761b21fdf7d4d40315796d4a02b8c473826d57db",
+    "HoldsworthEngine/tests/JRockettAHBoostProcessorTests.cpp": "c157de87b9ece836ea7a833a73fa2ab122919c6fa8cc4eb05bf69ebbc7ef475e",
+    "HoldsworthEngine/references/pedals/jrockett-ah/README.md": "193c506fdb6c343190f64647cda520d47a3757da072a5b7be447e25c084e1953",
+    "HoldsworthEngine/references/pedals/jrockett-ah/v1-design.md": "ad7eaee4fc1d11db36204309e066a737f8f63e65064b528d0e1f549cca317e55",
+    "HoldsworthEngine/references/pedals/jrockett-ah/milestones.md": "74c4e37d17547cc0ac0695ce3c761dfbd2c5eb2d6f055e6d525421074c1dd907",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/validate.sh": "14173f97173bcb4a685467fe6bce251f3cdb17c5d3bb7ec80b1ace835d13ad73",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/audit.py": "302e7a1e699c602afbad33efdaa5b152740ee342c8b5de7c70af258aac55cb8b",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/realtime.csv": "95b6712a1db0bfb9f54dea34ff4876e927fa482d804b65f51469eae4712b345a",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/realtime.cpp": "86874a1f097da70c50aabb6781157e0452b41d5665cf1bc7b171d9dad31f704b",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/README.md": "e2a628b5f974fde3c30ffcea1354efc937f2ba59b292d5f30cf3883201486abb",
+    "HoldsworthEngine/references/pedals/jrockett-ah/m2/preserved-sha256.json": "791a915aa1fdac7332fa18074feef60d9261f3e3c55a4569cebcd61d20e1cf87"
+  }
+}

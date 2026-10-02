@@ -1,0 +1,103 @@
+# Milestones and stopping rules
+
+2026-10-02: full J. Rockett AH behavioral v1, fixed 32-sample pedal domain and
+latency repair accepted after real REAPER VST3 and AU validation. Off/TC/MC
+engage AH immediately; outer and internal switches are clean and pedal choice
+does not change reported latency. Both formats pass the deterministic NAM
+32 -> 61 -> 32 sample sequence with no persistent timing, doubling, comb
+filtering or echo. A tiny momentary crackle only at model replacement disappears
+immediately and is accepted as a non-blocking polish item. No automatic M3.
+
+2026-10-01: REAPER validation exposed a query-first VST3 host incompatibility.
+The user approved fixed 32-sample pedal-domain latency and publication-before-
+notification for remaining model latency. Implementation and automated checks
+were complete; the real REAPER gate passed on 2026-10-02 above. Profiles stay
+frozen, including the accepted +/-9 dB Drive Treble.
+
+Drive update, 2026-09-15: design/audition approved; profile frozen with an
+exact-mute Volume taper. [Isolated Drive M1](drive-v1/m1/README.md) is implemented
+and validated. Full Drive M2 and the dynamic latency repair were subsequently authorized;
+see the [full-pedal M2 report](drive-v1/m2/README.md). Manual audition passed;
+its only accepted profile refinement is Drive Treble at 2.5 kHz, −9…+9 dB,
+with exact 0 dB noon.
+
+2026-09-14: Boost M2 manual audition passed, as recorded in the [package status](README.md).
+The user intentionally authorized [Drive Behavioral v1 design/offline prototypes](drive-v1/README.md)
+without a verified circuit. That new scope supersedes the historical Drive stop
+rule below. That historical design authorization was followed by M1 and live M2 approval.
+The Boost profile remains unchanged; the accepted Drive profile includes the
+auditioned Treble refinement above. M3 remains optional.
+
+M0 and M1 are approved. M2 live integration is implemented with the same complete-EQ
+crossfade behavior. See the [M2 report](m2/README.md) for tests, official rate
+support and the Release standalone. Manual Boost audition has now passed as noted above.
+
+| Milestone | Deliverable and exit condition |
+| --- | --- |
+| M0 research/design freeze | Review these four documents and choose whether the explicitly provisional Boost scope is useful. Freeze one profile ID, curves/range, Drive deferral and claim limits. Approved and frozen as `JROCKETT-AH-BOOST-BEHAVIORAL-V1`, with the user's 10 ms complete-response crossfade correction |
+| M1 isolated DSP | Isolated Boost and focused tests implemented; see [M1 report](m1/README.md) for measured responses and validation. No live integration |
+| M2 live integration/audition | Add J. Rockett AH to the exclusive selector; show Boost controls and scope. Preserve TC/MC402/Off, calibration, gate/NAM order and downstream regressions. Build/launch standalone; user manually inspects UI and auditions the musical value |
+| M3 measurement/refinement, optional | Only if audition exposes a specific deficiency or a healthy unit/finished verified trace becomes available. Measure the smallest set that answers it; revise claims/profile only to match evidence |
+
+## Acceptance appropriate to the model
+
+Historical M0 validation: local links, source/assumption separation, exact profile table,
+file scope and whitespace including new files. No DSP builds/tests are needed
+for this documentation-only change. Downloads/renders stay in `/tmp` and are
+not deliverables or dependencies of the package.
+
+M1: check all six settled curves against the stated analytic targets, gain
+endpoints, finite/stable output, silence recovery, DC/impulse behavior and
+in-place processing. At 44.1/48/88.2/96/176.4/192 kHz, require agreement with
+the defined discrete reference to 0.05 dB over 20 Hz–10 kHz. That is numerical
+implementation accuracy, not hardware accuracy. Verify scale invariance at
+ordinary finite amplitudes, no ±1 clipping, and no generated steady-state
+harmonics above numerical error. Level changes preserve response shape.
+
+Exercise mode changes during sustained notes and repeated changes during fades,
+reset/reprepare, invalid controls/audio, oversized buffers, coherent control
+handoff, bounded CPU and no processing allocations/locks. Check deterministic
+block partitions for identical sample-timed events; UI adoption is still at
+block boundaries. No nonlinear alias-convergence project is warranted for this
+linear design; inspect switching transients and modulation artifacts directly.
+
+M2: selector call-count tests prove at most one pedal runs; Off/TC/MC402 preserve
+existing behavior and unavailable AH falls back to Off. Verify four-choice UI
+mapping, bridge with/without metadata/calibration/model, mono preparation and
+pre-gate/pre-NAM placement using a nonlinear NAM test double. Audition all six
+combinations at matched output loudness for comparison, then at unchanged Boost
+level to hear their differing NAM excitation. Use a clean and a driven NAM,
+low/high DI levels, single notes and chords. Do not bake comparison loudness
+compensation into the processor. Retain only changes that improve useful tone
+choice; no claim that audition measures the original pedal.
+
+M1/M2 DSP milestones follow [AGENTS.md](../../../../AGENTS.md): applicable full
+Debug/Release tests, ASan/UBSan, strict warnings, static analysis, APP/VST3/AU
+builds, project lint and diff checks. Preserve TC reference data and existing
+Yamaha bit-exact regressions. Standalone visual inspection is manual per repo
+guidance; no automated screen capture is part of this task.
+
+## Optional measurements, bounded by a question
+
+For Boost, one healthy unit at documented 9 V is enough to improve this
+proposal: record revision, calibrated terminal levels, source/load impedances;
+take six small-signal sweeps at one level and a short Boost knob sweep, then
+repeat selected states at higher amplitude. This answers mode/emphasis curves,
+range/taper, level-dependent EQ and the useful linear operating envelope.
+Use low enough initial excitation to avoid clipping and compare harmonics.
+Do not assume a digital recording's amplitude is pedal-input volts.
+
+Only if Drive becomes desirable: add Bass/Treble endpoint/midpoint sweeps at low
+Gain, then Gain and input-level sweeps with Volume adjusted to avoid interface
+clipping. Compare two Gain/Volume pairs with similar output level for distortion
+and spectral differences. Check both-on versus Boost-only/Drive-only and retain
+withheld settings for validation. This can support a bounded measured behavioral
+model without reconstructing every component. A complete trustworthy AH trace
+is an alternative starting point, but a related pedal's trace is not.
+
+**Stop rule:** no automatic M3, exhaustive PCB reconstruction, revision survey,
+inferred Allan settings or nonlinear antialias optimization. If the proposed
+Boost profiles lack useful musical distinction, revise the small EQ profile
+once on audition evidence or defer the processor. If Drive still needs an
+unanchored transfer, leave it deferred. Hardware acquisition or contacting
+others is not part of this task.
