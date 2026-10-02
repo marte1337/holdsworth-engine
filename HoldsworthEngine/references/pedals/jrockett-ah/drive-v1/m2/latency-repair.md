@@ -1,5 +1,15 @@
 # Latency repair — implementation and validation checkpoint
 
+2026-10-01 update: the authorized fixed 32-sample pedal domain supersedes the
+outer 0/32 policy. REAPER 7.80 queries latency directly on `kLatencyChanged`;
+waiting for reactivation prevented AH selection. Selection now uses its normal
+atomic handoff independently of model latency. No pedal profile/DSP was retuned.
+2026-10-02 acceptance: real REAPER VST3 and AU pass fixed-domain pedal switching
+and the 32 -> 61 -> 32 NAM fixture sequence with no persistent timing artifacts.
+A tiny momentary model-replacement crackle disappears immediately and is
+accepted as a non-blocking polish item. The repair is now committed and
+published on the user-owned fork; the precise dependency is recorded below.
+
 2026-09-16. The user authorized the narrow dependency patch and clarified that
 short complementary alignment crossfades and host-dependent PDC timing are
 acceptable. Those design/permission questions are resolved. No commit.
@@ -33,9 +43,9 @@ The resumed full integration is described in [README.md](README.md).
   `OnIdle()` calls the single control-thread service. Model installation and
   removal no longer call a host latency API from the audio callback. No model
   loading, transfer, resampling or downstream DSP calculation was changed.
-- Full M2 now publishes model latency plus 32 for AH (zero for Off/TC/MC),
-  together with the selector identity. DSP uses the permitted identity, so a
-  pending VST3 restart cannot prematurely engage the new pedal.
+- Full M2 publishes model latency plus 32 for every selection. The initial
+  product latency is 32 before any callback or idle service. Selector identity
+  is no longer part of the latency request, permission, or adoption path.
 - Framework bypass enable/disable has its own complementary 10 ms fade, using
   scratch allocated in the existing inactive `SetBlockSize` lifecycle. A rapid
   reversal ramps from the current weight. During fully settled bypass, a small
@@ -45,13 +55,14 @@ The resumed full integration is described in [README.md](README.md).
 
 ## Format behavior and guarantees
 
-**VST3:** A latency request while active asks for `kLatencyChanged` before
-permitting the new configuration. The actual `setActive` lifecycle publishes
-the permitted latency before the host's post-reactivation query; rendering
-then owns the short tap fade. Stopped transport and `setProcessing(false)` are
-not used as control-thread authorization. A host that ignores/declines the
-restart cannot be promised immediate adoption. Playback interruption during a
-host restart remains host-dependent.
+**VST3:** The control service permits the requested model total without waiting
+for host reactivation. Audio owns the short tap fade and publishes its settled
+target. Only then does the control service call `restartComponent(kLatencyChanged)`.
+Publication stays pinned until that call returns: an immediate latency query
+and a query after deactivate/reactivate both see the announced total.
+`setActive` does not overwrite publication or permission. Neither restart
+success nor reactivation proves sample-timed PDC adoption. Model-change timing
+mismatch and playback interruption during a host restart remain host-dependent.
 
 **AU:** Audio publishes completed state first. The control service invokes the
 property notification afterward. Publication stays pinned until notification
@@ -65,8 +76,8 @@ pretends to be an activation lifecycle while rendering can continue.
 
 **Settled invariant:** the reported sample count and
 the active bypass tap agree exactly. During a crossfade, two temporal
-alignments can contribute. During VST3 reactivation the host can query the new
-latency before the first resumed render. The combined full-pedal/framework harness also checks exact settled agreement
+alignments can contribute. VST3 publication precedes notification and remains
+stable across reactivation. The combined full-pedal/framework harness also checks exact settled agreement
 and rapid normal/bypass changes. The latency framework tests separately cover
 nonzero model contributions without asserting a new NAM-model fidelity result.
 
@@ -79,14 +90,15 @@ Other iPlug2 formats/examples are not validated by this scoped patch.
 `latency-tests.cpp` compiles the **real `IPlugProcessor.cpp` and bypass delay**
 with a small notification/lifecycle host double. It is not an actual DAW test
 and does not execute the entire AU/VST3 wrapper. Format ordering is separately
-inspected in source and compiled in all three products. Real DAW PDC behavior
-still requires manual host inspection.
+inspected in source and compiled in all three products. Real REAPER VST3/AU
+inspection subsequently passed, as recorded in the full M2 report. Other hosts
+remain untested; the APIs still provide no sample-timed PDC acknowledgement.
 
 - Current Debug and optimized native tests pass at 44.1/48/88.2/96/176.4/192 kHz,
   callback sizes 1/2/4/8/32/64/128.
 - Exact settled taps, 0→32→0, model totals 29/61/75/107, warm history across
   normal/bypass changes, in-place buffers, transition continuity, rapid
-  requests, synchronous queries, delayed restart/reactivation and concurrent
+  requests, pinned synchronous queries, query-first/reactivating VST3/AU host doubles and concurrent
   rendering/control requests pass.
 - The tested transition render is bit-identical across all seven partitions.
 - Native allocation/free/mutex interposition detects zero calls inside the
@@ -95,8 +107,9 @@ still requires manual host inspection.
   an earlier weak-inline interposer failed its self-test and was corrected.
 - All existing HoldsworthEngine regression tests pass with the Xcode
   native toolchain. This is not a claim of new full NAM-model fidelity testing.
-- Frozen Drive sources match their M1 validation hashes; all tracked legacy
-  DSP files remain byte-identical to HEAD.
+- Boost/TC/MC/Yamaha sources retain their validation hashes. The accepted Drive
+  Treble refinement is explicitly checked separately from the historical M1
+  hashes; this latency cleanup changes no accepted DSP source bytes.
 - Strict test-source warnings pass. The framework static analyzer reports the
   same four raw-pointer/WDL ownership leak warnings on unmodified iPlug2 and
   on the patch; there are no additional diagnostics.
@@ -112,7 +125,11 @@ No installed plugins or user AU caches are modified by the isolated builds.
 
 ## Precise change boundary
 
-Vendored iPlug2 revision remains `de5a4fb14fd964247f0c70f2c90b32876a3bfc7c`.
+Upstream iPlug2 baseline: `de5a4fb14fd964247f0c70f2c90b32876a3bfc7c`.
+Published repair: `8b7def3150e0b7d2d51c38d5a66833a8753a77d7`, a direct child,
+on `holdsworth-latency-safety` at `https://github.com/marte1337/iPlug2.git`.
+The parent `.gitmodules` URL and gitlink now identify this retrievable repair.
+An independent fresh HTTPS fetch verified the commit and its required new header.
 Exactly these dependency files are changed/added:
 
 1. `IPlug/Extras/LatencyState.h` (new)
@@ -128,5 +145,7 @@ Plugin files: `NeuralAmpModeler/NeuralAmpModeler.h` and `.cpp` (latency plumbing
 Support files here: `latency-tests.cpp`, `rt-audit.h`, `rt-audit.cpp`,
 `validate-latency.sh`, this report and the updated historical review. Earlier
 `latency-timing-probe.py` is still only a timing-contract illustration.
-All prior uncommitted M0/M1 work is preserved. The additional full M2 inventory
-is in [README.md](README.md). No commit or dependency revision update.
+The historical M0/M1 work and existing MC402/Rockett commits are preserved.
+The additional full M2 inventory and accepted host validation are in
+[README.md](README.md). The parent dependency/integration and Treble refinement
+are separate commits; no history rewrite or parent push is part of this cleanup.

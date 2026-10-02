@@ -4,7 +4,14 @@
 authorized a separately reviewed [Drive behavioral design](drive-v1/README.md)
 without a verified circuit. This supersedes the historical Drive deferral and
 evidence prerequisite below. Drive M1 and full live M2 were subsequently approved;
-see the [full-pedal M2 report](drive-v1/m2/README.md). Both profiles remain frozen.
+see the [full-pedal M2 report](drive-v1/m2/README.md). Manual audition passed and
+the final accepted Drive profile changes only its Treble range to −9…+9 dB at
+the unchanged 2.5 kHz shelf; the Boost profile remains frozen.
+The complete milestone was accepted after real REAPER VST3/AU validation on
+2026-10-02. The final integration uses a fixed 32-sample pedal domain for all
+four outer choices; dynamic model-latency fixtures report 32 -> 61 -> 32.
+The [full M2 record](drive-v1/m2/README.md) supersedes the historical
+integration proposals below without changing the frozen Boost responses.
 
 Status: M0/M1 approved by the user; M2 live integration authorized.
 M2 preserves these sonic choices and batches the same history replay recurrence

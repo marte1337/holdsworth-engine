@@ -4,10 +4,18 @@
 Profile: `JROCKETT-AH-DRIVE-BEHAVIORAL-V1`.
 The approved architecture is **pre-drive Bass, 4× oversampled asinh compression,
 post-drive Treble, then Volume**. [Isolated M1 is complete](m1/README.md), with
-the user's exact-mute Volume correction. The earlier Volume proposal and
-pre-implementation review language below are retained as historical context;
-the M1 report and C++ profile define the current taper and implementation.
-No live Drive, UI, NAM or Boost integration changes; no commit.
+the user's exact-mute Volume correction. Full M2 and manual audition subsequently
+passed. The accepted profile now uses the auditioned **2.5 kHz, −9…+9 dB Treble
+shelf**; Gain, Bass, Volume, transfer, oversampling and routing are unchanged.
+The retained renders and numerical tables below were produced for the initial
+−6…+6 dB Treble design, so they remain historical design evidence rather than
+fresh measurements of the final endpoints. The M1 report and C++ profile define
+the implemented taper and current constants.
+The complete Boost/Drive, fixed 32-sample pedal domain and model-latency repair
+passed user-reported REAPER VST3/AU validation on 2026-10-02. The accepted
+[M2 record](m2/README.md) documents 32 -> 61 -> 32 model-latency switching and
+the small, non-blocking transient at model replacement. The design-stage
+proposals and renders below remain historical evidence.
 
 The user intentionally authorized an educated behavioral Drive without a verified
 circuit. This supersedes the earlier Drive-deferral decision in the Boost M0
@@ -114,23 +122,23 @@ All sonic constants are centralized in [profile.json](profile.json):
 | Gain | normalized 0–1; internal 0–24 dB; default 0.5 |
 | Sensitivity reference / compensation | 1 software V; `D^(-0.35)` |
 | Bass | first-order low shelf, 250 Hz, −6…+6 dB, linear dB mapping |
-| Treble | first-order high shelf, 2.5 kHz, −6…+6 dB, linear dB mapping |
+| Treble | first-order high shelf, 2.5 kHz, −9…+9 dB, linear dB mapping |
 | Tone noon | normalized 0.5 = exact wire, **software convention only** |
-| Volume | −24…+12 dB, default 0 dB; multiplier `10^(volumeDb/20)` after all Drive processing |
-| Normalized Volume, if needed later | `volumeDb = −24 + 36v`; 0 dB occurs at `v = 2/3` |
-| Proposed control ramps | 10 ms; not exercised by the settled offline oracle |
+| Volume | exact mute at 0; `10^(12/20) × v³`; default `v=0.6309573444801932` = 0 dB; maximum +12 dB |
+| Control ramps | 10 ms; not exercised by the settled offline oracle |
 | Oversampling | fixed 4× at all six supported rates |
 | Each FIR | 129 taps; Kaiser β = 8.6; cutoff = 0.5 × base sample rate |
 
 Shelf frequency is the midpoint in dB between asymptotes. For `a=10^(dB/20)`
 and `ω=2πf`, analog definitions are `(s+ω√a)/(s+ω/√a)` for low shelf and
 `a(s+ω/√a)/(s+ω√a)` for high shelf. Use first-order DF2-transposed realizations
-with bilinear prewarping at each center, at the base rate. At ±6 dB the center
-is ±3 dB. The reuse of Boost's transparent shelf definition/frequencies is a
+with bilinear prewarping at each center, at the base rate. At the endpoints the
+center gain is half the shelf amount: Bass ±3 dB and Treble ±4.5 dB. The reuse
+of Boost's transparent shelf definition/frequencies is a
 software economy; it is not a claim about the Drive circuit.
 
 Volume has no effect on the nonlinear stage or tone filters. It is a pure post
-scalar, with 36 dB of matching range; minimum is attenuation, not mute. No
+scalar with exact mute at zero and useful attenuation over the lower travel. No
 Gain-dependent tone compensation, dry blend, asymmetry, noise, sag, hidden
 limiter, extra fixed high-pass/low-pass tone filter or auto loudness matching.
 

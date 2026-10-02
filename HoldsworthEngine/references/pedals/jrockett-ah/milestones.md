@@ -1,15 +1,32 @@
 # Milestones and stopping rules
 
+2026-10-02: full J. Rockett AH behavioral v1, fixed 32-sample pedal domain and
+latency repair accepted after real REAPER VST3 and AU validation. Off/TC/MC
+engage AH immediately; outer and internal switches are clean and pedal choice
+does not change reported latency. Both formats pass the deterministic NAM
+32 -> 61 -> 32 sample sequence with no persistent timing, doubling, comb
+filtering or echo. A tiny momentary crackle only at model replacement disappears
+immediately and is accepted as a non-blocking polish item. No automatic M3.
+
+2026-10-01: REAPER validation exposed a query-first VST3 host incompatibility.
+The user approved fixed 32-sample pedal-domain latency and publication-before-
+notification for remaining model latency. Implementation and automated checks
+were complete; the real REAPER gate passed on 2026-10-02 above. Profiles stay
+frozen, including the accepted +/-9 dB Drive Treble.
+
 Drive update, 2026-09-15: design/audition approved; profile frozen with an
 exact-mute Volume taper. [Isolated Drive M1](drive-v1/m1/README.md) is implemented
 and validated. Full Drive M2 and the dynamic latency repair were subsequently authorized;
-see the [full-pedal M2 report](drive-v1/m2/README.md). Manual audition is pending.
+see the [full-pedal M2 report](drive-v1/m2/README.md). Manual audition passed;
+its only accepted profile refinement is Drive Treble at 2.5 kHz, −9…+9 dB,
+with exact 0 dB noon.
 
 2026-09-14: Boost M2 manual audition passed, as recorded in the [package status](README.md).
 The user intentionally authorized [Drive Behavioral v1 design/offline prototypes](drive-v1/README.md)
 without a verified circuit. That new scope supersedes the historical Drive stop
 rule below. That historical design authorization was followed by M1 and live M2 approval.
-Both frozen profiles remain unchanged; M3 remains optional.
+The Boost profile remains unchanged; the accepted Drive profile includes the
+auditioned Treble refinement above. M3 remains optional.
 
 M0 and M1 are approved. M2 live integration is implemented with the same complete-EQ
 crossfade behavior. See the [M2 report](m2/README.md) for tests, official rate

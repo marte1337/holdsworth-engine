@@ -5,8 +5,16 @@ Boost M0/M1 approved; M2 implemented and manual audition passed (user report,
 preferred with amp Bass at 0. Rockett and TC BLD sounded meaningfully different.
 Adjacent F/C/T differences may be conservative; no Boost retune is authorized.
 Profile: **`JROCKETT-AH-BOOST-BEHAVIORAL-V1`**. Curves remain unmeasured behavioral
-audition choices. Full Boost/Drive M2 is now implemented; manual full-pedal
-audition remains pending. No commit.
+audition choices. Full Boost/Drive M2 and manual audition passed. The accepted
+Drive profile uses the auditioned 2.5 kHz Treble shelf at −9…+9 dB with exact
+0 dB noon; every other Drive/Boost profile choice is unchanged. The later
+fixed pedal-domain latency update below changes integration only.
+Real REAPER VST3/AU host validation passed and the full milestone was accepted
+on 2026-10-02. Pedal switching preserves reported latency; the deterministic
+NAM fixture sequence reports 32 -> 61 -> 32 samples without persistent timing
+artifacts. A tiny momentary crackle exactly at model replacement is accepted
+as a non-blocking polish item. See the [full M2 record](drive-v1/m2/README.md)
+for the host observations and published iPlug2 dependency.
 See the [M1 report](m1/README.md) for the frozen profile and historical measurements,
 and the [M2 report](m2/README.md) for live integration, realtime checks and audition.
 
@@ -15,7 +23,9 @@ The [isolated Drive M1](drive-v1/m1/README.md) implements Bass → 4× asinh →
 Treble → Volume, including the approved exact-mute Volume correction. All 270
 Debug/Release/sanitizer tests passed at M1. The authorized
 [full-pedal M2](drive-v1/m2/README.md) adds live Drive, section enables and
-coordinated dynamic host latency without retuning either profile.
+fixed 32-sample pedal-domain latency and coordinated dynamic model latency.
+Pedal selection does not negotiate host latency. The accepted Treble-range refinement is
+recorded in that M2 report.
 The [initial offline design](drive-v1/README.md) remains the sonic reference.
 This is an educated behavioral model, not newly established hardware evidence.
 Boost stays frozen.

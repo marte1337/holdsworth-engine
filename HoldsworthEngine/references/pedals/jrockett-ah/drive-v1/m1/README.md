@@ -4,6 +4,15 @@ Profile frozen by user approval: `JROCKETT-AH-DRIVE-BEHAVIORAL-V1`.
 Implementation and validation complete; report finalized 2026-09-15. No live
 integration or host latency work. Drive is enrolled only in HoldsworthEngineTests.
 
+Historical note: this isolated M1 and its retained oracle measurements used a
+−6…+6 dB Treble shelf. After full M2 audition, the user accepted only a Treble
+range refinement to −9…+9 dB at the same 2.5 kHz frequency and exact 0 dB noon.
+The final accepted profile is recorded in the [M2 report](../m2/README.md); the
+M1 results below remain an accurate record of the earlier isolated validation.
+Full M2, fixed pedal-domain alignment and dynamic NAM latency subsequently
+passed real REAPER VST3/AU validation and were accepted on 2026-10-02. That
+host result is recorded in M2; it does not revise the isolated measurements.
+
 ## Approved Volume correction
 
 The single correction to the [approved design](../README.md) is a normalized

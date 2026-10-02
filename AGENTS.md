@@ -252,16 +252,26 @@ support. See `references/pedals/jrockett-ah/m2` under HoldsworthEngine.
 
 `JRockettAHDriveProcessor` implements the approved unmeasured behavioral profile
 `JROCKETT-AH-DRIVE-BEHAVIORAL-V1`: pre-drive Bass, fixed 4× oversampled asinh with
-the frozen Gain law, post-drive Treble and Volume. Volume uses a cubic normalized
+the frozen Gain law, post-drive Treble at 2.5 kHz with an accepted −9…+9 dB range
+and exact 0 dB noon, then Volume. Volume uses a cubic normalized
 taper with exact mute at zero, 0 dB default and +12 dB maximum. It has 10 ms
 control ramps, a coherent SPSC handoff and 32 samples of FIR latency. It is
 enrolled in the live products under the authorized full M2. `JRockettAHPedal`
 supports local bypass, Boost, Drive and Boost -> Drive at a fixed 32 samples.
-Off/TC/MC retain zero pedal latency. A scoped iPlug2 repair coordinates dynamic
-latency on the control thread; AU PDC adoption timing remains host-dependent.
+All outer choices now have fixed 32-sample pedal-domain latency: Off/TC/MC use
+an alignment delay, while AH receives no second delay. Pedal selection is
+independent of host latency permission. A scoped iPlug2 repair publishes settled
+model-plus-32 latency before control-thread notification, including query-first
+VST3 hosts. Host PDC adoption timing during model changes remains host-dependent.
 See `references/pedals/jrockett-ah/drive-v1/m2` under HoldsworthEngine.
 Do not retune either profile or infer hardware circuitry. Manual full-pedal
-M2 audition remains pending.
+M2 audition passed; the Treble range above was its only accepted refinement.
+Real REAPER VST3 and AU validation passed on 2026-10-02: pedal and internal
+section switching are clean, pedal selection leaves reported latency unchanged,
+and the unity 48/44.1/48 kHz models report 32/61/32 samples at a 48 kHz host.
+No persistent timing artifacts were observed. A tiny transient exactly at NAM
+model replacement is accepted as a non-blocking polish item. The iPlug2 repair
+is published on the user-owned fork; see the M2 report for its retrievable SHA.
 
 ## Yamaha source data versus DSP data
 
