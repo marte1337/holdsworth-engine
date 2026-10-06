@@ -102,6 +102,6 @@ In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/Ne
       |            (void*)
 7 warnings generated.
 warning: LSMinimumSystemVersion of '10.15.0' is less than the value of MACOSX_DEPLOYMENT_TARGET '12.0' - setting to '12.0'. (in target 'APP' from project 'NeuralAmpModeler-macOS')
-note: Using codesigning identity override: 
+note: Using codesigning identity override:
 note: Run script build phase 'Run Script' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Update plists' from project 'NeuralAmpModeler-macOS')
 warning: Run script build phase 'Run Script - prepare_resources-mac.py' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'APP' from project 'NeuralAmpModeler-macOS')

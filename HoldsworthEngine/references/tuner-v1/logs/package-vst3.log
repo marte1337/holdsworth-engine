@@ -102,6 +102,6 @@ In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/Ne
       |                 ^
       |            (void*)
 7 warnings generated.
-note: Using codesigning identity override: 
+note: Using codesigning identity override:
 note: Run script build phase 'Run Script' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Update plists' from project 'NeuralAmpModeler-macOS')
 note: Run script build phase 'Run Script - prepare_resources-mac.py' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'VST3' from project 'NeuralAmpModeler-macOS')

@@ -102,7 +102,7 @@ In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/Ne
       |                 ^
       |            (void*)
 7 warnings generated.
-note: Using codesigning identity override: 
+note: Using codesigning identity override:
 note: Run script build phase 'Run Script' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Update plists' from project 'NeuralAmpModeler-macOS')
 warning: Build Carbon Resources build phases are no longer supported.  Rez source files should be moved to the Copy Bundle Resources build phase. (in target 'AU' from project 'NeuralAmpModeler-macOS')
 warning: Run script build phase 'Run Script - clear_audiounit_caches.sh' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'AU' from project 'NeuralAmpModeler-macOS')
