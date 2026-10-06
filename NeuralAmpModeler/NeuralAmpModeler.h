@@ -16,6 +16,8 @@
   #include "../HoldsworthEngine/integration/DevelopmentAHOuterTransition.h"
   #include "../HoldsworthEngine/dsp/JRockettAHPedal.h"
   #include "../HoldsworthEngine/integration/DevelopmentControlDefaults.h"
+  #include "../HoldsworthEngine/integration/TunerAnalysisService.h"
+  #include "../HoldsworthEngine/integration/TunerDisplayState.h"
 #endif
 
 #include "Colors.h"
@@ -102,6 +104,8 @@ enum ECtrlTags
   kCtrlTagAHDriveBass,
   kCtrlTagAHDriveTreble,
   kCtrlTagAHDriveVolume,
+  kCtrlTagTunerEnabled,
+  kCtrlTagTunerDisplay,
 #endif
   kNumCtrlTags
 };
@@ -136,6 +140,8 @@ enum EMsgTags
   kMsgTagAHDriveBass,
   kMsgTagAHDriveTreble,
   kMsgTagAHDriveVolume,
+  kMsgTagTunerEnabled,
+  kMsgTagTunerDisplay,
 #endif
   kNumMsgTags
 };
@@ -267,6 +273,16 @@ public:
   bool SerializeState(iplug::IByteChunk& chunk) const override;
   int UnserializeState(const iplug::IByteChunk& chunk, int startPos) override;
   void OnUIOpen() override;
+  void OnUIClose() override;
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  // Control-thread diagnostics share the same analysis state used by the UI.
+  const holdsworth::dsp::TunerPitchEstimate& DevelopmentTunerEstimate() const noexcept
+  { return mTunerAnalysis.estimate(); }
+  std::uint64_t DevelopmentTunerAnalysisCount() const noexcept
+  { return mTunerAnalysis.analysisCount(); }
+  const holdsworth::integration::TunerDisplaySnapshot& DevelopmentTunerResult() const noexcept
+  { return mTunerDisplay.snapshot(); }
+#endif
   bool OnHostRequestingSupportedViewConfiguration(int width, int height) override { return true; }
 
   void OnParamChange(int paramIdx) override;
@@ -274,6 +290,11 @@ public:
   bool OnMessage(int msgTag, int ctrlTag, int dataSize, const void* pData) override;
 
 private:
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  void _CaptureTunerInput(iplug::sample** inputs, int nFrames) noexcept;
+  holdsworth::integration::TunerAnalysisService mTunerAnalysis;
+  holdsworth::integration::TunerDisplayState mTunerDisplay;
+#endif
   // Allocates mInputPointers and mOutputPointers
   void _AllocateIOPointers(const size_t nChans);
   // Moves DSP modules from staging area to the main area.

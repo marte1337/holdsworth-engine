@@ -1,0 +1,6 @@
+{"sample_rate":44100,"analysis_us_p50":1134,"analysis_us_p99":1572.92,"analysis_us_max":2268.29,"feed_50ms_us_p99":231.125}
+{"sample_rate":48000,"analysis_us_p50":1148.92,"analysis_us_p99":1663.38,"analysis_us_max":28121.9,"feed_50ms_us_p99":247.792}
+{"sample_rate":88200,"analysis_us_p50":1115.83,"analysis_us_p99":1974.29,"analysis_us_max":14611.7,"feed_50ms_us_p99":421.917}
+{"sample_rate":96000,"analysis_us_p50":1189.08,"analysis_us_p99":1566,"analysis_us_max":1850.67,"feed_50ms_us_p99":486.875}
+{"sample_rate":176400,"analysis_us_p50":1128.21,"analysis_us_p99":1790.71,"analysis_us_max":30901,"feed_50ms_us_p99":895.917}
+{"sample_rate":192000,"analysis_us_p50":1186.67,"analysis_us_p99":1513.33,"analysis_us_max":1633.04,"feed_50ms_us_p99":964.791}

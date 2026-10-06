@@ -116,5 +116,9 @@ void beginAllocationTracking() noexcept;
 [[nodiscard]] TestSuite jRockettAHPedalTests() noexcept;
 [[nodiscard]] TestSuite mc402CleanBoostProcessorTests() noexcept;
 [[nodiscard]] TestSuite developmentPreNAMSelectorTests() noexcept;
+[[nodiscard]] TestSuite chromaticTunerTests() noexcept;
+[[nodiscard]] TestSuite tunerAnalysisServiceTests() noexcept;
+[[nodiscard]] TestSuite tunerCaptureBufferTests() noexcept;
+[[nodiscard]] TestSuite tunerDisplayStateTests() noexcept;
 
 } // namespace holdsworth::test

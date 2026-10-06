@@ -1,0 +1,47 @@
+{
+  "validated_at_utc": "2026-10-06T10:19:23.481131+00:00",
+  "purpose": "Final checks before the user-authorized normal Git integration",
+  "implementation": "unchanged from accepted source fingerprints",
+  "debug_release_command": "TUNER_BUILD=/private/tmp/nam-tuner-v1-integration bash HoldsworthEngine/references/tuner-v1/validate-engine.sh debug release",
+  "engine": {
+    "debug": {
+      "status": "passed",
+      "tests": 309,
+      "log": "logs/integration-tests-debug.log",
+      "binary_sha256": "ec6daaa39f14e84b8b96af09c7f535097cebf7a2e2f641fde6ca7bcfc1a85017"
+    },
+    "release": {
+      "status": "passed",
+      "tests": 309,
+      "log": "logs/integration-tests-release.log",
+      "binary_sha256": "8988ca97e0a3696325584fd2dde11ac12821b6f4e1f8ba4a4c7718ba8ca48774"
+    }
+  },
+  "release_products": {
+    "APP": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.app",
+      "binary_sha256": "64a76203d88b52e8cf8a9e54026f30ab31c611f664899a51468ad7b712887c8e",
+      "signature": "strict deep ad-hoc verification passed",
+      "plist": "lint passed"
+    },
+    "VST3": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.vst3",
+      "binary_sha256": "81e1b2319d4243af9c327608c714ec3c875a645abf0eca6d9bc236e2b9ac827d",
+      "signature": "strict deep ad-hoc verification passed",
+      "plist": "lint passed"
+    },
+    "AU": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.component",
+      "binary_sha256": "501cf631b8b311bf1d4fcbfb229d9a7cf0aa44bf21b26a728f13603c727eddad",
+      "signature": "strict deep ad-hoc verification passed",
+      "plist": "lint passed"
+    }
+  },
+  "build_command": "TUNER_BUILD=/private/tmp/nam-tuner-v1-integration bash HoldsworthEngine/references/tuner-v1/package-products.sh",
+  "build_log": "logs/integration-products.log",
+  "git_diff_check": "passed",
+  "prior_objective_and_manual_acceptance": "remain accepted; no algorithm/UI/DSP changes"
+}

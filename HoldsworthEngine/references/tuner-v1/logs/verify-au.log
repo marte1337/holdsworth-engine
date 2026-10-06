@@ -1,0 +1,7 @@
+$ codesign --verify --deep --strict --verbose=2 /private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component
+/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component: valid on disk
+/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component: satisfies its Designated Requirement
+$ plutil -lint /private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component/Contents/Info.plist
+/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component/Contents/Info.plist: OK
+$ file /private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component/Contents/MacOS/NeuralAmpModeler
+/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit bundle arm64

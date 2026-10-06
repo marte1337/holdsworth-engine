@@ -1,0 +1,39 @@
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/vst3-host.mm:2:
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/host-common.h:12:
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/../../../NeuralAmpModeler/NeuralAmpModeler.h:8:
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/../../../NeuralAmpModeler/../NeuralAmpModelerCore/NAM/dsp.h:12:
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/../../../NeuralAmpModeler/../NeuralAmpModelerCore/NAM/activations.h:16:
+../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24314:35: warning: identifier '_json' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]
+ 24314 | inline nlohmann::json operator "" _json(const char* s, std::size_t n)
+       |                       ~~~~~~~~~~~~^~~~~
+       |                       operator""_json
+../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24322:49: warning: identifier '_json_pointer' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]
+ 24322 | inline nlohmann::json::json_pointer operator "" _json_pointer(const char* s, std::size_t n)
+       |                                     ~~~~~~~~~~~~^~~~~~~~~~~~~
+       |                                     operator""_json_pointer
+../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24386:58: warning: identifier '_json' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]
+ 24386 |     using nlohmann::literals::json_literals::operator "" _json; // NOLINT(misc-unused-using-decls,google-global-names-in-headers)
+       |                                              ~~~~~~~~~~~~^~~~~
+       |                                              operator""_json
+../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24387:58: warning: identifier '_json_pointer' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]
+ 24387 |     using nlohmann::literals::json_literals::operator "" _json_pointer; //NOLINT(misc-unused-using-decls,google-global-names-in-headers)
+       |                                              ~~~~~~~~~~~~^~~~~~~~~~~~~
+       |                                              operator""_json_pointer
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/vst3-host.mm:2:
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/host-common.h:12:
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/../../../NeuralAmpModeler/NeuralAmpModeler.h:23:
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/HoldsworthEngine/references/tuner-v1/../../../NeuralAmpModeler/Colors.h:12:
+In file included from /Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/iPlug2/IGraphics/IGraphicsStructs.h:27:
+/Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/iPlug2/IGraphics/IGraphicsPrivate.h:286:18: warning: 'codecvt_utf8_utf16<char16_t>' is deprecated [-Wdeprecated-declarations]
+  286 |             std::codecvt_utf8_utf16<char16_t> conv;
+      |                  ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/codecvt:573:7: note: 'codecvt_utf8_utf16<char16_t>' has been explicitly marked deprecated here
+  573 | class _LIBCPP_DEPRECATED_IN_CXX17 codecvt_utf8_utf16 : public __codecvt_utf8_utf16<_Elem> {
+      |       ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config:540:41: note: expanded from macro '_LIBCPP_DEPRECATED_IN_CXX17'
+  540 | #    define _LIBCPP_DEPRECATED_IN_CXX17 _LIBCPP_DEPRECATED
+      |                                         ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config:504:49: note: expanded from macro '_LIBCPP_DEPRECATED'
+  504 | #      define _LIBCPP_DEPRECATED __attribute__((__deprecated__))
+      |                                                 ^
+5 warnings generated.

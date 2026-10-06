@@ -1,0 +1,18 @@
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.app: replacing existing signature
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.app: valid on disk
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.app: satisfies its Designated Requirement
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.app/Contents/Info.plist: OK
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.app/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit executable arm64
+PASS Release APP: /private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.app
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.vst3: replacing existing signature
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.vst3: valid on disk
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.vst3: satisfies its Designated Requirement
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.vst3/Contents/Info.plist: OK
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.vst3/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit bundle arm64
+PASS Release VST3: /private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.vst3
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.component: replacing existing signature
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.component: valid on disk
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.component: satisfies its Designated Requirement
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.component/Contents/Info.plist: OK
+/private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.component/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit bundle arm64
+PASS Release AU: /private/tmp/nam-tuner-v1-integration/products/NeuralAmpModeler.component

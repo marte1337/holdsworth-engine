@@ -1,0 +1,17 @@
+PASS: Tuner capture inactive and rapid control revisions
+PASS: Tuner capture input fold partitions and bit preservation
+PASS: Tuner capture lifecycle and host rates
+PASS: Tuner capture FIFO overrun and fresh recovery
+PASS: Tuner capture nonfinite and float overflow rejection
+PASS: Tuner capture modular sequence and control revision
+PASS: Tuner capture concurrent SPSC ownership and resets
+PASS: Tuner capture fixed storage and disabled fast path
+All 8 HoldsworthEngine tests passed.
+METRIC tuner capture_to_analysis_max_ms=100
+PASS: Tuner service acquisition bounded cadence
+PASS: Tuner service enable editor and rate lifecycle
+PASS: Tuner service stale backlog and overflow
+PASS: Tuner service stale wall and first idle backlog
+PASS: Tuner service concurrent reset capture drain
+PASS: Tuner service unsupported rate lifecycle recovery
+All 6 HoldsworthEngine tests passed.

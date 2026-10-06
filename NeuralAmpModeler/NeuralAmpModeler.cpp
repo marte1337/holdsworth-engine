@@ -1,5 +1,6 @@
 #include <algorithm> // std::clamp, std::min
 #include <cmath> // pow
+#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <filesystem>
@@ -395,6 +396,9 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
   std::feholdexcept(&fe_state);
   disable_denormals();
 
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  _CaptureTunerInput(inputs, nFrames);
+#endif
   _PrepareBuffers(numChannelsInternal, numFrames);
 
   double selectedInputGain = mInputGain;
@@ -576,6 +580,7 @@ void NeuralAmpModeler::OnReset()
   const int maxBlockSize = GetBlockSize();
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+  mTunerAnalysis.capture().prepare(sampleRate); // producer state only; no consumer reset
   const auto tcBldControls =
     holdsworth::integration::tcBldControlsFromDevelopmentUI(
       mTCBldGain.load(std::memory_order_relaxed),
@@ -648,6 +653,18 @@ void NeuralAmpModeler::OnIdle()
   ServiceLatencyUpdates(); // sole control-thread host latency coordinator
   mInputSender.TransmitData(*this);
   mOutputSender.TransmitData(*this);
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  const double tunerNow = std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count();
+  const bool tunerAnalyzed = mTunerAnalysis.service(tunerNow);
+  mTunerDisplay.update(mTunerAnalysis.active(), mTunerAnalysis.estimate(), tunerAnalyzed,
+    mTunerAnalysis.historyRevision(), mTunerAnalysis.evidenceTime(), tunerNow);
+  if (GetUI())
+  {
+    const auto& snapshot = mTunerDisplay.snapshot();
+    SendControlMsgFromDelegate(kCtrlTagTunerDisplay, kMsgTagTunerDisplay,
+      static_cast<int>(sizeof(snapshot)), &snapshot);
+  }
+#endif
 
   if (mNewModelLoadedInDSP)
   {
@@ -714,6 +731,9 @@ void NeuralAmpModeler::OnUIOpen()
   Plugin::OnUIOpen();
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+  mTunerAnalysis.capture().setEditorOpen(true);
+  mTunerDisplay.reset(mTunerAnalysis.active());
+  SendControlValueFromDelegate(kCtrlTagTunerEnabled, mTunerAnalysis.capture().requestedEnabled() ? 1.0 : 0.0);
   SendControlValueFromDelegate(
     kCtrlTagPreNAMProcessor,
     static_cast<double>(mPreNAMRequestedProcessor.load(std::memory_order_relaxed)) / 3.0);
@@ -771,6 +791,15 @@ void NeuralAmpModeler::OnUIOpen()
   }
 }
 
+void NeuralAmpModeler::OnUIClose()
+{
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  mTunerAnalysis.capture().setEditorOpen(false);
+  mTunerDisplay.reset(false);
+#endif
+  Plugin::OnUIClose();
+}
+
 void NeuralAmpModeler::OnParamChange(int paramIdx)
 {
   switch (paramIdx)
@@ -816,6 +845,20 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
     case kMsgTagClearModel: mShouldRemoveModel = true; return true;
     case kMsgTagClearIR: mShouldRemoveIR = true; return true;
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+    case kMsgTagTunerEnabled:
+    {
+      if (ctrlTag != kCtrlTagTunerEnabled || dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
+        return false;
+      double value = 0.;
+      std::memcpy(&value, pData, sizeof(value));
+      const bool enabled = std::isfinite(value) && value >= .5;
+      if (enabled != mTunerAnalysis.capture().requestedEnabled())
+      {
+        mTunerAnalysis.capture().setEnabled(enabled);
+        mTunerDisplay.reset(mTunerAnalysis.active());
+      }
+      return true;
+    }
     case kMsgTagPreNAMProcessor:
     {
       if (ctrlTag != kCtrlTagPreNAMProcessor
@@ -1391,6 +1434,7 @@ void NeuralAmpModeler::_UpdateLatency()
 void NeuralAmpModeler::OnLatencyBypassBlock(sample** inputs, int nFrames)
 {
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+  _CaptureTunerInput(inputs, nFrames);
   // Keep the selected pre-NAM stage's time history current during host bypass.
   // NAM, cabinet and downstream effects remain bypassed. No scratch allocation.
   mPreNAMSelector.beginBlock(
@@ -1410,6 +1454,21 @@ void NeuralAmpModeler::OnLatencyBypassBlock(sample** inputs, int nFrames)
   }
 #endif
 }
+
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+void NeuralAmpModeler::_CaptureTunerInput(sample** inputs, int nFrames) noexcept
+{
+  if (nFrames <= 0) return;
+  constexpr bool averageChannels =
+#ifdef APP_API
+    false;
+#else
+    true;
+#endif
+  mTunerAnalysis.capture().captureBlock(inputs, static_cast<std::size_t>(nFrames),
+    static_cast<std::size_t>(std::max(0, NInChansConnected())), averageChannels);
+}
+#endif
 
 void NeuralAmpModeler::OnLatencyPrepareBlock(int)
 {

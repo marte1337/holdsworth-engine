@@ -1,0 +1,86 @@
+{
+  "validated_at_utc": "2026-10-05T19:08:44.543131+00:00",
+  "branch": "feature/tuner-v1",
+  "base_commit": "3c86168c9b67b2fcc956b797e8f1c8a54bf26d16",
+  "commits_created": false,
+  "machine": {
+    "model": "Macmini9,1",
+    "chip": "Apple M1",
+    "cores": 8,
+    "memory_gb": 16,
+    "os": "macOS 26.6.2",
+    "architecture": "arm64"
+  },
+  "compiler": "Apple clang 21.0.0 (clang-2100.3.34.2)",
+  "engine_checks": {
+    "debug": {
+      "status": "passed",
+      "tests": 309,
+      "log": "logs/tests-debug.log",
+      "test_binary_sha256": "3fceed2f07faed8435b2349e9cd4bf192cd543b66c31a236d9de2db6ef73776a"
+    },
+    "release": {
+      "status": "passed",
+      "tests": 309,
+      "log": "logs/tests-release.log",
+      "test_binary_sha256": "8988ca97e0a3696325584fd2dde11ac12821b6f4e1f8ba4a4c7718ba8ca48774"
+    },
+    "asan": {
+      "status": "passed",
+      "tests": 309,
+      "log": "logs/tests-asan.log",
+      "test_binary_sha256": "f14f1b8dd3c9028f9d1b019ca418e18908246d668a9895913cdabefc17ae04a0",
+      "sanitizers": [
+        "address",
+        "undefined"
+      ],
+      "options": {
+        "ASAN_OPTIONS": "detect_leaks=0:halt_on_error=1",
+        "UBSAN_OPTIONS": "halt_on_error=1"
+      }
+    },
+    "tsan": {
+      "status": "passed",
+      "tests": 14,
+      "log": "logs/tests-tsan.log",
+      "test_binary_sha256": "553e8b1bc4d30639b127e78a130115fd65ef62fcd710fb0f1995578b130f37b1",
+      "scope": "All 8 capture and 6 analysis-service tests, including concurrent SPSC and reset/control stress"
+    }
+  },
+  "strict_warnings": "All 7 new DSP/integration/test translation units pass -Wall -Wextra -Wpedantic -Werror",
+  "static_analyzer": {
+    "translation_units": 7,
+    "diagnostics": 0
+  },
+  "project_lint": "passed",
+  "git_diff_check": "passed",
+  "metrics": [
+    "clean_sine cases=7686 max_abs_cents=0.263483",
+    "amplitude_dc max_abs_cents=0.215237",
+    "guitar cases=1464 clean_max_abs_cents=1.28923 snr25_max_abs_cents=1.31206",
+    "rich_boundary cases=2496 max_abs_cents=1.34443",
+    "detector_acquisition_max_ms=100",
+    "capture_to_analysis_max_ms=100",
+    "capture_to_display_acquisition_max_ms=160"
+  ],
+  "source_sha256": {
+    "HoldsworthEngine/dsp/ChromaticTuner.cpp": "05a8a5f2b06eeac0c0bfd5e2298a82ed1b25305e31b60c9023fa8adc9241eb6a",
+    "HoldsworthEngine/dsp/ChromaticTuner.h": "10eb791ec0240a666f45c9ae5676059f1a64aa43336bf7bbc46d0b7fc9b29d43",
+    "HoldsworthEngine/integration/TunerAnalysisService.cpp": "4320a6a3feacb1365dcd352efe0eeaa6cd83e6a8f2c9da3f7c2033b12d8d38b6",
+    "HoldsworthEngine/integration/TunerAnalysisService.h": "cdc0e41fe559709e50fe440483f54295cdcc715fb11340ea45decbac7bf33b30",
+    "HoldsworthEngine/integration/TunerCaptureBuffer.h": "088f727fd5e1a95cc57ce1d0703677ecd1fc73cd036d42156f63985b17d52027",
+    "HoldsworthEngine/integration/TunerDisplayState.cpp": "7d3ccca3f98efa87002af6f0eda7030f867f77989aba1b6f9ad286bb2e2dcfba",
+    "HoldsworthEngine/integration/TunerDisplayState.h": "f8cf26c274a985fe0c61613eace916b5b81e1caa80e96dd7d437f78b70535ec2",
+    "HoldsworthEngine/tests/ChromaticTunerTests.cpp": "b70b50a8ae0e934f286994c25e5e6c78f105958d26ef4881fb79b3aefe9c00cf",
+    "HoldsworthEngine/tests/TunerAnalysisServiceTests.cpp": "a8463565e93dd293fd0dc7b4ffc34490af2e883a9327d9d354b9861fd4909f0c",
+    "HoldsworthEngine/tests/TunerCaptureBufferTests.cpp": "7065b3698ebfd50b3870a0b8c89436df769514368695c56b7ebc9c5fc84f2155",
+    "HoldsworthEngine/tests/TunerDisplayStateTests.cpp": "41c96ba703dc8bcadec74edd5c102449a426e1972cbb8e52a2df17a80363176f",
+    "HoldsworthEngine/ui/TunerControl.h": "db1bbddaab90325e366aaecba6917fec0d51a48bf0d9c2eaadb052abcdfb57ad",
+    "HoldsworthEngine/ui/DevelopmentPanel.h": "ebae6a3051a1c37e101ecab4ac13d14dd2ac1917d3cffcd6e07a6a0585a85f15",
+    "NeuralAmpModeler/NeuralAmpModeler.cpp": "d0cb0ef6f67378ac7835c5827c2246f6bca9d3675167f014df38b03f22da8bc2",
+    "NeuralAmpModeler/NeuralAmpModeler.h": "818e1f223cb5b9d1dece3308634482cc34667a59a8f5f61cb48654a16a4302f2",
+    "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj": "3f535e4ba3931f89be6c2d84db5ef8424d716b91b602bc34e6f9d3985dc9e8ac",
+    "HoldsworthEngine/tests/TestMain.cpp": "5b2582945087f2b1e455ecf22699a95bac030f7d070471301cb3a0ae5a8b3e79",
+    "HoldsworthEngine/tests/TestHarness.h": "505c41d4cf2995f086b69596db466449ea8875fd6576c82e2ea37e82c22d79c0"
+  }
+}
