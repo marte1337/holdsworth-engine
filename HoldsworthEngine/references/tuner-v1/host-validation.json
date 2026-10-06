@@ -1,0 +1,410 @@
+{
+  "kind": "Actual Release AU/VST3 bundle rendering and production APP-object rendering",
+  "scope": "Headless native acceptance hosts; no DAW/manual guitar audition claim",
+  "rates_hz": [
+    44100,
+    48000,
+    88200,
+    96000,
+    176400,
+    192000
+  ],
+  "callback_samples": [
+    1,
+    2,
+    4,
+    8,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024,
+    37
+  ],
+  "cold_legacy_first_use": "Disabled whole-plugin rendering warms existing scratch/filter allocation before audit; tuner first enable remains audited",
+  "formats": {
+    "APP": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.app",
+      "host_sample_format": "double (APP)",
+      "binary_sha256": "79e059bf08a1c9c62f8ae5b1b80f329dea731102eb5797c2dad26c7ed79930bb",
+      "runner_sha256": "514472c7eadae4bd92ba328b20fb365b49363d1729aab3fcead495caa440ee83",
+      "acceptance_log_sha256": "c3d84e0552189dbafbf0520c7beb46de209152ad3eb191de01b2272112434e90",
+      "acceptance_log": "logs/app-acceptance.log",
+      "cpu_csv": "logs/app-cpu.csv",
+      "audio": "bit-exact tuner on/off at all rates/blocks, normal and shared framework bypass",
+      "raw_pitch": "A2 within 2 cents, independent of trim and AH Drive",
+      "representative_pedal_routes": "Off/TC/MC/AH at 48k and blocks64/128/1024; normal/bypass bit-exact on/off",
+      "real_model_and_ir": {
+        "model": "/private/tmp/nam-tuner-v1/fixtures/linear-half-48k.nam",
+        "model_linear_weight": 0.5,
+        "ir": "/private/tmp/nam-tuner-v1/fixtures/colored-48k.wav",
+        "ir_samples": [
+          0.5,
+          0.25,
+          -0.125
+        ],
+        "rate_hz": 48000,
+        "loading": "existing serialized-state path; both fixtures audibly verified by output RMS",
+        "checks": "loaded-pipeline on/off bit-exact; raw A2 unchanged; latency32"
+      },
+      "lifecycle": "off/closed stop analysis, reopen reacquires; stopped-audio backlog after >150ms idle gap cannot publish; fresh full window required",
+      "latency_samples": 32,
+      "rt_allocation_free_lock_wait_calls_after_warmup": 0,
+      "interposition_self_test": "malloc, free and pthread_mutex_lock interception proven",
+      "benchmark_runner_sha256": "673cde4727829ec809e10681805dbef752918c6e42ca9fd8faa429b622faef06"
+    },
+    "VST3": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.vst3",
+      "host_sample_format": "float64 (VST3 kSample64)",
+      "binary_sha256": "8a6d4cd33b96c0189d40775a7aa8b10676299ef31c9d0672ba7d4cb6d7e3fbed",
+      "runner_sha256": "7d9cb4fca8bd74aa964b10016a6596168e713dc9fb51fd4e24d7c113690812e2",
+      "acceptance_log_sha256": "1d49cbc250a0efe9fb55e069712fc730d559e3f51017ba9965f68c740e2af5e0",
+      "acceptance_log": "logs/vst3-acceptance.log",
+      "cpu_csv": "logs/vst3-cpu.csv",
+      "audio": "bit-exact tuner on/off at all rates/blocks, normal and shared framework bypass",
+      "raw_pitch": "A2 within 2 cents, independent of trim and AH Drive",
+      "representative_pedal_routes": "Off/TC/MC/AH at 48k and blocks64/128/1024; normal/bypass bit-exact on/off",
+      "real_model_and_ir": {
+        "model": "/private/tmp/nam-tuner-v1/fixtures/linear-half-48k.nam",
+        "model_linear_weight": 0.5,
+        "ir": "/private/tmp/nam-tuner-v1/fixtures/colored-48k.wav",
+        "ir_samples": [
+          0.5,
+          0.25,
+          -0.125
+        ],
+        "rate_hz": 48000,
+        "loading": "existing serialized-state path; both fixtures audibly verified by output RMS",
+        "checks": "loaded-pipeline on/off bit-exact; raw A2 unchanged; latency32"
+      },
+      "lifecycle": "off/closed stop analysis, reopen reacquires; stopped-audio backlog after >150ms idle gap cannot publish; fresh full window required",
+      "latency_samples": 32,
+      "rt_allocation_free_lock_wait_calls_after_warmup": 0,
+      "interposition_self_test": "malloc, free and pthread_mutex_lock interception proven",
+      "benchmark_runner_sha256": "2e554b71eb248f2090277308806d4136fb072182215462bee27d202e5f46a4c6"
+    },
+    "AU": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component",
+      "host_sample_format": "float32",
+      "binary_sha256": "5c09b8ecdb6191d757d8a7a88880dcf1908944b19adcfaee6552bc6b0dbf9799",
+      "runner_sha256": "7558819b7c94b4d7116bf9d4022b0fff58e1078fc9e21232465c572b4e654698",
+      "acceptance_log_sha256": "b3fb8010c0af640193a7bc1c724ed256eae10209c2eeeb6ed0d0e54e3f3ee9da",
+      "acceptance_log": "logs/au-acceptance.log",
+      "cpu_csv": "logs/au-cpu.csv",
+      "audio": "bit-exact tuner on/off at all rates/blocks, normal and shared framework bypass",
+      "raw_pitch": "A2 within 2 cents, independent of trim and AH Drive",
+      "representative_pedal_routes": "Off/TC/MC/AH at 48k and blocks64/128/1024; normal/bypass bit-exact on/off",
+      "real_model_and_ir": {
+        "model": "/private/tmp/nam-tuner-v1/fixtures/linear-half-48k.nam",
+        "model_linear_weight": 0.5,
+        "ir": "/private/tmp/nam-tuner-v1/fixtures/colored-48k.wav",
+        "ir_samples": [
+          0.5,
+          0.25,
+          -0.125
+        ],
+        "rate_hz": 48000,
+        "loading": "existing serialized-state path; both fixtures audibly verified by output RMS",
+        "checks": "loaded-pipeline on/off bit-exact; raw A2 unchanged; latency32"
+      },
+      "lifecycle": "off/closed stop analysis, reopen reacquires; stopped-audio backlog after >150ms idle gap cannot publish; fresh full window required",
+      "latency_samples": 32,
+      "rt_allocation_free_lock_wait_calls_after_warmup": 0,
+      "interposition_self_test": "malloc, free and pthread_mutex_lock interception proven",
+      "benchmark_runner_sha256": "5233f2fc3f66bcb02dca29699d241a10964255ecf75fd55c00849eab28ed2e44"
+    }
+  },
+  "cpu": {
+    "app": {
+      "cases": 132,
+      "observations_per_case": 2048,
+      "worst_p99_budget": {
+        "format": "APP",
+        "rate": 192000.0,
+        "block": 37.0,
+        "mode": "enabled",
+        "p50_us": 2.625,
+        "p99_us": 16.208,
+        "max_us": 60.834,
+        "deadline_us": 192.708333,
+        "p99_budget_percent": 8.410637852385966
+      },
+      "worst_normal_block_p99_budget": {
+        "format": "APP",
+        "rate": 88200.0,
+        "block": 1024.0,
+        "mode": "enabled",
+        "p50_us": 70.584,
+        "p99_us": 534.208,
+        "max_us": 1071.959,
+        "deadline_us": 11609.977324,
+        "p99_budget_percent": 4.601283750104248
+      },
+      "raw_maximum_deadline_outliers": [
+        {
+          "format": "APP",
+          "rate": 88200.0,
+          "block": 128.0,
+          "mode": "disabled",
+          "p50_us": 8.625,
+          "p99_us": 56.917,
+          "max_us": 13154.958,
+          "deadline_us": 1451.247166,
+          "p99_budget_percent": 3.921937029987626
+        },
+        {
+          "format": "APP",
+          "rate": 176400.0,
+          "block": 1.0,
+          "mode": "enabled",
+          "p50_us": 0.208,
+          "p99_us": 0.334,
+          "max_us": 31.458,
+          "deadline_us": 5.668934,
+          "p99_budget_percent": 5.891760249810634
+        },
+        {
+          "format": "APP",
+          "rate": 192000.0,
+          "block": 1.0,
+          "mode": "disabled",
+          "p50_us": 0.208,
+          "p99_us": 0.333,
+          "max_us": 12.042,
+          "deadline_us": 5.208333,
+          "p99_budget_percent": 6.3936004091904275
+        }
+      ]
+    },
+    "vst3": {
+      "cases": 132,
+      "observations_per_case": 2048,
+      "worst_p99_budget": {
+        "format": "VST3",
+        "rate": 192000.0,
+        "block": 128.0,
+        "mode": "disabled",
+        "p50_us": 8.792,
+        "p99_us": 87.583,
+        "max_us": 13113.042,
+        "deadline_us": 666.666667,
+        "p99_budget_percent": 13.137449993431275
+      },
+      "worst_normal_block_p99_budget": {
+        "format": "VST3",
+        "rate": 192000.0,
+        "block": 128.0,
+        "mode": "disabled",
+        "p50_us": 8.792,
+        "p99_us": 87.583,
+        "max_us": 13113.042,
+        "deadline_us": 666.666667,
+        "p99_budget_percent": 13.137449993431275
+      },
+      "raw_maximum_deadline_outliers": [
+        {
+          "format": "VST3",
+          "rate": 96000.0,
+          "block": 1.0,
+          "mode": "disabled",
+          "p50_us": 0.25,
+          "p99_us": 0.583,
+          "max_us": 37.125,
+          "deadline_us": 10.416667,
+          "p99_budget_percent": 5.5967998209024055
+        },
+        {
+          "format": "VST3",
+          "rate": 96000.0,
+          "block": 1.0,
+          "mode": "enabled",
+          "p50_us": 0.25,
+          "p99_us": 0.917,
+          "max_us": 30.042,
+          "deadline_us": 10.416667,
+          "p99_budget_percent": 8.80319971829761
+        },
+        {
+          "format": "VST3",
+          "rate": 96000.0,
+          "block": 2.0,
+          "mode": "disabled",
+          "p50_us": 0.292,
+          "p99_us": 0.666,
+          "max_us": 31.083,
+          "deadline_us": 20.833333,
+          "p99_budget_percent": 3.1968000511488013
+        },
+        {
+          "format": "VST3",
+          "rate": 96000.0,
+          "block": 2.0,
+          "mode": "enabled",
+          "p50_us": 0.292,
+          "p99_us": 0.834,
+          "max_us": 52.5,
+          "deadline_us": 20.833333,
+          "p99_budget_percent": 4.0032000640512
+        },
+        {
+          "format": "VST3",
+          "rate": 176400.0,
+          "block": 512.0,
+          "mode": "enabled",
+          "p50_us": 36.333,
+          "p99_us": 113.167,
+          "max_us": 5530.959,
+          "deadline_us": 2902.494331,
+          "p99_budget_percent": 3.8989567969633363
+        },
+        {
+          "format": "VST3",
+          "rate": 192000.0,
+          "block": 4.0,
+          "mode": "enabled",
+          "p50_us": 0.416,
+          "p99_us": 0.709,
+          "max_us": 23.459,
+          "deadline_us": 20.833333,
+          "p99_budget_percent": 3.4032000544512004
+        },
+        {
+          "format": "VST3",
+          "rate": 192000.0,
+          "block": 128.0,
+          "mode": "disabled",
+          "p50_us": 8.792,
+          "p99_us": 87.583,
+          "max_us": 13113.042,
+          "deadline_us": 666.666667,
+          "p99_budget_percent": 13.137449993431275
+        },
+        {
+          "format": "VST3",
+          "rate": 192000.0,
+          "block": 256.0,
+          "mode": "disabled",
+          "p50_us": 17.166,
+          "p99_us": 93.417,
+          "max_us": 7639.916,
+          "deadline_us": 1333.333333,
+          "p99_budget_percent": 7.006275001751569
+        }
+      ]
+    },
+    "au": {
+      "cases": 132,
+      "observations_per_case": 2048,
+      "worst_p99_budget": {
+        "format": "AU",
+        "rate": 192000.0,
+        "block": 1.0,
+        "mode": "enabled",
+        "p50_us": 0.291,
+        "p99_us": 0.709,
+        "max_us": 0.875,
+        "deadline_us": 5.208333,
+        "p99_budget_percent": 13.612800871219255
+      },
+      "worst_normal_block_p99_budget": {
+        "format": "AU",
+        "rate": 48000.0,
+        "block": 128.0,
+        "mode": "disabled",
+        "p50_us": 8.958,
+        "p99_us": 88.459,
+        "max_us": 3107.958,
+        "deadline_us": 2666.666667,
+        "p99_budget_percent": 3.3172124995853483
+      },
+      "raw_maximum_deadline_outliers": [
+        {
+          "format": "AU",
+          "rate": 48000.0,
+          "block": 128.0,
+          "mode": "disabled",
+          "p50_us": 8.958,
+          "p99_us": 88.459,
+          "max_us": 3107.958,
+          "deadline_us": 2666.666667,
+          "p99_budget_percent": 3.3172124995853483
+        },
+        {
+          "format": "AU",
+          "rate": 176400.0,
+          "block": 2.0,
+          "mode": "disabled",
+          "p50_us": 0.333,
+          "p99_us": 0.542,
+          "max_us": 17.625,
+          "deadline_us": 11.337868,
+          "p99_budget_percent": 4.780440202690665
+        },
+        {
+          "format": "AU",
+          "rate": 192000.0,
+          "block": 2.0,
+          "mode": "enabled",
+          "p50_us": 0.333,
+          "p99_us": 0.708,
+          "max_us": 15.5,
+          "deadline_us": 10.416667,
+          "p99_budget_percent": 6.796799782502407
+        }
+      ]
+    },
+    "capture": {
+      "cases": 264,
+      "observations_per_case": 2048,
+      "worst_p99_budget": {
+        "format": "CAPTURE",
+        "rate": 192000.0,
+        "block": 1.0,
+        "mode": "disabled",
+        "p50_us": 0.0,
+        "p99_us": 0.042,
+        "max_us": 0.084,
+        "deadline_us": 5.208333,
+        "p99_budget_percent": 0.8064000516096034
+      },
+      "worst_normal_block_p99_budget": {
+        "format": "CAPTURE",
+        "rate": 176400.0,
+        "block": 512.0,
+        "mode": "enabled-drained",
+        "p50_us": 1.084,
+        "p99_us": 1.75,
+        "max_us": 26.125,
+        "deadline_us": 2902.494331,
+        "p99_budget_percent": 0.06029296875136601
+      },
+      "raw_maximum_deadline_outliers": []
+    },
+    "limits": "Full-plugin measurements use unloaded NAM/IR with pedal/delay disabled; include real framework and downstream processing. Capture-only cases drain outside timing, include disabled/editor-closed and full-queue cases. Raw scheduler outliers retained; no hard realtime OS or every-model headroom guarantee. Wrapper intervals also include harness preparation, format conversion and bypass setup. Quiet measurements precede only an acceptance-fixture toggle refinement; production bundle hashes are identical."
+  },
+  "benchmark_validation": "quiet-host-benchmark.json",
+  "validated_at_utc": "2026-10-05T19:16:38.440937+00:00",
+  "archive": {
+    "acceptance_logs": [
+      "logs/app-acceptance.log",
+      "logs/vst3-acceptance.log",
+      "logs/au-acceptance.log"
+    ],
+    "callback_csvs": [
+      "logs/app-cpu.csv",
+      "logs/vst3-cpu.csv",
+      "logs/au-cpu.csv"
+    ],
+    "capture_csv": "logs/capture-cpu.csv",
+    "fixtures": [
+      "fixtures/linear-half-48k.nam",
+      "fixtures/colored-48k.wav"
+    ]
+  },
+  "execution_sandbox_note": "Final native acceptance completed under scoped system-service access because AU AudioComponent registration is unavailable inside the execution sandbox; no installation or AU cache clearing.",
+  "rt_interposer_sha256": "bb0a99ab01d5b85c005b56c87347ef1e3f84fabaf1b6da836c658f3bcbccd120"
+}

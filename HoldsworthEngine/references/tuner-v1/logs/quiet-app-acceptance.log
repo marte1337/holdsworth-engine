@@ -1,0 +1,9 @@
+PASS APP 44100 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS APP selected-pedal on/off arithmetic: Off/TC/MC/AH, 48k, blocks64/128/1024, normal/bypass
+PASS APP real NAM/IR fixtures: stock state loading, loaded-pipeline bit-exact on/off, raw A2 unchanged
+PASS APP 48000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS APP 88200 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS APP 96000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS APP 176400 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS APP 192000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS: production Release APP-object tuner acceptance

@@ -45,6 +45,10 @@ The existing input trim and volts/calibration bridge apply to the selected pedal
 The Holdsworth delay receives the fully processed mono NAM signal and produces
 stereo wet output.
 
+The accepted chromatic tuner taps raw clean mono host input before input trim
+and calibration. It observes input independently of the selected pedal, NAM,
+IR and delay, without changing the audible path or reported latency.
+
 Temporary development controls are nonserialized and nonpermanent.
 
 ## Implemented DSP architecture
@@ -72,6 +76,7 @@ The engine currently supports:
 - transactional validation of SYNC, CONNECT, GROUP and their composition
 - realtime TC BLD Clean Boost with Gain, Bass and Treble controls
 - realtime MC402 Clean Boost V1 with a 0 to +20 dB Boost control and zero latency
+- chromatic Tuner v1 with a fixed A4 = 440 Hz reference and a clean-input tap
 
 Important components include:
 
@@ -88,6 +93,10 @@ Important components include:
     MC402CleanBoostProcessor
     JRockettAHBoostProcessor
     DevelopmentPreNAMSelector
+    ChromaticTuner
+    TunerCaptureBuffer
+    TunerAnalysisService
+    TunerDisplayState
 
 ## Important DSP semantics
 
@@ -273,6 +282,32 @@ No persistent timing artifacts were observed. A tiny transient exactly at NAM
 model replacement is accepted as a non-blocking polish item. The iPlug2 repair
 is published on the user-owned fork; see the M2 report for its retrievable SHA.
 
+### Chromatic Tuner v1
+
+Tuner v1 uses a fixed preallocated SPSC capture transport. Consumer-side FIR
+downsampling and YIN detection run in `OnIdle()`, with at most one analysis per
+idle tick. Discontinuities and stale backlogs invalidate analysis history;
+detector state and display smoothing remain separate. Capture does no sample
+work when the tuner is disabled or the editor is closed. No audio-thread
+allocation, locks, filesystem/UI calls or blocking synchronization are added.
+
+The compact DevelopmentPanel tuner card shows note/octave, signed cents and
+FLAT / IN TUNE / SHARP at A4 = 440 Hz. It is monophonic and nonserialized; there
+is no muting, alternate tuning, strobe or reference-pitch setting.
+
+Manual Standalone, REAPER VST3 and REAPER AU acceptance passed, as reported by
+the user on 2026-10-06. All six open guitar strings, attacks/decays, note changes
+and legato tracked correctly with a stable, responsive display. Tuner on/off
+was inaudible, reported latency stayed unchanged, and pedal/NAM/IR/delay changes
+did not affect detection. Host bypass/re-enable worked normally; no stale AU
+readings, clicks, crackle, dropouts or level changes were reported. The current
+UI is accepted. Objective gates remain accepted: 309 Debug/Release/ASan-UBSan
+tests, 14 TSan tests, <=0.264-cent sine error, <=1.35-cent synthetic-guitar error,
+<=160 ms stable display acquisition, 1.54 ms analysis p99 and 4.05 us capture
+p99, bit-exact audible output and zero audited tuner-attributable realtime
+allocation/lock/wait calls. See `HoldsworthEngine/references/tuner-v1` for the
+full acceptance record and evidence. Preserve this accepted behavior.
+
 ## Yamaha source data versus DSP data
 
 This distinction is fundamental.
@@ -374,6 +409,7 @@ Implemented:
 - provisional physical-DSP presets and diagnostics
 - realtime TC BLD Clean Boost reduction
 - MC402 Clean Boost V1 and the exclusive Off / TC BLD / MC402 development selector
+- chromatic Tuner v1, accepted in Standalone and REAPER VST3/AU
 
 Deferred or intentionally incomplete:
 
@@ -479,6 +515,9 @@ Behavioral OD/Boost. These controls are nonserialized. The Delay
 card exposes bypass, a separate Wet control and the five live audition presets:
 Lead 121, Holdsworth 122, Chorus 011, Chorus 031 and Holdsworth 223. Their visual
 grouping does not change preset indices or DSP identity.
+
+The accepted TUNER card beneath the NAM controls provides on/off, note/octave,
+signed cents and flat/in-tune/sharp indications for the raw clean input.
 
 NAM Settings remains the existing calibration, model-info and about utility;
 it is not the Holdsworth development-control container. Development controls

@@ -1,0 +1,38 @@
+METRIC tuner clean_sine cases=7686 max_abs_cents=0.263483
+PASS: Tuner chromatic sine accuracy all rates phases cents
+METRIC tuner amplitude_dc max_abs_cents=0.215237
+PASS: Tuner amplitude and DC accuracy
+PASS: Tuner rejection and recovery
+PASS: Tuner broadband noise rejection
+METRIC tuner guitar cases=1464 clean_max_abs_cents=1.28923 snr25_max_abs_cents=1.31206
+PASS: Tuner harmonic weak fundamental and noise accuracy
+METRIC tuner rich_boundary cases=2496 max_abs_cents=1.34443
+PASS: Tuner harmonic boundary phase and offset accuracy
+PASS: Tuner note octave cents boundaries
+METRIC tuner detector_acquisition_max_ms=100
+PASS: Tuner partitions and detector acquisition
+PASS: Tuner fixed detector storage
+PASS: Tuner capture inactive and rapid control revisions
+PASS: Tuner capture input fold partitions and bit preservation
+PASS: Tuner capture lifecycle and host rates
+PASS: Tuner capture FIFO overrun and fresh recovery
+PASS: Tuner capture nonfinite and float overflow rejection
+PASS: Tuner capture modular sequence and control revision
+PASS: Tuner capture concurrent SPSC ownership and resets
+PASS: Tuner capture fixed storage and disabled fast path
+METRIC tuner capture_to_analysis_max_ms=100
+PASS: Tuner service acquisition bounded cadence
+PASS: Tuner service enable editor and rate lifecycle
+PASS: Tuner service stale backlog and overflow
+PASS: Tuner service concurrent reset capture drain
+PASS: Tuner service unsupported rate lifecycle recovery
+PASS: Tuner display acquisition confidence and candidate expiry
+PASS: Tuner display median log frequency and 100 ms EMA
+PASS: Tuner display coherent boundaries and no phantom notes
+PASS: Tuner display flat in tune sharp hysteresis
+PASS: Tuner display fresh evidence and 150 250 ms aging
+PASS: Tuner display context revision clock and unavailable status
+METRIC tuner capture_to_display_acquisition_max_ms=160
+PASS: Tuner display full pipeline acquisition all rates
+PASS: Tuner display fixed storage
+All 30 HoldsworthEngine tests passed.

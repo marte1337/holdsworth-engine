@@ -1,0 +1,15 @@
+{
+  "baseline": "3c86168",
+  "audible_method_sha256_after_only_tap_removal": {
+    "ProcessBlock": "cda4ff9d36841ffc2b5909d238e8674a47d1da1fc3957fe7fe250d372e299004",
+    "OnLatencyBypassBlock": "6795ef402a6938dfcb1f850034300d4f29fe305ba0918fe6dd51b531b55e50e0",
+    "_ProcessInput": "de3afe43128b7b4b9cb664caae9bdca2f0fc549f05059c59b989f001ee13e02f",
+    "_ProcessOutput": "b4c40f7fe29260798ec48b0bbfa1cc2692681e8862b7ac95dcaefa0e4231d603",
+    "_UpdateLatency": "697d4305f201b61582f9ba7f2d9d48552c20310fc123e902ca76c3b3799fe064",
+    "OnLatencyPrepareBlock": "24dc3e61edf6f42c324959504eeac1bf0d924db5f37885676f5ef8c0a117cbe5"
+  },
+  "existing_dsp_files_frozen": 29,
+  "existing_tags": "append-only",
+  "serialized_params_and_latency_config": "unchanged",
+  "iPlug2": "unchanged"
+}

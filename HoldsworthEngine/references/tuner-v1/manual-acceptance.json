@@ -1,0 +1,39 @@
+{
+  "reported_on": "2026-10-06",
+  "status": "accepted",
+  "source": "User-reported manual guitar and REAPER host audition; not an automated test",
+  "standalone": [
+    "All six open strings E2 A2 D3 G3 B3 E4 detected correctly",
+    "Acquisition feels fast; cents display stable",
+    "FLAT / IN TUNE / SHARP behavior natural",
+    "Hard attacks settle correctly; soft notes and sustained decays track well",
+    "No octave jumps or obviously incorrect notes",
+    "Note changes stable, not sluggish; hammer-ons / pull-offs / legato track well",
+    "Pedal/NAM/IR/delay changes do not affect tuner behavior",
+    "TUNER ON/OFF completely inaudible; current UI accepted"
+  ],
+  "reaper_vst3": [
+    "DI and live guitar detected correctly; TUNER ON/OFF inaudible",
+    "Reported latency unchanged",
+    "Pedal/NAM/IR/delay changes do not affect detection",
+    "Host FX bypass/re-enable works normally",
+    "No clicks, crackle, dropout or level change",
+    "Tuner UI responsive and stable"
+  ],
+  "reaper_au": [
+    "Same accepted results as REAPER VST3",
+    "No stale readings or AU-specific artifacts"
+  ],
+  "accepted_objective_validation": {
+    "tests_each_debug_release_asan_ubsan": 309,
+    "tsan_tests": 14,
+    "maximum_sine_error_cents": 0.264,
+    "maximum_synthetic_guitar_error_cents": 1.35,
+    "maximum_stable_display_acquisition_ms": 160,
+    "analysis_p99_ms": 1.54,
+    "capture_p99_us": 4.05,
+    "audible_output": "bit-exact",
+    "reported_latency": "unchanged",
+    "audited_tuner_attributable_realtime_allocation_lock_wait_calls": 0
+  }
+}

@@ -1,0 +1,7 @@
+M1 ChromaticTuner isolated checks; Apple Clang 21.0.0, arm64 macOS.
+
+clang++ -std=c++20 -O2 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Werror -fsyntax-only HoldsworthEngine/dsp/ChromaticTuner.cpp
+Exit 0; no diagnostics.
+
+clang++ --analyze -std=c++20 -Xanalyzer -analyzer-output=text HoldsworthEngine/dsp/ChromaticTuner.cpp
+Exit 0; no diagnostics.

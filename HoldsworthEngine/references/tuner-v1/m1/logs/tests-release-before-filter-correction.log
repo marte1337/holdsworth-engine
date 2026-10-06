@@ -1,0 +1,13 @@
+METRIC tuner clean_sine cases=7686 max_abs_cents=0.263483
+PASS: Tuner chromatic sine accuracy all rates phases cents
+METRIC tuner amplitude_dc max_abs_cents=0.215237
+PASS: Tuner amplitude and DC accuracy
+PASS: Tuner rejection and recovery
+PASS: Tuner broadband noise rejection
+METRIC tuner guitar cases=1464 clean_max_abs_cents=2.98263 snr25_max_abs_cents=2.99673
+PASS: Tuner harmonic weak fundamental and noise accuracy
+PASS: Tuner note octave cents boundaries
+METRIC tuner detector_acquisition_max_ms=100
+PASS: Tuner partitions and detector acquisition
+PASS: Tuner fixed detector storage
+All 8 HoldsworthEngine tests passed.

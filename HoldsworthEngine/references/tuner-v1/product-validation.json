@@ -1,0 +1,43 @@
+{
+  "validated_at_utc": "2026-10-05T19:12:46.099532+00:00",
+  "configuration": "Release",
+  "architecture": "arm64",
+  "deployment_target": "12.0",
+  "installation": "none",
+  "user_au_cache_changes": "none",
+  "formats": {
+    "APP": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.app",
+      "binary_sha256": "79e059bf08a1c9c62f8ae5b1b80f329dea731102eb5797c2dad26c7ed79930bb",
+      "signature": "ad-hoc, strict deep verification passed",
+      "plist": "lint passed",
+      "package_log": "logs/package-app.log",
+      "verification_log": "logs/verify-app.log"
+    },
+    "VST3": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.vst3",
+      "binary_sha256": "8a6d4cd33b96c0189d40775a7aa8b10676299ef31c9d0672ba7d4cb6d7e3fbed",
+      "signature": "ad-hoc, strict deep verification passed",
+      "plist": "lint passed",
+      "package_log": "logs/package-vst3.log",
+      "verification_log": "logs/verify-vst3.log"
+    },
+    "AU": {
+      "status": "passed",
+      "bundle": "/private/tmp/nam-tuner-v1/products/NeuralAmpModeler.component",
+      "binary_sha256": "5c09b8ecdb6191d757d8a7a88880dcf1908944b19adcfaee6552bc6b0dbf9799",
+      "signature": "ad-hoc, strict deep verification passed",
+      "plist": "lint passed",
+      "package_log": "logs/package-au.log",
+      "verification_log": "logs/verify-au.log"
+    }
+  },
+  "app_launch": {
+    "status": "passed",
+    "mechanism": "scoped open -n after execution-sandbox LaunchServices failure",
+    "ui_inspection": "none",
+    "manual_audition": "pending"
+  }
+}
