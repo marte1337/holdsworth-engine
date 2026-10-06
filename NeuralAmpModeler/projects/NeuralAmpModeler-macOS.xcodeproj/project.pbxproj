@@ -606,6 +606,37 @@
 		D1A700012F00002400000701 /* JRockettAHDriveProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002400000002 /* JRockettAHDriveProcessor.cpp */; };
 		D1A700012F00002300000801 /* JRockettAHBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002300000002 /* JRockettAHBoostProcessor.cpp */; };
 		D1A700012F00002400000801 /* JRockettAHDriveProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002400000002 /* JRockettAHDriveProcessor.cpp */; };
+		D1A700012F00002600000004 /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		D1A700012F00002600000005 /* ChromaticTunerTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000003 /* ChromaticTunerTests.cpp */; };
+		6B0F635098CB55490F0B85B5 /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		D1BF364C92B2BD294468C347 /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		16DC6A76533CEF90F90F1A0C /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		2FC894835C3C9CF390C967B3 /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		CC64BEBA979EACC84869D57C /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		DF22AB1683CAA7302282688A /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		3A550411D5A9DFF796AC53B8 /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		9387DBB872A130FDB2E06CAE /* ChromaticTuner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002600000002 /* ChromaticTuner.cpp */; };
+		F58717D689F9AD6C98FFDBAD /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		5C81E70ED7606C1AB8D32CE3 /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		C7F2371E3AE8BB4C5087FBEB /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		54987E734D92C4D8BA9D6E5D /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		0698D20D36AC286C7581113F /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		E2CF861CF50DD02EA0C28022 /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		D4D13D3AB00B78E3CE842D8D /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		A3E15B1DEF0719912A06D699 /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		2BDF1F3D36D42F36D76B7044 /* TunerAnalysisService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */; };
+		075C78AEA8432EAFBA68AEA4 /* TunerCaptureBufferTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2AFA80D1A7A101FF2A4D278 /* TunerCaptureBufferTests.cpp */; };
+		266E1196A8553E7A045332C7 /* TunerAnalysisServiceTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F58C3CFCCA9C858396A743F /* TunerAnalysisServiceTests.cpp */; };
+		9F2FBE723095606FDC464DC8 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		51A4743D61CA7A8A8DA34913 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		80DD4769B5E053936FC79424 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		688BA74EB95095CA4740B767 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		01F2E6BFB3E7B1629CD09111 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		F91C7D35EE2CC92669009959 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		3B1DD09AFB7FFD514A8C35B4 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		F9FA3AF4E3E1D9B534002DD3 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		ECFE9CD732735D59AAAF890C /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
+		3F7E87F1FC3C241CA7BBE22A /* TunerDisplayStateTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9F0D6DAA52CD271B1FF0F1 /* TunerDisplayStateTests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1238,6 +1269,17 @@
 		D1A700012F00002400000003 /* JRockettAHDriveProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRockettAHDriveProfile.h; sourceTree = "<group>"; };
 		D1A700012F00002400000004 /* JRockettAHDriveProcessorTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JRockettAHDriveProcessorTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00002500000004 /* JRockettAHPedalTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JRockettAHPedalTests.cpp; sourceTree = "<group>"; };
+		D1A700012F00002600000001 /* ChromaticTuner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChromaticTuner.h; sourceTree = "<group>"; };
+		D1A700012F00002600000002 /* ChromaticTuner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChromaticTuner.cpp; sourceTree = "<group>"; };
+		D1A700012F00002600000003 /* ChromaticTunerTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChromaticTunerTests.cpp; sourceTree = "<group>"; };
+		2633712B1AB8BB32CAF38317 /* TunerCaptureBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TunerCaptureBuffer.h; sourceTree = "<group>"; };
+		BB5589E68BE170DE63D02906 /* TunerAnalysisService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TunerAnalysisService.h; sourceTree = "<group>"; };
+		8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TunerAnalysisService.cpp; sourceTree = "<group>"; };
+		F2AFA80D1A7A101FF2A4D278 /* TunerCaptureBufferTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TunerCaptureBufferTests.cpp; sourceTree = "<group>"; };
+		7F58C3CFCCA9C858396A743F /* TunerAnalysisServiceTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TunerAnalysisServiceTests.cpp; sourceTree = "<group>"; };
+		FF1FF2C6982177B53FB947C0 /* TunerDisplayState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TunerDisplayState.h; sourceTree = "<group>"; };
+		C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TunerDisplayState.cpp; sourceTree = "<group>"; };
+		6E9F0D6DAA52CD271B1FF0F1 /* TunerDisplayStateTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TunerDisplayStateTests.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2223,6 +2265,8 @@
 				D1A700012F00002300000001 /* JRockettAHBoostProcessor.h */,
 				D1A700012F00002300000002 /* JRockettAHBoostProcessor.cpp */,
 				D1A700012F00002300000003 /* JRockettAHBoostProfile.h */,
+				D1A700012F00002600000001 /* ChromaticTuner.h */,
+				D1A700012F00002600000002 /* ChromaticTuner.cpp */,
 				D1A700012F00002400000001 /* JRockettAHDriveProcessor.h */,
 				D1A700012F00002400000002 /* JRockettAHDriveProcessor.cpp */,
 				D1A700012F00002400000003 /* JRockettAHDriveProfile.h */,
@@ -2243,6 +2287,11 @@
 		D1A700012F00000500000003 /* integration */ = {
 			isa = PBXGroup;
 			children = (
+				C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */,
+				FF1FF2C6982177B53FB947C0 /* TunerDisplayState.h */,
+				8B52D123C243DAA0623647F0 /* TunerAnalysisService.cpp */,
+				BB5589E68BE170DE63D02906 /* TunerAnalysisService.h */,
+				2633712B1AB8BB32CAF38317 /* TunerCaptureBuffer.h */,
 				D1A700012F00000700000001 /* DevelopmentDelayPresetSelector.h */,
 				D1A700012F00002000000006 /* DevelopmentTCBLDControlMapping.h */,
 				D1A700012F00002200000006 /* DevelopmentPreNAMSelector.h */,
@@ -2266,6 +2315,9 @@
 		D1A700012F00000100000007 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				6E9F0D6DAA52CD271B1FF0F1 /* TunerDisplayStateTests.cpp */,
+				7F58C3CFCCA9C858396A743F /* TunerAnalysisServiceTests.cpp */,
+				F2AFA80D1A7A101FF2A4D278 /* TunerCaptureBufferTests.cpp */,
 				D1A700012F00000200000003 /* TestHarness.h */,
 				D1A700012F00000200000004 /* TestMain.cpp */,
 				D1A700012F00000100000003 /* FractionalDelayLineTests.cpp */,
@@ -2280,6 +2332,7 @@
 				D1A700012F00002000000003 /* TCBLDCleanBoostProcessorTests.cpp */,
 				D1A700012F00002200000003 /* MC402CleanBoostProcessorTests.cpp */,
 				D1A700012F00002300000004 /* JRockettAHBoostProcessorTests.cpp */,
+				D1A700012F00002600000003 /* ChromaticTunerTests.cpp */,
 				D1A700012F00002400000004 /* JRockettAHDriveProcessorTests.cpp */,
 				D1A700012F00002500000004 /* JRockettAHPedalTests.cpp */,
 				D1A700012F00002200000007 /* DevelopmentPreNAMSelectorTests.cpp */,
@@ -2917,6 +2970,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51A4743D61CA7A8A8DA34913 /* TunerDisplayState.cpp in Sources */,
+				5C81E70ED7606C1AB8D32CE3 /* TunerAnalysisService.cpp in Sources */,
+				D1BF364C92B2BD294468C347 /* ChromaticTuner.cpp in Sources */,
 				4F2FB1942A0047430027AB66 /* dsp.cpp in Sources */,
 				4F7C495F255DDFC500DF7588 /* IPopupMenuControl.cpp in Sources */,
 				4F2FB1C72A0047430027AB66 /* get_dsp.cpp in Sources */,
@@ -2973,6 +3029,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01F2E6BFB3E7B1629CD09111 /* TunerDisplayState.cpp in Sources */,
+				0698D20D36AC286C7581113F /* TunerAnalysisService.cpp in Sources */,
+				CC64BEBA979EACC84869D57C /* ChromaticTuner.cpp in Sources */,
 				4F2FB1AE2A0047430027AB66 /* lstm.cpp in Sources */,
 				4F3EE1C2231438D000004786 /* IPlugProcessor.cpp in Sources */,
 				4F3EE1C3231438D000004786 /* RtMidi.cpp in Sources */,
@@ -3043,6 +3102,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				688BA74EB95095CA4740B767 /* TunerDisplayState.cpp in Sources */,
+				54987E734D92C4D8BA9D6E5D /* TunerAnalysisService.cpp in Sources */,
+				2FC894835C3C9CF390C967B3 /* ChromaticTuner.cpp in Sources */,
 				4F7C496A255DDFCB00DF7588 /* IControls.cpp in Sources */,
 				4F2FB1672A0047430027AB66 /* dsp.cpp in Sources */,
 				4F2FB18E2A0047430027AB66 /* util.cpp in Sources */,
@@ -3100,6 +3162,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80DD4769B5E053936FC79424 /* TunerDisplayState.cpp in Sources */,
+				C7F2371E3AE8BB4C5087FBEB /* TunerAnalysisService.cpp in Sources */,
+				16DC6A76533CEF90F90F1A0C /* ChromaticTuner.cpp in Sources */,
 				4F81597C205D50EB00393585 /* baseiids.cpp in Sources */,
 				4FDAC0EC207D76C600299363 /* IPlugTimer.cpp in Sources */,
 				4F7C495D255DDFC400DF7588 /* ITextEntryControl.cpp in Sources */,
@@ -3185,6 +3250,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F91C7D35EE2CC92669009959 /* TunerDisplayState.cpp in Sources */,
+				E2CF861CF50DD02EA0C28022 /* TunerAnalysisService.cpp in Sources */,
+				DF22AB1683CAA7302282688A /* ChromaticTuner.cpp in Sources */,
 				4F7C4961255DDFC600DF7588 /* IControls.cpp in Sources */,
 				4F2FB1642A0047430027AB66 /* dsp.cpp in Sources */,
 				4F2FB18B2A0047430027AB66 /* util.cpp in Sources */,
@@ -3242,6 +3310,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B1DD09AFB7FFD514A8C35B4 /* TunerDisplayState.cpp in Sources */,
+				D4D13D3AB00B78E3CE842D8D /* TunerAnalysisService.cpp in Sources */,
+				3A550411D5A9DFF796AC53B8 /* ChromaticTuner.cpp in Sources */,
 				4F7C4964255DDFC800DF7588 /* IControls.cpp in Sources */,
 				4F03A5B220A4621100EBDFFB /* IGraphics.cpp in Sources */,
 				4F7C4966255DDFC800DF7588 /* ITextEntryControl.cpp in Sources */,
@@ -3276,6 +3347,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F2FBE723095606FDC464DC8 /* TunerDisplayState.cpp in Sources */,
+				F58717D689F9AD6C98FFDBAD /* TunerAnalysisService.cpp in Sources */,
+				6B0F635098CB55490F0B85B5 /* ChromaticTuner.cpp in Sources */,
 				4F2FB1A62A0047430027AB66 /* lstm.cpp in Sources */,
 				B885CBC52304AE7300D73128 /* IPlugProcessor.cpp in Sources */,
 				4F10D3D9203A6719003EF82A /* RtMidi.cpp in Sources */,
@@ -3346,6 +3420,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9FA3AF4E3E1D9B534002DD3 /* TunerDisplayState.cpp in Sources */,
+				A3E15B1DEF0719912A06D699 /* TunerAnalysisService.cpp in Sources */,
+				9387DBB872A130FDB2E06CAE /* ChromaticTuner.cpp in Sources */,
 				4F2FB1832A0047430027AB66 /* wav.cpp in Sources */,
 				4F2FB16E2A0047430027AB66 /* NoiseGate.cpp in Sources */,
 				4FFBB90520863B0E00DDD0E7 /* baseiids.cpp in Sources */,
@@ -3420,6 +3497,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F7E87F1FC3C241CA7BBE22A /* TunerDisplayStateTests.cpp in Sources */,
+				ECFE9CD732735D59AAAF890C /* TunerDisplayState.cpp in Sources */,
+				266E1196A8553E7A045332C7 /* TunerAnalysisServiceTests.cpp in Sources */,
+				075C78AEA8432EAFBA68AEA4 /* TunerCaptureBufferTests.cpp in Sources */,
+				2BDF1F3D36D42F36D76B7044 /* TunerAnalysisService.cpp in Sources */,
 				D1A700012F00000100000008 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000007 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000007 /* DelayLoopFilter.cpp in Sources */,
@@ -3429,6 +3511,8 @@
 				D1A700012F00002200000004 /* MC402CleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002300000005 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002300000006 /* JRockettAHBoostProcessorTests.cpp in Sources */,
+				D1A700012F00002600000004 /* ChromaticTuner.cpp in Sources */,
+				D1A700012F00002600000005 /* ChromaticTunerTests.cpp in Sources */,
 				D1A700012F00002400000005 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00002400000006 /* JRockettAHDriveProcessorTests.cpp in Sources */,
 				D1A700012F00002500000006 /* JRockettAHPedalTests.cpp in Sources */,

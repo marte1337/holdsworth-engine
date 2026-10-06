@@ -108,7 +108,11 @@ int main(int argc, char** argv)
                           jRockettAHBoostProcessorTests(),
                           jRockettAHDriveProcessorTests(),
                           jRockettAHPedalTests(),
-                          developmentPreNAMSelectorTests()};
+                          developmentPreNAMSelectorTests(),
+                          chromaticTunerTests(),
+                          tunerCaptureBufferTests(),
+                          tunerAnalysisServiceTests(),
+                          tunerDisplayStateTests()};
   std::size_t totalTests = 0;
   int failures = 0;
 

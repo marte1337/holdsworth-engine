@@ -4,6 +4,7 @@
 #include "../integration/DevelopmentControlDefaults.h"
 #include "../integration/DevelopmentPreNAMSelector.h"
 #include "../dsp/JRockettAHDriveProfile.h"
+#include "TunerControl.h"
 
 #include <algorithm>
 #include <array>
@@ -380,5 +381,12 @@ inline void attachDevelopmentPanel(IGraphics& g)
 
   g.AttachControl(new Card(IRECT(480, 116, 1080, 636)));
   label(IRECT(510, 558, 1048, 582), "NAM model, cabinet and input / output controls", 14, mutedText());
+
+  g.AttachControl(new Card(IRECT(480, 656, 1080, 748)));
+  label(IRECT(500, 670, 608, 694), "TUNER", 14, mutedText());
+  g.AttachControl(new IVToggleControl(IRECT(500, 704, 606, 734),
+    developmentMessage(kMsgTagTunerEnabled), "", toggleStyle, "OFF", "ON", false),
+    kCtrlTagTunerEnabled)->SetTooltip("Chromatic tuner on the clean input. A4 = 440 Hz. Tune one note at a time.");
+  g.AttachControl(new TunerControl(IRECT(622, 667, 1060, 739), kMsgTagTunerDisplay), kCtrlTagTunerDisplay);
 }
 } // namespace holdsworth::ui
