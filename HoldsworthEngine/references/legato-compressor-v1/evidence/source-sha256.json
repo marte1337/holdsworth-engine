@@ -1,0 +1,13 @@
+{
+  "HoldsworthEngine/dsp/LegatoCompressorProcessor.h": "d42e8e5d3dbbf5d0afa9a2b2f2bdb9959bfb4446b30b52ee9eecfd00637885e1",
+  "HoldsworthEngine/dsp/LegatoCompressorProcessor.cpp": "31d66514ef1ef5e690dec47f6de46aedbcc0da75b57021668d0107841aadfab6",
+  "HoldsworthEngine/integration/DevelopmentLegatoCompressorControls.h": "56f47749007dbd7a558b93dc2639236e0860feced269333a9533b6375c583fcc",
+  "HoldsworthEngine/ui/DevelopmentPanel.h": "fdab8a7eccde1701a10d2e110a6085659621a91fb5fd02cf7b4598ce74813362",
+  "NeuralAmpModeler/NeuralAmpModeler.cpp": "6993781a9ab62ead0ee088b67def21d2e67c4c97faff79c2450650a2f339d960",
+  "NeuralAmpModeler/NeuralAmpModeler.h": "c55f772d98c61d4bdde47866e99f44d98debbb80d3e8d00dec6b4fcabe022f87",
+  "NeuralAmpModeler/config.h": "d957812e03341e8001cc8da1b517f369763e8afd30f080b4ca9947f0c60293e5",
+  "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj": "13725334abb826cee46f3954c09c69beba25af646114d63dfecf3c1ceaf6b95f",
+  "HoldsworthEngine/tests/LegatoCompressorFixtures.h": "7b4db892415666b775617afa4322826ed9d0682a1e0382fc57a8b56f7b856957",
+  "HoldsworthEngine/tests/LegatoCompressorProcessorTests.cpp": "fb1aaf4274a781b8d3b6f7ac7ef307ced615cacaacb472562ed8c01655213673",
+  "HoldsworthEngine/tests/LegatoCompressorIntegrationTests.cpp": "5f747b7fee0c99c0f77ca8025b3026c618d668288806b9779578756e1f16864c"
+}

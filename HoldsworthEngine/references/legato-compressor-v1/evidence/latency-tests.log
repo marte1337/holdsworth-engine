@@ -1,0 +1,1 @@
+PASS: real IPlugProcessor normal/bypass, 6 rates x 7 blocks, exact settled taps, warm history, in-place, initial/model+32 totals, query-first/restarting VST3 and AU, pinned synchronous queries, concurrency, delay-readiness fault injection and per-render target agreement

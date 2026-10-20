@@ -1,0 +1,38 @@
+{
+  "scope": "Headless actual Release APP objects / VST3 and AU bundles; no musical acceptance",
+  "formats": {
+    "APP": {
+      "bundle": "build-legato-compressor-v1-review/products/NeuralAmpModeler.app",
+      "sha256": "e9d4223b9e57c97cc95702a29d4431dfbda5256c20d7f4aa67e63ded378f32e8",
+      "acceptance_log": "evidence/app-acceptance.log",
+      "cpu_csv": "evidence/app-cpu.csv",
+      "status": "passed",
+      "audited_calls_after_legacy_warmup": 0,
+      "sample_format": "float64",
+      "latency_samples": 32,
+      "NAM_resampled_latency_samples": 61
+    },
+    "VST3": {
+      "bundle": "build-legato-compressor-v1-review/products/NeuralAmpModeler.vst3",
+      "sha256": "4885f22057c157568bfaede2226c131a5ae6c8d49016fa1f2dd6a417d00390f4",
+      "acceptance_log": "evidence/vst3-acceptance.log",
+      "cpu_csv": "evidence/vst3-cpu.csv",
+      "status": "passed",
+      "audited_calls_after_legacy_warmup": 0,
+      "sample_format": "float64",
+      "latency_samples": 32,
+      "NAM_resampled_latency_samples": 61
+    },
+    "AU": {
+      "bundle": "build-legato-compressor-v1-review/products/NeuralAmpModeler.component",
+      "sha256": "944822d87640f2394bd0ce6293f36badc1e4b1acc8c96e0f49d5774daa48bb37",
+      "acceptance_log": "evidence/au-acceptance.log",
+      "cpu_csv": "evidence/au-cpu.csv",
+      "status": "passed",
+      "audited_calls_after_legacy_warmup": 0,
+      "sample_format": "float32",
+      "latency_samples": 32,
+      "NAM_resampled_latency_samples": 61
+    }
+  }
+}

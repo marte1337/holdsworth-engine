@@ -31,6 +31,8 @@ audition HoldsworthEngine DSP.
 Conceptually:
 
     host input
+    -> existing input trim / calibration / mono processing
+    -> independent Legato Compressor v1 (development, musical acceptance pending)
     -> selected pre-NAM processor: Off / TC BLD / MC402 Clean Boost / J. Rockett AH
     -> NAM
     -> tone stack
@@ -77,6 +79,8 @@ The engine currently supports:
 - realtime TC BLD Clean Boost with Gain, Bass and Treble controls
 - realtime MC402 Clean Boost V1 with a 0 to +20 dB Boost control and zero latency
 - chromatic Tuner v1 with a fixed A4 = 440 Hz reference and a clean-input tap
+- Legato Compressor v1 with a 4 ms power detector, 2:1 ratio, 6 dB knee and
+  reduction cap, independent calibrated/normalized thresholds and zero latency
 
 Important components include:
 
@@ -97,6 +101,33 @@ Important components include:
     TunerCaptureBuffer
     TunerAnalysisService
     TunerDisplayState
+    LegatoCompressorProcessor
+
+## Legato Compressor v1 review boundary
+
+The user approved M1-M3 implementation and objective validation on
+`feature/legato-compressor-v1`. Objective validation passed. As of 2026-10-20,
+preliminary guitar audition was encouraging and the user finds compression
+beneficial, but wants more playing time before accepting its DSP settings.
+Final musical acceptance remains DEFERRED; no final DSP defaults have been
+accepted. Do not imply musical acceptance or retune defaults to conceal
+fixture limitations. Commit and push of the experimental feature branch were
+explicitly authorized on 2026-10-20; merging it into main was not authorized.
+
+The processor follows `_ProcessInput()` immediately and precedes the exclusive
+fixed-32-sample pedal domain, including Pedal Off. Detector-only scaling uses
+the existing physical voltage bridge when calibration is actually available;
+otherwise the independent threshold is in dBFS. Preserve the native audible
+input arithmetic. Local bypass fades for 10 ms and then returns exact finite
+dry samples, while its detector/reduction stay warm. Framework bypass advances
+the same history without modifying the settled raw bypass output or latency.
+
+The experimental implementation defaults are -18 dBu / -30 dBFS thresholds,
+15 ms attack, 60 ms release and +3 dB manual makeup. These values were approved
+for implementation, not accepted as final musical defaults. Attack/release
+are 63.2% time constants in dB smoothing, separate from RMS acquisition.
+The nominal first weak note benefits, but louder input stress can make it quieter;
+these limitations are recorded in `HoldsworthEngine/references/legato-compressor-v1`.
 
 ## Important DSP semantics
 
@@ -518,6 +549,12 @@ grouping does not change preset indices or DSP identity.
 
 The accepted TUNER card beneath the NAM controls provides on/off, note/octave,
 signed cents and flat/in-tune/sharp indications for the raw clean input.
+
+The new LEGATO COMPRESSOR card occupies the added bottom area in the 980 px
+development editor. It exposes Enable, Threshold, Attack, Release and Makeup,
+plus detector/reduction indications. The active threshold visibly uses dBu
+or dBFS and its independent stored value. Existing card positions and NAM
+settings remain unchanged. Visual and musical acceptance are pending user review.
 
 NAM Settings remains the existing calibration, model-info and about utility;
 it is not the Holdsworth development-control container. Development controls

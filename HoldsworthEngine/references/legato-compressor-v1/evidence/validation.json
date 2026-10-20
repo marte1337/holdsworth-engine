@@ -1,0 +1,85 @@
+{
+  "debug": {
+    "tests_passed": 324,
+    "errors": 0,
+    "sha256": "4e5788de4f3fae8ed372c26aa5c9025925a08b88ac0d803dafd19316947a43e8"
+  },
+  "release": {
+    "tests_passed": 324,
+    "errors": 0,
+    "sha256": "32106b5f7ff74bde12a36fc6e8ea649c2c26c37aa9fe8e5980ac6e6e010e8ea7"
+  },
+  "asan": {
+    "tests_passed": 324,
+    "errors": 0,
+    "sha256": "4e5788de4f3fae8ed372c26aa5c9025925a08b88ac0d803dafd19316947a43e8"
+  },
+  "tsan": {
+    "tests_passed": 324,
+    "errors": 0,
+    "sha256": "4e5788de4f3fae8ed372c26aa5c9025925a08b88ac0d803dafd19316947a43e8"
+  },
+  "strict": {
+    "new_processor_tests_and_measurement_driver": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Werror; no diagnostics",
+    "legacy_warning": "unchanged TC bridge has a pre-existing -Wshadow diagnostic; product dependencies retain existing warnings"
+  },
+  "products": {
+    "APP": "Release passed",
+    "VST3": "Release passed",
+    "AU": "Release passed"
+  },
+  "native_hosts": {
+    "formats": [
+      "APP",
+      "VST3",
+      "AU"
+    ],
+    "rates": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ],
+    "blocks": [
+      1,
+      2,
+      4,
+      8,
+      32,
+      37,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "rt_violations": 0,
+    "source": "matching Release products"
+  },
+  "repository_preservation": {
+    "date": "2026-10-20",
+    "scope": "Git housekeeping; DSP and UI behavior unchanged",
+    "tests": {
+      "debug": {
+        "tests_passed": 324,
+        "errors": 0,
+        "sha256": "4e5788de4f3fae8ed372c26aa5c9025925a08b88ac0d803dafd19316947a43e8",
+        "local_log": "build-legato-compressor-v1-review/housekeeping-20261020/engine/tests-debug.log"
+      },
+      "release": {
+        "tests_passed": 324,
+        "errors": 0,
+        "sha256": "32106b5f7ff74bde12a36fc6e8ea649c2c26c37aa9fe8e5980ac6e6e010e8ea7",
+        "local_log": "build-legato-compressor-v1-review/housekeeping-20261020/engine/tests-release.log"
+      }
+    },
+    "source_hashes": "match original objective validation",
+    "source_audit": "passed",
+    "project_lint": "passed",
+    "git_diff_check": "passed",
+    "musical_acceptance": "DEFERRED",
+    "final_DSP_defaults": "not accepted"
+  }
+}

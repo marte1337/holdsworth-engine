@@ -1,0 +1,24 @@
+{
+  "baseline": "52e4325",
+  "audible_method_sha256_after_additions_removed": {
+    "ProcessBlock": "5e3e8ff81a5cd879b471ed0e83073aa554f9dc3e10f810f02267dc8558e91fb4",
+    "OnLatencyBypassBlock": "54743d50d31ded13d8e5031daec3860a76d3cb0e7a4abe68efa99af680cd77ed",
+    "_ProcessInput": "de3afe43128b7b4b9cb664caae9bdca2f0fc549f05059c59b989f001ee13e02f",
+    "_ProcessOutput": "b4c40f7fe29260798ec48b0bbfa1cc2692681e8862b7ac95dcaefa0e4231d603",
+    "_SetInputGain": "0efbf5128b3c36a2fd4291db4a666d73469f559102ae8a93da56512f76612d22",
+    "_UpdateLatency": "697d4305f201b61582f9ba7f2d9d48552c20310fc123e902ca76c3b3799fe064",
+    "OnLatencyPrepareBlock": "24dc3e61edf6f42c324959504eeac1bf0d924db5f37885676f5ef8c0a117cbe5",
+    "_CaptureTunerInput": "9811c0ddca044b72a11a668886fc3e9c5a93264c19db4b7cf9aa71c7ccc4092e",
+    "SerializeState": "3d8636cdb5e8937da87f3a6ca31f350681c8ce7522a1530af7ad2fe3f8216075",
+    "UnserializeState": "194b7350adfc270a0f8972e7c96351abc52df91a57b41542a234ec799f56061e"
+  },
+  "frozen_files": 103,
+  "placement": "Immediately after _ProcessInput, before selected pedal",
+  "existing_parameter_and_control_IDs": "unchanged, development tags appended",
+  "serialization": "unchanged",
+  "fixed_pedal_latency": 32,
+  "compressor_latency": 0,
+  "UI_height": "772 -> 980; existing card positions unchanged",
+  "vendored_and_submodules": "unchanged",
+  "project_sources": "all tuner-enrolled products plus tests enrolled"
+}

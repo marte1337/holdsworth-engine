@@ -1,0 +1,24 @@
+PASS VST3 44100 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 selected-pedal on/off arithmetic: Off/TC/MC/AH, 48k, blocks64/128/1024, normal/bypass
+PASS VST3 real NAM/IR fixtures: stock state loading, loaded-pipeline bit-exact on/off, raw A2 unchanged
+PASS VST3 48000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 88200 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 96000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 176400 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 192000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+MEASURE VST3 44100 Hz post-toggle legacy DC history residual 0
+PASS VST3 Legato 44100 Hz: 11 blocks, exact settled bypass, warm host-bypass history, latency32, no toggle PDC
+MEASURE VST3 48000 Hz post-toggle legacy DC history residual 0
+PASS VST3 Legato 48000 Hz: 11 blocks, exact settled bypass, warm host-bypass history, latency32, no toggle PDC
+MEASURE VST3 88200 Hz post-toggle legacy DC history residual 0
+PASS VST3 Legato 88200 Hz: 11 blocks, exact settled bypass, warm host-bypass history, latency32, no toggle PDC
+MEASURE VST3 96000 Hz post-toggle legacy DC history residual 0
+PASS VST3 Legato 96000 Hz: 11 blocks, exact settled bypass, warm host-bypass history, latency32, no toggle PDC
+MEASURE VST3 176400 Hz post-toggle legacy DC history residual 0
+PASS VST3 Legato 176400 Hz: 11 blocks, exact settled bypass, warm host-bypass history, latency32, no toggle PDC
+MEASURE VST3 192000 Hz post-toggle legacy DC history residual 0
+PASS VST3 Legato 192000 Hz: 11 blocks, exact settled bypass, warm host-bypass history, latency32, no toggle PDC
+PASS VST3 Legato active: Off/TC/MC/AH, normal/bypass, raw tuner A2
+PASS VST3 real calibrated equivalence: maxLevel=5.3290705182e-15 dB maxGain=3.5527136788e-15
+PASS VST3 real NAM latency32->61->32, compressor toggles unchanged
+PASS: actual Release VST3 tuner acceptance
