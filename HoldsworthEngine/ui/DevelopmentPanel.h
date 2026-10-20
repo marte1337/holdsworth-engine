@@ -5,6 +5,7 @@
 #include "../integration/DevelopmentPreNAMSelector.h"
 #include "../dsp/JRockettAHDriveProfile.h"
 #include "TunerControl.h"
+#include "../integration/DevelopmentLegatoCompressorControls.h"
 
 #include <algorithm>
 #include <array>
@@ -125,6 +126,50 @@ protected:
   {
     mValueStr.SetFormatted(24, "+%.1f dB", 20.0 * std::clamp(GetValue(), 0.0, 1.0));
   }
+};
+
+class LegatoSlider final : public PositionSlider
+{
+public:
+  using Kind = integration::LegatoControl;
+  LegatoSlider(const IRECT& bounds, IActionFunction action, const char* label, Kind kind, double initial)
+  : PositionSlider(bounds, action, label, integration::legatoPosition(kind,initial)), mKind(kind) {}
+protected:
+  void UpdateValue() override
+  {
+    const double v=integration::legatoValue(mKind,GetValue());
+    const char* unit=mKind==Kind::calibratedThreshold ? "dBu" : mKind==Kind::normalizedThreshold ? "dBFS" :
+      mKind==Kind::makeup ? "dB" : "ms";
+    mValueStr.SetFormatted(32,"%.1f %s",v,unit);
+  }
+private:
+  Kind mKind;
+};
+
+class LegatoMeterControl final : public IControl
+{
+public:
+  explicit LegatoMeterControl(const IRECT& bounds) : IControl(bounds) { SetIgnoreMouse(true); }
+  void OnMsgFromDelegate(int message, int size, const void* data) override
+  {
+    if(message!=kMsgTagLegatoMeter || size!=static_cast<int>(sizeof(mSnapshot)) || data==nullptr)return;
+    std::memcpy(&mSnapshot,data,sizeof(mSnapshot));
+    if(auto* graphics=GetUI())
+    {
+      if(auto* c=graphics->GetControlWithTag(kCtrlTagLegatoCalibratedThreshold))c->Hide(!mSnapshot.calibrated);
+      if(auto* c=graphics->GetControlWithTag(kCtrlTagLegatoNormalizedThreshold))c->Hide(mSnapshot.calibrated);
+    }
+    SetDirty(false);
+  }
+  void Draw(IGraphics& graphics) override
+  {
+    char text[128];
+    std::snprintf(text,sizeof(text),"Detector  %.1f %s RMS       Reduction  %.2f dB",
+      mSnapshot.levelDb,mSnapshot.calibrated ? "dBu" : "dBFS",mSnapshot.reductionDb);
+    graphics.DrawText(IText(15,mutedText(),"Roboto-Regular",EAlign::Near),text,mRECT);
+  }
+private:
+  integration::LegatoMeterSnapshot mSnapshot{};
 };
 
 class AHDriveSlider final : public PositionSlider
@@ -294,7 +339,7 @@ inline void attachDevelopmentPanel(IGraphics& g)
   g.AttachPanelBackground(panelBackground());
   label(IRECT(28, 22, 780, 58), "HOLDSWORTH ENGINE", 26, COLOR_WHITE);
   label(IRECT(28, 65, 1072, 99),
-        "INPUT   >   BOOST / DRIVE   >   AMP   >   CAB   >   DELAY   >   OUTPUT", 14, mutedText());
+        "INPUT   >   COMPRESSOR   >   BOOST / DRIVE   >   AMP   >   CAB   >   DELAY   >   OUTPUT", 14, mutedText());
   label(IRECT(902, 25, 1072, 53), "DEVELOPMENT  /  V2", 12, mutedText());
 
   g.AttachControl(new Card(IRECT(24, 116, 464, 438)));
@@ -388,5 +433,23 @@ inline void attachDevelopmentPanel(IGraphics& g)
     developmentMessage(kMsgTagTunerEnabled), "", toggleStyle, "OFF", "ON", false),
     kCtrlTagTunerEnabled)->SetTooltip("Chromatic tuner on the clean input. A4 = 440 Hz. Tune one note at a time.");
   g.AttachControl(new TunerControl(IRECT(622, 667, 1060, 739), kMsgTagTunerDisplay), kCtrlTagTunerDisplay);
+
+  g.AttachControl(new Card(IRECT(24,768,1080,956)));
+  label(IRECT(44,786,205,814),"LEGATO COMPRESSOR",13,mutedText());
+  g.AttachControl(new IVToggleControl(IRECT(44,830,156,870),developmentMessage(kMsgTagLegatoEnabled),
+    "",toggleStyle,"OFF","ON",false),kCtrlTagLegatoEnabled)->SetTooltip("Pre-pedal compressor. 2:1 ratio; at most 6 dB reduction.");
+  using LC=integration::LegatoControl;
+  auto* calibrated=new LegatoSlider(IRECT(210,790,402,884),developmentMessage(kMsgTagLegatoCalibratedThreshold),
+    "Threshold",LC::calibratedThreshold,-18.);
+  g.AttachControl(calibrated,kCtrlTagLegatoCalibratedThreshold);calibrated->Hide(true);
+  g.AttachControl(new LegatoSlider(IRECT(210,790,402,884),developmentMessage(kMsgTagLegatoNormalizedThreshold),
+    "Threshold",LC::normalizedThreshold,-30.),kCtrlTagLegatoNormalizedThreshold);
+  g.AttachControl(new LegatoSlider(IRECT(424,790,616,884),developmentMessage(kMsgTagLegatoAttack),
+    "Attack",LC::attack,15.),kCtrlTagLegatoAttack)->SetTooltip("8-30 ms; 63.2% dB reduction time constant.");
+  g.AttachControl(new LegatoSlider(IRECT(638,790,830,884),developmentMessage(kMsgTagLegatoRelease),
+    "Release",LC::release,60.),kCtrlTagLegatoRelease)->SetTooltip("40-180 ms; 63.2% dB recovery time constant.");
+  g.AttachControl(new LegatoSlider(IRECT(852,790,1044,884),developmentMessage(kMsgTagLegatoMakeup),
+    "Makeup",LC::makeup,3.),kCtrlTagLegatoMakeup)->SetTooltip("Manual -6 to +4 dB before pedals and NAM. Raises noise too.");
+  g.AttachControl(new LegatoMeterControl(IRECT(210,902,1044,934)),kCtrlTagLegatoMeter);
 }
 } // namespace holdsworth::ui

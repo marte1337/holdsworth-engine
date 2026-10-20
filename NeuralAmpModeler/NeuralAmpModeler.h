@@ -18,6 +18,7 @@
   #include "../HoldsworthEngine/integration/DevelopmentControlDefaults.h"
   #include "../HoldsworthEngine/integration/TunerAnalysisService.h"
   #include "../HoldsworthEngine/integration/TunerDisplayState.h"
+  #include "../HoldsworthEngine/integration/DevelopmentLegatoCompressorControls.h"
 #endif
 
 #include "Colors.h"
@@ -106,6 +107,13 @@ enum ECtrlTags
   kCtrlTagAHDriveVolume,
   kCtrlTagTunerEnabled,
   kCtrlTagTunerDisplay,
+  kCtrlTagLegatoEnabled,
+  kCtrlTagLegatoCalibratedThreshold,
+  kCtrlTagLegatoNormalizedThreshold,
+  kCtrlTagLegatoAttack,
+  kCtrlTagLegatoRelease,
+  kCtrlTagLegatoMakeup,
+  kCtrlTagLegatoMeter,
 #endif
   kNumCtrlTags
 };
@@ -142,6 +150,13 @@ enum EMsgTags
   kMsgTagAHDriveVolume,
   kMsgTagTunerEnabled,
   kMsgTagTunerDisplay,
+  kMsgTagLegatoEnabled,
+  kMsgTagLegatoCalibratedThreshold,
+  kMsgTagLegatoNormalizedThreshold,
+  kMsgTagLegatoAttack,
+  kMsgTagLegatoRelease,
+  kMsgTagLegatoMakeup,
+  kMsgTagLegatoMeter,
 #endif
   kNumMsgTags
 };
@@ -283,6 +298,11 @@ public:
   const holdsworth::integration::TunerDisplaySnapshot& DevelopmentTunerResult() const noexcept
   { return mTunerDisplay.snapshot(); }
 #endif
+  // Headless validation reads audio-owned diagnostics only between callbacks.
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  holdsworth::dsp::LegatoCompressorDiagnostics DevelopmentLegatoDiagnostics() const noexcept
+  { return mLegatoCompressor.diagnostics(); }
+#endif
   bool OnHostRequestingSupportedViewConfiguration(int width, int height) override { return true; }
 
   void OnParamChange(int paramIdx) override;
@@ -382,6 +402,7 @@ private:
   // second maps pedal output volts to the loaded NAM's normalized input.
   double mPedalHostToVoltsGain = 1.0;
   double mPedalVoltsToNamGain = 1.0;
+  bool mPedalCalibrationActive = false; // same snapshot as the bridge gains
 #endif
 
   // Noise gates
@@ -409,6 +430,9 @@ private:
   //  recursive_linear_filter::LowPass mLowPass;
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+  holdsworth::dsp::LegatoCompressorProcessor mLegatoCompressor;
+  holdsworth::dsp::LegatoCompressorControls mLegatoControls; // sole control producer
+  holdsworth::integration::LegatoMeterTransport mLegatoMeter;
   // Temporary pre-NAM documentary-nominal CLEAN BOOST audition path.
   holdsworth::dsp::TCBLDCleanBoostProcessor mTCBldCleanBoostProcessor;
   holdsworth::dsp::MC402CleanBoostProcessor mMC402CleanBoostProcessor;

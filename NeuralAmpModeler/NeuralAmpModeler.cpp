@@ -413,6 +413,12 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
   // Input is collapsed to mono in preparation for the NAM.
   _ProcessInput(inputs, numFrames, numChannelsExternalIn, numChannelsInternal, selectedInputGain);
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+  // Legato v1 begin: gain only; preserve the native input/pedal arithmetic.
+  mLegatoCompressor.processBlock(std::span<const sample>{mInputPointers[0], numFrames},
+    std::span<sample>{mInputPointers[0], numFrames},
+    holdsworth::integration::legatoDetectorContext(mPedalCalibrationActive, mPedalHostToVoltsGain, selectedInputGain));
+  mLegatoMeter.publish(mLegatoCompressor.diagnostics());
+  // Legato v1 end.
   mPreNAMSelector.processSelected(
     std::span<sample>{mInputPointers[0], numFrames}, mPedalVoltsToNamGain,
     mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal);
@@ -602,6 +608,8 @@ void NeuralAmpModeler::OnReset()
     mAHPedal.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
   }
   mPreNAMSelector.prepare(sampleRate);
+  mLegatoCompressor.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
+  mLegatoMeter.publish(mLegatoCompressor.diagnostics());
 
   const bool holdsworthDelayNeedsPrepare =
     !mHoldsworthDelayEngine.isPrepared() || sampleRate != mHoldsworthDelayPreparedSampleRate
@@ -663,6 +671,9 @@ void NeuralAmpModeler::OnIdle()
     const auto& snapshot = mTunerDisplay.snapshot();
     SendControlMsgFromDelegate(kCtrlTagTunerDisplay, kMsgTagTunerDisplay,
       static_cast<int>(sizeof(snapshot)), &snapshot);
+    const auto legato = mLegatoMeter.snapshot();
+    SendControlMsgFromDelegate(kCtrlTagLegatoMeter, kMsgTagLegatoMeter,
+      static_cast<int>(sizeof(legato)), &legato);
   }
 #endif
 
@@ -734,6 +745,15 @@ void NeuralAmpModeler::OnUIOpen()
   mTunerAnalysis.capture().setEditorOpen(true);
   mTunerDisplay.reset(mTunerAnalysis.active());
   SendControlValueFromDelegate(kCtrlTagTunerEnabled, mTunerAnalysis.capture().requestedEnabled() ? 1.0 : 0.0);
+  SendControlValueFromDelegate(kCtrlTagLegatoEnabled, mLegatoControls.enabled ? 1. : 0.);
+  using LegatoControl = holdsworth::integration::LegatoControl;
+  SendControlValueFromDelegate(kCtrlTagLegatoCalibratedThreshold, holdsworth::integration::legatoPosition(LegatoControl::calibratedThreshold, mLegatoControls.calibratedThresholdDb));
+  SendControlValueFromDelegate(kCtrlTagLegatoNormalizedThreshold, holdsworth::integration::legatoPosition(LegatoControl::normalizedThreshold, mLegatoControls.normalizedThresholdDb));
+  SendControlValueFromDelegate(kCtrlTagLegatoAttack, holdsworth::integration::legatoPosition(LegatoControl::attack, mLegatoControls.attackMs));
+  SendControlValueFromDelegate(kCtrlTagLegatoRelease, holdsworth::integration::legatoPosition(LegatoControl::release, mLegatoControls.releaseMs));
+  SendControlValueFromDelegate(kCtrlTagLegatoMakeup, holdsworth::integration::legatoPosition(LegatoControl::makeup, mLegatoControls.makeupDb));
+  const auto legato = mLegatoMeter.snapshot();
+  SendControlMsgFromDelegate(kCtrlTagLegatoMeter, kMsgTagLegatoMeter, static_cast<int>(sizeof(legato)), &legato);
   SendControlValueFromDelegate(
     kCtrlTagPreNAMProcessor,
     static_cast<double>(mPreNAMRequestedProcessor.load(std::memory_order_relaxed)) / 3.0);
@@ -845,6 +865,26 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
     case kMsgTagClearModel: mShouldRemoveModel = true; return true;
     case kMsgTagClearIR: mShouldRemoveIR = true; return true;
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+    case kMsgTagLegatoEnabled:
+    case kMsgTagLegatoCalibratedThreshold:
+    case kMsgTagLegatoNormalizedThreshold:
+    case kMsgTagLegatoAttack:
+    case kMsgTagLegatoRelease:
+    case kMsgTagLegatoMakeup:
+    {
+      const int offset = msgTag - kMsgTagLegatoEnabled;
+      double value = 0.;
+      if (!holdsworth::integration::ahReadControlMessage(ctrlTag, kCtrlTagLegatoEnabled+offset, dataSize, pData, value)) return false;
+      using C = holdsworth::integration::LegatoControl;
+      if (offset == 0) mLegatoControls.enabled = std::isfinite(value) && value >= .5;
+      else if (offset == 1) mLegatoControls.calibratedThresholdDb = holdsworth::integration::legatoValue(C::calibratedThreshold, value);
+      else if (offset == 2) mLegatoControls.normalizedThresholdDb = holdsworth::integration::legatoValue(C::normalizedThreshold, value);
+      else if (offset == 3) mLegatoControls.attackMs = holdsworth::integration::legatoValue(C::attack, value);
+      else if (offset == 4) mLegatoControls.releaseMs = holdsworth::integration::legatoValue(C::release, value);
+      else mLegatoControls.makeupDb = holdsworth::integration::legatoValue(C::makeup, value);
+      mLegatoCompressor.setControls(mLegatoControls);
+      return true;
+    }
     case kMsgTagTunerEnabled:
     {
       if (ctrlTag != kCtrlTagTunerEnabled || dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
@@ -1142,6 +1182,7 @@ void NeuralAmpModeler::_SetInputGain()
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   mPedalHostToVoltsGain = DBToAmp(inputTrimDB);
   mPedalVoltsToNamGain = 1.0;
+  mPedalCalibrationActive = false; // Legato v1 calibration availability.
 #endif
   // Input calibration
   if ((mModel != nullptr) && (mModel->HasInputLevel()) && GetParam(kCalibrateInput)->Bool())
@@ -1150,6 +1191,7 @@ void NeuralAmpModeler::_SetInputGain()
     const double modelCalibrationDbu = mModel->GetInputLevel();
     inputGainDB += hostCalibrationDbu - modelCalibrationDbu;
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+    mPedalCalibrationActive = true; // Legato v1 calibration availability.
     // Run the pedal in its documented volts domain while retaining the exact
     // stock calibrated gain when its transfer is replaced by an ideal wire.
     mPedalHostToVoltsGain *=
@@ -1441,6 +1483,10 @@ void NeuralAmpModeler::OnLatencyBypassBlock(sample** inputs, int nFrames)
     static_cast<holdsworth::integration::DevelopmentPreNAMProcessor>(mPreNAMRequestedProcessor.load(std::memory_order_relaxed)),
     static_cast<std::size_t>(nFrames), mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal, mAHRealtimeSupported);
   double gain = mPreNAMSelector.inputGain(mInputGain, mPedalHostToVoltsGain);
+  // Legato v1 begin: mirror the normal callback's detector before channel folding.
+  mLegatoCompressor.beginBlock(holdsworth::integration::legatoDetectorContext(
+    mPedalCalibrationActive, mPedalHostToVoltsGain, gain));
+  // Legato v1 end.
   const int channels = NInChansConnected();
 #ifndef APP_API
   if (channels) gain /= static_cast<float>(channels);
@@ -1449,9 +1495,15 @@ void NeuralAmpModeler::OnLatencyBypassBlock(sample** inputs, int nFrames)
   {
     double mono = channels ? gain * inputs[0][i] : 0.;
     for (int c = 1; c < channels; ++c) mono += gain * inputs[c][i];
+    // Legato v1 begin: discarded audio still advances the selected pedal history.
+    mono = mLegatoCompressor.processSample(mono);
+    // Legato v1 end.
     mPreNAMSelector.processSelected({&mono,1}, mPedalVoltsToNamGain,
       mTCBldCleanBoostProcessor, mMC402CleanBoostProcessor, mAHPedal);
   }
+  // Legato v1 begin: publish only; all presentation remains on OnIdle.
+  mLegatoMeter.publish(mLegatoCompressor.diagnostics());
+  // Legato v1 end.
 #endif
 }
 

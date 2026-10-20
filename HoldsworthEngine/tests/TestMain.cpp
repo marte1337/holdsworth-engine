@@ -109,6 +109,8 @@ int main(int argc, char** argv)
                           jRockettAHDriveProcessorTests(),
                           jRockettAHPedalTests(),
                           developmentPreNAMSelectorTests(),
+                          legatoCompressorProcessorTests(),
+                          legatoCompressorIntegrationTests(),
                           chromaticTunerTests(),
                           tunerCaptureBufferTests(),
                           tunerAnalysisServiceTests(),
