@@ -1,0 +1,763 @@
+{
+  "date": "2026-10-21",
+  "scope": "Final pre-merge revalidation of accepted EQ v1; no production or test source changes.",
+  "implementation_commit": "0cfa26ef3787bad539e613c2c03d5edf05daf0a8",
+  "pre_EQ_base_commit": "52e432585918adac8b1b41d53311aa8635c28e44",
+  "accepted_source_preservation": {
+    "all_frozen_hashes_match": true,
+    "frozen_file_count": 40,
+    "source_manifest_archive_member": "initial-source-manifest.json",
+    "DSP_behavior_and_defaults_changed": false
+  },
+  "engine_tests": {
+    "Debug": 329,
+    "Release": 329,
+    "ASan_UBSan": 329,
+    "TSan_concurrency": 7,
+    "all_passed": true
+  },
+  "fresh_release_metrics": [
+    "METRIC eq impulse comparisons=19418 max_abs_db=3.6826031596275191e-07 max_phase_radians=1.2371423691961349e-08",
+    "METRIC eq sine_center_halfgain cases=324 max_abs_db=3.9026559761623503e-12 reciprocal_max_db=5.9028337773270323e-12",
+    "METRIC eq hp_lp max_abs_db=5.3771796376199461e-09 rejected_endpoint_abs=5.5511151231257827e-17",
+    "METRIC eq rapid_changes peak_abs=0.032123660380811367 two_second_tail_abs=3.9060987101715592e-35",
+    "METRIC eq exact_linear_fade max_abs_error=2.0916601783937949e-13",
+    "METRIC eq concurrent_snapshots published=30001 audio_blocks=7418",
+    "METRIC eq realtime_cpp_allocations=0",
+    "METRIC eq colored_global_reversals samples=219220 max_envelope_error=5.4565726936850467e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+    "METRIC eq hp_reversals samples=219220 max_envelope_error=2.2898349882893854e-15 max_source_inclusive_adjacent_jump=0.11976061981472397",
+    "METRIC eq lp_reversals samples=219220 max_envelope_error=5.467848396278896e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+    "METRIC eq normal_moves first_impulse_step_error=1.3877787807814457e-17 max_first_fraction_times_20ms_samples=1.0165749605758865",
+    "METRIC eq normal_moves source=tone first_event_delta_from_frozen=3.3944943127819927e-05 max_source_inclusive_adjacent_jump=0.023041006564845885 max_adjacent_residual_change=0.0049065099137940854 final_10ms_target_error=0",
+    "METRIC eq normal_moves source=noise first_event_delta_from_frozen=2.4599877548048266e-06 max_source_inclusive_adjacent_jump=0.1225880526890965 max_adjacent_residual_change=0.0061765796275426027 final_10ms_target_error=0",
+    "METRIC eq normal_moves source=impulse first_event_delta_from_frozen=2.4956893072215911e-15 max_source_inclusive_adjacent_jump=0.11035982738900607 max_adjacent_residual_change=0.0036922893926632358 final_10ms_target_error=0",
+    "METRIC eq normal_moves source=silence first_event_delta_from_frozen=0 max_source_inclusive_adjacent_jump=0 max_adjacent_residual_change=0 final_10ms_target_error=0"
+  ],
+  "checks": [
+    {
+      "name": "compile-debug",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "-O0",
+        "-g",
+        "HoldsworthEngine/dsp/ChromaticTuner.cpp",
+        "HoldsworthEngine/dsp/DelayBand.cpp",
+        "HoldsworthEngine/dsp/DelayLoopFilter.cpp",
+        "HoldsworthEngine/dsp/DelayModulator.cpp",
+        "HoldsworthEngine/dsp/FractionalDelayLine.cpp",
+        "HoldsworthEngine/dsp/GroupedDelayCircuit.cpp",
+        "HoldsworthEngine/dsp/HoldsworthDelayEngine.cpp",
+        "HoldsworthEngine/dsp/HoldsworthDelayPresets.cpp",
+        "HoldsworthEngine/dsp/JRockettAHBoostProcessor.cpp",
+        "HoldsworthEngine/dsp/JRockettAHDriveProcessor.cpp",
+        "HoldsworthEngine/dsp/MC402CleanBoostProcessor.cpp",
+        "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp",
+        "HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.cpp",
+        "HoldsworthEngine/integration/TunerAnalysisService.cpp",
+        "HoldsworthEngine/integration/TunerDisplayState.cpp",
+        "HoldsworthEngine/tests/AudioRoutingTests.cpp",
+        "HoldsworthEngine/tests/ChromaticTunerTests.cpp",
+        "HoldsworthEngine/tests/Connect913PresetTests.cpp",
+        "HoldsworthEngine/tests/DelayBandLoopFilterTests.cpp",
+        "HoldsworthEngine/tests/DelayBandModulationTests.cpp",
+        "HoldsworthEngine/tests/DelayBandSignalPolarityTests.cpp",
+        "HoldsworthEngine/tests/DelayBandTapTests.cpp",
+        "HoldsworthEngine/tests/DelayBandTests.cpp",
+        "HoldsworthEngine/tests/DelayGroupingTests.cpp",
+        "HoldsworthEngine/tests/DelayLoopFilterTests.cpp",
+        "HoldsworthEngine/tests/DelayModulatorTests.cpp",
+        "HoldsworthEngine/tests/DevelopmentPreNAMSelectorTests.cpp",
+        "HoldsworthEngine/tests/FractionalDelayLineTests.cpp",
+        "HoldsworthEngine/tests/Group12RhythmDiagnosticTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth111PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth122PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth223PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth231PresetTests.cpp",
+        "HoldsworthEngine/tests/HoldsworthDelayEngineTests.cpp",
+        "HoldsworthEngine/tests/HoldsworthDelayLiveIntegrationTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHDriveProcessorTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHPedalTests.cpp",
+        "HoldsworthEngine/tests/MC402CleanBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/ModulationSyncTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQControlTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTransitionTests.cpp",
+        "HoldsworthEngine/tests/Sync922PresetTests.cpp",
+        "HoldsworthEngine/tests/TCBLDCleanBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/TestMain.cpp",
+        "HoldsworthEngine/tests/TunerAnalysisServiceTests.cpp",
+        "HoldsworthEngine/tests/TunerCaptureBufferTests.cpp",
+        "HoldsworthEngine/tests/TunerDisplayStateTests.cpp",
+        "-o",
+        "/private/tmp/nam-eq-git-integration/tests-debug"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 31.002,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "tests-debug",
+      "command": [
+        "/private/tmp/nam-eq-git-integration/tests-debug"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 190.492,
+      "log_sha256": "a96d09292d1fa19e3dad8a3fb1f67a802d872620b8e5f4791560804c68a75c40",
+      "summary": "All 329 HoldsworthEngine tests passed."
+    },
+    {
+      "name": "compile-release",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "-O3",
+        "-DNDEBUG",
+        "HoldsworthEngine/dsp/ChromaticTuner.cpp",
+        "HoldsworthEngine/dsp/DelayBand.cpp",
+        "HoldsworthEngine/dsp/DelayLoopFilter.cpp",
+        "HoldsworthEngine/dsp/DelayModulator.cpp",
+        "HoldsworthEngine/dsp/FractionalDelayLine.cpp",
+        "HoldsworthEngine/dsp/GroupedDelayCircuit.cpp",
+        "HoldsworthEngine/dsp/HoldsworthDelayEngine.cpp",
+        "HoldsworthEngine/dsp/HoldsworthDelayPresets.cpp",
+        "HoldsworthEngine/dsp/JRockettAHBoostProcessor.cpp",
+        "HoldsworthEngine/dsp/JRockettAHDriveProcessor.cpp",
+        "HoldsworthEngine/dsp/MC402CleanBoostProcessor.cpp",
+        "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp",
+        "HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.cpp",
+        "HoldsworthEngine/integration/TunerAnalysisService.cpp",
+        "HoldsworthEngine/integration/TunerDisplayState.cpp",
+        "HoldsworthEngine/tests/AudioRoutingTests.cpp",
+        "HoldsworthEngine/tests/ChromaticTunerTests.cpp",
+        "HoldsworthEngine/tests/Connect913PresetTests.cpp",
+        "HoldsworthEngine/tests/DelayBandLoopFilterTests.cpp",
+        "HoldsworthEngine/tests/DelayBandModulationTests.cpp",
+        "HoldsworthEngine/tests/DelayBandSignalPolarityTests.cpp",
+        "HoldsworthEngine/tests/DelayBandTapTests.cpp",
+        "HoldsworthEngine/tests/DelayBandTests.cpp",
+        "HoldsworthEngine/tests/DelayGroupingTests.cpp",
+        "HoldsworthEngine/tests/DelayLoopFilterTests.cpp",
+        "HoldsworthEngine/tests/DelayModulatorTests.cpp",
+        "HoldsworthEngine/tests/DevelopmentPreNAMSelectorTests.cpp",
+        "HoldsworthEngine/tests/FractionalDelayLineTests.cpp",
+        "HoldsworthEngine/tests/Group12RhythmDiagnosticTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth111PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth122PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth223PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth231PresetTests.cpp",
+        "HoldsworthEngine/tests/HoldsworthDelayEngineTests.cpp",
+        "HoldsworthEngine/tests/HoldsworthDelayLiveIntegrationTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHDriveProcessorTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHPedalTests.cpp",
+        "HoldsworthEngine/tests/MC402CleanBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/ModulationSyncTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQControlTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTransitionTests.cpp",
+        "HoldsworthEngine/tests/Sync922PresetTests.cpp",
+        "HoldsworthEngine/tests/TCBLDCleanBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/TestMain.cpp",
+        "HoldsworthEngine/tests/TunerAnalysisServiceTests.cpp",
+        "HoldsworthEngine/tests/TunerCaptureBufferTests.cpp",
+        "HoldsworthEngine/tests/TunerDisplayStateTests.cpp",
+        "-o",
+        "/private/tmp/nam-eq-git-integration/tests-release"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 33.16,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "tests-release",
+      "command": [
+        "/private/tmp/nam-eq-git-integration/tests-release"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 28.269,
+      "log_sha256": "e217d323c70e43451d050de85b39a3c00419e6cd832a81079eb58bd332d65022",
+      "summary": "All 329 HoldsworthEngine tests passed."
+    },
+    {
+      "name": "compile-asan",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "HoldsworthEngine/dsp/ChromaticTuner.cpp",
+        "HoldsworthEngine/dsp/DelayBand.cpp",
+        "HoldsworthEngine/dsp/DelayLoopFilter.cpp",
+        "HoldsworthEngine/dsp/DelayModulator.cpp",
+        "HoldsworthEngine/dsp/FractionalDelayLine.cpp",
+        "HoldsworthEngine/dsp/GroupedDelayCircuit.cpp",
+        "HoldsworthEngine/dsp/HoldsworthDelayEngine.cpp",
+        "HoldsworthEngine/dsp/HoldsworthDelayPresets.cpp",
+        "HoldsworthEngine/dsp/JRockettAHBoostProcessor.cpp",
+        "HoldsworthEngine/dsp/JRockettAHDriveProcessor.cpp",
+        "HoldsworthEngine/dsp/MC402CleanBoostProcessor.cpp",
+        "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp",
+        "HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.cpp",
+        "HoldsworthEngine/integration/TunerAnalysisService.cpp",
+        "HoldsworthEngine/integration/TunerDisplayState.cpp",
+        "HoldsworthEngine/tests/AudioRoutingTests.cpp",
+        "HoldsworthEngine/tests/ChromaticTunerTests.cpp",
+        "HoldsworthEngine/tests/Connect913PresetTests.cpp",
+        "HoldsworthEngine/tests/DelayBandLoopFilterTests.cpp",
+        "HoldsworthEngine/tests/DelayBandModulationTests.cpp",
+        "HoldsworthEngine/tests/DelayBandSignalPolarityTests.cpp",
+        "HoldsworthEngine/tests/DelayBandTapTests.cpp",
+        "HoldsworthEngine/tests/DelayBandTests.cpp",
+        "HoldsworthEngine/tests/DelayGroupingTests.cpp",
+        "HoldsworthEngine/tests/DelayLoopFilterTests.cpp",
+        "HoldsworthEngine/tests/DelayModulatorTests.cpp",
+        "HoldsworthEngine/tests/DevelopmentPreNAMSelectorTests.cpp",
+        "HoldsworthEngine/tests/FractionalDelayLineTests.cpp",
+        "HoldsworthEngine/tests/Group12RhythmDiagnosticTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth111PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth122PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth223PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth231PresetTests.cpp",
+        "HoldsworthEngine/tests/HoldsworthDelayEngineTests.cpp",
+        "HoldsworthEngine/tests/HoldsworthDelayLiveIntegrationTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHDriveProcessorTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHPedalTests.cpp",
+        "HoldsworthEngine/tests/MC402CleanBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/ModulationSyncTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQControlTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTransitionTests.cpp",
+        "HoldsworthEngine/tests/Sync922PresetTests.cpp",
+        "HoldsworthEngine/tests/TCBLDCleanBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/TestMain.cpp",
+        "HoldsworthEngine/tests/TunerAnalysisServiceTests.cpp",
+        "HoldsworthEngine/tests/TunerCaptureBufferTests.cpp",
+        "HoldsworthEngine/tests/TunerDisplayStateTests.cpp",
+        "-o",
+        "/private/tmp/nam-eq-git-integration/tests-asan"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 52.397,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "tests-asan",
+      "command": [
+        "/private/tmp/nam-eq-git-integration/tests-asan"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 80.832,
+      "log_sha256": "b76cd39b1de245b8fc26797090d1005de3e784ed3faccd83ff07b545537b9ada",
+      "summary": "All 329 HoldsworthEngine tests passed."
+    },
+    {
+      "name": "compile-tsan",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "-O1",
+        "-g",
+        "-fsanitize=thread",
+        "HoldsworthEngine/dsp/ChromaticTuner.cpp",
+        "HoldsworthEngine/dsp/DelayBand.cpp",
+        "HoldsworthEngine/dsp/DelayLoopFilter.cpp",
+        "HoldsworthEngine/dsp/DelayModulator.cpp",
+        "HoldsworthEngine/dsp/FractionalDelayLine.cpp",
+        "HoldsworthEngine/dsp/GroupedDelayCircuit.cpp",
+        "HoldsworthEngine/dsp/HoldsworthDelayEngine.cpp",
+        "HoldsworthEngine/dsp/HoldsworthDelayPresets.cpp",
+        "HoldsworthEngine/dsp/JRockettAHBoostProcessor.cpp",
+        "HoldsworthEngine/dsp/JRockettAHDriveProcessor.cpp",
+        "HoldsworthEngine/dsp/MC402CleanBoostProcessor.cpp",
+        "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp",
+        "HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.cpp",
+        "HoldsworthEngine/integration/TunerAnalysisService.cpp",
+        "HoldsworthEngine/integration/TunerDisplayState.cpp",
+        "HoldsworthEngine/tests/AudioRoutingTests.cpp",
+        "HoldsworthEngine/tests/ChromaticTunerTests.cpp",
+        "HoldsworthEngine/tests/Connect913PresetTests.cpp",
+        "HoldsworthEngine/tests/DelayBandLoopFilterTests.cpp",
+        "HoldsworthEngine/tests/DelayBandModulationTests.cpp",
+        "HoldsworthEngine/tests/DelayBandSignalPolarityTests.cpp",
+        "HoldsworthEngine/tests/DelayBandTapTests.cpp",
+        "HoldsworthEngine/tests/DelayBandTests.cpp",
+        "HoldsworthEngine/tests/DelayGroupingTests.cpp",
+        "HoldsworthEngine/tests/DelayLoopFilterTests.cpp",
+        "HoldsworthEngine/tests/DelayModulatorTests.cpp",
+        "HoldsworthEngine/tests/DevelopmentPreNAMSelectorTests.cpp",
+        "HoldsworthEngine/tests/FractionalDelayLineTests.cpp",
+        "HoldsworthEngine/tests/Group12RhythmDiagnosticTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth111PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth122PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth223PresetTests.cpp",
+        "HoldsworthEngine/tests/Holdsworth231PresetTests.cpp",
+        "HoldsworthEngine/tests/HoldsworthDelayEngineTests.cpp",
+        "HoldsworthEngine/tests/HoldsworthDelayLiveIntegrationTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHDriveProcessorTests.cpp",
+        "HoldsworthEngine/tests/JRockettAHPedalTests.cpp",
+        "HoldsworthEngine/tests/MC402CleanBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/ModulationSyncTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQControlTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTransitionTests.cpp",
+        "HoldsworthEngine/tests/Sync922PresetTests.cpp",
+        "HoldsworthEngine/tests/TCBLDCleanBoostProcessorTests.cpp",
+        "HoldsworthEngine/tests/TestMain.cpp",
+        "HoldsworthEngine/tests/TunerAnalysisServiceTests.cpp",
+        "HoldsworthEngine/tests/TunerCaptureBufferTests.cpp",
+        "HoldsworthEngine/tests/TunerDisplayStateTests.cpp",
+        "-o",
+        "/private/tmp/nam-eq-git-integration/tests-tsan"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 35.41,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "tests-tsan",
+      "command": [
+        "/private/tmp/nam-eq-git-integration/tests-tsan",
+        "concurr"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.523,
+      "log_sha256": "ff39e895ac1d9a5a4e7d0a8e0d43159f7016946a43996efa4a2c0c525bdeb260",
+      "summary": "All 7 HoldsworthEngine tests passed."
+    },
+    {
+      "name": "strict-warnings",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Wconversion",
+        "-Wsign-conversion",
+        "-Werror",
+        "-fsyntax-only",
+        "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQControlTests.cpp",
+        "HoldsworthEngine/tests/PostAmpEQTransitionTests.cpp"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.664,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "analyzer-PostAmpEQProcessor",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "--analyze",
+        "-Xanalyzer",
+        "-analyzer-output=text",
+        "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp",
+        "-o",
+        "/dev/null"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.819,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "analyzer-PostAmpEQTests",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "--analyze",
+        "-Xanalyzer",
+        "-analyzer-output=text",
+        "HoldsworthEngine/tests/PostAmpEQTests.cpp",
+        "-o",
+        "/dev/null"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.563,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "analyzer-PostAmpEQControlTests",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "--analyze",
+        "-Xanalyzer",
+        "-analyzer-output=text",
+        "HoldsworthEngine/tests/PostAmpEQControlTests.cpp",
+        "-o",
+        "/dev/null"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.081,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "analyzer-PostAmpEQTransitionTests",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+        "-isysroot",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-isystem",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1",
+        "-std=c++20",
+        "-pthread",
+        "--analyze",
+        "-Xanalyzer",
+        "-analyzer-output=text",
+        "HoldsworthEngine/tests/PostAmpEQTransitionTests.cpp",
+        "-o",
+        "/dev/null"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.903,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    },
+    {
+      "name": "source-audit",
+      "command": [
+        "python3",
+        "HoldsworthEngine/references/post-amp-eq-v1/source-audit.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.236,
+      "log_sha256": "bf7d71ac0cd8816dee2ca7ec46f3acf0dd0ff9fdea4077f968104a5be697c792",
+      "summary": "}"
+    },
+    {
+      "name": "rt-source-audit",
+      "command": [
+        "python3",
+        "HoldsworthEngine/references/post-amp-eq-v1/rt-source-audit.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.032,
+      "log_sha256": "1c3ea18dea2bd2a46081f9ce63dc2b9fc811c4c0680be3fe75ccf639440d0f7b",
+      "summary": "}"
+    },
+    {
+      "name": "project-lint",
+      "command": [
+        "plutil",
+        "-lint",
+        "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.011,
+      "log_sha256": "c4369df1467b145a88ace2e330c488d261f80361ef992b386e558adc0c1e4a0f",
+      "summary": "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj: OK"
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.085,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "clean"
+    }
+  ],
+  "native_host_validation": {
+    "scope": "Actual Release VST3/AU bundle APIs and APP Release-object callback",
+    "rates_hz": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ],
+    "blocks": [
+      1,
+      2,
+      4,
+      8,
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024,
+      37
+    ],
+    "formats": {
+      "APP": {
+        "passed": true,
+        "exit_code": 0,
+        "bundle": "/private/tmp/nam-eq-git-integration/products/NeuralAmpModeler.app",
+        "log": "/private/tmp/nam-eq-git-integration/host-tests/app-acceptance.log",
+        "binary_sha256": "746337e49966812421f3b17c85f5599f28a88b1e82a4d54825d2ad5d69158b62",
+        "sample_format": "float64",
+        "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+        "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+        "latency_samples": 32,
+        "audited_rt_calls_after_legacy_warmup": 0
+      },
+      "VST3": {
+        "passed": true,
+        "exit_code": 0,
+        "bundle": "/private/tmp/nam-eq-git-integration/products/NeuralAmpModeler.vst3",
+        "log": "/private/tmp/nam-eq-git-integration/host-tests/vst3-acceptance.log",
+        "binary_sha256": "fc9166a73550dacada95cb52a1081aacd3cd7e24805879fd934bf882c7f94944",
+        "sample_format": "float64",
+        "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+        "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+        "latency_samples": 32,
+        "audited_rt_calls_after_legacy_warmup": 0
+      },
+      "AU": {
+        "passed": true,
+        "exit_code": 0,
+        "bundle": "/private/tmp/nam-eq-git-integration/products/NeuralAmpModeler.component",
+        "log": "/private/tmp/nam-eq-git-integration/host-tests/au-acceptance.log",
+        "binary_sha256": "bf426d7cea33030bf1da1bc8bc76e1a99d9750e8b094f3d51a6af0fe0c4d6f27",
+        "sample_format": "float32",
+        "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+        "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+        "latency_samples": 32,
+        "audited_rt_calls_after_legacy_warmup": 0
+      }
+    }
+  },
+  "Release_builds": {
+    "formats": [
+      "APP",
+      "VST3",
+      "AU"
+    ],
+    "all_passed": true,
+    "architecture": "arm64",
+    "deployment_target": "macOS 12.0",
+    "ad_hoc_signature_and_plist_verification": "passed",
+    "command": "EQ_BUILD=/private/tmp/nam-eq-git-integration bash HoldsworthEngine/references/post-amp-eq-v1/package-products.sh",
+    "first_attempt": {
+      "exit_code": 65,
+      "cause": "Sandboxed Xcode module-session cache write failure.",
+      "raw_log_archive_member": "logs/package-products-first-attempt-APP.log"
+    },
+    "retry": {
+      "exit_code": 0,
+      "resolution": "Same builder and sources with system cache access; isolated temporary products; no plugin installation or AU-cache clearing."
+    }
+  },
+  "host_commands": [
+    "EQ_BUILD=/private/tmp/nam-eq-git-integration python3 HoldsworthEngine/references/post-amp-eq-v1/compile-hosts.py",
+    "EQ_BUILD=/private/tmp/nam-eq-git-integration python3 HoldsworthEngine/references/post-amp-eq-v1/run-host.py"
+  ],
+  "validation_tool_change": "source-audit.py now pins the accepted pre-EQ commit instead of HEAD so the historical comparison remains valid after integration.",
+  "acceptance_thresholds_changed": false,
+  "timing": "No new performance benchmark was substituted. Original CPU matrix and investigation evidence remain unchanged; compilation/test elapsed times are not realtime performance measurements.",
+  "manual_qa": "Standalone passed user audition; manual VST3/AU checks deferred to release QA.",
+  "compressor_branch_preserved_at": "48b10743194d665062dfd883777cc448c1fea54f",
+  "evidence_archive": {
+    "path": "git-integration-validation.tar.gz",
+    "bytes": 38318,
+    "sha256": "d2b5ce31ccf6aeb86ac60c64cd31d3c376bb846f5adaf212771eac6dc81e8fae",
+    "members": {
+      "build-APP/build.log": {
+        "bytes": 75756,
+        "sha256": "5782e992a3b4bf39c1492905443ec11926a862f3ad8efa146a91e453cb133369"
+      },
+      "build-AU/build.log": {
+        "bytes": 72187,
+        "sha256": "d0de588ad5907917e7179421a1a30544464ee4559f3b4f687903181408d82514"
+      },
+      "build-VST3/build.log": {
+        "bytes": 70752,
+        "sha256": "7aacd06c866ff8a10292b3e64f7d2d40d71b613440ea3367ece4d78b13de0d71"
+      },
+      "final-validation.json": {
+        "bytes": 22183,
+        "sha256": "a0930f2f71e2ca5bb97cf818a79cc9466becb61fe86bb4bc8165d8c2cd56627b"
+      },
+      "host-tests/app-acceptance.log": {
+        "bytes": 3594,
+        "sha256": "c51312f2add5438f1dd49ebf4dace2e86fcde2c0532df0dab15a96ada5872394"
+      },
+      "host-tests/au-acceptance.log": {
+        "bytes": 3340,
+        "sha256": "268ffd85f93a782c3190a65acfbe9004aa13870d1235f74facd06b1828d1d359"
+      },
+      "host-tests/build-app.log": {
+        "bytes": 4967,
+        "sha256": "2b7ab50c1cad5fa2c6cba27e813a642c33f154f491f87eddc2c0c75ce85f7deb"
+      },
+      "host-tests/build-au.log": {
+        "bytes": 9552,
+        "sha256": "f99966cfaec9d1a79c170452151f75f7e99a49da41a9cea74d209d85715902c7"
+      },
+      "host-tests/build-rt-audit.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "host-tests/build-vst3.log": {
+        "bytes": 4967,
+        "sha256": "2b7ab50c1cad5fa2c6cba27e813a642c33f154f491f87eddc2c0c75ce85f7deb"
+      },
+      "host-tests/vst3-acceptance.log": {
+        "bytes": 3389,
+        "sha256": "ae04d76bb2508a081ef99f50aaf3813c0e54f4fe1f1403ee49183ef46d2a3032"
+      },
+      "host-validation.json": {
+        "bytes": 2234,
+        "sha256": "9e184aa1c68dafc7358db97565300165ad7041cfec363954929c2b59ec6e4cf5"
+      },
+      "initial-source-manifest.json": {
+        "bytes": 4839,
+        "sha256": "21130924346662e65724c26542ad7e9204cd255f8d578deb5eead8216dc7d05f"
+      },
+      "logs/analyzer-PostAmpEQControlTests.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/analyzer-PostAmpEQProcessor.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/analyzer-PostAmpEQTests.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/analyzer-PostAmpEQTransitionTests.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/compile-asan.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/compile-debug.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/compile-hosts.log": {
+        "bytes": 69,
+        "sha256": "fc15f46b5820c4f8b17046880275a11adba18ee12cf24260ae7c9d84cd4dd585"
+      },
+      "logs/compile-release.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/compile-tsan.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/diff-check.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/package-products-first-attempt-APP.log": {
+        "bytes": 16851,
+        "sha256": "eec2d662504ef8e94cf974b5336aa2442046859d531ab0a310fdf42f4ca52a5d"
+      },
+      "logs/package-products-retry.log": {
+        "bytes": 1789,
+        "sha256": "54dc09c33fad051d9ffe16b0ebbbbbe6d01e91a70baf4824dbef8190c98b1188"
+      },
+      "logs/package-products.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/project-lint.log": {
+        "bytes": 79,
+        "sha256": "c4369df1467b145a88ace2e330c488d261f80361ef992b386e558adc0c1e4a0f"
+      },
+      "logs/rt-source-audit.log": {
+        "bytes": 946,
+        "sha256": "1c3ea18dea2bd2a46081f9ce63dc2b9fc811c4c0680be3fe75ccf639440d0f7b"
+      },
+      "logs/run-hosts.log": {
+        "bytes": 228,
+        "sha256": "98db66238b7ef701f3ccceeb4a2023bea2b66283f73a9dbadaf19f52cbdd6498"
+      },
+      "logs/source-audit.log": {
+        "bytes": 369,
+        "sha256": "bf7d71ac0cd8816dee2ca7ec46f3acf0dd0ff9fdea4077f968104a5be697c792"
+      },
+      "logs/strict-warnings.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs/tests-asan.log": {
+        "bytes": 24074,
+        "sha256": "b76cd39b1de245b8fc26797090d1005de3e784ed3faccd83ff07b545537b9ada"
+      },
+      "logs/tests-debug.log": {
+        "bytes": 24073,
+        "sha256": "a96d09292d1fa19e3dad8a3fb1f67a802d872620b8e5f4791560804c68a75c40"
+      },
+      "logs/tests-release.log": {
+        "bytes": 24073,
+        "sha256": "e217d323c70e43451d050de85b39a3c00419e6cd832a81079eb58bd332d65022"
+      },
+      "logs/tests-tsan.log": {
+        "bytes": 445,
+        "sha256": "ff39e895ac1d9a5a4e7d0a8e0d43159f7016946a43996efa4a2c0c525bdeb260"
+      },
+      "validate-final.py": {
+        "bytes": 3141,
+        "sha256": "04ceb1644bf045357a809ebdf3e4d2dc79326ff11f56ae7e5eeafb287180c6ef"
+      }
+    },
+    "verification": "Every member decompressed and compared byte-for-byte to its source."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "violations": [],
+  "checked_functions": [
+    "Ramp::next",
+    "Ramp::setTarget",
+    "Ramp::snap",
+    "Section::clearHistory",
+    "Section::tick",
+    "Section::updateCoefficients",
+    "adoptControls",
+    "blend",
+    "clearHistory",
+    "configure",
+    "processBlock",
+    "reset",
+    "setControls"
+  ],
+  "lifecycle_exclusion": "prepare validates contracts and may throw outside realtime processing",
+  "bounded_target_work": "configure is called at most once per nonempty valid block after a coherent mailbox adoption; 5 tan and up to 4 pow calls, none inside the sample loop",
+  "mailbox": "three fixed slots; one lock-free uint32 exchange on publish; consumer load plus at most one exchange; compile-time is_always_lock_free assertion; no retry loops",
+  "limits": "Text-level regression guard. Dynamic allocation/lock/wait interposition and TSan are separate evidence; no claim of complete static proof."
+}

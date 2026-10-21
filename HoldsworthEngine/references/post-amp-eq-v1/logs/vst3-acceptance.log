@@ -1,0 +1,23 @@
+PASS EQ VST3 44100 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ VST3 active 44100 Hz fixtures=0 oracle_cases=8 max_abs_db=8.32667268469e-14; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ VST3 48000 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ VST3 active 48000 Hz fixtures=0 oracle_cases=8 max_abs_db=4.90718576884e-14; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ VST3 88200 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ VST3 active 88200 Hz fixtures=0 oracle_cases=8 max_abs_db=6.60582699652e-14; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ VST3 96000 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ VST3 active 96000 Hz fixtures=0 oracle_cases=8 max_abs_db=1.14241949234e-13; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ VST3 176400 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ VST3 active 176400 Hz fixtures=0 oracle_cases=8 max_abs_db=1.11022302463e-13; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ VST3 192000 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ VST3 active 192000 Hz fixtures=0 oracle_cases=8 max_abs_db=4.17443857259e-13; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+METRIC EQ VST3 active 48000 Hz fixtures=1 oracle_cases=14 max_abs_db=1.91615300515e-07; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+METRIC EQ VST3 loaded NAM/IR dry+delay-send scalar linearity: relative_rms=8.23313632969e-08 relative_peak=1.27321339568e-07 tail_energy=0.0841415945553; bounds=1e-5/2e-5; latency32; audited RT calls0
+PASS VST3 44100 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 selected-pedal on/off arithmetic: Off/TC/MC/AH, 48k, blocks64/128/1024, normal/bypass
+PASS VST3 real NAM/IR fixtures: stock state loading, loaded-pipeline bit-exact on/off, raw A2 unchanged
+PASS VST3 48000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 88200 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 96000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 176400 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS VST3 192000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS: actual Release VST3 tuner acceptance

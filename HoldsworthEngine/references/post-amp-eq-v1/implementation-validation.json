@@ -1,0 +1,498 @@
+{
+  "status": "pass",
+  "date": "2026-10-20",
+  "timezone": "Europe/Berlin",
+  "branch": "feature/post-amp-eq-v1",
+  "base_commit": "52e432585918adac8b1b41d53311aa8635c28e44",
+  "hardware": {
+    "machine": "Macmini9,1",
+    "cpu": "Apple M1",
+    "os": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "products": {
+    "scope": "Actual Release VST3/AU bundle APIs and APP Release-object callback",
+    "rates_hz": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ],
+    "blocks": [
+      1,
+      2,
+      4,
+      8,
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024,
+      37
+    ],
+    "formats": {
+      "APP": {
+        "passed": true,
+        "exit_code": 0,
+        "bundle": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app",
+        "log": "/private/tmp/nam-post-amp-eq-v1/host-tests/app-acceptance.log",
+        "binary_sha256": "496195849c0a953b7f5d231065e238f09d848e4dbbab86f16ccb78548d5a37b5",
+        "sample_format": "float64",
+        "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+        "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+        "latency_samples": 32,
+        "audited_rt_calls_after_legacy_warmup": 0,
+        "signature_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app: valid on disk\n/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app: satisfies its Designated Requirement",
+        "plist_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app/Contents/Info.plist: OK",
+        "binary_type": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit executable arm64",
+        "architectures": "arm64",
+        "active_response_max_abs_db": 1.91615300515e-07,
+        "delay_send_relative_rms_error": 8.23313632969e-08,
+        "delay_send_relative_peak_error": 1.27321339568e-07,
+        "retained_log": "HoldsworthEngine/references/post-amp-eq-v1/logs/app-acceptance.log",
+        "build_log": "/private/tmp/nam-post-amp-eq-v1/build-APP/build.log",
+        "build_warning_lines": [
+          "warning: Building targets in manual order is deprecated - check \"Parallelize build for command-line builds\" in the project editor, or set DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING in any of the targets in the current build to suppress this warning",
+          "../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24314:35: warning: identifier '_json' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]",
+          "../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24322:49: warning: identifier '_json_pointer' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]",
+          "../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24386:58: warning: identifier '_json' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]",
+          "../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24387:58: warning: identifier '_json_pointer' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]",
+          "/Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/NeuralAmpModeler/../AudioDSPTools/dsp/ResamplingContainer/ResamplingContainer.h:199:22: warning: implicit conversion loses integer precision: 'const size_t' (aka 'const unsigned long') to 'int' [-Wshorten-64-to-32]",
+          "../../iPlug2/IPlug/ISender.h:42:17: warning: first argument in call to 'memset' is a pointer to non-trivially copyable type 'value_type' (aka 'std::pair<float, float>') [-Wnontrivial-memcall]",
+          "../../iPlug2/IPlug/ISender.h:50:17: warning: first argument in call to 'memset' is a pointer to non-trivially copyable type 'value_type' (aka 'std::pair<float, float>') [-Wnontrivial-memcall]",
+          "warning: LSMinimumSystemVersion of '10.15.0' is less than the value of MACOSX_DEPLOYMENT_TARGET '12.0' - setting to '12.0'. (in target 'APP' from project 'NeuralAmpModeler-macOS')",
+          "warning: Run script build phase 'Run Script - prepare_resources-mac.py' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking \"Based on dependency analysis\" in the script phase. (in target 'APP' from project 'NeuralAmpModeler-macOS')"
+        ]
+      },
+      "VST3": {
+        "passed": true,
+        "exit_code": 0,
+        "bundle": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3",
+        "log": "/private/tmp/nam-post-amp-eq-v1/host-tests/vst3-acceptance.log",
+        "binary_sha256": "22026449d0ede9e865714da0ce0a0f348fc81842b1e4450883cf305e7c8e5de0",
+        "sample_format": "float64",
+        "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+        "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+        "latency_samples": 32,
+        "audited_rt_calls_after_legacy_warmup": 0,
+        "signature_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3: valid on disk\n/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3: satisfies its Designated Requirement",
+        "plist_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3/Contents/Info.plist: OK",
+        "binary_type": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit bundle arm64",
+        "architectures": "arm64",
+        "active_response_max_abs_db": 1.91615300515e-07,
+        "delay_send_relative_rms_error": 8.23313632969e-08,
+        "delay_send_relative_peak_error": 1.27321339568e-07,
+        "retained_log": "HoldsworthEngine/references/post-amp-eq-v1/logs/vst3-acceptance.log",
+        "build_log": "/private/tmp/nam-post-amp-eq-v1/build-VST3/build.log",
+        "build_warning_lines": [
+          "warning: Building targets in manual order is deprecated - check \"Parallelize build for command-line builds\" in the project editor, or set DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING in any of the targets in the current build to suppress this warning",
+          "warning: LSMinimumSystemVersion of '10.15.0' is less than the value of MACOSX_DEPLOYMENT_TARGET '12.0' - setting to '12.0'. (in target 'VST3' from project 'NeuralAmpModeler-macOS')"
+        ]
+      },
+      "AU": {
+        "passed": true,
+        "exit_code": 0,
+        "bundle": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component",
+        "log": "/private/tmp/nam-post-amp-eq-v1/host-tests/au-acceptance.log",
+        "binary_sha256": "0b3dc8d4b8d383e12113cd0450a50e1a2e40d483bbf979d491e5b98ad9212fa2",
+        "sample_format": "float32",
+        "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+        "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+        "latency_samples": 32,
+        "audited_rt_calls_after_legacy_warmup": 0,
+        "signature_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component: valid on disk\n/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component: satisfies its Designated Requirement",
+        "plist_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component/Contents/Info.plist: OK",
+        "binary_type": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit bundle arm64",
+        "architectures": "arm64",
+        "active_response_max_abs_db": 1.90641798348e-07,
+        "delay_send_relative_rms_error": 8.996237513e-08,
+        "delay_send_relative_peak_error": 1.93074972647e-07,
+        "retained_log": "HoldsworthEngine/references/post-amp-eq-v1/logs/au-acceptance.log",
+        "build_log": "/private/tmp/nam-post-amp-eq-v1/build-AU/build.log",
+        "build_warning_lines": [
+          "warning: Building targets in manual order is deprecated - check \"Parallelize build for command-line builds\" in the project editor, or set DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING in any of the targets in the current build to suppress this warning",
+          "warning: LSMinimumSystemVersion of '10.15.0' is less than the value of MACOSX_DEPLOYMENT_TARGET '12.0' - setting to '12.0'. (in target 'AU' from project 'NeuralAmpModeler-macOS')",
+          "warning: Build Carbon Resources build phases are no longer supported.  Rez source files should be moved to the Copy Bundle Resources build phase. (in target 'AU' from project 'NeuralAmpModeler-macOS')",
+          "warning: Run script build phase 'Run Script - clear_audiounit_caches.sh' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking \"Based on dependency analysis\" in the script phase. (in target 'AU' from project 'NeuralAmpModeler-macOS')",
+          "warning: Run script build phase 'Run Script - prepare_resources-mac.py' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking \"Based on dependency analysis\" in the script phase. (in target 'AU' from project 'NeuralAmpModeler-macOS')"
+        ]
+      }
+    }
+  },
+  "project_lint": "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj: OK",
+  "diff_check": "passed",
+  "source_audit": {
+    "passed": true,
+    "base_commit": "52e432585918adac8b1b41d53311aa8635c28e44",
+    "legacy_ProcessBlock_sha256": "403e7b405f9b320b3113e37cc4bcbb7d4460a8cc41ad7f855aaa0ae87e36869b",
+    "checks": [
+      "Only EQ insertion changes ProcessBlock",
+      "accepted DSP and preset sources unchanged",
+      "stock serialization unchanged",
+      "vendored submodules unchanged"
+    ]
+  },
+  "files_added_or_changed": [
+    "AGENTS.md",
+    "HoldsworthEngine/dsp/PostAmpEQControls.h",
+    "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp",
+    "HoldsworthEngine/dsp/PostAmpEQProcessor.h",
+    "HoldsworthEngine/references/post-amp-eq-v1/README.md",
+    "HoldsworthEngine/references/post-amp-eq-v1/compile-hosts.py",
+    "HoldsworthEngine/references/post-amp-eq-v1/cpu-profile.json",
+    "HoldsworthEngine/references/post-amp-eq-v1/engine-validation.json",
+    "HoldsworthEngine/references/post-amp-eq-v1/eq-cpu.cpp",
+    "HoldsworthEngine/references/post-amp-eq-v1/host-validation.json",
+    "HoldsworthEngine/references/post-amp-eq-v1/implementation-validation.json",
+    "HoldsworthEngine/references/post-amp-eq-v1/integration-acceptance.h",
+    "HoldsworthEngine/references/post-amp-eq-v1/integration-host.mm",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/app-acceptance.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/au-acceptance.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/au-sandbox-failure.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/compile-asan.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/compile-debug.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/compile-release.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/compile-tsan.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/cpu-profile-summary.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/diff-check.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/engine-validation.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/eq-cpu.csv",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/initial-registration-link-failure.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/rt-audit.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/rt-self-test.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/rt-source-audit.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/source-audit.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/static-analyzer.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/strict-warnings.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/tests-asan.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/tests-debug.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/tests-release.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/tests-tsan.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/logs/vst3-acceptance.log",
+    "HoldsworthEngine/references/post-amp-eq-v1/package-products.sh",
+    "HoldsworthEngine/references/post-amp-eq-v1/profile-cpu.sh",
+    "HoldsworthEngine/references/post-amp-eq-v1/record-cpu-results.py",
+    "HoldsworthEngine/references/post-amp-eq-v1/record-engine-results.py",
+    "HoldsworthEngine/references/post-amp-eq-v1/record-implementation.py",
+    "HoldsworthEngine/references/post-amp-eq-v1/rt-audit.cpp",
+    "HoldsworthEngine/references/post-amp-eq-v1/rt-audit.h",
+    "HoldsworthEngine/references/post-amp-eq-v1/rt-source-audit.json",
+    "HoldsworthEngine/references/post-amp-eq-v1/rt-source-audit.py",
+    "HoldsworthEngine/references/post-amp-eq-v1/run-host.py",
+    "HoldsworthEngine/references/post-amp-eq-v1/source-audit.json",
+    "HoldsworthEngine/references/post-amp-eq-v1/source-audit.py",
+    "HoldsworthEngine/references/post-amp-eq-v1/validate-engine.sh",
+    "HoldsworthEngine/references/post-amp-eq-v1/validate-source.sh",
+    "HoldsworthEngine/tests/PostAmpEQControlTests.cpp",
+    "HoldsworthEngine/tests/PostAmpEQTests.cpp",
+    "HoldsworthEngine/tests/PostAmpEQTransitionTests.cpp",
+    "HoldsworthEngine/tests/TestHarness.h",
+    "HoldsworthEngine/tests/TestMain.cpp",
+    "HoldsworthEngine/ui/DevelopmentPanel.h",
+    "HoldsworthEngine/ui/README.md",
+    "NeuralAmpModeler/NeuralAmpModeler.cpp",
+    "NeuralAmpModeler/NeuralAmpModeler.h",
+    "NeuralAmpModeler/config.h",
+    "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj"
+  ],
+  "source_sha256": {
+    "HoldsworthEngine/dsp/PostAmpEQControls.h": "83f1496d0e8e7b91ebb0f562acc5eef37a86441ceb53e73219999f3caf2c15c2",
+    "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp": "527e7961a21906d2e21659f56249b90c56cbd4a8a3b72770bbe153cd8309f4b1",
+    "HoldsworthEngine/dsp/PostAmpEQProcessor.h": "a50d10ece519a874b56e70980faef90ef8e9222080642c0a504ef07e26260b06",
+    "HoldsworthEngine/references/post-amp-eq-v1/compile-hosts.py": "3b85d9616b800f61ba674b3c2139bb5274f9a365b20c56713f87023c76300f90",
+    "HoldsworthEngine/references/post-amp-eq-v1/eq-cpu.cpp": "64951ace9877cd7c7356bb2ead31a93fbaaba3f879f37a057bd19ea4616c88c8",
+    "HoldsworthEngine/references/post-amp-eq-v1/integration-acceptance.h": "8dce5d0036993e510dc121122b7e7612bea4fb1fedfd6c1635a6ae97238a865f",
+    "HoldsworthEngine/references/post-amp-eq-v1/integration-host.mm": "6a0aca987388d5a6a78b06a775a3d1eceb7ba1f3b6345a59b9ab5547edd478e6",
+    "HoldsworthEngine/references/post-amp-eq-v1/package-products.sh": "c2517679e6ca2da692878eced17be3c3fd5bad77ddf2802df6d501042398a219",
+    "HoldsworthEngine/references/post-amp-eq-v1/profile-cpu.sh": "e2a755f9beae9c66c23eaa95dca1c0a5a61dc43e911f45a9e60ff10ccd474007",
+    "HoldsworthEngine/references/post-amp-eq-v1/record-cpu-results.py": "98efdc2907bb2673bb043859b4a58e20b090f7c4d5f2e424d5c76aecf1a826b6",
+    "HoldsworthEngine/references/post-amp-eq-v1/record-engine-results.py": "31351d1874035e1e6bec3f476565b1ce3f5712f56deabb2eb8df302f599d8edf",
+    "HoldsworthEngine/references/post-amp-eq-v1/record-implementation.py": "b4390d05f0edf93d338daf6b274a9a60a9e3b639c5186b5b6da27f892708aa08",
+    "HoldsworthEngine/references/post-amp-eq-v1/rt-audit.cpp": "d1f261a1ea71a15fc04c12ac2207e6ff717b0233a74d80976d03a2ee2dcbb976",
+    "HoldsworthEngine/references/post-amp-eq-v1/rt-audit.h": "be9ef92758ae5f008ef09a7e2d0deca6a0c0f0f9524bd0ec4165c96564daafe0",
+    "HoldsworthEngine/references/post-amp-eq-v1/rt-source-audit.py": "95a3e1168007751aee8fd317dc250a2f2b7e0f660497c784e2881cf5771bdbd1",
+    "HoldsworthEngine/references/post-amp-eq-v1/run-host.py": "79c5ec8eb9c40b7ff7abdbdc38ea28977576d227673c9e7b54d7eb65ca40c747",
+    "HoldsworthEngine/references/post-amp-eq-v1/source-audit.py": "5f9b03423c87a90b87d8f5679af69757edb19ea1fff1241d08b34a918c3c5119",
+    "HoldsworthEngine/references/post-amp-eq-v1/validate-engine.sh": "9f0907067f05e9de10b0adb34ca12393d02d24adca7f707db04b242171678096",
+    "HoldsworthEngine/references/post-amp-eq-v1/validate-source.sh": "78ee27459a178fe029f84c1e95449c48a9b38d97c9a4c2e817f838855fa6f2be",
+    "HoldsworthEngine/tests/PostAmpEQControlTests.cpp": "da8af3a8d9ee01a43c0c3bfc588f39580e59d165e83eb6d87ef625fd1ab9a184",
+    "HoldsworthEngine/tests/PostAmpEQTests.cpp": "94296473f268766ab7031fa6f4e5924bc6ceadbdc1c459f8b00aca7b13bffa86",
+    "HoldsworthEngine/tests/PostAmpEQTransitionTests.cpp": "3ef0861fa8fe25cc2cb8e15001fd88a7c5d553dc0430bcf9bf3e61547e62e985",
+    "HoldsworthEngine/tests/TestHarness.h": "04c4a81755c119adc07fef71f719fe76e85d3631903075d0877ea6b601ea49a2",
+    "HoldsworthEngine/tests/TestMain.cpp": "d13c08af1fab4df6471036b25fa827203231a1553dba4cb7a0c1262d2d24e07a",
+    "HoldsworthEngine/ui/DevelopmentPanel.h": "41331ae39984c87288c3e79a84869054ebfef6417275fa635f7a31ad7ac258ef",
+    "NeuralAmpModeler/NeuralAmpModeler.cpp": "f888ce5ffb26965184ef13cec63eb5f8fa66194841081357196ae81720ea0296",
+    "NeuralAmpModeler/NeuralAmpModeler.h": "e5a13247fcfcbb1eebaf8f2ec039337d518a49a804a1a6b51b2e15a6738d9654",
+    "NeuralAmpModeler/config.h": "63403dd4b0467d798f762e4aa039a259dfc99095024b31e06cb00175c1fa209c",
+    "NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj": "8d0c9cda019ec0bab2c0e90294954b047e189bd5f5f9e1755b0fcfd762a3d558"
+  },
+  "manual": {
+    "visual_inspection": "pending user review",
+    "musical_audition": "pending user review"
+  },
+  "resolved_environment_failures": [
+    "Sandboxed initial Xcode build could not write org.llvm.clang/ModuleCache.noindex/Session.modulevalidation; authorized system-cache retry succeeded.",
+    "Sandboxed AU runner failed AudioComponentRegister with null component; authorized registrar-service retry passed all three formats. Original assertion retained under build/host-tests/au-sandbox-failure.log.",
+    "Python syntax checking initially attempted an unwritable user cache; PYTHONPYCACHEPREFIX under the isolated temporary build root passed."
+  ],
+  "scope_limits": [
+    "VST3 sample64 and AU float32 tested; no VST3 float32 claim.",
+    "Legacy whole-plugin first-use scratch warmed before RT audit; isolated EQ first callback is audited.",
+    "No human audition or visual inspection; no presets, musical tuning, vendor changes, commits or pushes."
+  ],
+  "standalone_launch": {
+    "verified_running": true,
+    "observed_process": "88476 /private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app/Contents/MacOS/NeuralAmpModeler",
+    "visual_automation": false
+  },
+  "engine": {
+    "status": "pass",
+    "matrix": {
+      "debug": {
+        "passed": true,
+        "test_count": 329,
+        "failures": [],
+        "metrics": [
+          "METRIC eq impulse comparisons=19418 max_abs_db=3.6826031596275191e-07 max_phase_radians=1.2371423691961349e-08",
+          "METRIC eq sine_center_halfgain cases=324 max_abs_db=3.9026559761623503e-12 reciprocal_max_db=5.9028337773270323e-12",
+          "METRIC eq hp_lp max_abs_db=5.3771796376199461e-09 rejected_endpoint_abs=5.5511151231257827e-17",
+          "METRIC eq rapid_changes peak_abs=0.032123660380811367 two_second_tail_abs=3.9060987101715592e-35",
+          "METRIC eq exact_linear_fade max_abs_error=2.0916601783937949e-13",
+          "METRIC eq concurrent_snapshots published=30001 audio_blocks=7303",
+          "METRIC eq realtime_cpp_allocations=0",
+          "METRIC eq colored_global_reversals samples=219220 max_envelope_error=5.4565726936850467e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+          "METRIC eq hp_reversals samples=219220 max_envelope_error=2.2898349882893854e-15 max_source_inclusive_adjacent_jump=0.11976061981472397",
+          "METRIC eq lp_reversals samples=219220 max_envelope_error=5.467848396278896e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+          "METRIC eq normal_moves first_impulse_step_error=1.3877787807814457e-17 max_first_fraction_times_20ms_samples=1.0165749605758865",
+          "METRIC eq normal_moves source=tone first_event_delta_from_frozen=3.3944943127819927e-05 max_source_inclusive_adjacent_jump=0.023041006564845885 max_adjacent_residual_change=0.0049065099137940854 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=noise first_event_delta_from_frozen=2.4599877548048266e-06 max_source_inclusive_adjacent_jump=0.1225880526890965 max_adjacent_residual_change=0.0061765796275426027 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=impulse first_event_delta_from_frozen=2.4956893072215911e-15 max_source_inclusive_adjacent_jump=0.11035982738900607 max_adjacent_residual_change=0.0036922893926632358 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=silence first_event_delta_from_frozen=0 max_source_inclusive_adjacent_jump=0 max_adjacent_residual_change=0 final_10ms_target_error=0"
+        ]
+      },
+      "release": {
+        "passed": true,
+        "test_count": 329,
+        "failures": [],
+        "metrics": [
+          "METRIC eq impulse comparisons=19418 max_abs_db=3.6826031596275191e-07 max_phase_radians=1.2371423691961349e-08",
+          "METRIC eq sine_center_halfgain cases=324 max_abs_db=3.9026559761623503e-12 reciprocal_max_db=5.9028337773270323e-12",
+          "METRIC eq hp_lp max_abs_db=5.3771796376199461e-09 rejected_endpoint_abs=5.5511151231257827e-17",
+          "METRIC eq rapid_changes peak_abs=0.032123660380811367 two_second_tail_abs=3.9060987101715592e-35",
+          "METRIC eq exact_linear_fade max_abs_error=2.0916601783937949e-13",
+          "METRIC eq concurrent_snapshots published=30001 audio_blocks=4350",
+          "METRIC eq realtime_cpp_allocations=0",
+          "METRIC eq colored_global_reversals samples=219220 max_envelope_error=5.4565726936850467e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+          "METRIC eq hp_reversals samples=219220 max_envelope_error=2.2898349882893854e-15 max_source_inclusive_adjacent_jump=0.11976061981472397",
+          "METRIC eq lp_reversals samples=219220 max_envelope_error=5.467848396278896e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+          "METRIC eq normal_moves first_impulse_step_error=1.3877787807814457e-17 max_first_fraction_times_20ms_samples=1.0165749605758865",
+          "METRIC eq normal_moves source=tone first_event_delta_from_frozen=3.3944943127819927e-05 max_source_inclusive_adjacent_jump=0.023041006564845885 max_adjacent_residual_change=0.0049065099137940854 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=noise first_event_delta_from_frozen=2.4599877548048266e-06 max_source_inclusive_adjacent_jump=0.1225880526890965 max_adjacent_residual_change=0.0061765796275426027 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=impulse first_event_delta_from_frozen=2.4956893072215911e-15 max_source_inclusive_adjacent_jump=0.11035982738900607 max_adjacent_residual_change=0.0036922893926632358 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=silence first_event_delta_from_frozen=0 max_source_inclusive_adjacent_jump=0 max_adjacent_residual_change=0 final_10ms_target_error=0"
+        ]
+      },
+      "asan": {
+        "passed": true,
+        "test_count": 329,
+        "failures": [],
+        "metrics": [
+          "METRIC eq impulse comparisons=19418 max_abs_db=3.6826031596275191e-07 max_phase_radians=1.2371423691961349e-08",
+          "METRIC eq sine_center_halfgain cases=324 max_abs_db=3.9026559761623503e-12 reciprocal_max_db=5.9028337773270323e-12",
+          "METRIC eq hp_lp max_abs_db=5.3771796376199461e-09 rejected_endpoint_abs=5.5511151231257827e-17",
+          "METRIC eq rapid_changes peak_abs=0.032123660380811367 two_second_tail_abs=3.9060987101715592e-35",
+          "METRIC eq exact_linear_fade max_abs_error=2.0916601783937949e-13",
+          "METRIC eq concurrent_snapshots published=30001 audio_blocks=12416",
+          "METRIC eq realtime_cpp_allocations=0",
+          "METRIC eq colored_global_reversals samples=219220 max_envelope_error=5.4565726936850467e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+          "METRIC eq hp_reversals samples=219220 max_envelope_error=2.2898349882893854e-15 max_source_inclusive_adjacent_jump=0.11976061981472397",
+          "METRIC eq lp_reversals samples=219220 max_envelope_error=5.467848396278896e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+          "METRIC eq normal_moves first_impulse_step_error=1.3877787807814457e-17 max_first_fraction_times_20ms_samples=1.0165749605758865",
+          "METRIC eq normal_moves source=tone first_event_delta_from_frozen=3.3944943127819927e-05 max_source_inclusive_adjacent_jump=0.023041006564845885 max_adjacent_residual_change=0.0049065099137940854 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=noise first_event_delta_from_frozen=2.4599877548048266e-06 max_source_inclusive_adjacent_jump=0.1225880526890965 max_adjacent_residual_change=0.0061765796275426027 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=impulse first_event_delta_from_frozen=2.4956893072215911e-15 max_source_inclusive_adjacent_jump=0.11035982738900607 max_adjacent_residual_change=0.0036922893926632358 final_10ms_target_error=0",
+          "METRIC eq normal_moves source=silence first_event_delta_from_frozen=0 max_source_inclusive_adjacent_jump=0 max_adjacent_residual_change=0 final_10ms_target_error=0"
+        ]
+      },
+      "tsan": {
+        "passed": true,
+        "test_count": 7,
+        "failures": [],
+        "metrics": [
+          "METRIC eq concurrent_snapshots published=30001 audio_blocks=5260"
+        ]
+      }
+    },
+    "response_acceptance": {
+      "maximum_abs_db": 0.01,
+      "minimum_response_db": -80.0,
+      "tolerance_relaxed": false
+    },
+    "method": {
+      "oracle": "Independent RBJ numerator/denominator complex response; no production SVF coefficient function used.",
+      "impulse": "54 configurations across six sample rates, >=1.5 s zero-state responses, radix-2 FFT, 361 DC/logarithmic/Nyquist grid candidates per configuration; compare points above -80 dB.",
+      "sine": "One-second settling followed by 40 ms sine/cosine least-squares amplitude fit; 324 center and analytically bilinear-warped half-gain points plus 72 HP/LP points.",
+      "rates_hz": [
+        44100,
+        48000,
+        88200,
+        96000,
+        176400,
+        192000
+      ],
+      "ramps": "Per-sample friend-state assertions for exact durations, transformed primitive ramps, exact endpoints, mid-ramp retarget and unchanged-target behavior; independent scalar output checks for 10 ms trim and bypass fades.",
+      "tsan": "All named concurrent handoff tests in the existing and new engine suites; prepare/reset are lifecycle synchronized by contract."
+    },
+    "source_sha256": {
+      "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp": "527e7961a21906d2e21659f56249b90c56cbd4a8a3b72770bbe153cd8309f4b1",
+      "HoldsworthEngine/dsp/PostAmpEQProcessor.h": "a50d10ece519a874b56e70980faef90ef8e9222080642c0a504ef07e26260b06",
+      "HoldsworthEngine/dsp/PostAmpEQControls.h": "83f1496d0e8e7b91ebb0f562acc5eef37a86441ceb53e73219999f3caf2c15c2"
+    },
+    "development_failures_resolved": [
+      {
+        "failure": "First focused Release binary failed the canonical normalized/physical trim-default control test.",
+        "cause": "Compiler FMA produced a tiny nonzero dB value at normalized trim default coordinate.",
+        "resolution": "Core conversion explicitly recognizes every continuous parameter default coordinate; original exact-neutral test kept unchanged."
+      },
+      {
+        "failure": "First validation-script compile could not find Xcode C++ standard-library headers.",
+        "cause": "Xcode compiler needed explicit SDK standard-library include path in this environment.",
+        "resolution": "Added -isysroot SDK and -isystem SDK/usr/include/c++/v1 consistently; no source or test acceptance change."
+      },
+      {
+        "failure": "Intermediate Release link failed for postAmpEQTransitionTests().",
+        "cause": "Suite registration landed before the separately owned test source during an already running matrix.",
+        "resolution": "Waited for all test sources, then rebuilt and reran the final complete matrix; original linker output retained in logs/initial-registration-link-failure.log."
+      }
+    ],
+    "limitations": [
+      "No human audition or visual UI inspection performed; audible transition acceptance awaits manual audition.",
+      "Magnitude accuracy gate applies above -80 dB; endpoint rejection measured separately."
+    ]
+  },
+  "cpu": {
+    "machine": "macOS-26.6.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "cpu_model": "unavailable in filesystem sandbox",
+    "cpu_model_metadata_error": "sysctl: sysctl fmt -1 1024 1: Operation not permitted",
+    "clang": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+    "method": "O3 double mono DSP; clock interval includes production audio controls adoption, coefficient derivation and processBlock; producer setControls and synthetic controls generation outside interval; native macOS dyld allocation/lock/wait interposer active; no UI or NAM.",
+    "rows": 210,
+    "critical_192k_32frame": [
+      {
+        "format": "EQ",
+        "rate": "192000",
+        "block": "32",
+        "mode": "bypass-tracking",
+        "callbacks": "4096",
+        "p50_us": "0.542000",
+        "p99_us": "0.666000",
+        "max_us": "80.833000",
+        "deadline_us": "166.666667",
+        "p99_percent": "0.399600",
+        "max_percent": "48.499800"
+      },
+      {
+        "format": "EQ",
+        "rate": "192000",
+        "block": "32",
+        "mode": "neutral-tracking",
+        "callbacks": "4096",
+        "p50_us": "0.542000",
+        "p99_us": "0.625000",
+        "max_us": "16.875000",
+        "deadline_us": "166.666667",
+        "p99_percent": "0.375000",
+        "max_percent": "10.125000"
+      },
+      {
+        "format": "EQ",
+        "rate": "192000",
+        "block": "32",
+        "mode": "settled-five-sections",
+        "callbacks": "4096",
+        "p50_us": "0.583000",
+        "p99_us": "0.667000",
+        "max_us": "6.250000",
+        "deadline_us": "166.666667",
+        "p99_percent": "0.400200",
+        "max_percent": "3.750000"
+      },
+      {
+        "format": "EQ",
+        "rate": "192000",
+        "block": "32",
+        "mode": "continuous-sweep",
+        "callbacks": "4096",
+        "p50_us": "0.667000",
+        "p99_us": "0.750000",
+        "max_us": "8.334000",
+        "deadline_us": "166.666667",
+        "p99_percent": "0.450000",
+        "max_percent": "5.000400"
+      },
+      {
+        "format": "EQ",
+        "rate": "192000",
+        "block": "32",
+        "mode": "continuous-sweep-enables",
+        "callbacks": "4096",
+        "p50_us": "0.709000",
+        "p99_us": "0.834000",
+        "max_us": "16.250000",
+        "deadline_us": "166.666667",
+        "p99_percent": "0.500400",
+        "max_percent": "9.750000"
+      }
+    ],
+    "largest_p99_percent": {
+      "format": "EQ",
+      "rate": "192000",
+      "block": "1",
+      "mode": "continuous-sweep",
+      "callbacks": "1024",
+      "p50_us": "0.083000",
+      "p99_us": "0.125000",
+      "max_us": "0.125000",
+      "deadline_us": "5.208333",
+      "p99_percent": "2.400000",
+      "max_percent": "2.400000"
+    },
+    "largest_observed_percent": {
+      "format": "EQ",
+      "rate": "176400",
+      "block": "4096",
+      "mode": "continuous-sweep",
+      "callbacks": "1024",
+      "p50_us": "75.333000",
+      "p99_us": "292.292000",
+      "max_us": "27097.583000",
+      "deadline_us": "23219.954649",
+      "p99_percent": "1.258797",
+      "max_percent": "116.699552"
+    },
+    "wall_clock_deadline_exceedance_rows": [
+      {
+        "format": "EQ",
+        "rate": "176400",
+        "block": "4096",
+        "mode": "continuous-sweep",
+        "callbacks": "1024",
+        "p50_us": "75.333000",
+        "p99_us": "292.292000",
+        "max_us": "27097.583000",
+        "deadline_us": "23219.954649",
+        "p99_percent": "1.258797",
+        "max_percent": "116.699552"
+      }
+    ],
+    "rt_audit": "RT_AUDIT violations=0 checksum=56.393300613193944",
+    "interposer_self_test": "SELFTEST intercepted=3 expected=3",
+    "limits": "Wall-clock maxima include scheduler preemption; no portable CPU guarantee or inferred audibility claim.",
+    "development_failures_resolved": [
+      "The first benchmark completed all 210 timing cases and its RT audit, then metadata generation failed because sysctl CPU-model access was denied by the sandbox. Metadata handling now records that denial; this summary uses the original CSV and does not rerun or replace its measurements."
+    ]
+  }
+}

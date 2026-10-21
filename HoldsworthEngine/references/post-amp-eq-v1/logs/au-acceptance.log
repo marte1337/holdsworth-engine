@@ -1,0 +1,23 @@
+PASS EQ AU 44100 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ AU active 44100 Hz fixtures=0 oracle_cases=8 max_abs_db=2.98006475052e-08; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ AU 48000 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ AU active 48000 Hz fixtures=0 oracle_cases=8 max_abs_db=1.84095270583e-07; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ AU 88200 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ AU active 88200 Hz fixtures=0 oracle_cases=8 max_abs_db=3.1255047106e-08; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ AU 96000 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ AU active 96000 Hz fixtures=0 oracle_cases=8 max_abs_db=4.97743676275e-08; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ AU 176400 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ AU active 176400 Hz fixtures=0 oracle_cases=8 max_abs_db=2.20174446453e-08; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+PASS EQ AU 192000 Hz: 11 blocks; neutral-on and bypassed sweeps bit-exact; latency32; audited RT calls0
+METRIC EQ AU active 192000 Hz fixtures=0 oracle_cases=8 max_abs_db=4.04306327306e-08; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+METRIC EQ AU active 48000 Hz fixtures=1 oracle_cases=14 max_abs_db=1.90641798348e-07; stock-tone/IR independence; close/reopen retained; 11 active block sizes; latency32; audited RT calls0
+METRIC EQ AU loaded NAM/IR dry+delay-send scalar linearity: relative_rms=8.996237513e-08 relative_peak=1.93074972647e-07 tail_energy=0.0841415945554; bounds=1e-5/2e-5; latency32; audited RT calls0
+PASS AU 44100 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS AU selected-pedal on/off arithmetic: Off/TC/MC/AH, 48k, blocks64/128/1024, normal/bypass
+PASS AU real NAM/IR fixtures: stock state loading, loaded-pipeline bit-exact on/off, raw A2 unchanged
+PASS AU 48000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS AU 88200 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS AU 96000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS AU 176400 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS AU 192000 Hz: 11 blocks, normal/bypass bit-exact, raw pitch, trim/pedal independence, stale-backlog rejection, close/reopen/off, latency 32, RT violations 0
+PASS: actual Release AU tuner acceptance

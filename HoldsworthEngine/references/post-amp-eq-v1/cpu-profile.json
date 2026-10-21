@@ -1,0 +1,123 @@
+{
+  "machine": "macOS-26.6.2-arm64-arm-64bit",
+  "architecture": "arm64",
+  "cpu_model": "unavailable in filesystem sandbox",
+  "cpu_model_metadata_error": "sysctl: sysctl fmt -1 1024 1: Operation not permitted",
+  "clang": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "method": "O3 double mono DSP; clock interval includes production audio controls adoption, coefficient derivation and processBlock; producer setControls and synthetic controls generation outside interval; native macOS dyld allocation/lock/wait interposer active; no UI or NAM.",
+  "rows": 210,
+  "critical_192k_32frame": [
+    {
+      "format": "EQ",
+      "rate": "192000",
+      "block": "32",
+      "mode": "bypass-tracking",
+      "callbacks": "4096",
+      "p50_us": "0.542000",
+      "p99_us": "0.666000",
+      "max_us": "80.833000",
+      "deadline_us": "166.666667",
+      "p99_percent": "0.399600",
+      "max_percent": "48.499800"
+    },
+    {
+      "format": "EQ",
+      "rate": "192000",
+      "block": "32",
+      "mode": "neutral-tracking",
+      "callbacks": "4096",
+      "p50_us": "0.542000",
+      "p99_us": "0.625000",
+      "max_us": "16.875000",
+      "deadline_us": "166.666667",
+      "p99_percent": "0.375000",
+      "max_percent": "10.125000"
+    },
+    {
+      "format": "EQ",
+      "rate": "192000",
+      "block": "32",
+      "mode": "settled-five-sections",
+      "callbacks": "4096",
+      "p50_us": "0.583000",
+      "p99_us": "0.667000",
+      "max_us": "6.250000",
+      "deadline_us": "166.666667",
+      "p99_percent": "0.400200",
+      "max_percent": "3.750000"
+    },
+    {
+      "format": "EQ",
+      "rate": "192000",
+      "block": "32",
+      "mode": "continuous-sweep",
+      "callbacks": "4096",
+      "p50_us": "0.667000",
+      "p99_us": "0.750000",
+      "max_us": "8.334000",
+      "deadline_us": "166.666667",
+      "p99_percent": "0.450000",
+      "max_percent": "5.000400"
+    },
+    {
+      "format": "EQ",
+      "rate": "192000",
+      "block": "32",
+      "mode": "continuous-sweep-enables",
+      "callbacks": "4096",
+      "p50_us": "0.709000",
+      "p99_us": "0.834000",
+      "max_us": "16.250000",
+      "deadline_us": "166.666667",
+      "p99_percent": "0.500400",
+      "max_percent": "9.750000"
+    }
+  ],
+  "largest_p99_percent": {
+    "format": "EQ",
+    "rate": "192000",
+    "block": "1",
+    "mode": "continuous-sweep",
+    "callbacks": "1024",
+    "p50_us": "0.083000",
+    "p99_us": "0.125000",
+    "max_us": "0.125000",
+    "deadline_us": "5.208333",
+    "p99_percent": "2.400000",
+    "max_percent": "2.400000"
+  },
+  "largest_observed_percent": {
+    "format": "EQ",
+    "rate": "176400",
+    "block": "4096",
+    "mode": "continuous-sweep",
+    "callbacks": "1024",
+    "p50_us": "75.333000",
+    "p99_us": "292.292000",
+    "max_us": "27097.583000",
+    "deadline_us": "23219.954649",
+    "p99_percent": "1.258797",
+    "max_percent": "116.699552"
+  },
+  "wall_clock_deadline_exceedance_rows": [
+    {
+      "format": "EQ",
+      "rate": "176400",
+      "block": "4096",
+      "mode": "continuous-sweep",
+      "callbacks": "1024",
+      "p50_us": "75.333000",
+      "p99_us": "292.292000",
+      "max_us": "27097.583000",
+      "deadline_us": "23219.954649",
+      "p99_percent": "1.258797",
+      "max_percent": "116.699552"
+    }
+  ],
+  "rt_audit": "RT_AUDIT violations=0 checksum=56.393300613193944",
+  "interposer_self_test": "SELFTEST intercepted=3 expected=3",
+  "limits": "Wall-clock maxima include scheduler preemption; no portable CPU guarantee or inferred audibility claim.",
+  "development_failures_resolved": [
+    "The first benchmark completed all 210 timing cases and its RT audit, then metadata generation failed because sysctl CPU-model access was denied by the sandbox. Metadata handling now records that denial; this summary uses the original CSV and does not rerun or replace its measurements."
+  ]
+}

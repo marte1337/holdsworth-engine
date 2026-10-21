@@ -1,0 +1,85 @@
+{
+  "accepted_date": "2026-10-21",
+  "acceptance_source": "User report in the repository integration session; no automated musical or visual audition is claimed.",
+  "milestone": "Post-Amp / Pre-Cab EQ v1",
+  "objective_validation": {
+    "status": "accepted",
+    "historical_record_date": "2026-10-20",
+    "records": [
+      "engine-validation.json",
+      "host-validation.json",
+      "cpu-profile.json",
+      "implementation-validation.json"
+    ],
+    "response_tolerance_db": 0.01,
+    "tolerance_applies_above_db": -80,
+    "thresholds_changed": false
+  },
+  "manual_qa": {
+    "Standalone": {
+      "status": "passed_user_audition",
+      "reported_findings": [
+        "Neutral EQ is transparent.",
+        "No audible clicks or instability."
+      ],
+      "detailed_visual_checklist_completion_claimed": false
+    },
+    "VST3": {
+      "status": "deferred_to_release_QA",
+      "automated_native_host_validation": "passed"
+    },
+    "AU": {
+      "status": "deferred_to_release_QA",
+      "automated_native_host_validation": "passed"
+    }
+  },
+  "future_polish": [
+    {
+      "item": "HP/LP slopes",
+      "user_observation": "Conservative slopes.",
+      "v1_response": "Fixed second-order Butterworth, nominal 12 dB/octave.",
+      "change_in_this_acceptance": "none",
+      "scope": "Potential future polish; no steeper slope or additional control is approved by this record."
+    }
+  ],
+  "timing_investigation": {
+    "status": "diagnosis_accepted_with_retained_uncertainty",
+    "record": "timing-investigation/diagnosis.json",
+    "report": "timing-investigation/timing-diagnosis.md",
+    "archive": "timing-investigation/evidence.tar.gz",
+    "archive_manifest": "timing-investigation/archive-manifest.json",
+    "original_scope": "Isolated PostAmpEQProcessor::processBlock; no NAM/IR/delay/framework.",
+    "rate_hz": 176400,
+    "frames": 4096,
+    "deadline_us": 23219.954648526076,
+    "original_wall_max_us": 27097.583,
+    "original_paired_cpu_trace_available": false,
+    "continuous_sweep_repeated_calls": 49152,
+    "continuous_sweep_wall_overruns": 0,
+    "continuous_sweep_max_wall_us": 239.208,
+    "neutral_repeat_wall_max_us": 34043.0,
+    "neutral_repeat_wall_overruns": 1,
+    "full_APP_wall_overruns": 4,
+    "full_APP_overrun_paired_cpu_us_range": [
+      725.666,
+      1114.5
+    ],
+    "measured_thread_CPU_deadline_overruns": 0,
+    "conclusion": "No reproduced EQ-specific CPU execution-time failure; evidence favors benchmark/system timing interruptions. The original event remains unexplained without paired CPU or scheduler trace.",
+    "fix_justified": false,
+    "limitations": [
+      "The original accepted pre-EQ binaries were absent; matching accepted source commit 52e432585918adac8b1b41d53311aa8635c28e44 was rebuilt.",
+      "Full-APP comparison used matched fallback paths without loaded NAM/IR, on ordinary CLI threads.",
+      "Baseline zero observed wall overruns does not establish equal tail-event probabilities.",
+      "No actual realtime-host scheduling guarantee is inferred."
+    ],
+    "original_measurements_preserved": true,
+    "acceptance_thresholds_changed": false
+  },
+  "scope_exclusions": [
+    "No DSP retuning.",
+    "No EQ presets.",
+    "No MIDI, DAW automation or permanent serialization.",
+    "Manual VST3/AU checks remain deferred to release QA."
+  ]
+}
