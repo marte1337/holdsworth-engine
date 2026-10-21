@@ -453,6 +453,13 @@ void NeuralAmpModeler::ProcessBlock(iplug::sample** inputs, iplug::sample** outp
                                     ? mToneStack->Process(gateGainOutput, numChannelsInternal, nFrames)
                                     : gateGainOutput;
 
+  // Mono host-rate EQ, after the stock tone stack and before the cabinet.
+  // In-place operation preserves the legacy pointer route and exact endpoints.
+#ifdef NAM_HOLDSWORTH_DELAY_DEV
+  if (mPostAmpEQRealtimeSupported)
+    mPostAmpEQProcessor.processBlock(std::span<const sample>{toneStackOutPointers[0], numFrames},
+                                    std::span<sample>{toneStackOutPointers[0], numFrames});
+#endif
   sample** irPointers = toneStackOutPointers;
   if (mIR != nullptr && GetParam(kIRToggle)->Value())
     irPointers = mIR->Process(toneStackOutPointers, numChannelsInternal, numFrames);
@@ -581,6 +588,11 @@ void NeuralAmpModeler::OnReset()
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   mTunerAnalysis.capture().prepare(sampleRate); // producer state only; no consumer reset
+  mPostAmpEQRealtimeSupported = std::isfinite(sampleRate) &&
+    sampleRate >= holdsworth::dsp::PostAmpEQProcessor::minimumSampleRate &&
+    sampleRate <= holdsworth::dsp::PostAmpEQProcessor::maximumSampleRate;
+  if (mPostAmpEQRealtimeSupported)
+    mPostAmpEQProcessor.prepare(sampleRate, static_cast<std::size_t>(maxBlockSize));
   const auto tcBldControls =
     holdsworth::integration::tcBldControlsFromDevelopmentUI(
       mTCBldGain.load(std::memory_order_relaxed),
@@ -732,6 +744,15 @@ void NeuralAmpModeler::OnUIOpen()
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   mTunerAnalysis.capture().setEditorOpen(true);
+  static_assert(kCtrlTagEQTrim - kCtrlTagEQEnable + 1 ==
+                static_cast<int>(holdsworth::dsp::PostAmpEQParameter::count));
+  for (std::size_t i = 0; i < holdsworth::dsp::kPostAmpEQParameterCount; ++i)
+  {
+    const auto parameter = static_cast<holdsworth::dsp::PostAmpEQParameter>(i);
+    SendControlValueFromDelegate(kCtrlTagEQEnable + static_cast<int>(i),
+      holdsworth::dsp::postAmpEQParameterToNormalized(parameter,
+        holdsworth::dsp::postAmpEQParameterValue(mPostAmpEQRequestedControls, parameter)));
+  }
   mTunerDisplay.reset(mTunerAnalysis.active());
   SendControlValueFromDelegate(kCtrlTagTunerEnabled, mTunerAnalysis.capture().requestedEnabled() ? 1.0 : 0.0);
   SendControlValueFromDelegate(
@@ -845,6 +866,23 @@ bool NeuralAmpModeler::OnMessage(int msgTag, int ctrlTag, int dataSize, const vo
     case kMsgTagClearModel: mShouldRemoveModel = true; return true;
     case kMsgTagClearIR: mShouldRemoveIR = true; return true;
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
+    case kMsgTagPostAmpEQ:
+    {
+      if (ctrlTag < kCtrlTagEQEnable || ctrlTag > kCtrlTagEQTrim ||
+          dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
+        return false;
+      double normalized = 0.0;
+      std::memcpy(&normalized, pData, sizeof(normalized));
+      if (!std::isfinite(normalized)) return false;
+      const auto parameter = static_cast<holdsworth::dsp::PostAmpEQParameter>(ctrlTag - kCtrlTagEQEnable);
+      auto controls = mPostAmpEQRequestedControls;
+      if (!holdsworth::dsp::setPostAmpEQParameter(controls, parameter,
+            holdsworth::dsp::postAmpEQParameterFromNormalized(parameter, normalized)))
+        return false;
+      mPostAmpEQRequestedControls = controls;
+      mPostAmpEQProcessor.setControls(controls);
+      return true;
+    }
     case kMsgTagTunerEnabled:
     {
       if (ctrlTag != kCtrlTagTunerEnabled || dataSize != static_cast<int>(sizeof(double)) || pData == nullptr)
