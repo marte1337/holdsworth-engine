@@ -1,0 +1,112 @@
+{
+  "scope": "Actual Release VST3/AU bundle APIs and APP Release-object callback",
+  "rates_hz": [
+    44100,
+    48000,
+    88200,
+    96000,
+    176400,
+    192000
+  ],
+  "blocks": [
+    1,
+    2,
+    4,
+    8,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024,
+    37
+  ],
+  "formats": {
+    "APP": {
+      "passed": true,
+      "exit_code": 0,
+      "bundle": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app",
+      "log": "/private/tmp/nam-post-amp-eq-v1/host-tests/app-acceptance.log",
+      "binary_sha256": "496195849c0a953b7f5d231065e238f09d848e4dbbab86f16ccb78548d5a37b5",
+      "sample_format": "float64",
+      "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+      "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+      "latency_samples": 32,
+      "audited_rt_calls_after_legacy_warmup": 0,
+      "signature_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app: valid on disk\n/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app: satisfies its Designated Requirement",
+      "plist_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app/Contents/Info.plist: OK",
+      "binary_type": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit executable arm64",
+      "architectures": "arm64",
+      "active_response_max_abs_db": 1.91615300515e-07,
+      "delay_send_relative_rms_error": 8.23313632969e-08,
+      "delay_send_relative_peak_error": 1.27321339568e-07,
+      "retained_log": "HoldsworthEngine/references/post-amp-eq-v1/logs/app-acceptance.log",
+      "build_log": "/private/tmp/nam-post-amp-eq-v1/build-APP/build.log",
+      "build_warning_lines": [
+        "warning: Building targets in manual order is deprecated - check \"Parallelize build for command-line builds\" in the project editor, or set DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING in any of the targets in the current build to suppress this warning",
+        "../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24314:35: warning: identifier '_json' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]",
+        "../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24322:49: warning: identifier '_json_pointer' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]",
+        "../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24386:58: warning: identifier '_json' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]",
+        "../../iPlug2/Dependencies/Extras/nlohmann/json.hpp:24387:58: warning: identifier '_json_pointer' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]",
+        "/Users/marte/Code/nam_holdsworth/NeuralAmpModelerPlugin/NeuralAmpModeler/../AudioDSPTools/dsp/ResamplingContainer/ResamplingContainer.h:199:22: warning: implicit conversion loses integer precision: 'const size_t' (aka 'const unsigned long') to 'int' [-Wshorten-64-to-32]",
+        "../../iPlug2/IPlug/ISender.h:42:17: warning: first argument in call to 'memset' is a pointer to non-trivially copyable type 'value_type' (aka 'std::pair<float, float>') [-Wnontrivial-memcall]",
+        "../../iPlug2/IPlug/ISender.h:50:17: warning: first argument in call to 'memset' is a pointer to non-trivially copyable type 'value_type' (aka 'std::pair<float, float>') [-Wnontrivial-memcall]",
+        "warning: LSMinimumSystemVersion of '10.15.0' is less than the value of MACOSX_DEPLOYMENT_TARGET '12.0' - setting to '12.0'. (in target 'APP' from project 'NeuralAmpModeler-macOS')",
+        "warning: Run script build phase 'Run Script - prepare_resources-mac.py' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking \"Based on dependency analysis\" in the script phase. (in target 'APP' from project 'NeuralAmpModeler-macOS')"
+      ]
+    },
+    "VST3": {
+      "passed": true,
+      "exit_code": 0,
+      "bundle": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3",
+      "log": "/private/tmp/nam-post-amp-eq-v1/host-tests/vst3-acceptance.log",
+      "binary_sha256": "22026449d0ede9e865714da0ce0a0f348fc81842b1e4450883cf305e7c8e5de0",
+      "sample_format": "float64",
+      "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+      "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+      "latency_samples": 32,
+      "audited_rt_calls_after_legacy_warmup": 0,
+      "signature_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3: valid on disk\n/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3: satisfies its Designated Requirement",
+      "plist_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3/Contents/Info.plist: OK",
+      "binary_type": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.vst3/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit bundle arm64",
+      "architectures": "arm64",
+      "active_response_max_abs_db": 1.91615300515e-07,
+      "delay_send_relative_rms_error": 8.23313632969e-08,
+      "delay_send_relative_peak_error": 1.27321339568e-07,
+      "retained_log": "HoldsworthEngine/references/post-amp-eq-v1/logs/vst3-acceptance.log",
+      "build_log": "/private/tmp/nam-post-amp-eq-v1/build-VST3/build.log",
+      "build_warning_lines": [
+        "warning: Building targets in manual order is deprecated - check \"Parallelize build for command-line builds\" in the project editor, or set DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING in any of the targets in the current build to suppress this warning",
+        "warning: LSMinimumSystemVersion of '10.15.0' is less than the value of MACOSX_DEPLOYMENT_TARGET '12.0' - setting to '12.0'. (in target 'VST3' from project 'NeuralAmpModeler-macOS')"
+      ]
+    },
+    "AU": {
+      "passed": true,
+      "exit_code": 0,
+      "bundle": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component",
+      "log": "/private/tmp/nam-post-amp-eq-v1/host-tests/au-acceptance.log",
+      "binary_sha256": "0b3dc8d4b8d383e12113cd0450a50e1a2e40d483bbf979d491e5b98ad9212fa2",
+      "sample_format": "float32",
+      "eq_identity": "neutral-on and global-off non-neutral sweeps bit-exact against paired default instance",
+      "legacy": "accepted tuner, selected-pedal, loaded NAM/IR and host bypass regression matrix",
+      "latency_samples": 32,
+      "audited_rt_calls_after_legacy_warmup": 0,
+      "signature_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component: valid on disk\n/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component: satisfies its Designated Requirement",
+      "plist_verification": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component/Contents/Info.plist: OK",
+      "binary_type": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.component/Contents/MacOS/NeuralAmpModeler: Mach-O 64-bit bundle arm64",
+      "architectures": "arm64",
+      "active_response_max_abs_db": 1.90641798348e-07,
+      "delay_send_relative_rms_error": 8.996237513e-08,
+      "delay_send_relative_peak_error": 1.93074972647e-07,
+      "retained_log": "HoldsworthEngine/references/post-amp-eq-v1/logs/au-acceptance.log",
+      "build_log": "/private/tmp/nam-post-amp-eq-v1/build-AU/build.log",
+      "build_warning_lines": [
+        "warning: Building targets in manual order is deprecated - check \"Parallelize build for command-line builds\" in the project editor, or set DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING in any of the targets in the current build to suppress this warning",
+        "warning: LSMinimumSystemVersion of '10.15.0' is less than the value of MACOSX_DEPLOYMENT_TARGET '12.0' - setting to '12.0'. (in target 'AU' from project 'NeuralAmpModeler-macOS')",
+        "warning: Build Carbon Resources build phases are no longer supported.  Rez source files should be moved to the Copy Bundle Resources build phase. (in target 'AU' from project 'NeuralAmpModeler-macOS')",
+        "warning: Run script build phase 'Run Script - clear_audiounit_caches.sh' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking \"Based on dependency analysis\" in the script phase. (in target 'AU' from project 'NeuralAmpModeler-macOS')",
+        "warning: Run script build phase 'Run Script - prepare_resources-mac.py' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking \"Based on dependency analysis\" in the script phase. (in target 'AU' from project 'NeuralAmpModeler-macOS')"
+      ]
+    }
+  }
+}

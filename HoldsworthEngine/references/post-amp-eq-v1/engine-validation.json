@@ -1,0 +1,125 @@
+{
+  "status": "pass",
+  "matrix": {
+    "debug": {
+      "passed": true,
+      "test_count": 329,
+      "failures": [],
+      "metrics": [
+        "METRIC eq impulse comparisons=19418 max_abs_db=3.6826031596275191e-07 max_phase_radians=1.2371423691961349e-08",
+        "METRIC eq sine_center_halfgain cases=324 max_abs_db=3.9026559761623503e-12 reciprocal_max_db=5.9028337773270323e-12",
+        "METRIC eq hp_lp max_abs_db=5.3771796376199461e-09 rejected_endpoint_abs=5.5511151231257827e-17",
+        "METRIC eq rapid_changes peak_abs=0.032123660380811367 two_second_tail_abs=3.9060987101715592e-35",
+        "METRIC eq exact_linear_fade max_abs_error=2.0916601783937949e-13",
+        "METRIC eq concurrent_snapshots published=30001 audio_blocks=7303",
+        "METRIC eq realtime_cpp_allocations=0",
+        "METRIC eq colored_global_reversals samples=219220 max_envelope_error=5.4565726936850467e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+        "METRIC eq hp_reversals samples=219220 max_envelope_error=2.2898349882893854e-15 max_source_inclusive_adjacent_jump=0.11976061981472397",
+        "METRIC eq lp_reversals samples=219220 max_envelope_error=5.467848396278896e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+        "METRIC eq normal_moves first_impulse_step_error=1.3877787807814457e-17 max_first_fraction_times_20ms_samples=1.0165749605758865",
+        "METRIC eq normal_moves source=tone first_event_delta_from_frozen=3.3944943127819927e-05 max_source_inclusive_adjacent_jump=0.023041006564845885 max_adjacent_residual_change=0.0049065099137940854 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=noise first_event_delta_from_frozen=2.4599877548048266e-06 max_source_inclusive_adjacent_jump=0.1225880526890965 max_adjacent_residual_change=0.0061765796275426027 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=impulse first_event_delta_from_frozen=2.4956893072215911e-15 max_source_inclusive_adjacent_jump=0.11035982738900607 max_adjacent_residual_change=0.0036922893926632358 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=silence first_event_delta_from_frozen=0 max_source_inclusive_adjacent_jump=0 max_adjacent_residual_change=0 final_10ms_target_error=0"
+      ]
+    },
+    "release": {
+      "passed": true,
+      "test_count": 329,
+      "failures": [],
+      "metrics": [
+        "METRIC eq impulse comparisons=19418 max_abs_db=3.6826031596275191e-07 max_phase_radians=1.2371423691961349e-08",
+        "METRIC eq sine_center_halfgain cases=324 max_abs_db=3.9026559761623503e-12 reciprocal_max_db=5.9028337773270323e-12",
+        "METRIC eq hp_lp max_abs_db=5.3771796376199461e-09 rejected_endpoint_abs=5.5511151231257827e-17",
+        "METRIC eq rapid_changes peak_abs=0.032123660380811367 two_second_tail_abs=3.9060987101715592e-35",
+        "METRIC eq exact_linear_fade max_abs_error=2.0916601783937949e-13",
+        "METRIC eq concurrent_snapshots published=30001 audio_blocks=4350",
+        "METRIC eq realtime_cpp_allocations=0",
+        "METRIC eq colored_global_reversals samples=219220 max_envelope_error=5.4565726936850467e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+        "METRIC eq hp_reversals samples=219220 max_envelope_error=2.2898349882893854e-15 max_source_inclusive_adjacent_jump=0.11976061981472397",
+        "METRIC eq lp_reversals samples=219220 max_envelope_error=5.467848396278896e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+        "METRIC eq normal_moves first_impulse_step_error=1.3877787807814457e-17 max_first_fraction_times_20ms_samples=1.0165749605758865",
+        "METRIC eq normal_moves source=tone first_event_delta_from_frozen=3.3944943127819927e-05 max_source_inclusive_adjacent_jump=0.023041006564845885 max_adjacent_residual_change=0.0049065099137940854 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=noise first_event_delta_from_frozen=2.4599877548048266e-06 max_source_inclusive_adjacent_jump=0.1225880526890965 max_adjacent_residual_change=0.0061765796275426027 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=impulse first_event_delta_from_frozen=2.4956893072215911e-15 max_source_inclusive_adjacent_jump=0.11035982738900607 max_adjacent_residual_change=0.0036922893926632358 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=silence first_event_delta_from_frozen=0 max_source_inclusive_adjacent_jump=0 max_adjacent_residual_change=0 final_10ms_target_error=0"
+      ]
+    },
+    "asan": {
+      "passed": true,
+      "test_count": 329,
+      "failures": [],
+      "metrics": [
+        "METRIC eq impulse comparisons=19418 max_abs_db=3.6826031596275191e-07 max_phase_radians=1.2371423691961349e-08",
+        "METRIC eq sine_center_halfgain cases=324 max_abs_db=3.9026559761623503e-12 reciprocal_max_db=5.9028337773270323e-12",
+        "METRIC eq hp_lp max_abs_db=5.3771796376199461e-09 rejected_endpoint_abs=5.5511151231257827e-17",
+        "METRIC eq rapid_changes peak_abs=0.032123660380811367 two_second_tail_abs=3.9060987101715592e-35",
+        "METRIC eq exact_linear_fade max_abs_error=2.0916601783937949e-13",
+        "METRIC eq concurrent_snapshots published=30001 audio_blocks=12416",
+        "METRIC eq realtime_cpp_allocations=0",
+        "METRIC eq colored_global_reversals samples=219220 max_envelope_error=5.4565726936850467e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+        "METRIC eq hp_reversals samples=219220 max_envelope_error=2.2898349882893854e-15 max_source_inclusive_adjacent_jump=0.11976061981472397",
+        "METRIC eq lp_reversals samples=219220 max_envelope_error=5.467848396278896e-15 max_source_inclusive_adjacent_jump=0.1185625146698585",
+        "METRIC eq normal_moves first_impulse_step_error=1.3877787807814457e-17 max_first_fraction_times_20ms_samples=1.0165749605758865",
+        "METRIC eq normal_moves source=tone first_event_delta_from_frozen=3.3944943127819927e-05 max_source_inclusive_adjacent_jump=0.023041006564845885 max_adjacent_residual_change=0.0049065099137940854 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=noise first_event_delta_from_frozen=2.4599877548048266e-06 max_source_inclusive_adjacent_jump=0.1225880526890965 max_adjacent_residual_change=0.0061765796275426027 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=impulse first_event_delta_from_frozen=2.4956893072215911e-15 max_source_inclusive_adjacent_jump=0.11035982738900607 max_adjacent_residual_change=0.0036922893926632358 final_10ms_target_error=0",
+        "METRIC eq normal_moves source=silence first_event_delta_from_frozen=0 max_source_inclusive_adjacent_jump=0 max_adjacent_residual_change=0 final_10ms_target_error=0"
+      ]
+    },
+    "tsan": {
+      "passed": true,
+      "test_count": 7,
+      "failures": [],
+      "metrics": [
+        "METRIC eq concurrent_snapshots published=30001 audio_blocks=5260"
+      ]
+    }
+  },
+  "response_acceptance": {
+    "maximum_abs_db": 0.01,
+    "minimum_response_db": -80.0,
+    "tolerance_relaxed": false
+  },
+  "method": {
+    "oracle": "Independent RBJ numerator/denominator complex response; no production SVF coefficient function used.",
+    "impulse": "54 configurations across six sample rates, >=1.5 s zero-state responses, radix-2 FFT, 361 DC/logarithmic/Nyquist grid candidates per configuration; compare points above -80 dB.",
+    "sine": "One-second settling followed by 40 ms sine/cosine least-squares amplitude fit; 324 center and analytically bilinear-warped half-gain points plus 72 HP/LP points.",
+    "rates_hz": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ],
+    "ramps": "Per-sample friend-state assertions for exact durations, transformed primitive ramps, exact endpoints, mid-ramp retarget and unchanged-target behavior; independent scalar output checks for 10 ms trim and bypass fades.",
+    "tsan": "All named concurrent handoff tests in the existing and new engine suites; prepare/reset are lifecycle synchronized by contract."
+  },
+  "source_sha256": {
+    "HoldsworthEngine/dsp/PostAmpEQProcessor.cpp": "527e7961a21906d2e21659f56249b90c56cbd4a8a3b72770bbe153cd8309f4b1",
+    "HoldsworthEngine/dsp/PostAmpEQProcessor.h": "a50d10ece519a874b56e70980faef90ef8e9222080642c0a504ef07e26260b06",
+    "HoldsworthEngine/dsp/PostAmpEQControls.h": "83f1496d0e8e7b91ebb0f562acc5eef37a86441ceb53e73219999f3caf2c15c2"
+  },
+  "development_failures_resolved": [
+    {
+      "failure": "First focused Release binary failed the canonical normalized/physical trim-default control test.",
+      "cause": "Compiler FMA produced a tiny nonzero dB value at normalized trim default coordinate.",
+      "resolution": "Core conversion explicitly recognizes every continuous parameter default coordinate; original exact-neutral test kept unchanged."
+    },
+    {
+      "failure": "First validation-script compile could not find Xcode C++ standard-library headers.",
+      "cause": "Xcode compiler needed explicit SDK standard-library include path in this environment.",
+      "resolution": "Added -isysroot SDK and -isystem SDK/usr/include/c++/v1 consistently; no source or test acceptance change."
+    },
+    {
+      "failure": "Intermediate Release link failed for postAmpEQTransitionTests().",
+      "cause": "Suite registration landed before the separately owned test source during an already running matrix.",
+      "resolution": "Waited for all test sources, then rebuilt and reran the final complete matrix; original linker output retained in logs/initial-registration-link-failure.log."
+    }
+  ],
+  "limitations": [
+    "No human audition or visual UI inspection performed; audible transition acceptance awaits manual audition.",
+    "Magnitude accuracy gate applies above -80 dB; endpoint rejection measured separately."
+  ]
+}

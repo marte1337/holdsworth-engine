@@ -1,0 +1,788 @@
+{
+  "diagnosis": "No reproducible EQ-specific CPU execution-time failure found; measured wall overruns are dominated by time not charged to the benchmark thread.",
+  "original_sample": {
+    "scope": "isolated PostAmpEQProcessor::processBlock, with target adoption/coefficient work; no NAM/IR/delay/framework",
+    "mode": "continuous-sweep",
+    "rate_hz": 176400,
+    "frames": 4096,
+    "deadline_us": 23219.954648526076,
+    "wall_max_us": 27097.583,
+    "thread_cpu_us": null,
+    "raw_sample_trace_available": false,
+    "limits": "Original retained sorted aggregate only: no paired CPU value, callback index or scheduler trace. One original CSV row had a maximum above deadline; exact original per-callback overrun count is not recoverable."
+  },
+  "method": {
+    "warm_trials_per_mode": 12,
+    "measured_callbacks_per_trial": 2048,
+    "warm_callbacks_per_trial": 256,
+    "samples_per_mode_per_clock_protocol": 24576,
+    "mode_order": "rotates by trial; serial runs; no concurrent build/test/other benchmark jobs",
+    "note": "Small result-aggregation work ran during the first APP process; all samples including that process are retained. No OS isolation, thread affinity or realtime priority was requested. Existing GUI application state was left untouched.",
+    "isolated_input": "same 4096-sample .001*sin(.017*i) fixture and same continuous control equations as original; warmup increased from original34 to256 callbacks",
+    "app_input": "matched deterministic noise fixture for both builds; controls fixed or legal-range deterministic sweeps outside timing",
+    "clock_order": "steady_clock wall start; CLOCK_THREAD_CPUTIME_ID start; audio call with RT flag; CPU end; wall end",
+    "cpu_semantics_source": "https://pubs.opengroup.org/onlinepubs/000095399/functions/clock_getres.html",
+    "clock_resolution_ns": 42,
+    "clock_overhead_subtracted": false,
+    "quantile": "sorted element floor(N*0.99), matching original; no trimmed samples",
+    "measurement_totals": {
+      "isolated_original_wall": 147456,
+      "isolated_paired_wall_cpu": 147456,
+      "APP_paired_wall_cpu": 147456
+    }
+  },
+  "baseline": {
+    "source_commit": "52e432585918adac8b1b41d53311aa8635c28e44",
+    "source_kind": "git archive of accepted pre-EQ HEAD; original accepted binaries absent",
+    "submodule_status": " e19ef4b5b3bf2171c431847563acde29eedf85c0 AudioDSPTools (v0.1.2)\n 9c7b185de346fe0725dea537bcee4bc38b5bb6d6 NeuralAmpModelerCore (v0.5.3)\n ed8cda3ce4cb9d12640f9236fed968655a93b604 eigen (before-3.4-568-ged8cda3ce4)\n 8b7def3150e0b7d2d51c38d5a66833a8753a77d7 iPlug2 (v0.0.1-alpha-4021-g8b7def315)\n",
+    "source": "/private/tmp/nam-eq-timing-investigation/baseline/source"
+  },
+  "baseline_verification": {
+    "NeuralAmpModeler/NeuralAmpModeler.cpp": {
+      "matches_accepted_HEAD": true,
+      "sha256": "d0cb0ef6f67378ac7835c5827c2246f6bca9d3675167f014df38b03f22da8bc2"
+    },
+    "NeuralAmpModeler/NeuralAmpModeler.h": {
+      "matches_accepted_HEAD": true,
+      "sha256": "818e1f223cb5b9d1dece3308634482cc34667a59a8f5f61cb48654a16a4302f2"
+    },
+    "NeuralAmpModeler/config.h": {
+      "matches_accepted_HEAD": true,
+      "sha256": "b61daf69567f3b718a965044de845fa6b30c055df06c909e87c8e9df79baf994"
+    },
+    "HoldsworthEngine/ui/DevelopmentPanel.h": {
+      "matches_accepted_HEAD": true,
+      "sha256": "ebae6a3051a1c37e101ecab4ac13d14dd2ac1917d3cffcd6e07a6a0585a85f15"
+    },
+    "rebuilt_baseline": {
+      "binary": "/private/tmp/nam-eq-timing-investigation/baseline/products/NeuralAmpModeler.app/Contents/MacOS/NeuralAmpModeler",
+      "sha256": "bd00f2b081e67e566e170ece479702eefbae5d365592c438d567385ff9ec8d37"
+    },
+    "current": {
+      "binary": "/private/tmp/nam-post-amp-eq-v1/products/NeuralAmpModeler.app/Contents/MacOS/NeuralAmpModeler",
+      "sha256": "496195849c0a953b7f5d231065e238f09d848e4dbbab86f16ccb78548d5a37b5"
+    }
+  },
+  "isolated": {
+    "original-wall / wire-control": {
+      "n": 24576,
+      "wall": {
+        "p50": 0.417,
+        "p99": 2.208,
+        "max": 46.459
+      },
+      "cpu": null,
+      "wall_overruns": 0,
+      "cpu_overruns": null,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "0",
+        "order": "0",
+        "mode": "wire-control",
+        "clocks": "original-wall",
+        "callback": "380",
+        "control_tick": "636",
+        "wall_us": "46.459000",
+        "cpu_us": null,
+        "wall_minus_cpu_us": null,
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": false
+    },
+    "original-wall / bypass-tracking": {
+      "n": 24576,
+      "wall": {
+        "p50": 70.333,
+        "p99": 103.125,
+        "max": 21375.625
+      },
+      "cpu": null,
+      "wall_overruns": 0,
+      "cpu_overruns": null,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "10",
+        "order": "3",
+        "mode": "bypass-tracking",
+        "clocks": "original-wall",
+        "callback": "783",
+        "control_tick": "1039",
+        "wall_us": "21375.625000",
+        "cpu_us": null,
+        "wall_minus_cpu_us": null,
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": false
+    },
+    "original-wall / neutral-tracking": {
+      "n": 24576,
+      "wall": {
+        "p50": 70.333,
+        "p99": 81.375,
+        "max": 34043.0
+      },
+      "cpu": null,
+      "wall_overruns": 1,
+      "cpu_overruns": null,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "2",
+        "order": "0",
+        "mode": "neutral-tracking",
+        "clocks": "original-wall",
+        "callback": "417",
+        "control_tick": "673",
+        "wall_us": "34043.000000",
+        "cpu_us": null,
+        "wall_minus_cpu_us": null,
+        "wall_overrun": "1",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": false
+    },
+    "original-wall / settled-five-sections": {
+      "n": 24576,
+      "wall": {
+        "p50": 72.875,
+        "p99": 83.709,
+        "max": 166.875
+      },
+      "cpu": null,
+      "wall_overruns": 0,
+      "cpu_overruns": null,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "0",
+        "order": "3",
+        "mode": "settled-five-sections",
+        "clocks": "original-wall",
+        "callback": "314",
+        "control_tick": "570",
+        "wall_us": "166.875000",
+        "cpu_us": null,
+        "wall_minus_cpu_us": null,
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": false
+    },
+    "original-wall / continuous-sweep": {
+      "n": 24576,
+      "wall": {
+        "p50": 75.458,
+        "p99": 86.084,
+        "max": 239.208
+      },
+      "cpu": null,
+      "wall_overruns": 0,
+      "cpu_overruns": null,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "5",
+        "order": "5",
+        "mode": "continuous-sweep",
+        "clocks": "original-wall",
+        "callback": "761",
+        "control_tick": "1017",
+        "wall_us": "239.208000",
+        "cpu_us": null,
+        "wall_minus_cpu_us": null,
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": false
+    },
+    "original-wall / continuous-sweep-enables": {
+      "n": 24576,
+      "wall": {
+        "p50": 74.916,
+        "p99": 85.625,
+        "max": 244.167
+      },
+      "cpu": null,
+      "wall_overruns": 0,
+      "cpu_overruns": null,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "3",
+        "order": "2",
+        "mode": "continuous-sweep-enables",
+        "clocks": "original-wall",
+        "callback": "1303",
+        "control_tick": "1559",
+        "wall_us": "244.167000",
+        "cpu_us": null,
+        "wall_minus_cpu_us": null,
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": false
+    },
+    "wall-threadcpu / wire-control": {
+      "n": 24576,
+      "wall": {
+        "p50": 0.666,
+        "p99": 0.834,
+        "max": 19.5
+      },
+      "cpu": {
+        "p50": 0.5,
+        "p99": 0.708,
+        "max": 12.625
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "8",
+        "order": "4",
+        "mode": "wire-control",
+        "clocks": "wall-threadcpu",
+        "callback": "1776",
+        "control_tick": "2032",
+        "wall_us": "19.500000",
+        "cpu_us": "4.292000",
+        "wall_minus_cpu_us": "15.208000",
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": true
+    },
+    "wall-threadcpu / bypass-tracking": {
+      "n": 24576,
+      "wall": {
+        "p50": 70.584,
+        "p99": 81.792,
+        "max": 222.458
+      },
+      "cpu": {
+        "p50": 70.458,
+        "p99": 79.125,
+        "max": 194.416
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "11",
+        "order": "2",
+        "mode": "bypass-tracking",
+        "clocks": "wall-threadcpu",
+        "callback": "1646",
+        "control_tick": "1902",
+        "wall_us": "222.458000",
+        "cpu_us": "194.416000",
+        "wall_minus_cpu_us": "28.042000",
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": true
+    },
+    "wall-threadcpu / neutral-tracking": {
+      "n": 24576,
+      "wall": {
+        "p50": 70.584,
+        "p99": 80.334,
+        "max": 228.834
+      },
+      "cpu": {
+        "p50": 70.458,
+        "p99": 78.459,
+        "max": 163.625
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "10",
+        "order": "4",
+        "mode": "neutral-tracking",
+        "clocks": "wall-threadcpu",
+        "callback": "987",
+        "control_tick": "1243",
+        "wall_us": "228.834000",
+        "cpu_us": "163.625000",
+        "wall_minus_cpu_us": "65.209000",
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": true
+    },
+    "wall-threadcpu / settled-five-sections": {
+      "n": 24576,
+      "wall": {
+        "p50": 73.167,
+        "p99": 91.042,
+        "max": 3910.25
+      },
+      "cpu": {
+        "p50": 73.0,
+        "p99": 83.625,
+        "max": 232.208
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "7",
+        "order": "2",
+        "mode": "settled-five-sections",
+        "clocks": "wall-threadcpu",
+        "callback": "291",
+        "control_tick": "547",
+        "wall_us": "3910.250000",
+        "cpu_us": "176.541000",
+        "wall_minus_cpu_us": "3733.709000",
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": true
+    },
+    "wall-threadcpu / continuous-sweep": {
+      "n": 24576,
+      "wall": {
+        "p50": 75.709,
+        "p99": 85.959,
+        "max": 188.167
+      },
+      "cpu": {
+        "p50": 75.542,
+        "p99": 83.958,
+        "max": 137.375
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "11",
+        "order": "5",
+        "mode": "continuous-sweep",
+        "clocks": "wall-threadcpu",
+        "callback": "597",
+        "control_tick": "853",
+        "wall_us": "188.167000",
+        "cpu_us": "120.167000",
+        "wall_minus_cpu_us": "68.000000",
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": true
+    },
+    "wall-threadcpu / continuous-sweep-enables": {
+      "n": 24576,
+      "wall": {
+        "p50": 75.167,
+        "p99": 85.875,
+        "max": 184.709
+      },
+      "cpu": {
+        "p50": 75.0,
+        "p99": 83.583,
+        "max": 162.542
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "isolated",
+        "trial": "9",
+        "order": "2",
+        "mode": "continuous-sweep-enables",
+        "clocks": "wall-threadcpu",
+        "callback": "1327",
+        "control_tick": "1583",
+        "wall_us": "184.709000",
+        "cpu_us": "149.000000",
+        "wall_minus_cpu_us": "35.709000",
+        "wall_overrun": "0",
+        "cpu_overrun": "0"
+      },
+      "cpu_available": true
+    }
+  },
+  "app": {
+    "baseline": {
+      "n": 24576,
+      "runs": 12,
+      "wall": {
+        "p50": 279.5,
+        "p99": 321.375,
+        "maximum": 870.333
+      },
+      "cpu": {
+        "p50": 279.167,
+        "p99": 309.042,
+        "maximum": 863.458
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "APP_Release_objects",
+        "mode": "baseline",
+        "rate_hz": "176400",
+        "frames": "4096",
+        "index": "609",
+        "wall_us": "870.333000000",
+        "thread_cpu_us": "863.458000000",
+        "wall_minus_thread_cpu_us": "6.875000000",
+        "deadline_us": "23219.954648526",
+        "wall_overrun": "0",
+        "cpu_overrun": "0",
+        "trial": 2,
+        "order": 4
+      }
+    },
+    "bypass": {
+      "n": 24576,
+      "runs": 12,
+      "wall": {
+        "p50": 349.458,
+        "p99": 418.541,
+        "maximum": 33241.667
+      },
+      "cpu": {
+        "p50": 349.042,
+        "p99": 393.0,
+        "maximum": 1078.5
+      },
+      "wall_overruns": 1,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "APP_Release_objects",
+        "mode": "bypass",
+        "rate_hz": "176400",
+        "frames": "4096",
+        "index": "1954",
+        "wall_us": "33241.667000000",
+        "thread_cpu_us": "725.666000000",
+        "wall_minus_thread_cpu_us": "32516.001000000",
+        "deadline_us": "23219.954648526",
+        "wall_overrun": "1",
+        "cpu_overrun": "0",
+        "trial": 1,
+        "order": 0
+      }
+    },
+    "neutral": {
+      "n": 24576,
+      "runs": 12,
+      "wall": {
+        "p50": 349.125,
+        "p99": 408.25,
+        "maximum": 7630.333
+      },
+      "cpu": {
+        "p50": 348.791,
+        "p99": 388.792,
+        "maximum": 1112.959
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "APP_Release_objects",
+        "mode": "neutral",
+        "rate_hz": "176400",
+        "frames": "4096",
+        "index": "1274",
+        "wall_us": "7630.333000000",
+        "thread_cpu_us": "1086.292000000",
+        "wall_minus_thread_cpu_us": "6544.041000000",
+        "deadline_us": "23219.954648526",
+        "wall_overrun": "0",
+        "cpu_overrun": "0",
+        "trial": 0,
+        "order": 2
+      }
+    },
+    "active": {
+      "n": 24576,
+      "runs": 12,
+      "wall": {
+        "p50": 350.792,
+        "p99": 434.875,
+        "maximum": 26539.125
+      },
+      "cpu": {
+        "p50": 350.333,
+        "p99": 403.334,
+        "maximum": 1119.458
+      },
+      "wall_overruns": 1,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "APP_Release_objects",
+        "mode": "active",
+        "rate_hz": "176400",
+        "frames": "4096",
+        "index": "876",
+        "wall_us": "26539.125000000",
+        "thread_cpu_us": "849.417000000",
+        "wall_minus_thread_cpu_us": "25689.708000000",
+        "deadline_us": "23219.954648526",
+        "wall_overrun": "1",
+        "cpu_overrun": "0",
+        "trial": 9,
+        "order": 0
+      }
+    },
+    "sweep": {
+      "n": 24576,
+      "runs": 12,
+      "wall": {
+        "p50": 354.708,
+        "p99": 423.417,
+        "maximum": 20130.167
+      },
+      "cpu": {
+        "p50": 353.834,
+        "p99": 397.25,
+        "maximum": 1231.708
+      },
+      "wall_overruns": 0,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "APP_Release_objects",
+        "mode": "sweep",
+        "rate_hz": "176400",
+        "frames": "4096",
+        "index": "653",
+        "wall_us": "20130.167000000",
+        "thread_cpu_us": "496.916000000",
+        "wall_minus_thread_cpu_us": "19633.251000000",
+        "deadline_us": "23219.954648526",
+        "wall_overrun": "0",
+        "cpu_overrun": "0",
+        "trial": 5,
+        "order": 5
+      }
+    },
+    "sweep_enable": {
+      "n": 24576,
+      "runs": 12,
+      "wall": {
+        "p50": 357.75,
+        "p99": 441.625,
+        "maximum": 27409.417
+      },
+      "cpu": {
+        "p50": 357.167,
+        "p99": 410.417,
+        "maximum": 1228.875
+      },
+      "wall_overruns": 2,
+      "cpu_overruns": 0,
+      "wall_max_paired_sample": {
+        "scope": "APP_Release_objects",
+        "mode": "sweep_enable",
+        "rate_hz": "176400",
+        "frames": "4096",
+        "index": "1118",
+        "wall_us": "27409.417000000",
+        "thread_cpu_us": "930.208000000",
+        "wall_minus_thread_cpu_us": "26479.209000000",
+        "deadline_us": "23219.954648526",
+        "wall_overrun": "1",
+        "cpu_overrun": "0",
+        "trial": 4,
+        "order": 1
+      }
+    }
+  },
+  "app_wall_overrun_events": [
+    {
+      "scope": "APP_Release_objects",
+      "mode": "bypass",
+      "rate_hz": "176400",
+      "frames": "4096",
+      "index": "1954",
+      "wall_us": "33241.667000000",
+      "thread_cpu_us": "725.666000000",
+      "wall_minus_thread_cpu_us": "32516.001000000",
+      "deadline_us": "23219.954648526",
+      "wall_overrun": "1",
+      "cpu_overrun": "0",
+      "trial": 1,
+      "order": 0
+    },
+    {
+      "scope": "APP_Release_objects",
+      "mode": "sweep_enable",
+      "rate_hz": "176400",
+      "frames": "4096",
+      "index": "671",
+      "wall_us": "25977.792000000",
+      "thread_cpu_us": "1114.500000000",
+      "wall_minus_thread_cpu_us": "24863.292000000",
+      "deadline_us": "23219.954648526",
+      "wall_overrun": "1",
+      "cpu_overrun": "0",
+      "trial": 1,
+      "order": 4
+    },
+    {
+      "scope": "APP_Release_objects",
+      "mode": "sweep_enable",
+      "rate_hz": "176400",
+      "frames": "4096",
+      "index": "1118",
+      "wall_us": "27409.417000000",
+      "thread_cpu_us": "930.208000000",
+      "wall_minus_thread_cpu_us": "26479.209000000",
+      "deadline_us": "23219.954648526",
+      "wall_overrun": "1",
+      "cpu_overrun": "0",
+      "trial": 4,
+      "order": 1
+    },
+    {
+      "scope": "APP_Release_objects",
+      "mode": "active",
+      "rate_hz": "176400",
+      "frames": "4096",
+      "index": "876",
+      "wall_us": "26539.125000000",
+      "thread_cpu_us": "849.417000000",
+      "wall_minus_thread_cpu_us": "25689.708000000",
+      "deadline_us": "23219.954648526",
+      "wall_overrun": "1",
+      "cpu_overrun": "0",
+      "trial": 9,
+      "order": 0
+    }
+  ],
+  "calibration": {
+    "empty": {
+      "wall_us": {
+        "p50": 0.333,
+        "p99": 0.584,
+        "max": 1.125
+      },
+      "cpu_us": {
+        "p50": 0.167,
+        "p99": 0.292,
+        "max": 0.417
+      },
+      "wall_minus_cpu_us": {
+        "p50": 0.167,
+        "p99": 0.333,
+        "max": 0.708
+      }
+    },
+    "sleep30ms": {
+      "wall_us": {
+        "p50": 32790.166,
+        "p99": 34034.083,
+        "max": 34034.083
+      },
+      "cpu_us": {
+        "p50": 21.208,
+        "p99": 28.042,
+        "max": 28.042
+      },
+      "wall_minus_cpu_us": {
+        "p50": 32763.374,
+        "p99": 34017.374,
+        "max": 34017.374
+      }
+    }
+  },
+  "rt_audit": {
+    "isolated": "CLOCK_THREAD_CPUTIME_ID resolution=0.000000042; rate=176400 frames=4096 trials=12 callbacks=2048 warm=256\nRT_SELFTEST intercepted=3 expected=3\nRT_AUDIT violations=0 checksum=4.9919069936861726\n",
+    "app": "All72 runs returned0 and measured_rt_calls=0; positive allocator/free/mutex control in each process.",
+    "warmup_scope": "Full plugin excludes explicitly warmed pre-existing scratch allocations, isolated stage audits from warmup onward."
+  },
+  "source_verification": {
+    "changed_frozen_files": [],
+    "branch": "feature/post-amp-eq-v1",
+    "head": "52e432585918adac8b1b41d53311aa8635c28e44",
+    "git_diff_check": 0,
+    "vendor_diff": ""
+  },
+  "limitations": [
+    "Original27.097583ms event cannot be retrospectively assigned to a precise interruption mechanism.",
+    "Pre-EQ original accepted binaries were absent; source commit52e432 was rebuilt with matching vendor revisions and matching headers.",
+    "Full APP comparison is unloaded NAM/IR fallback with audible effects off, although disabled delay engine still advances. It is not a loaded Rectifier/NAM session.",
+    "Normal CLI threads/offline rendering, not real CoreAudio/DAW realtime scheduling; no claim of portable deadline guarantees.",
+    "Current-build wall overruns occurred while the rebuilt baseline had none in this finite sample; this does not establish equal tail-event probabilities.",
+    "Wall-minus-CPU includes clock-boundary overhead and off-CPU time; identifies an execution-time gap, not the exact scheduler/kernel/hypervisor cause."
+  ],
+  "proposed_fix": "No DSP fix justified by these measurements. A future benchmark-reporting change could retain paired thread-CPU and wall data plus raw sample indices; leave original findings and thresholds unchanged.",
+  "raw_sha256": {
+    "isolated/raw.csv": "4599e850b705500b1484f92c8c7fa489fe354cb982a4aaa6b129745cd37601ed",
+    "isolated/summary.csv": "144d2638b9684dfd06ea1071e2a0d444a9da20cc3b33da63c79bc19882ec06fe",
+    "isolated/calibration.csv": "d758aba67c88cde93112b36cc292eddd549d81fc6de04cce94e160045881fd2b",
+    "app/run-00-0-baseline.csv": "9160b3d69ab62c83248292bb65b3cca6b0e35daa8cb5c8626e4e4f94d8d54d55",
+    "app/run-00-1-bypass.csv": "a366fa2ecde265c53d08aedaa2e7d01f1691edf3f88a56803cea7aefb809e8a7",
+    "app/run-00-2-neutral.csv": "5dad84b8eb6496ce9ee328f866d3d4c561968282a5ea1bd6b5c8264e098d569c",
+    "app/run-00-3-active.csv": "ff77b2a9609fc9556e4047f18cc6dbc2afd18cf5c192f1c14dfa51419e6ac6c1",
+    "app/run-00-4-sweep.csv": "1a7c8c1393c88d962372184557efecc1703894fab41294d74fedc29887c385d3",
+    "app/run-00-5-sweep_enable.csv": "499d3af67b982204bd1b7a2890c1f63c40c9ed955f02f55d0b42aaa1d871f098",
+    "app/run-01-0-bypass.csv": "3dfd6d83313400c1dc342a66730883c31da370255915c09ac1244d76f3ca03a5",
+    "app/run-01-1-neutral.csv": "cc6880fde04e61981cf0bbe63ef84308cb216793d7c853f41e8bca05b0742270",
+    "app/run-01-2-active.csv": "cfbbab5d9a3b766c9d05a5c29ecdf62cbc9ff8557c84a04cd126b9d573a176d7",
+    "app/run-01-3-sweep.csv": "f8d4e71d0ee449c1d6cf84917c0dd21b5fcb30ebac3fb8d05a183295413a7adc",
+    "app/run-01-4-sweep_enable.csv": "caae72726adb863547686173fa9e218f99dbd782f363309512a855d185f36704",
+    "app/run-01-5-baseline.csv": "c0ab3f8ce259be776d14fdb2d3d9c8399a1720515d50bcd3fbb010c5b76ba0ab",
+    "app/run-02-0-neutral.csv": "1a782736fa777429a0b6f31a8bc6d93eba1d95720d5a8ad7738c0b0c414609c6",
+    "app/run-02-1-active.csv": "6c2ed4078dfa94405688a12bed55e5969e13c7564709e0086bdfc8e6a71a484b",
+    "app/run-02-2-sweep.csv": "9e5f38bbd76aed0f908ad6320b1882f0a0c8ababceb973e41eab39b17710fd28",
+    "app/run-02-3-sweep_enable.csv": "06602d7d437b4b6fb88020ac1994c9018003bd86d0b7f13220d867a5ecf098e5",
+    "app/run-02-4-baseline.csv": "bea2a18cb9d68496e07e55652629634604e127e86278e6fd960791fbae29172d",
+    "app/run-02-5-bypass.csv": "103ac8cf21e6ae59f3ca22c6003a252b50300f480f6b167db0de404c587a7320",
+    "app/run-03-0-active.csv": "fded1acd9a96ade046654f519dfda9a3995306c72840c4e0f9138f0aa101d278",
+    "app/run-03-1-sweep.csv": "ae1f39f1f21bc31a661f72ca0e306021e81093e90ca0ad10022dabf7cf2dfe88",
+    "app/run-03-2-sweep_enable.csv": "c912e50bb58d8c42692a5e00a4ef5bf4ac2544ca7be17c9287efa28a936d7435",
+    "app/run-03-3-baseline.csv": "5cc84f4f2187b6df28206eaae2a39c232820df8fb47809e068392932d20d4bf9",
+    "app/run-03-4-bypass.csv": "a25a4f8da5c54fe2df30c78445979fe9370bafe3f64b990ebeca5cfa78e4109c",
+    "app/run-03-5-neutral.csv": "c5e7651fc0c8d020f583200fc4e905bf946563a7835f1b5537a8c44007783e55",
+    "app/run-04-0-sweep.csv": "5690b80cb5ea5528717d8edc500e0ed7d6b82ffbe59a11adbfe0c85a5fae19ce",
+    "app/run-04-1-sweep_enable.csv": "2e0b21377703f4984b8f6c78da62632e6d5f82ad0635ce6ddc75f72ee15e52c6",
+    "app/run-04-2-baseline.csv": "72b3506e9a57e6df448f7b1e237c00a1643edbda0f3b16a002899e6b6a9a2952",
+    "app/run-04-3-bypass.csv": "2d7550edb31638d7bb8e4c85103996cb8c4863a0756ecdf950bac1fcaa0f0dcd",
+    "app/run-04-4-neutral.csv": "55d19e213bb1b1d2eec29458b69e85d3bec93848a3b848d6155ea105f5ec8ed9",
+    "app/run-04-5-active.csv": "5aeff8a58ddbda657fc4fe6c995fdd75a451a6b06cdc2a51b2f981e5e3593f12",
+    "app/run-05-0-sweep_enable.csv": "a824269023ed4c93d40a94d9593d49c33472a04238ae3ebc7414adf95c2988bf",
+    "app/run-05-1-baseline.csv": "9e9a810603f14da621e1f716df7574efee777aaeec626f97927a61a43a3328d6",
+    "app/run-05-2-bypass.csv": "73bf02070899decee09a492fb27639a6219f3ac24b4d1746f7693fdb8d6d9347",
+    "app/run-05-3-neutral.csv": "8b483f7db23117fb36c25f66aed6b0f0e5ea5e8c1cd4ede4e61a9b2df6e2ffb9",
+    "app/run-05-4-active.csv": "4c44b5f072f79d1de3d52989905b8ec408abec2cc2a7f115098fff234adc877f",
+    "app/run-05-5-sweep.csv": "dca57309abaa2daa86825fcf1662a25bbca34bd0e906d130705c5af4280707fe",
+    "app/run-06-0-baseline.csv": "86caafbd190475a998edadeafc74212d46a5199a0306d26ba2430ddbdd72eda0",
+    "app/run-06-1-bypass.csv": "565a992c143da6218d41dca1986a7d498ce38426b6805b6972d6fbb30ec5705c",
+    "app/run-06-2-neutral.csv": "20e58c0eece745908dd983ddd673b891591c80f109d4f098b66f981e7261ab4d",
+    "app/run-06-3-active.csv": "85695763c5b10616178c28f84dfa0d03e7d5aa50b14c5d800344312ddbf059f9",
+    "app/run-06-4-sweep.csv": "65ae6b5be1ba39f0adc0b4199299428c023ddefe52771f728becb9a25ee685b7",
+    "app/run-06-5-sweep_enable.csv": "42296b7744249b5a6781544c2bc4addb004fc521a808f1d81aee9ca60fc2283d",
+    "app/run-07-0-bypass.csv": "d39dcf28ad29ca38a4c163055b686a63ca2a88cdabfc63935d24cb1d046096b6",
+    "app/run-07-1-neutral.csv": "71cfd70b02f56e7e60a967cb21e35f7a9dd5e1cf72808a5b1d2eb87dc79dcc48",
+    "app/run-07-2-active.csv": "ae5f1c28a169426321a76aafa51137eb550d866d04c7fe961bd5602edd8c48cb",
+    "app/run-07-3-sweep.csv": "df019de024cb08bbb6c9afbe649c2d9e03144af1a8e6d287d8ba2bbf79511c03",
+    "app/run-07-4-sweep_enable.csv": "083cab1603e79a4c1f7f0a762cbcdb3aa5be1842ce5c2e698e3a28b8fafcaf8f",
+    "app/run-07-5-baseline.csv": "18f27e5dfbbe530f268b17ef47fb790373382961ebcb5f577aa344cecb280953",
+    "app/run-08-0-neutral.csv": "15b0c42e46cad22135eaa6766eda9c9bdaa499c9faf0af2c470f5be41b04fc92",
+    "app/run-08-1-active.csv": "d94297085ed116c355481a4947ae638584855842f1fed5e3af5e42c1d3db3046",
+    "app/run-08-2-sweep.csv": "804280ceb5f28f10e31614877a745078560657407df89ecce47271a8f52cbcd2",
+    "app/run-08-3-sweep_enable.csv": "1d3d105de2af4ded475484ac3c4d20d94d668c6d9c8ee0549fd2f58a23684657",
+    "app/run-08-4-baseline.csv": "dbc42856d3334cbc340ac7a66a70b0121d6f9a0881d12dc9250d8cec4f17b92a",
+    "app/run-08-5-bypass.csv": "e37629ef48c3b4b667ad098138d7f4208480020c82b48e60d65052f1dcc6510f",
+    "app/run-09-0-active.csv": "86a814a7a9f782c6115afb8cc7ab0c5f838bcfed1f81254312d3717b86192061",
+    "app/run-09-1-sweep.csv": "3332d516109c4a9542971219728dab060c6d48c891bb38bd056615a9b743b015",
+    "app/run-09-2-sweep_enable.csv": "6a50b906566f73d98ba14876be6e407130c3c1efeb8845c695ecdff53a86b187",
+    "app/run-09-3-baseline.csv": "574de625d080dd7e7eaccc2cc39aac20c0e494b6fc8fab024997ac8e9d3e5b48",
+    "app/run-09-4-bypass.csv": "236b037cf8b5b6b768774f5a3fdc07703f46d02e6c1db2176333393a8925ed03",
+    "app/run-09-5-neutral.csv": "1d55ab64ba5664c701053852552c5b8d36d35d9b428ff765f69d12d009e1273e",
+    "app/run-10-0-sweep.csv": "e62bfb8e008f6adb55414dbf67dfc34ee573f074ee806ae423dbf179c414f54a",
+    "app/run-10-1-sweep_enable.csv": "a980992c7fb74a08d62e71583345aab27383ca2ed2c0f2f4dd6bfb7c8c6d86cd",
+    "app/run-10-2-baseline.csv": "058a6f7cab6c762c492d92b537ba70dc7150d52194c530916929175b9e01f410",
+    "app/run-10-3-bypass.csv": "6c275cb7522adb5600a2ede3fee0f24e2d949a086de29096bbefe647b8e535ff",
+    "app/run-10-4-neutral.csv": "eb9581c4a5651aa1554548fb35e7906947262014a52dbd1e1a058a03df39027d",
+    "app/run-10-5-active.csv": "d5cfb388202879ce2dea6f049dd877cc052d22477731a0a39477a12ae0f900d6",
+    "app/run-11-0-sweep_enable.csv": "4efc9139dcf95a4e9f115be104c3c0805aef81b384dd68bcf7f34e551b959a21",
+    "app/run-11-1-baseline.csv": "e02a2700b21133f1707659249d98f06ff29c9f43ba70da66441c127b216c0846",
+    "app/run-11-2-bypass.csv": "d592160d51664f84062ae20b7b2451b48c9f7ecee0129f9adb5bdc453a66e7af",
+    "app/run-11-3-neutral.csv": "70b10530b82807c24e19d8cf89c6d71eb4868c16006849729c3d573c5b58b874",
+    "app/run-11-4-active.csv": "56524048ba6767c193301fdd3fb28bcf02eff43198b649fb79435cdef6de9594",
+    "app/run-11-5-sweep.csv": "32fab30220edbc7f9d30fa10cf16aa875fcfa18c634d84aa4288742c5504ce9a"
+  }
+}

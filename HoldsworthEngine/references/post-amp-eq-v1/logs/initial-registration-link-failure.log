@@ -1,0 +1,9 @@
+Development-only intermediate Release build failed while the new transition
+suite declaration/registration existed before its separate test source landed.
+No test tolerance or production source changed to fix this registration timing.
+
+Undefined symbols for architecture arm64:
+  "holdsworth::test::postAmpEQTransitionTests()", referenced from:
+      _main in TestMain-908dd5.o
+ld: symbol(s) not found for architecture arm64
+clang++: error: linker command failed with exit code 1 (use -v to see invocation)

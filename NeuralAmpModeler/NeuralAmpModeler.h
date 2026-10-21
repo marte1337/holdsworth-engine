@@ -12,6 +12,7 @@
   #include "../HoldsworthEngine/dsp/HoldsworthDelayEngine.h"
   #include "../HoldsworthEngine/dsp/TCBLDCleanBoostProcessor.h"
   #include "../HoldsworthEngine/dsp/MC402CleanBoostProcessor.h"
+  #include "../HoldsworthEngine/dsp/PostAmpEQProcessor.h"
   #include "../HoldsworthEngine/integration/DevelopmentJRockettAHControls.h"
   #include "../HoldsworthEngine/integration/DevelopmentAHOuterTransition.h"
   #include "../HoldsworthEngine/dsp/JRockettAHPedal.h"
@@ -106,6 +107,22 @@ enum ECtrlTags
   kCtrlTagAHDriveVolume,
   kCtrlTagTunerEnabled,
   kCtrlTagTunerDisplay,
+  // Contiguous with dsp::PostAmpEQParameter; these are not host parameters.
+  kCtrlTagEQEnable,
+  kCtrlTagEQBand1Frequency,
+  kCtrlTagEQBand1Gain,
+  kCtrlTagEQBand1Q,
+  kCtrlTagEQBand2Frequency,
+  kCtrlTagEQBand2Gain,
+  kCtrlTagEQBand2Q,
+  kCtrlTagEQBand3Frequency,
+  kCtrlTagEQBand3Gain,
+  kCtrlTagEQBand3Q,
+  kCtrlTagEQHPEnable,
+  kCtrlTagEQHPCutoff,
+  kCtrlTagEQLPEnable,
+  kCtrlTagEQLPCutoff,
+  kCtrlTagEQTrim,
 #endif
   kNumCtrlTags
 };
@@ -142,6 +159,7 @@ enum EMsgTags
   kMsgTagAHDriveVolume,
   kMsgTagTunerEnabled,
   kMsgTagTunerDisplay,
+  kMsgTagPostAmpEQ,
 #endif
   kNumMsgTags
 };
@@ -412,6 +430,11 @@ private:
   // Temporary pre-NAM documentary-nominal CLEAN BOOST audition path.
   holdsworth::dsp::TCBLDCleanBoostProcessor mTCBldCleanBoostProcessor;
   holdsworth::dsp::MC402CleanBoostProcessor mMC402CleanBoostProcessor;
+  holdsworth::dsp::PostAmpEQProcessor mPostAmpEQProcessor;
+  bool mPostAmpEQRealtimeSupported = false; // lifecycle-owned; legacy wire outside the EQ rate contract
+  // Control-thread physical state for editor reopen; audio reads only the
+  // processor's complete-tuple mailbox. Not serialized or host-automated.
+  holdsworth::dsp::PostAmpEQControls mPostAmpEQRequestedControls{};
   holdsworth::dsp::JRockettAHPedal mAHPedal;
   std::atomic<bool> mAHBoostEnabled{true}, mAHDriveEnabled{false};
   std::atomic<double> mAHDriveGain{0.5}, mAHDriveBass{0.5}, mAHDriveTreble{0.5};

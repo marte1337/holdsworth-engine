@@ -1,0 +1,9 @@
+PASS: MC402 Boost concurrent control handoff
+METRIC eq concurrent_snapshots published=30001 audio_blocks=5260
+PASS: Post-amp EQ concurrent coherent latest SPSC snapshots
+PASS: AH Boost concurrent coherent handoff
+PASS: AH Drive concurrent coherent handoff
+PASS: AH full recovery realtime concurrency
+PASS: Tuner capture concurrent SPSC ownership and resets
+PASS: Tuner service concurrent reset capture drain
+All 7 HoldsworthEngine tests passed.

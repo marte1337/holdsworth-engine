@@ -34,6 +34,7 @@ Conceptually:
     -> selected pre-NAM processor: Off / TC BLD / MC402 Clean Boost / J. Rockett AH
     -> NAM
     -> tone stack
+    -> PostAmpEQProcessor (independently bypassable)
     -> cabinet / IR
     -> DC blocker
     -> HoldsworthDelayEngine
@@ -97,6 +98,43 @@ Important components include:
     TunerCaptureBuffer
     TunerAnalysisService
     TunerDisplayState
+    PostAmpEQProcessor
+
+### Post-amp / pre-cab EQ v1
+
+`PostAmpEQProcessor` is an independent mono host-rate cascade: optional
+Butterworth HP -> three parametric bells -> optional Butterworth LP -> trim.
+It runs after the existing tone stack and before cabinet IR, gate detection is
+unchanged, and both the direct signal and subsequent delay send receive EQ.
+Controls and normalized mappings live in `dsp/PostAmpEQControls.h`; the
+DevelopmentPanel only formats their values. These are neutral engineering
+defaults, not historical settings or EQ presets. No MIDI/host automation or
+permanent serialization is added.
+
+Five double-precision trapezoidal SVFs retain warm histories during bypass.
+Frequency/damping/bell-mix primitives ramp for 20 ms; global/HP/LP enable
+and trim ramp for 10 ms. Settled global bypass and all-neutral operation return
+the original finite input exactly, including after colored histories. It adds
+zero buffering latency. A fixed three-slot SPSC mailbox transfers complete
+physical control snapshots; one control producer and one audio consumer are
+required, with lifecycle synchronization for prepare/reset. Unsupported EQ
+rates retain the wrapper's existing signal path. See
+`HoldsworthEngine/references/post-amp-eq-v1` for validation and limitations.
+Objective validation and the user's Standalone audition were accepted on
+2026-10-21: no audible clicks or instability were reported, and neutral EQ was
+transparent. The fixed 12 dB/octave HP/LP slopes were noted as conservative;
+stronger slopes remain possible future polish, not a v1 change. Manual VST3/AU
+checks are deferred to release QA; automated native-host validation for both
+formats has passed.
+
+The isolated 176.4 kHz / 4096-frame wall maximum of 27.097583 ms remains in the
+original record. Investigation found no reproduced EQ-specific CPU deadline
+failure: 49,152 continuous-sweep calls had no overrun (maximum 0.239208 ms).
+Four full-APP wall overruns had only 0.726–1.115 ms of paired thread CPU, with
+large wall-minus-CPU gaps. The original event has no paired CPU trace; its
+precise cause remains unproven. No DSP fix or threshold change was justified.
+Raw timing evidence, summaries and comparator limitations are archived under
+`HoldsworthEngine/references/post-amp-eq-v1/timing-investigation`.
 
 ## Important DSP semantics
 

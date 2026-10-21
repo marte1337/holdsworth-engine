@@ -1,5 +1,36 @@
 # Development UI v2
 
+## Post-amp EQ v1 layout
+
+The EQ extension uses a 1100 x 1032 logical development editor. All existing
+Boost / Drive, Delay, NAM and Tuner card coordinates remain unchanged. A single
+EQ card spans the bottom of the editor at `(24, 768)` to `(1080, 1008)`. Its
+left side contains three aligned `Band | Frequency | Gain | Q` rows; its right
+side contains independent EQ enable, HP and LP toggles/cutoff sliders, and EQ
+Trim. The header signal path includes EQ between AMP and CAB.
+
+Frequency, gain, Q, cutoff and trim coordinates/defaults come directly from
+`dsp/PostAmpEQControls.h`; this UI only formats Hz/kHz, dB and Q labels.
+Double-click each slider to return to its canonical default. These controls
+remain nonserialized development controls; no MIDI or host automation was
+added.
+
+After the Release standalone is launched, manually inspect the bottom card,
+row alignment, physical value labels, enable states and corner scaling. Check
+dragging and double-click resets and reopen the editor to check retained EQ
+values. Visual inspection and musical audition belong to the user; no visual
+automation or subjective voicing is part of this implementation.
+
+The user accepted the Standalone EQ audition on 2026-10-21: neutral operation
+was transparent, with no audible clicks or instability. The HP/LP slopes were
+noted as conservative and remain a possible future polish item; their v1
+responses are unchanged. This acceptance does not assert completion of every
+visual checklist above. Manual VST3/AU checks are deferred to release QA; their
+automated native host checks passed. See
+`../references/post-amp-eq-v1/acceptance-2026-10-21.json`.
+
+The earlier UI notes below describe previous extension stages and their sizes.
+
 The macOS development build uses a 1100 x 660 logical editor with the existing
 corner scale resizer. Non-development builds retain 600 x 400. `DevelopmentPanel.h`
 owns the development cards; the NAM wrapper attaches its original 600 x 400

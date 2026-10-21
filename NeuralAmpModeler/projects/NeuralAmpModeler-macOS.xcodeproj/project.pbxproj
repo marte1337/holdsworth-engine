@@ -490,24 +490,36 @@
 		D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */; };
 		D1A700012F00002000000004 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000004 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		2A23BD9513D55F19CF74AB44 /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00002000000005 /* TCBLDCleanBoostProcessorTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000003 /* TCBLDCleanBoostProcessorTests.cpp */; };
 		D1A700012F00002200000005 /* MC402CleanBoostProcessorTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000003 /* MC402CleanBoostProcessorTests.cpp */; };
+		493831E7DC7FD5B0884F2409 /* PostAmpEQTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B743C80CF22EC11881A0EA3 /* PostAmpEQTests.cpp */; };
+		DFD3C9C61451A8783A5F177E /* PostAmpEQTransitionTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92602D771E33C671B0D29A3F /* PostAmpEQTransitionTests.cpp */; };
+		DFEEFB4201A685BA34E57B3E /* PostAmpEQControlTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD176093A885A7AB71C9D27B /* PostAmpEQControlTests.cpp */; };
 		D1A700012F00002000000101 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000101 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		A01D2EE4C2BCC86019A3D29D /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00002000000201 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000201 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		6FCFE37F0DFBA1EF63A1F40E /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00002000000301 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000301 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		198134513F7B905BD4868CAB /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00002000000401 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000401 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		94B5958154CD3B6B868DCEEA /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00002000000501 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000501 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		112302B28B6EFC0D073B72C2 /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00002000000601 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000601 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		859B23137BF4A393A0E6C4B6 /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00002000000701 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000701 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		9D9A60A94E00632880A2F1A6 /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00002000000801 /* TCBLDCleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */; };
 		D1A700012F00002200000801 /* MC402CleanBoostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */; };
+		E0D3399E6D3B03413CB45A32 /* PostAmpEQProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */; };
 		D1A700012F00000400000101 /* FractionalDelayLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000100000002 /* FractionalDelayLine.cpp */; };
 		D1A700012F00000400000102 /* DelayBand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000200000002 /* DelayBand.cpp */; };
 		D1A700012F00000400000103 /* HoldsworthDelayEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */; };
@@ -1219,10 +1231,16 @@
 		D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayEngineTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00002000000001 /* TCBLDCleanBoostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCBLDCleanBoostProcessor.h; sourceTree = "<group>"; };
 		D1A700012F00002200000001 /* MC402CleanBoostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MC402CleanBoostProcessor.h; sourceTree = "<group>"; };
+		4945123D585CD4596AB3EF34 /* PostAmpEQProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostAmpEQProcessor.h; sourceTree = "<group>"; };
+		17142303CB5E762025D425EC /* PostAmpEQControls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostAmpEQControls.h; sourceTree = "<group>"; };
 		D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TCBLDCleanBoostProcessor.cpp; sourceTree = "<group>"; };
 		D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MC402CleanBoostProcessor.cpp; sourceTree = "<group>"; };
+		17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PostAmpEQProcessor.cpp; sourceTree = "<group>"; };
 		D1A700012F00002000000003 /* TCBLDCleanBoostProcessorTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TCBLDCleanBoostProcessorTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00002200000003 /* MC402CleanBoostProcessorTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MC402CleanBoostProcessorTests.cpp; sourceTree = "<group>"; };
+		0B743C80CF22EC11881A0EA3 /* PostAmpEQTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PostAmpEQTests.cpp; sourceTree = "<group>"; };
+		92602D771E33C671B0D29A3F /* PostAmpEQTransitionTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PostAmpEQTransitionTests.cpp; sourceTree = "<group>"; };
+		CD176093A885A7AB71C9D27B /* PostAmpEQControlTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PostAmpEQControlTests.cpp; sourceTree = "<group>"; };
 		D1A700012F00002000000006 /* DevelopmentTCBLDControlMapping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DevelopmentTCBLDControlMapping.h; sourceTree = "<group>"; };
 		D1A700012F00000500000001 /* MonoDryStereoWetMixer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonoDryStereoWetMixer.h; sourceTree = "<group>"; };
 		D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoldsworthDelayLiveIntegrationTests.cpp; sourceTree = "<group>"; };
@@ -2262,6 +2280,8 @@
 				D1A700012F00000300000002 /* HoldsworthDelayEngine.cpp */,
 				D1A700012F00002000000001 /* TCBLDCleanBoostProcessor.h */,
 				D1A700012F00002200000001 /* MC402CleanBoostProcessor.h */,
+				4945123D585CD4596AB3EF34 /* PostAmpEQProcessor.h */,
+				17142303CB5E762025D425EC /* PostAmpEQControls.h */,
 				D1A700012F00002300000001 /* JRockettAHBoostProcessor.h */,
 				D1A700012F00002300000002 /* JRockettAHBoostProcessor.cpp */,
 				D1A700012F00002300000003 /* JRockettAHBoostProfile.h */,
@@ -2272,6 +2292,7 @@
 				D1A700012F00002400000003 /* JRockettAHDriveProfile.h */,
 				D1A700012F00002000000002 /* TCBLDCleanBoostProcessor.cpp */,
 				D1A700012F00002200000002 /* MC402CleanBoostProcessor.cpp */,
+				17C3297697DE2D9AA7E23AED /* PostAmpEQProcessor.cpp */,
 				D1A700012F00000D00000001 /* DelayBandIdentity.h */,
 				D1A700012F00000B00000001 /* ModulationSync.h */,
 				D1A700012F00000D00000002 /* AudioRouting.h */,
@@ -2331,6 +2352,9 @@
 				D1A700012F00000300000005 /* HoldsworthDelayEngineTests.cpp */,
 				D1A700012F00002000000003 /* TCBLDCleanBoostProcessorTests.cpp */,
 				D1A700012F00002200000003 /* MC402CleanBoostProcessorTests.cpp */,
+				0B743C80CF22EC11881A0EA3 /* PostAmpEQTests.cpp */,
+				92602D771E33C671B0D29A3F /* PostAmpEQTransitionTests.cpp */,
+				CD176093A885A7AB71C9D27B /* PostAmpEQControlTests.cpp */,
 				D1A700012F00002300000004 /* JRockettAHBoostProcessorTests.cpp */,
 				D1A700012F00002600000003 /* ChromaticTunerTests.cpp */,
 				D1A700012F00002400000004 /* JRockettAHDriveProcessorTests.cpp */,
@@ -3018,6 +3042,7 @@
 				D1A700012F00000400000103 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000101 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000101 /* MC402CleanBoostProcessor.cpp in Sources */,
+				A01D2EE4C2BCC86019A3D29D /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000101 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002400000101 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00000F00000101 /* GroupedDelayCircuit.cpp in Sources */,
@@ -3080,6 +3105,7 @@
 				D1A700012F00000400000203 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000201 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000201 /* MC402CleanBoostProcessor.cpp in Sources */,
+				6FCFE37F0DFBA1EF63A1F40E /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000201 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002400000201 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00000F00000201 /* GroupedDelayCircuit.cpp in Sources */,
@@ -3118,6 +3144,7 @@
 				D1A700012F00000400000303 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000301 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000301 /* MC402CleanBoostProcessor.cpp in Sources */,
+				198134513F7B905BD4868CAB /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000301 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002400000301 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00000F00000301 /* GroupedDelayCircuit.cpp in Sources */,
@@ -3178,6 +3205,7 @@
 				D1A700012F00000400000403 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000401 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000401 /* MC402CleanBoostProcessor.cpp in Sources */,
+				94B5958154CD3B6B868DCEEA /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000401 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002400000401 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00000F00000401 /* GroupedDelayCircuit.cpp in Sources */,
@@ -3281,6 +3309,7 @@
 				D1A700012F00000400000503 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000501 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000501 /* MC402CleanBoostProcessor.cpp in Sources */,
+				112302B28B6EFC0D073B72C2 /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000501 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002400000501 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00000F00000501 /* GroupedDelayCircuit.cpp in Sources */,
@@ -3336,6 +3365,7 @@
 				D1A700012F00000400000603 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000601 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000601 /* MC402CleanBoostProcessor.cpp in Sources */,
+				859B23137BF4A393A0E6C4B6 /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000601 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002400000601 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00000F00000601 /* GroupedDelayCircuit.cpp in Sources */,
@@ -3398,6 +3428,7 @@
 				D1A700012F00000400000703 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000701 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000701 /* MC402CleanBoostProcessor.cpp in Sources */,
+				9D9A60A94E00632880A2F1A6 /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000701 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002400000701 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00000F00000701 /* GroupedDelayCircuit.cpp in Sources */,
@@ -3435,6 +3466,7 @@
 				D1A700012F00000400000803 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000801 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000801 /* MC402CleanBoostProcessor.cpp in Sources */,
+				E0D3399E6D3B03413CB45A32 /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000801 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002400000801 /* JRockettAHDriveProcessor.cpp in Sources */,
 				D1A700012F00000F00000801 /* GroupedDelayCircuit.cpp in Sources */,
@@ -3509,6 +3541,7 @@
 				D1A700012F00000300000006 /* HoldsworthDelayEngine.cpp in Sources */,
 				D1A700012F00002000000004 /* TCBLDCleanBoostProcessor.cpp in Sources */,
 				D1A700012F00002200000004 /* MC402CleanBoostProcessor.cpp in Sources */,
+				2A23BD9513D55F19CF74AB44 /* PostAmpEQProcessor.cpp in Sources */,
 				D1A700012F00002300000005 /* JRockettAHBoostProcessor.cpp in Sources */,
 				D1A700012F00002300000006 /* JRockettAHBoostProcessorTests.cpp in Sources */,
 				D1A700012F00002600000004 /* ChromaticTuner.cpp in Sources */,
@@ -3530,6 +3563,9 @@
 				D1A700012F00000300000008 /* HoldsworthDelayEngineTests.cpp in Sources */,
 				D1A700012F00002000000005 /* TCBLDCleanBoostProcessorTests.cpp in Sources */,
 				D1A700012F00002200000005 /* MC402CleanBoostProcessorTests.cpp in Sources */,
+				493831E7DC7FD5B0884F2409 /* PostAmpEQTests.cpp in Sources */,
+				DFD3C9C61451A8783A5F177E /* PostAmpEQTransitionTests.cpp in Sources */,
+				DFEEFB4201A685BA34E57B3E /* PostAmpEQControlTests.cpp in Sources */,
 				D1A700012F00002200000008 /* DevelopmentPreNAMSelectorTests.cpp in Sources */,
 				D1A700012F00000B00000003 /* ModulationSyncTests.cpp in Sources */,
 				D1A700012F00000D00000004 /* AudioRoutingTests.cpp in Sources */,

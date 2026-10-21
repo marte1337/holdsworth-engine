@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "base_commit": "52e432585918adac8b1b41d53311aa8635c28e44",
+  "legacy_ProcessBlock_sha256": "403e7b405f9b320b3113e37cc4bcbb7d4460a8cc41ad7f855aaa0ae87e36869b",
+  "checks": [
+    "Only EQ insertion changes ProcessBlock",
+    "accepted DSP and preset sources unchanged",
+    "stock serialization unchanged",
+    "vendored submodules unchanged"
+  ]
+}

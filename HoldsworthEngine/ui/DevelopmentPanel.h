@@ -4,6 +4,7 @@
 #include "../integration/DevelopmentControlDefaults.h"
 #include "../integration/DevelopmentPreNAMSelector.h"
 #include "../dsp/JRockettAHDriveProfile.h"
+#include "../dsp/PostAmpEQControls.h"
 #include "TunerControl.h"
 
 #include <algorithm>
@@ -151,6 +152,56 @@ private:
   Kind mKind;
 };
 
+// The processor owns the physical ranges and normalized coordinates. This
+// control only formats their display, so a later MIDI/host binding can use the
+// same parameter definitions without a second UI-specific conversion layer.
+class PostAmpEQSlider final : public PositionSlider
+{
+public:
+  PostAmpEQSlider(const IRECT& bounds, IActionFunction action, dsp::PostAmpEQParameter parameter)
+  : PositionSlider(bounds, action, "", dsp::postAmpEQParameterToNormalized(
+      parameter, dsp::postAmpEQParameterInfo(parameter).defaultValue))
+  , mParameter(parameter) {}
+
+  void OnResize() override
+  {
+    mLabelBounds = IRECT();
+    mValueBounds = mRECT.GetFromTop(22.f);
+    mWidgetBounds = mRECT.GetReducedFromTop(24.f).GetReducedFromBottom(2.f);
+    mTrackBounds = mWidgetBounds.GetPadded(-mHandleSize).GetMidVPadded(mTrackSize);
+    SetTargetRECT(mRECT);
+    SetDirty(false);
+  }
+
+protected:
+  void UpdateValue() override
+  {
+    const double value = dsp::postAmpEQParameterFromNormalized(mParameter, GetValue());
+    switch (mParameter)
+    {
+      case dsp::PostAmpEQParameter::band1Frequency:
+      case dsp::PostAmpEQParameter::band2Frequency:
+      case dsp::PostAmpEQParameter::band3Frequency:
+      case dsp::PostAmpEQParameter::highPassFrequency:
+      case dsp::PostAmpEQParameter::lowPassFrequency:
+        if (value >= 1000.) mValueStr.SetFormatted(24, "%.2f kHz", value / 1000.);
+        else mValueStr.SetFormatted(24, "%.0f Hz", value);
+        break;
+      case dsp::PostAmpEQParameter::band1Q:
+      case dsp::PostAmpEQParameter::band2Q:
+      case dsp::PostAmpEQParameter::band3Q:
+        mValueStr.SetFormatted(24, "%.2f", value);
+        break;
+      default:
+        mValueStr.SetFormatted(24, "%+.1f dB", value);
+        break;
+    }
+  }
+
+private:
+  dsp::PostAmpEQParameter mParameter;
+};
+
 class ProcessorSelector final : public IVTabSwitchControl
 {
 public:
@@ -294,7 +345,7 @@ inline void attachDevelopmentPanel(IGraphics& g)
   g.AttachPanelBackground(panelBackground());
   label(IRECT(28, 22, 780, 58), "HOLDSWORTH ENGINE", 26, COLOR_WHITE);
   label(IRECT(28, 65, 1072, 99),
-        "INPUT   >   BOOST / DRIVE   >   AMP   >   CAB   >   DELAY   >   OUTPUT", 14, mutedText());
+        "INPUT   >   BOOST / DRIVE   >   AMP   >   EQ   >   CAB   >   DELAY   >   OUTPUT", 14, mutedText());
   label(IRECT(902, 25, 1072, 53), "DEVELOPMENT  /  V2", 12, mutedText());
 
   g.AttachControl(new Card(IRECT(24, 116, 464, 438)));
@@ -388,5 +439,62 @@ inline void attachDevelopmentPanel(IGraphics& g)
     developmentMessage(kMsgTagTunerEnabled), "", toggleStyle, "OFF", "ON", false),
     kCtrlTagTunerEnabled)->SetTooltip("Chromatic tuner on the clean input. A4 = 440 Hz. Tune one note at a time.");
   g.AttachControl(new TunerControl(IRECT(622, 667, 1060, 739), kMsgTagTunerDisplay), kCtrlTagTunerDisplay);
+
+  // Add the audition EQ beneath the accepted cards without moving the NAM,
+  // pedal, delay or tuner controls. Tags follow the canonical parameter enum;
+  // each message carries its normalized coordinate through the same mapping
+  // used by the processor's control snapshot.
+  g.AttachControl(new Card(IRECT(24, 768, 1080, 1008)));
+  label(IRECT(44, 780, 690, 806), "POST-AMP / PRE-CAB EQ", 14, mutedText());
+  label(IRECT(44, 814, 100, 835), "Band", 13, mutedText());
+  label(IRECT(116, 814, 298, 835), "Frequency", 13, mutedText());
+  label(IRECT(320, 814, 502, 835), "Gain", 13, mutedText());
+  label(IRECT(524, 814, 690, 835), "Q", 13, mutedText());
+  const auto eqTag = [](dsp::PostAmpEQParameter parameter) {
+    return kCtrlTagEQEnable + static_cast<int>(parameter);
+  };
+  const auto eqSlider = [&](const IRECT& rect, dsp::PostAmpEQParameter parameter, const char* tooltip) {
+    return g.AttachControl(new PostAmpEQSlider(rect, developmentMessage(kMsgTagPostAmpEQ), parameter),
+                           eqTag(parameter))->SetTooltip(tooltip);
+  };
+  constexpr std::array<std::array<dsp::PostAmpEQParameter, 3>, 3> eqBands{{
+    {dsp::PostAmpEQParameter::band1Frequency, dsp::PostAmpEQParameter::band1Gain, dsp::PostAmpEQParameter::band1Q},
+    {dsp::PostAmpEQParameter::band2Frequency, dsp::PostAmpEQParameter::band2Gain, dsp::PostAmpEQParameter::band2Q},
+    {dsp::PostAmpEQParameter::band3Frequency, dsp::PostAmpEQParameter::band3Gain, dsp::PostAmpEQParameter::band3Q}
+  }};
+  constexpr std::array<const char*, 3> eqBandLabels{{"1", "2", "3"}};
+  for (std::size_t band = 0; band < eqBands.size(); ++band)
+  {
+    const float top = 840.f + static_cast<float>(band) * 50.f;
+    label(IRECT(44, top, 100, top + 44.f), eqBandLabels[band], 16, COLOR_WHITE);
+    eqSlider(IRECT(116, top, 298, top + 44.f), eqBands[band][0],
+      "Bell center frequency. Logarithmic range. Double-click: band default.");
+    eqSlider(IRECT(320, top, 502, top + 44.f), eqBands[band][1],
+      "Bell cut / boost. Double-click: 0 dB.");
+    eqSlider(IRECT(524, top, 690, top + 44.f), eqBands[band][2],
+      "Bell Q: left is broad, right is narrow. Double-click: 0.70.");
+  }
+  g.AttachControl(new IVToggleControl(IRECT(918, 780, 1060, 812),
+    developmentMessage(kMsgTagPostAmpEQ), "", toggleStyle, "EQ BYPASS", "EQ ACTIVE",
+    dsp::postAmpEQParameterInfo(dsp::PostAmpEQParameter::enable).defaultValue != 0.),
+    eqTag(dsp::PostAmpEQParameter::enable))->SetTooltip(
+      "Independent EQ bypass. Settled bypass is exact unity; enable changes fade over 10 ms.");
+  g.AttachControl(new IVToggleControl(IRECT(730, 836, 840, 870),
+    developmentMessage(kMsgTagPostAmpEQ), "", toggleStyle, "HP OFF", "HP ON",
+    dsp::postAmpEQParameterInfo(dsp::PostAmpEQParameter::highPassEnable).defaultValue != 0.),
+    eqTag(dsp::PostAmpEQParameter::highPassEnable))->SetTooltip(
+      "Optional 12 dB/octave Butterworth high-pass.");
+  eqSlider(IRECT(860, 828, 1060, 876), dsp::PostAmpEQParameter::highPassFrequency,
+    "High-pass cutoff. Double-click: default cutoff.");
+  g.AttachControl(new IVToggleControl(IRECT(730, 892, 840, 926),
+    developmentMessage(kMsgTagPostAmpEQ), "", toggleStyle, "LP OFF", "LP ON",
+    dsp::postAmpEQParameterInfo(dsp::PostAmpEQParameter::lowPassEnable).defaultValue != 0.),
+    eqTag(dsp::PostAmpEQParameter::lowPassEnable))->SetTooltip(
+      "Optional 12 dB/octave Butterworth low-pass.");
+  eqSlider(IRECT(860, 884, 1060, 932), dsp::PostAmpEQParameter::lowPassFrequency,
+    "Low-pass cutoff. Double-click: default cutoff.");
+  label(IRECT(730, 947, 840, 980), "EQ Trim", 15, COLOR_WHITE);
+  eqSlider(IRECT(860, 940, 1060, 988), dsp::PostAmpEQParameter::trim,
+    "Manual EQ level matching. Bypassed with the EQ. Double-click: 0 dB.");
 }
 } // namespace holdsworth::ui
