@@ -7,6 +7,7 @@
 #include "../AudioDSPTools/dsp/ResamplingContainer/ResamplingContainer.h"
 #include "../NeuralAmpModelerCore/NAM/dsp.h"
 #include "../NeuralAmpModelerCore/NAM/slimmable.h"
+#include "../HoldsworthEngine/control/ProductionStateCodec.h"
 
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
   #include "../HoldsworthEngine/dsp/HoldsworthDelayEngine.h"
@@ -29,6 +30,7 @@
 
 #include <atomic>
 #include <cstdint>
+#include <mutex>
 #include <vector>
 
 
@@ -290,6 +292,11 @@ public:
 
   bool SerializeState(iplug::IByteChunk& chunk) const override;
   int UnserializeState(const iplug::IByteChunk& chunk, int startPos) override;
+#if defined(VST3_API)
+  Steinberg::tresult PLUGIN_API setState(Steinberg::IBStream* state) override;
+#elif defined(AU_API)
+  OSStatus SetState(CFPropertyListRef state) override;
+#endif
   void OnUIOpen() override;
   void OnUIClose() override;
 #ifdef NAM_HOLDSWORTH_DELAY_DEV
@@ -474,6 +481,13 @@ private:
   WDL_String mNAMPath;
   // Path to IR (.wav file)
   WDL_String mIRPath;
+
+  // Off-audio state callbacks exclusively own this complete opaque snapshot.
+  // Recursive for AU's existing named-preset restore inside SetState. No DSP,
+  // UI or host parameter callback acquires this mutex. Legacy IParams retain
+  // their existing independent scalar ownership; this is not a coordinator.
+  mutable std::recursive_mutex mStateSerializationMutex;
+  std::vector<holdsworth::control::StateExtensionRecord> mStateExtension;
 
   WDL_String mHighLightColor{PluginColors::NAM_THEMECOLOR.ToColorCode()};
 

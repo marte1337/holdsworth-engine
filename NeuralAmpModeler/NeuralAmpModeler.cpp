@@ -5,6 +5,7 @@
 #include <cstring>
 #include <filesystem>
 #include <iostream>
+#include <limits>
 #include <span>
 #include <utility>
 
@@ -18,6 +19,10 @@
 #include "IPlug_include_in_plug_src.h"
 // clang-format on
 #include "architecture.hpp"
+
+#if defined(VST3_API)
+  #include "public.sdk/source/common/memorystream.h"
+#endif
 
 #include "NeuralAmpModelerControls.h"
 
@@ -707,36 +712,174 @@ void NeuralAmpModeler::OnIdle()
 
 bool NeuralAmpModeler::SerializeState(IByteChunk& chunk) const
 {
-  // If this isn't here when unserializing, then we know we're dealing with something before v0.8.0.
-  WDL_String header("###NeuralAmpModeler###"); // Don't change this!
-  chunk.PutStr(header.Get());
-  // Plugin version, so we can load legacy serialized states in the future!
-  WDL_String version(PLUG_VERSION_STR);
-  chunk.PutStr(version.Get());
-  // Model directory (don't serialize the model itself; we'll just load it again
-  // when we unserialize)
-  chunk.PutStr(mNAMPath.Get());
-  chunk.PutStr(mIRPath.Get());
-  return SerializeParams(chunk);
+  using namespace holdsworth::control;
+  static_assert(kNumParams == kProductionStateParameterCount);
+  std::lock_guard<std::recursive_mutex> lock(mStateSerializationMutex);
+  try
+  {
+    ProductionState state;
+    // Preserve the legacy physical scalar representation. The new extension
+    // never reconstructs a DSP tuple from development-control atomics.
+    for (std::size_t i = 0; i < state.parameters.size(); ++i)
+      state.parameters[i] = GetParam(static_cast<int>(i))->Value();
+    state.modelPath = mNAMPath.Get();
+    state.irPath = mIRPath.Get();
+    state.extension = mStateExtension;
+    std::vector<std::uint8_t> bytes;
+    if (encodeProductionState(state, bytes) != StateCodecStatus::success ||
+        bytes.size() > static_cast<std::size_t>(std::numeric_limits<int>::max() - chunk.Size()))
+      return false;
+    const int expectedSize = chunk.Size() + static_cast<int>(bytes.size());
+    return chunk.PutBytes(bytes.data(), static_cast<int>(bytes.size())) == expectedSize;
+  }
+  catch (const std::bad_alloc&)
+  {
+    return false;
+  }
 }
 
 int NeuralAmpModeler::UnserializeState(const IByteChunk& chunk, int startPos)
 {
-  // Look for the expected header. If it's there, then we'll know what to do.
-  WDL_String header;
-  int pos = startPos;
-  pos = chunk.GetStr(header, pos);
+  using namespace holdsworth::control;
+  if (startPos < 0 || chunk.Size() < startPos)
+    return 0;
 
-  const char* kExpectedHeader = "###NeuralAmpModeler###";
-  if (strcmp(header.Get(), kExpectedHeader) == 0)
+  ProductionState candidate;
+  std::size_t next = static_cast<std::size_t>(startPos);
+  nlohmann::json config;
+  try
   {
-    return _UnserializeStateWithKnownVersion(chunk, pos);
+    if (decodeProductionState({chunk.GetData(), static_cast<std::size_t>(chunk.Size())},
+                              next, candidate, next) != StateCodecStatus::success)
+      return 0;
+    // Allocate and validate the entire candidate before any parameter, asset
+    // path or extension mutation. Retain the accepted legacy application order.
+    for (std::size_t i = 0; i < candidate.parameters.size(); ++i)
+      config[GetParam(static_cast<int>(i))->GetName()] = candidate.parameters[i];
+    config["NAMPath"] = candidate.modelPath;
+    config["IRPath"] = candidate.irPath;
   }
-  else
+  catch (const std::bad_alloc&)
   {
-    return _UnserializeStateWithUnknownVersion(chunk, startPos);
+    return 0;
+  }
+
+  std::lock_guard<std::recursive_mutex> lock(mStateSerializationMutex);
+  _UnserializeApplyConfig(config);
+  mStateExtension.swap(candidate.extension);
+  return static_cast<int>(next);
+}
+
+#if defined(VST3_API)
+Steinberg::tresult PLUGIN_API NeuralAmpModeler::setState(Steinberg::IBStream* state)
+{
+  using namespace holdsworth::control;
+  if (!state)
+    return Steinberg::kResultFalse;
+  try
+  {
+    // The framework's unbounded reader does not check decoder failure. Capture
+    // a bounded immutable input and preflight both plugin and framework state.
+    const std::size_t maximum = StateCodecLimits{}.maxStateBytes + sizeof(std::int32_t);
+    std::vector<std::uint8_t> bytes;
+    std::array<std::uint8_t, 4096> block{};
+    for (;;)
+    {
+      Steinberg::int32 count = 0;
+      const auto result = state->read(block.data(), static_cast<Steinberg::int32>(block.size()), &count);
+      if (count < 0 || count > static_cast<Steinberg::int32>(block.size()))
+        return Steinberg::kResultFalse;
+      if (count == 0)
+        break;
+      if (result != Steinberg::kResultOk && GetHost() != iplug::kHostWaveLab)
+        return Steinberg::kResultFalse;
+      if (static_cast<std::size_t>(count) > maximum - bytes.size())
+        return Steinberg::kResultFalse;
+      bytes.insert(bytes.end(), block.begin(), block.begin() + count);
+    }
+    ProductionState candidate;
+    std::size_t next = 0;
+    if (decodeProductionState(bytes, 0, candidate, next) != StateCodecStatus::success ||
+        bytes.size() - next < sizeof(std::int32_t))
+      return Steinberg::kResultFalse;
+    // Framework bypass is an int32 flag, not a parameter-extension record.
+    if (bytes[next] > 1 || bytes[next + 1] || bytes[next + 2] || bytes[next + 3])
+      return Steinberg::kResultFalse;
+
+    Steinberg::MemoryStream validated(bytes.data(), static_cast<Steinberg::TSize>(bytes.size()));
+    std::lock_guard<std::recursive_mutex> lock(mStateSerializationMutex);
+    const auto result = Plugin::setState(&validated);
+    // Match the framework's caller-visible cursor after its bypass read.
+    if (result == Steinberg::kResultOk)
+      state->seek(static_cast<Steinberg::int64>(next + sizeof(std::int32_t)),
+                  Steinberg::IBStream::kIBSeekSet, nullptr);
+    return result;
+  }
+  catch (const std::bad_alloc&)
+  {
+    return Steinberg::kResultFalse;
   }
 }
+#elif defined(AU_API)
+OSStatus NeuralAmpModeler::SetState(CFPropertyListRef state)
+{
+  using namespace holdsworth::control;
+  if (!state || CFGetTypeID(state) != CFDictionaryGetTypeID())
+    return kAudioUnitErr_InvalidPropertyValue;
+  const auto dictionary = static_cast<CFDictionaryRef>(state);
+  const std::array<CFStringRef, 4> numberKeys{
+    CFSTR(kAUPresetVersionKey), CFSTR(kAUPresetTypeKey),
+    CFSTR(kAUPresetSubtypeKey), CFSTR(kAUPresetManufacturerKey)};
+  std::array<std::int32_t, 4> numbers{};
+  for (std::size_t i = 0; i < numberKeys.size(); ++i)
+  {
+    const auto value = CFDictionaryGetValue(dictionary, numberKeys[i]);
+    if (!value || CFGetTypeID(value) != CFNumberGetTypeID() ||
+        !CFNumberGetValue(static_cast<CFNumberRef>(value), kCFNumberSInt32Type, &numbers[i]))
+      return kAudioUnitErr_InvalidPropertyValue;
+  }
+  if (numbers[1] != GetAUPluginType() || numbers[2] != GetUniqueID() || numbers[3] != GetMfrID())
+    return kAudioUnitErr_InvalidPropertyValue;
+  const auto name = CFDictionaryGetValue(dictionary, CFSTR(kAUPresetNameKey));
+  const auto data = CFDictionaryGetValue(dictionary, CFSTR(kAUPresetDataKey));
+  std::array<char, 64> presetName{};
+  if (!name || CFGetTypeID(name) != CFStringGetTypeID() ||
+      !CFStringGetCString(static_cast<CFStringRef>(name), presetName.data(),
+                          static_cast<CFIndex>(presetName.size()), kCFStringEncodingUTF8) ||
+      !data || CFGetTypeID(data) != CFDataGetTypeID())
+    return kAudioUnitErr_InvalidPropertyValue;
+  const auto blob = static_cast<CFDataRef>(data);
+  const auto length = CFDataGetLength(blob);
+  if (length <= 0 || static_cast<std::size_t>(length) > StateCodecLimits{}.maxStateBytes)
+    return kAudioUnitErr_InvalidPropertyValue;
+
+  try
+  {
+    // Own the input before validation and before the framework can restore a
+    // named preset. Mutable caller dictionaries/data cannot change this copy.
+    const std::vector<std::uint8_t> bytes(CFDataGetBytePtr(blob), CFDataGetBytePtr(blob) + length);
+    ProductionState candidate;
+    std::size_t next = 0;
+    if (decodeProductionState(bytes, 0, candidate, next) != StateCodecStatus::success || next != bytes.size())
+      return kAudioUnitErr_InvalidPropertyValue;
+
+    IByteChunk chunk;
+    chunk.PutBytes(bytes.data(), static_cast<int>(bytes.size()));
+    std::lock_guard<std::recursive_mutex> lock(mStateSerializationMutex);
+    // IPlugAU::SetState is virtual but private. Preserve its valid-state
+    // sequence through the public preset/state hooks after complete preflight.
+    RestorePreset(presetName.data());
+    if (UnserializeState(chunk, 0) == 0)
+      return kAudioUnitErr_InvalidPropertyValue;
+    OnRestoreState();
+    return noErr;
+  }
+  catch (const std::bad_alloc&)
+  {
+    return kAudioUnitErr_InvalidPropertyValue;
+  }
+}
+#endif
 
 void NeuralAmpModeler::OnUIOpen()
 {

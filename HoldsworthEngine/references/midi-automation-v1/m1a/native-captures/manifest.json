@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "provenance": "Actual freshly built native API captures; controlled state; not saved DAW projects.",
+  "fixtures": [
+    {
+      "file": "app/new-empty.bin",
+      "format": "APP",
+      "bytes": 136,
+      "plugin_end": 136,
+      "sha256": "e1c5071cc70ecc10c193c23ed3b04a73fb9217a87932bb943d4402018ad61ef8",
+      "api": "Production SerializeState",
+      "framework_bypass": null,
+      "producer_binary_sha256": "c85bd5ad6c9dd7dd2ed62693df467f8e910551b395c280139da7740bb560664c"
+    },
+    {
+      "file": "app/new-populated.bin",
+      "format": "APP",
+      "bytes": 193,
+      "plugin_end": 193,
+      "sha256": "57557565546e185317f714898a11a6cd060b2359f9870267eff01f91b3e75cee",
+      "api": "Production SerializeState",
+      "framework_bypass": null,
+      "producer_binary_sha256": "c85bd5ad6c9dd7dd2ed62693df467f8e910551b395c280139da7740bb560664c"
+    },
+    {
+      "file": "vst3/new-empty.bin",
+      "format": "VST3",
+      "bytes": 136,
+      "plugin_end": 136,
+      "sha256": "e1c5071cc70ecc10c193c23ed3b04a73fb9217a87932bb943d4402018ad61ef8",
+      "api": "Production SerializeState",
+      "framework_bypass": null,
+      "producer_binary_sha256": "b88cba1f4e7d489f3d03eea2f4aa9248ba73a5a3651794e34e040d99edffe1a6"
+    },
+    {
+      "file": "vst3/new-populated-bypass0.bin",
+      "format": "VST3",
+      "bytes": 197,
+      "plugin_end": 193,
+      "sha256": "70d76c0e1abfc16c8410dbe9c2f849698e848939d2d4be7000cc659c269ae673",
+      "api": "IComponent::getState including framework bypass",
+      "framework_bypass": 0,
+      "producer_binary_sha256": "b88cba1f4e7d489f3d03eea2f4aa9248ba73a5a3651794e34e040d99edffe1a6"
+    },
+    {
+      "file": "vst3/new-populated-bypass1.bin",
+      "format": "VST3",
+      "bytes": 197,
+      "plugin_end": 193,
+      "sha256": "90f65057a381afffc2d9e9d264adf04bd27fa73c8d6a18ed905dca44233c96a4",
+      "api": "IComponent::getState including framework bypass",
+      "framework_bypass": 1,
+      "producer_binary_sha256": "b88cba1f4e7d489f3d03eea2f4aa9248ba73a5a3651794e34e040d99edffe1a6"
+    },
+    {
+      "file": "au/new-empty.bin",
+      "format": "AU",
+      "bytes": 136,
+      "plugin_end": 136,
+      "sha256": "e1c5071cc70ecc10c193c23ed3b04a73fb9217a87932bb943d4402018ad61ef8",
+      "api": "Production SerializeState",
+      "framework_bypass": null,
+      "producer_binary_sha256": "e4795463d39a67f9ab94009161eada3a8169dbf53b40d0a2372fd72d6cc5ed41"
+    },
+    {
+      "file": "au/new-populated.bin",
+      "format": "AU",
+      "bytes": 193,
+      "plugin_end": 193,
+      "sha256": "57557565546e185317f714898a11a6cd060b2359f9870267eff01f91b3e75cee",
+      "api": "AudioUnit ClassInfo inner data",
+      "framework_bypass": null,
+      "producer_binary_sha256": "e4795463d39a67f9ab94009161eada3a8169dbf53b40d0a2372fd72d6cc5ed41"
+    }
+  ]
+}

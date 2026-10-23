@@ -649,6 +649,14 @@
 		F9FA3AF4E3E1D9B534002DD3 /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
 		ECFE9CD732735D59AAAF890C /* TunerDisplayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */; };
 		3F7E87F1FC3C241CA7BBE22A /* TunerDisplayStateTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9F0D6DAA52CD271B1FF0F1 /* TunerDisplayStateTests.cpp */; };
+		EB5745122A86AF1ABBD853EB /* ProductionStateCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */; };
+		A03F9DB73D3482D522D5082A /* ProductionStateCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */; };
+		BFAC4AC6E17200C7DF8CDCBC /* ProductionStateCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */; };
+		BA2D2B7C3299830A5F8A9DEC /* ProductionStateCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */; };
+		F7B29F8DFE5A3FFE99D85535 /* ProductionStateCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */; };
+		28F3797301904B82A9CD7D5B /* ProductionStateCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */; };
+		323513C5690D245A35818F7F /* ProductionStateCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */; };
+		33B09CB5BC17A038AE098000 /* ProductionStateCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1298,6 +1306,8 @@
 		FF1FF2C6982177B53FB947C0 /* TunerDisplayState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TunerDisplayState.h; sourceTree = "<group>"; };
 		C3A08595C3A0987223CBA875 /* TunerDisplayState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TunerDisplayState.cpp; sourceTree = "<group>"; };
 		6E9F0D6DAA52CD271B1FF0F1 /* TunerDisplayStateTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TunerDisplayStateTests.cpp; sourceTree = "<group>"; };
+		0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProductionStateCodec.cpp; sourceTree = "<group>"; };
+		FA9EC6CDCE69A72FEC455241 /* ProductionStateCodec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductionStateCodec.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2256,6 +2266,7 @@
 		D1A700012F00000100000005 /* HoldsworthEngine */ = {
 			isa = PBXGroup;
 			children = (
+				308FFBB8BE33DC42352BAAB0 /* control */,
 				D1A700012F00000100000006 /* dsp */,
 				D1A700012F00000600000006 /* presets */,
 				D1A700012F00000500000003 /* integration */,
@@ -2373,6 +2384,15 @@
 				D1A700012F00000500000002 /* HoldsworthDelayLiveIntegrationTests.cpp */,
 			);
 			path = tests;
+			sourceTree = "<group>";
+		};
+		308FFBB8BE33DC42352BAAB0 /* control */ = {
+			isa = PBXGroup;
+			children = (
+				FA9EC6CDCE69A72FEC455241 /* ProductionStateCodec.h */,
+				0DEB2052E111B7AAB9059CDE /* ProductionStateCodec.cpp */,
+			);
+			path = control;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3035,6 +3055,7 @@
 				4F2FB1B52A0047430027AB66 /* activations.cpp in Sources */,
 				4FB1F58C20E4B006004157C8 /* IGraphicsMac.mm in Sources */,
 				4F3862F22014BBEC0009F402 /* NeuralAmpModeler.cpp in Sources */,
+				BFAC4AC6E17200C7DF8CDCBC /* ProductionStateCodec.cpp in Sources */,
 				D1A700012F00000400000101 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000101 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000101 /* DelayLoopFilter.cpp in Sources */,
@@ -3098,6 +3119,7 @@
 				4F2FB1682A0047430027AB66 /* dsp.cpp in Sources */,
 				4F3EE1DD231438D000004786 /* IGraphicsMac.mm in Sources */,
 				4F3EE1DE231438D000004786 /* NeuralAmpModeler.cpp in Sources */,
+				F7B29F8DFE5A3FFE99D85535 /* ProductionStateCodec.cpp in Sources */,
 				D1A700012F00000400000201 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000201 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000201 /* DelayLoopFilter.cpp in Sources */,
@@ -3137,6 +3159,7 @@
 				4F78BE1422E7406D00AD537E /* NeuralAmpModeler.h in Sources */,
 				4F0D965C23099F6900BFDED0 /* IPlugProcessor.cpp in Sources */,
 				4F78BE1522E7406D00AD537E /* NeuralAmpModeler.cpp in Sources */,
+				28F3797301904B82A9CD7D5B /* ProductionStateCodec.cpp in Sources */,
 				D1A700012F00000400000301 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000301 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000301 /* DelayLoopFilter.cpp in Sources */,
@@ -3198,6 +3221,7 @@
 				B8E22A0C220268C4007CBF4C /* IPlugVST3_ProcessorBase.cpp in Sources */,
 				4F2FB1C62A0047430027AB66 /* get_dsp.cpp in Sources */,
 				4F3862F12014BBEC0009F402 /* NeuralAmpModeler.cpp in Sources */,
+				A03F9DB73D3482D522D5082A /* ProductionStateCodec.cpp in Sources */,
 				D1A700012F00000400000401 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000401 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000401 /* DelayLoopFilter.cpp in Sources */,
@@ -3302,6 +3326,7 @@
 				4F2FB1762A0047430027AB66 /* ImpulseResponse.cpp in Sources */,
 				4F7C4963255DDFC600DF7588 /* ITextEntryControl.cpp in Sources */,
 				4F3862F32014BBEC0009F402 /* NeuralAmpModeler.cpp in Sources */,
+				BA2D2B7C3299830A5F8A9DEC /* ProductionStateCodec.cpp in Sources */,
 				D1A700012F00000400000501 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000501 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000501 /* DelayLoopFilter.cpp in Sources */,
@@ -3358,6 +3383,7 @@
 				4F472103209B294400A0A0A8 /* IPlugVST3_Controller.cpp in Sources */,
 				4F78BE2D22E7412300AD537E /* IGraphicsNanoVG_src.m in Sources */,
 				4FC3EFCB2086C27800BD11FA /* NeuralAmpModeler.cpp in Sources */,
+				323513C5690D245A35818F7F /* ProductionStateCodec.cpp in Sources */,
 				D1A700012F00000400000601 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000601 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000601 /* DelayLoopFilter.cpp in Sources */,
@@ -3421,6 +3447,7 @@
 				4F2FB1602A0047430027AB66 /* dsp.cpp in Sources */,
 				4FB1F58920E4B004004157C8 /* IGraphicsMac.mm in Sources */,
 				4F3862EF2014BBEC0009F402 /* NeuralAmpModeler.cpp in Sources */,
+				EB5745122A86AF1ABBD853EB /* ProductionStateCodec.cpp in Sources */,
 				D1A700012F00000400000701 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000701 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000701 /* DelayLoopFilter.cpp in Sources */,
@@ -3459,6 +3486,7 @@
 				4FFBB90520863B0E00DDD0E7 /* baseiids.cpp in Sources */,
 				4FFBB90620863B0E00DDD0E7 /* IPlugTimer.cpp in Sources */,
 				4FFBB90720863B0E00DDD0E7 /* NeuralAmpModeler.cpp in Sources */,
+				33B09CB5BC17A038AE098000 /* ProductionStateCodec.cpp in Sources */,
 				D1A700012F00000400000801 /* FractionalDelayLine.cpp in Sources */,
 				D1A700012F00000600000801 /* DelayModulator.cpp in Sources */,
 				D1A700012F00000800000801 /* DelayLoopFilter.cpp in Sources */,

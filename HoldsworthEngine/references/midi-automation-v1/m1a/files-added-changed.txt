@@ -1,0 +1,28 @@
+M1a changed tracked files:
+NeuralAmpModeler/NeuralAmpModeler.cpp
+NeuralAmpModeler/NeuralAmpModeler.h
+NeuralAmpModeler/projects/NeuralAmpModeler-macOS.xcodeproj/project.pbxproj
+
+M1a new files:
+HoldsworthEngine/control/ProductionStateCodec.cpp
+HoldsworthEngine/control/ProductionStateCodec.h
+HoldsworthEngine/references/midi-automation-v1/m1a/README.md
+HoldsworthEngine/references/midi-automation-v1/m1a/audit-source.py
+HoldsworthEngine/references/midi-automation-v1/m1a/files-added-changed.txt
+HoldsworthEngine/references/midi-automation-v1/m1a/m0-preservation.json
+HoldsworthEngine/references/midi-automation-v1/m1a/native-captures/app/new-empty.bin
+HoldsworthEngine/references/midi-automation-v1/m1a/native-captures/app/new-populated.bin
+HoldsworthEngine/references/midi-automation-v1/m1a/native-captures/au/new-empty.bin
+HoldsworthEngine/references/midi-automation-v1/m1a/native-captures/au/new-populated.bin
+HoldsworthEngine/references/midi-automation-v1/m1a/native-captures/manifest.json
+HoldsworthEngine/references/midi-automation-v1/m1a/native-captures/vst3/new-empty.bin
+HoldsworthEngine/references/midi-automation-v1/m1a/native-captures/vst3/new-populated-bypass0.bin
+HoldsworthEngine/references/midi-automation-v1/m1a/native-captures/vst3/new-populated-bypass1.bin
+HoldsworthEngine/references/midi-automation-v1/m1a/validate-contracts.py
+HoldsworthEngine/references/midi-automation-v1/m1a/validate-native.py
+HoldsworthEngine/references/midi-automation-v1/m1a/validation-logs.tar.gz
+HoldsworthEngine/references/midi-automation-v1/m1a/validation.json
+HoldsworthEngine/tests/compatibility/NativeStateExtensionTests.mm
+HoldsworthEngine/tests/compatibility/ProductionStateCodecTests.cpp
+
+Accepted M0 files: 45, unchanged; see m0-preservation.json.
